@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>JumpLab Pro</title>
+    
+    <!-- === PWA / MOBILE CAPABILITIES === -->
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="JumpLab">
+    <link rel="apple-touch-icon" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/sprites/solid.svg">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <style>
+        body {
+            background-color: #0f172a; /* Slate 900 */
+            color: #e2e8f0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: 80px; 
+            overscroll-behavior-y: none;
+        }
+        
+        .input-dark {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            transition: all 0.2s;
+        }
+        .input-dark:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Range slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #3b82f6;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        .video-container {
+            position: relative;
+            background: black;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            width: 100%;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            max-height: 70vh;
+            display: block;
+        }
+        video::-webkit-media-controls { display: none !important; }
+
+        .nav-item {
+            color: #64748b;
+            transition: color 0.2s;
+        }
+        .nav-item.active {
+            color: #3b82f6;
+        }
+        .nav-item.active i {
+            transform: translateY(-2px);
+        }
+
+        .table-row-hover:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Language Select */
+        .lang-select {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <header class="bg-slate-800 p-4 sticky top-0 z-40 shadow-md border-b border-slate-700 flex justify-between items-center select-none">
+        <div>
+            <h1 class="text-xl font-bold text-white leading-none"><i class="fa-solid fa-chart-line text-blue-500 mr-2"></i>JumpLab</h1>
+            <p id="made-by" class="text-[10px] text-slate-400 font-normal mt-1 ml-7">hecho por Telmo Silva</p>
+        </div>
+        <div class="flex items-center gap-2">
+            <!-- Language Selector -->
+            <select id="langSelect" onchange="changeLanguage(this.value)" class="lang-select mr-1">
+                <option value="es">ES</option>
+                <option value="gl">GL</option>
+                <option value="en">EN</option>
+            </select>
+
+            <div id="user-badge" class="hidden flex items-center gap-2 bg-slate-700 px-3 py-1 rounded-full text-xs">
+                <i class="fa-solid fa-user text-slate-400"></i>
+                <span id="header-username" class="text-slate-200 font-medium">Atleta</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="w-full max-w-3xl mx-auto p-4">
+
+        <!-- SECTION 1: PERFIL -->
+        <section id="tab-profile" class="space-y-6">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <h2 class="text-lg font-semibold text-white mb-4 border-b border-slate-700 pb-2" data-i18n="profile_title">Perfil del Atleta</h2>
+                <form id="profile-form" class="space-y-4" onsubmit="saveProfile(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1" data-i18n="label_name">Nombre y Apellidos</label>
+                            <input type="text" id="p-name" class="input-dark" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1" data-i18n="label_dob">Fecha de Nacimiento</label>
+                            <input type="date" id="p-dob" class="input-dark" required>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1" data-i18n="label_sport">Deporte</label>
+                            <select id="p-sport" class="input-dark">
+                                <option value="Baloncesto">Baloncesto</option>
+                                <option value="Voleibol">Voleibol</option>
+                                <option value="Fútbol">Fútbol</option>
+                                <option value="Atletismo">Atletismo</option>
+                                <option value="Crossfit">Crossfit</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-400 mb-1" data-i18n="label_weight">Peso (kg)</label>
+                            <input type="number" id="p-weight" class="input-dark" placeholder="80" step="0.1" required>
+                            <p class="text-[10px] text-slate-500 mt-1" data-i18n="warn_weight">*Necesario para calcular potencia</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">Email</label>
+                        <input type="email" id="p-email" class="input-dark" placeholder="atleta@email.com">
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-lg transition-colors shadow-lg shadow-blue-500/20">
+                            <i class="fa-solid fa-save mr-2"></i> <span data-i18n="btn_save">Guardar</span>
+                        </button>
+                        
+                        <button type="button" onclick="deleteProfile()" class="flex-initial bg-slate-700 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition-colors border border-slate-600">
+                            <i class="fa-solid fa-user-xmark"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 2: MEDICIÓN -->
+        <section id="tab-measure" class="hidden space-y-4">
+            <div id="profile-warning" class="bg-amber-900/30 text-amber-200 p-3 rounded-lg text-sm border border-amber-500/30 flex items-center gap-2 hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span data-i18n="warn_profile">Configura tu perfil primero para calcular la Potencia.</span>
+            </div>
+
+            <div id="upload-section" class="bg-slate-800 p-8 rounded-xl border-2 border-dashed border-slate-600 text-center hover:border-blue-500 transition-colors cursor-pointer" onclick="document.getElementById('videoInput').click()">
+                <i class="fa-solid fa-cloud-arrow-up text-4xl text-slate-400 mb-3"></i>
+                <p class="text-sm font-medium" data-i18n="upload_text">Subir Video (Slo-Mo recomendado)</p>
+                <input type="file" id="videoInput" accept="video/*" class="hidden">
+            </div>
+
+            <div id="workspace" class="hidden space-y-4">
+                <div class="video-container bg-black flex justify-center items-center" style="min-height: 200px;">
+                     <video id="mainVideo" playsinline webkit-playsinline></video>
+                     <div class="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-xs font-mono text-green-400 border border-green-900">
+                         <span id="currentTimeDisplay">0.000</span>s
+                     </div>
+                </div>
+
+                <div class="bg-slate-800 p-4 rounded-xl shadow-lg border border-slate-700">
+                    <input type="range" id="progressBar" value="0" step="0.001" class="mb-4 w-full">
+                    <div class="grid grid-cols-5 gap-2 items-center justify-items-center mb-2">
+                        <button onclick="stepVideo(-0.1)" class="w-10 h-10 rounded-full bg-slate-700 text-slate-300"><i class="fa-solid fa-backward-fast text-xs"></i></button>
+                        <button onclick="stepVideo(-0.01)" class="w-12 h-12 rounded-full bg-slate-700 text-white border border-slate-600"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button onclick="togglePlay()" class="w-14 h-14 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-500/30 flex items-center justify-center"><i class="fa-solid fa-play" id="playIcon"></i></button>
+                        <button onclick="stepVideo(0.01)" class="w-12 h-12 rounded-full bg-slate-700 text-white border border-slate-600"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button onclick="stepVideo(0.1)" class="w-10 h-10 rounded-full bg-slate-700 text-slate-300"><i class="fa-solid fa-forward-fast text-xs"></i></button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button onclick="markTime('start')" class="bg-amber-600/90 hover:bg-amber-500 p-4 rounded-xl text-white font-bold text-center transition-all active:scale-95">
+                        <div class="text-xs opacity-75 mb-1" data-i18n="btn_takeoff">1. DESPEGUE</div>
+                        <div id="startTimeDisplay" class="font-mono text-xl">--</div>
+                    </button>
+                    <button onclick="markTime('end')" class="bg-teal-600/90 hover:bg-teal-500 p-4 rounded-xl text-white font-bold text-center transition-all active:scale-95">
+                        <div class="text-xs opacity-75 mb-1" data-i18n="btn_landing">2. ATERRIZAJE</div>
+                        <div id="endTimeDisplay" class="font-mono text-xl">--</div>
+                    </button>
+                </div>
+
+                <div id="resultSection" class="hidden bg-gradient-to-br from-slate-800 to-slate-900 border border-slate-700 rounded-xl p-5 shadow-xl animate-fade-in">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <p class="text-slate-400 text-xs uppercase tracking-wider" data-i18n="label_height">Altura Calculada</p>
+                            <div class="flex items-baseline gap-2">
+                                <span id="heightResultCm" class="text-4xl font-bold text-white">0.0</span>
+                                <span class="text-blue-400 font-medium">cm</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-slate-400 text-xs uppercase tracking-wider" data-i18n="label_flight">Vuelo</p>
+                            <span id="flightTimeResult" class="font-mono text-lg text-slate-200">0.000s</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900/50 rounded-lg p-3 mb-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-slate-400" data-i18n="label_power">Potencia Estimada (Sayers)</span>
+                            <span id="powerResult" class="text-amber-400 font-bold font-mono">-- W</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-slate-700 pt-4">
+                        <label class="block text-xs text-slate-400 mb-2" data-i18n="label_test_type">Tipo de Test para Guardar:</label>
+                        <div class="flex gap-2">
+                            <select id="jumpTypeSelect" class="bg-slate-700 text-white text-sm rounded-lg block w-full p-2.5 border border-slate-600">
+                                <option value="CMJ">CMJ</option>
+                                <option value="SJ">SJ</option>
+                                <option value="DJ">DJ</option>
+                                <option value="VJ">Vertical Libre</option>
+                            </select>
+                            <button onclick="saveJumpResult()" class="bg-green-600 hover:bg-green-500 text-white rounded-lg px-4 py-2 text-sm font-medium whitespace-nowrap">
+                                <i class="fa-solid fa-floppy-disk mr-1"></i> <span data-i18n="btn_save">Guardar</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: DATOS -->
+        <section id="tab-data" class="hidden space-y-4">
+            <div class="flex justify-between items-center mb-2">
+                <h2 class="text-lg font-semibold text-white" data-i18n="history_title">Registro de Saltos</h2>
+                <div class="flex gap-2">
+                    <label for="csvImport" class="text-xs text-blue-400 hover:text-blue-300 cursor-pointer border border-blue-500/30 px-2 py-1 rounded">
+                        <i class="fa-solid fa-upload"></i> <span data-i18n="btn_import">Importar CSV</span>
+                    </label>
+                    <input type="file" id="csvImport" class="hidden" accept=".csv" onchange="importCSV(this)">
+                    
+                    <button onclick="clearHistory()" class="text-xs text-red-400 hover:text-red-300 border border-red-500/30 px-2 py-1 rounded"><i class="fa-solid fa-trash"></i> <span data-i18n="btn_clear">Borrar Todo</span></button>
+                </div>
+            </div>
+            
+            <div class="overflow-x-auto rounded-xl border border-slate-700 shadow-lg">
+                <table class="w-full text-sm text-left text-slate-400">
+                    <thead class="text-xs text-slate-200 uppercase bg-slate-700">
+                        <tr>
+                            <th scope="col" class="px-4 py-3" data-i18n="col_date">Fecha</th>
+                            <th scope="col" class="px-4 py-3" data-i18n="col_test">Test</th>
+                            <th scope="col" class="px-4 py-3 text-right" data-i18n="col_height">Altura</th>
+                            <th scope="col" class="px-4 py-3 text-right" data-i18n="col_power">Potencia</th>
+                            <th scope="col" class="px-4 py-3 text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECTION 4: ANÁLISIS -->
+        <section id="tab-charts" class="hidden space-y-6">
+            <h2 class="text-lg font-semibold text-white mb-2" data-i18n="analysis_title">Análisis de Rendimiento</h2>
+            
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xs uppercase text-slate-400 mb-4 font-bold" data-i18n="chart_avg_title">Rendimiento por Tipo de Salto (Promedio)</h3>
+                <div class="h-64">
+                    <canvas id="chartType"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-lg">
+                <h3 class="text-xs uppercase text-slate-400 mb-4 font-bold" data-i18n="chart_evo_title">Evolución (Últimas sesiones)</h3>
+                <div class="h-64">
+                    <canvas id="chartEvolution"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: EXPORTAR -->
+        <section id="tab-export" class="hidden space-y-6">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 text-center">
+                <div class="w-16 h-16 bg-blue-900/50 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-file-export text-2xl text-blue-400"></i>
+                </div>
+                <h2 class="text-lg font-bold text-white mb-2" data-i18n="report_title">Centro de Informes</h2>
+                <p class="text-slate-400 text-sm mb-6" data-i18n="report_desc">Genera un reporte con tus datos personales, estadísticas y el historial completo.</p>
+                
+                <div class="grid grid-cols-1 gap-3 mb-6">
+                    <button onclick="generatePDF()" class="bg-red-600 hover:bg-red-500 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-file-pdf"></i> <span data-i18n="btn_pdf">Descargar PDF</span>
+                    </button>
+                    
+                    <button onclick="exportCSV()" class="bg-green-600 hover:bg-green-500 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-file-csv"></i> <span data-i18n="btn_csv">Exportar CSV (Excel)</span>
+                    </button>
+                </div>
+
+                <div class="border-t border-slate-700 pt-6 mt-4 text-left">
+                    <h3 class="text-sm font-bold text-white mb-3"><i class="fa-solid fa-envelope text-blue-400 mr-2"></i><span data-i18n="email_title">Envío por Email</span></h3>
+                    
+                    <div class="mb-3">
+                        <label class="block text-xs text-slate-400 mb-1" data-i18n="label_recipient">Destinatario:</label>
+                        <input type="email" id="email-recipient" class="input-dark text-sm py-2" placeholder="email@ejemplo.com">
+                    </div>
+                    
+                    <button onclick="sendEmail()" class="w-full bg-slate-700 hover:bg-slate-600 text-white py-2 px-4 rounded-lg font-medium flex items-center justify-center gap-2 text-sm border border-slate-600">
+                        <i class="fa-solid fa-paper-plane"></i> <span data-i18n="btn_email_app">Abrir Aplicación de Correo</span>
+                    </button>
+                    <p class="text-[10px] text-slate-500 mt-2 text-center" data-i18n="email_note">Se abrirá tu cliente de correo predeterminado con los datos resumidos en el cuerpo del mensaje.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 w-full bg-slate-900 border-t border-slate-800 shadow-2xl z-50">
+        <div class="flex justify-around items-center h-16 max-w-3xl mx-auto">
+            <button onclick="switchTab('profile')" class="nav-item flex flex-col items-center justify-center w-full h-full" id="nav-profile">
+                <i class="fa-solid fa-user mb-1"></i><span class="text-[10px]" data-i18n="nav_profile">Perfil</span>
+            </button>
+            <button onclick="switchTab('measure')" class="nav-item flex flex-col items-center justify-center w-full h-full" id="nav-measure">
+                <i class="fa-solid fa-ruler-vertical mb-1 text-lg"></i><span class="text-[10px]" data-i18n="nav_measure">Medir</span>
+            </button>
+            <button onclick="switchTab('data')" class="nav-item flex flex-col items-center justify-center w-full h-full" id="nav-data">
+                <i class="fa-solid fa-table-list mb-1"></i><span class="text-[10px]" data-i18n="nav_data">Datos</span>
+            </button>
+            <button onclick="switchTab('charts')" class="nav-item flex flex-col items-center justify-center w-full h-full" id="nav-charts">
+                <i class="fa-solid fa-chart-pie mb-1"></i><span class="text-[10px]" data-i18n="nav_charts">Análisis</span>
+            </button>
+            <button onclick="switchTab('export')" class="nav-item flex flex-col items-center justify-center w-full h-full" id="nav-export">
+                <i class="fa-solid fa-share-nodes mb-1"></i><span class="text-[10px]" data-i18n="nav_export">Informe</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hidden Element for PDF Generation -->
+    <div id="pdf-content" class="hidden bg-white text-black p-8">
+        <h1 class="text-2xl font-bold mb-4 border-b pb-2">JumpLab Report</h1>
+        <div id="pdf-profile" class="mb-6 bg-gray-100 p-4 rounded"></div>
+        <h2 class="text-xl font-bold mb-2">Stats</h2>
+        <div id="pdf-stats" class="mb-6 grid grid-cols-3 gap-4"></div>
+        <table class="w-full text-sm border-collapse border border-gray-300">
+            <thead class="bg-gray-200">
+                <tr>
+                    <th class="border p-2 text-left" data-i18n="col_date">Fecha</th>
+                    <th class="border p-2 text-left" data-i18n="col_test">Test</th>
+                    <th class="border p-2 text-right" data-i18n="col_height">Altura</th>
+                    <th class="border p-2 text-right" data-i18n="col_power">Potencia</th>
+                </tr>
+            </thead>
+            <tbody id="pdf-table-body"></tbody>
+        </table>
+    </div>
+
+    <script>
+        // --- TRANSLATIONS ---
+        const translations = {
+            es: {
+                made_by: "hecho por Telmo Silva",
+                nav_profile: "Perfil", nav_measure: "Medir", nav_data: "Datos", nav_charts: "Análisis", nav_export: "Informe",
+                profile_title: "Perfil del Atleta", label_name: "Nombre y Apellidos", label_dob: "Fecha de Nacimiento", label_sport: "Deporte", label_weight: "Peso (kg)", warn_weight: "*Necesario para calcular potencia", btn_save: "Guardar",
+                warn_profile: "Configura tu perfil primero para calcular la Potencia.", upload_text: "Subir Video (Slo-Mo recomendado)", btn_takeoff: "1. DESPEGUE", btn_landing: "2. ATERRIZAJE", label_height: "Altura Calculada", label_flight: "Vuelo", label_power: "Potencia Estimada (Sayers)", label_test_type: "Tipo de Test para Guardar:",
+                history_title: "Registro de Saltos", btn_import: "Importar CSV", btn_clear: "Borrar Todo", col_date: "Fecha", col_test: "Test", col_height: "Altura", col_power: "Potencia", no_records: "No hay registros aún",
+                analysis_title: "Análisis de Rendimiento", chart_avg_title: "Rendimiento por Tipo de Salto (Promedio)", chart_evo_title: "Evolución (Últimas sesiones)",
+                report_title: "Centro de Informes", report_desc: "Genera un reporte con tus datos personales, estadísticas y el historial completo.", btn_pdf: "Descargar PDF", btn_csv: "Exportar CSV", email_title: "Envío por Email", label_recipient: "Destinatario:", btn_email_app: "Abrir Aplicación de Correo", email_note: "Se abrirá tu cliente de correo predeterminado con los datos resumidos en el cuerpo del mensaje.",
+                alert_save: "Perfil guardado correctamente", alert_delete_profile: "¿Estás seguro de que quieres dar de baja a este deportista?", alert_profile_deleted: "Perfil eliminado (Baja realizada).", alert_saved_jump: "¡Salto guardado en el historial!", alert_delete_record: "¿Borrar este registro?", alert_clear_history: "¿Seguro que quieres borrar TODO el historial?", alert_import_success: "Registros importados correctamente.", alert_no_data: "No hay datos para exportar", alert_no_email: "Por favor introduce un email.", alert_complete_profile: "Completa el perfil primero.",
+                email_subject: "Datos de Salto Vertical", email_greeting: "Hola", email_body_intro: "Aquí tienes tu resumen de rendimiento de JumpLab:", email_best: "Mejor Marca Personal", email_total: "Total de Saltos", email_last5: "--- ÚLTIMOS 5 SALTOS ---", email_footer: "Saludos, El equipo de JumpLab"
+            },
+            gl: {
+                made_by: "feito por Telmo Silva",
+                nav_profile: "Perfil", nav_measure: "Medir", nav_data: "Dados", nav_charts: "Análise", nav_export: "Informe",
+                profile_title: "Perfil do Atleta", label_name: "Nome e Apelidos", label_dob: "Data de Nacemento", label_sport: "Deporte", label_weight: "Peso (kg)", warn_weight: "*Necesario para calcular potencia", btn_save: "Gardar",
+                warn_profile: "Configura o teu perfil primeiro para calcular a Potencia.", upload_text: "Subir Vídeo (Slo-Mo recomendado)", btn_takeoff: "1. DESPEGUE", btn_landing: "2. ATERRAXE", label_height: "Altura Calculada", label_flight: "Voo", label_power: "Potencia Estimada (Sayers)", label_test_type: "Tipo de Test para Gardar:",
+                history_title: "Rexistro de Saltos", btn_import: "Importar CSV", btn_clear: "Borrar Todo", col_date: "Data", col_test: "Test", col_height: "Altura", col_power: "Potencia", no_records: "Non hai rexistros aínda",
+                analysis_title: "Análise de Rendemento", chart_avg_title: "Rendemento por Tipo de Salto (Promedio)", chart_evo_title: "Evolución (Últimas sesións)",
+                report_title: "Centro de Informes", report_desc: "Xera un reporte cos teus datos persoais, estatísticas e o historial completo.", btn_pdf: "Descargar PDF", btn_csv: "Exportar CSV", email_title: "Envío por Email", label_recipient: "Destinatario:", btn_email_app: "Abrir Aplicación de Correo", email_note: "Abrirase o teu cliente de correo predeterminado cos datos resumidos no corpo da mensaxe.",
+                alert_save: "Perfil gardado correctamente", alert_delete_profile: "Estás seguro de que queres dar de baixa a este deportista?", alert_profile_deleted: "Perfil eliminado (Baixa realizada).", alert_saved_jump: "Salto gardado no historial!", alert_delete_record: "Borrar este rexistro?", alert_clear_history: "Seguro que queres borrar TODO o historial?", alert_import_success: "Rexistros importados correctamente.", alert_no_data: "Non hai datos para exportar", alert_no_email: "Por favor introduce un email.", alert_complete_profile: "Completa o perfil primeiro.",
+                email_subject: "Datos de Salto Vertical", email_greeting: "Ola", email_body_intro: "Aquí tes o teu resumo de rendemento de JumpLab:", email_best: "Mellor Marca Persoal", email_total: "Total de Saltos", email_last5: "--- ÚLTIMOS 5 SALTOS ---", email_footer: "Saúdos, O equipo de JumpLab"
+            },
+            en: {
+                made_by: "made by Telmo Silva",
+                nav_profile: "Profile", nav_measure: "Measure", nav_data: "Data", nav_charts: "Analysis", nav_export: "Report",
+                profile_title: "Athlete Profile", label_name: "Name and Surname", label_dob: "Date of Birth", label_sport: "Sport", label_weight: "Weight (kg)", warn_weight: "*Required to calculate power", btn_save: "Save",
+                warn_profile: "Setup your profile first to calculate Power.", upload_text: "Upload Video (Slo-Mo recommended)", btn_takeoff: "1. TAKEOFF", btn_landing: "2. LANDING", label_height: "Calculated Height", label_flight: "Flight", label_power: "Estimated Power (Sayers)", label_test_type: "Test Type to Save:",
+                history_title: "Jump History", btn_import: "Import CSV", btn_clear: "Clear All", col_date: "Date", col_test: "Test", col_height: "Height", col_power: "Power", no_records: "No records yet",
+                analysis_title: "Performance Analysis", chart_avg_title: "Performance by Jump Type (Average)", chart_evo_title: "Evolution (Last sessions)",
+                report_title: "Report Center", report_desc: "Generate a report with your personal data, statistics and complete history.", btn_pdf: "Download PDF", btn_csv: "Export CSV", email_title: "Send via Email", label_recipient: "Recipient:", btn_email_app: "Open Email App", email_note: "Your default email client will open with the summary data in the message body.",
+                alert_save: "Profile saved successfully", alert_delete_profile: "Are you sure you want to delete this athlete?", alert_profile_deleted: "Profile deleted.", alert_saved_jump: "Jump saved to history!", alert_delete_record: "Delete this record?", alert_clear_history: "Are you sure you want to clear ALL history?", alert_import_success: "Records imported successfully.", alert_no_data: "No data to export", alert_no_email: "Please enter an email.", alert_complete_profile: "Complete profile first.",
+                email_subject: "Vertical Jump Data", email_greeting: "Hello", email_body_intro: "Here is your JumpLab performance summary:", email_best: "Personal Best", email_total: "Total Jumps", email_last5: "--- LAST 5 JUMPS ---", email_footer: "Regards, The JumpLab Team"
+            }
+        };
+
+        // --- GLOBAL STATE ---
+        const APP_STATE = {
+            profile: JSON.parse(localStorage.getItem('jumpLab_profile')) || null,
+            history: JSON.parse(localStorage.getItem('jumpLab_history')) || [],
+            lang: localStorage.getItem('jumpLab_lang') || 'es'
+        };
+
+        // --- DOM ELEMENTS ---
+        const els = {
+            tabs: ['profile', 'measure', 'data', 'charts', 'export'],
+            video: document.getElementById('mainVideo'),
+            videoInput: document.getElementById('videoInput'),
+            uploadSection: document.getElementById('upload-section'),
+            workspace: document.getElementById('workspace'),
+            resultSection: document.getElementById('resultSection'),
+            progressBar: document.getElementById('progressBar'),
+            timeDisplay: document.getElementById('currentTimeDisplay'),
+            startDisplay: document.getElementById('startTimeDisplay'),
+            endDisplay: document.getElementById('endTimeDisplay'),
+            heightDisplay: document.getElementById('heightResultCm'),
+            timeFlightDisplay: document.getElementById('flightTimeResult'),
+            powerDisplay: document.getElementById('powerResult'),
+            tableBody: document.getElementById('historyTableBody'),
+            headerUser: document.getElementById('header-username'),
+            userBadge: document.getElementById('user-badge'),
+            profileWarning: document.getElementById('profile-warning'),
+            emailRecipient: document.getElementById('email-recipient'),
+            madeBy: document.getElementById('made-by'),
+            langSelect: document.getElementById('langSelect')
+        };
+
+        let videoData = { loaded: false, tStart: null, tEnd: null, lastCalculatedHeight: 0 };
+        let charts = { type: null, evo: null };
+
+        // --- INIT ---
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set initial language
+            els.langSelect.value = APP_STATE.lang;
+            applyLanguage(APP_STATE.lang);
+
+            if (APP_STATE.profile) {
+                fillProfileForm();
+                updateUserBadge();
+                if(APP_STATE.profile.email) els.emailRecipient.value = APP_STATE.profile.email;
+                switchTab('measure'); 
+            } else {
+                switchTab('profile');
+            }
+        });
+
+        // --- LANGUAGE LOGIC ---
+        function changeLanguage(lang) {
+            APP_STATE.lang = lang;
+            localStorage.setItem('jumpLab_lang', lang);
+            applyLanguage(lang);
+            // Re-render things that depend on text
+            if (!document.getElementById('tab-data').classList.contains('hidden')) renderHistoryTable();
+            if (!document.getElementById('tab-charts').classList.contains('hidden')) renderCharts();
+        }
+
+        function applyLanguage(lang) {
+            const t = translations[lang];
+            
+            // 1. Static Elements with data-i18n
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (t[key]) el.innerText = t[key];
+            });
+
+            // 2. Specific Elements
+            els.madeBy.innerText = t.made_by;
+        }
+
+        function t(key) {
+            return translations[APP_STATE.lang][key] || key;
+        }
+
+        // --- NAVIGATION ---
+        function switchTab(tabId) {
+            els.tabs.forEach(t => {
+                const section = document.getElementById(`tab-${t}`);
+                const navBtn = document.getElementById(`nav-${t}`);
+                if (t === tabId) {
+                    section.classList.remove('hidden');
+                    navBtn.classList.add('active', 'text-blue-500');
+                    navBtn.classList.remove('text-slate-500');
+                } else {
+                    section.classList.add('hidden');
+                    navBtn.classList.remove('active', 'text-blue-500');
+                    navBtn.classList.add('text-slate-500');
+                }
+            });
+
+            if (tabId === 'measure') checkProfileWarning();
+            if (tabId === 'data') renderHistoryTable();
+            if (tabId === 'charts') renderCharts();
+            if (tabId === 'export' && APP_STATE.profile) {
+                 if(!els.emailRecipient.value) els.emailRecipient.value = APP_STATE.profile.email || '';
+            }
+        }
+
+        // --- PROFILE LOGIC ---
+        function saveProfile(e) {
+            e.preventDefault();
+            const profile = {
+                name: document.getElementById('p-name').value,
+                dob: document.getElementById('p-dob').value,
+                sport: document.getElementById('p-sport').value,
+                weight: parseFloat(document.getElementById('p-weight').value),
+                email: document.getElementById('p-email').value
+            };
+            APP_STATE.profile = profile;
+            localStorage.setItem('jumpLab_profile', JSON.stringify(profile));
+            updateUserBadge();
+            alert(t('alert_save'));
+            switchTab('measure');
+        }
+
+        function deleteProfile() {
+            if(confirm(t('alert_delete_profile'))) {
+                APP_STATE.profile = null;
+                localStorage.removeItem('jumpLab_profile');
+                document.getElementById('profile-form').reset();
+                els.userBadge.classList.add('hidden');
+                alert(t('alert_profile_deleted'));
+                switchTab('profile');
+            }
+        }
+
+        function fillProfileForm() {
+            if (!APP_STATE.profile) return;
+            document.getElementById('p-name').value = APP_STATE.profile.name;
+            document.getElementById('p-dob').value = APP_STATE.profile.dob;
+            document.getElementById('p-sport').value = APP_STATE.profile.sport;
+            document.getElementById('p-weight').value = APP_STATE.profile.weight;
+            document.getElementById('p-email').value = APP_STATE.profile.email;
+        }
+
+        function updateUserBadge() {
+            if (APP_STATE.profile) {
+                els.headerUser.innerText = APP_STATE.profile.name.split(' ')[0];
+                els.userBadge.classList.remove('hidden');
+            }
+        }
+
+        function checkProfileWarning() {
+            if (!APP_STATE.profile || !APP_STATE.profile.weight) {
+                els.profileWarning.classList.remove('hidden');
+            } else {
+                els.profileWarning.classList.add('hidden');
+            }
+        }
+
+        // --- VIDEO LOGIC ---
+        els.videoInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                els.video.src = url;
+                els.video.load();
+                els.uploadSection.classList.add('hidden');
+                els.workspace.classList.remove('hidden');
+                els.video.onloadedmetadata = () => { videoData.loaded = true; els.progressBar.max = els.video.duration; };
+            }
+        });
+
+        function togglePlay() {
+            const icon = document.getElementById('playIcon');
+            if (els.video.paused) { els.video.play(); icon.className = "fa-solid fa-pause"; } 
+            else { els.video.pause(); icon.className = "fa-solid fa-play"; }
+        }
+
+        els.video.addEventListener('timeupdate', () => { els.progressBar.value = els.video.currentTime; els.timeDisplay.innerText = els.video.currentTime.toFixed(3); });
+        els.progressBar.addEventListener('input', () => { els.video.currentTime = els.progressBar.value; els.video.pause(); });
+        function stepVideo(s) { els.video.pause(); els.video.currentTime = Math.min(Math.max(els.video.currentTime + s, 0), els.video.duration); }
+
+        function markTime(type) {
+            if (!videoData.loaded) return;
+            const time = els.video.currentTime;
+            if (type === 'start') {
+                videoData.tStart = time;
+                els.startDisplay.innerText = time.toFixed(3) + 's';
+                els.startDisplay.className = "font-mono text-xl text-amber-400 font-bold";
+            } else {
+                videoData.tEnd = time;
+                els.endDisplay.innerText = time.toFixed(3) + 's';
+                els.endDisplay.className = "font-mono text-xl text-teal-400 font-bold";
+            }
+            calculateResults();
+        }
+
+        function calculateResults() {
+            if (videoData.tStart !== null && videoData.tEnd !== null) {
+                if (videoData.tEnd <= videoData.tStart) return; 
+                const flightTime = videoData.tEnd - videoData.tStart;
+                const g = 9.81;
+                const heightMeters = (g * Math.pow(flightTime, 2)) / 8;
+                const heightCm = heightMeters * 100;
+                videoData.lastCalculatedHeight = heightCm;
+                
+                els.timeFlightDisplay.innerText = flightTime.toFixed(3) + "s";
+                els.heightDisplay.innerText = heightCm.toFixed(1);
+                els.resultSection.classList.remove('hidden');
+                els.resultSection.scrollIntoView({behavior: 'smooth'});
+
+                if (APP_STATE.profile && APP_STATE.profile.weight) {
+                    const mass = APP_STATE.profile.weight;
+                    const power = (60.7 * heightCm) + (45.3 * mass) - 2055;
+                    els.powerDisplay.innerText = Math.round(power) + " W";
+                } else {
+                    els.powerDisplay.innerText = "-- W (" + t('warn_weight').replace('*','') + ")";
+                }
+            }
+        }
+
+        function saveJumpResult() {
+            const type = document.getElementById('jumpTypeSelect').value;
+            const height = videoData.lastCalculatedHeight;
+            let power = 0;
+            if (APP_STATE.profile && APP_STATE.profile.weight) {
+                power = (60.7 * height) + (45.3 * APP_STATE.profile.weight) - 2055;
+            }
+            const record = { id: Date.now(), date: new Date().toISOString(), type: type, height: height, power: power > 0 ? power : null };
+            APP_STATE.history.unshift(record);
+            localStorage.setItem('jumpLab_history', JSON.stringify(APP_STATE.history));
+            alert(t('alert_saved_jump'));
+            videoData.tStart = null; videoData.tEnd = null; els.startDisplay.innerText = "--"; els.endDisplay.innerText = "--"; els.resultSection.classList.add('hidden');
+            switchTab('data');
+        }
+
+        function renderHistoryTable() {
+            els.tableBody.innerHTML = '';
+            if (APP_STATE.history.length === 0) {
+                els.tableBody.innerHTML = `<tr><td colspan="5" class="px-4 py-8 text-center text-slate-500 italic">${t('no_records')}</td></tr>`;
+                return;
+            }
+            APP_STATE.history.forEach((item, index) => {
+                const dateStr = new Date(item.date).toLocaleDateString();
+                const row = `
+                    <tr class="border-b border-slate-700 table-row-hover">
+                        <td class="px-4 py-3 text-slate-300 whitespace-nowrap">${dateStr}</td>
+                        <td class="px-4 py-3"><span class="bg-slate-700 px-2 py-0.5 rounded text-xs text-white">${item.type}</span></td>
+                        <td class="px-4 py-3 text-right font-mono text-blue-400 font-bold">${item.height.toFixed(1)}</td>
+                        <td class="px-4 py-3 text-right font-mono text-amber-400">${item.power ? Math.round(item.power) : '-'}</td>
+                        <td class="px-4 py-3 text-center">
+                            <button onclick="deleteRecord(${index})" class="text-slate-600 hover:text-red-400"><i class="fa-solid fa-trash-can"></i></button>
+                        </td>
+                    </tr>`;
+                els.tableBody.innerHTML += row;
+            });
+        }
+
+        function deleteRecord(index) {
+            if(confirm(t('alert_delete_record'))) {
+                APP_STATE.history.splice(index, 1);
+                localStorage.setItem('jumpLab_history', JSON.stringify(APP_STATE.history));
+                renderHistoryTable();
+            }
+        }
+
+        function clearHistory() {
+            if(confirm(t('alert_clear_history'))) {
+                APP_STATE.history = [];
+                localStorage.removeItem('jumpLab_history');
+                renderHistoryTable();
+            }
+        }
+
+        function importCSV(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const lines = e.target.result.split('\n');
+                let count = 0;
+                for(let i = 1; i < lines.length; i++) {
+                    const line = lines[i].trim();
+                    if(line) {
+                        const cols = line.split(',');
+                        if(cols.length >= 4) {
+                            const record = { id: Date.now()+i, date: new Date().toISOString(), type: cols[2]||'Import', height: parseFloat(cols[3])||0, power: parseFloat(cols[4])||null };
+                            if(cols[0].includes('/')) {
+                                const parts = cols[0].split('/');
+                                if(parts.length === 3) {
+                                    const d = new Date(`${parts[1]}/${parts[0]}/${parts[2]}`);
+                                    if(!isNaN(d)) record.date = d.toISOString();
+                                }
+                            }
+                            APP_STATE.history.push(record);
+                            count++;
+                        }
+                    }
+                }
+                APP_STATE.history.sort((a,b) => new Date(b.date) - new Date(a.date));
+                localStorage.setItem('jumpLab_history', JSON.stringify(APP_STATE.history));
+                alert(count + " " + t('alert_import_success'));
+                renderHistoryTable(); renderCharts(); input.value = '';
+            };
+            reader.readAsText(file);
+        }
+
+        function renderCharts() {
+            if (APP_STATE.history.length === 0) return;
+            const types = ['SJ', 'CMJ', 'DJ', 'VJ'];
+            const avgHeights = types.map(t => {
+                const filtered = APP_STATE.history.filter(r => r.type === t);
+                if (filtered.length === 0) return 0;
+                return filtered.reduce((acc, curr) => acc + curr.height, 0) / filtered.length;
+            });
+            const recent = [...APP_STATE.history].slice(0, 10).reverse();
+            const labels = recent.map(r => new Date(r.date).toLocaleDateString());
+            const dataPoints = recent.map(r => r.height);
+
+            if (charts.type) charts.type.destroy();
+            if (charts.evo) charts.evo.destroy();
+
+            charts.type = new Chart(document.getElementById('chartType').getContext('2d'), {
+                type: 'bar',
+                data: { labels: types, datasets: [{ label: 'cm', data: avgHeights, backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'], borderRadius: 5 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }
+            });
+
+            charts.evo = new Chart(document.getElementById('chartEvolution').getContext('2d'), {
+                type: 'line',
+                data: { labels: labels, datasets: [{ label: 'cm', data: dataPoints, borderColor: '#3b82f6', backgroundColor: 'rgba(59, 130, 246, 0.2)', fill: true, tension: 0.3 }] },
+                options: { responsive: true, maintainAspectRatio: false, scales: { y: { grid: { color: '#334155' }, ticks: { color: '#94a3b8' } }, x: { ticks: { color: '#94a3b8' } } } }
+            });
+        }
+
+        function generatePDF() {
+            if (!APP_STATE.profile) { alert(t('alert_complete_profile')); return; }
+            const element = document.getElementById('pdf-content');
+            const tableBody = document.getElementById('pdf-table-body');
+            
+            document.getElementById('pdf-profile').innerHTML = `
+                <p><strong>${t('label_name')}:</strong> ${APP_STATE.profile.name}</p>
+                <p><strong>${t('label_sport')}:</strong> ${APP_STATE.profile.sport} | <strong>${t('label_weight')}:</strong> ${APP_STATE.profile.weight} kg</p>
+                <p><strong>${t('col_date')}:</strong> ${new Date().toLocaleDateString()}</p>
+            `;
+
+            const maxJump = Math.max(...APP_STATE.history.map(r => r.height), 0);
+            const totalJumps = APP_STATE.history.length;
+            const avgJump = totalJumps ? (APP_STATE.history.reduce((a,b)=>a+b.height,0)/totalJumps).toFixed(1) : 0;
+            
+            document.getElementById('pdf-stats').innerHTML = `
+                <div class="border p-2 rounded text-center"><div class="text-xs text-gray-500">${t('email_total')}</div><div class="font-bold text-lg">${totalJumps}</div></div>
+                <div class="border p-2 rounded text-center"><div class="text-xs text-gray-500">Max (cm)</div><div class="font-bold text-lg text-green-600">${maxJump.toFixed(1)}</div></div>
+                <div class="border p-2 rounded text-center"><div class="text-xs text-gray-500">Avg (cm)</div><div class="font-bold text-lg text-blue-600">${avgJump}</div></div>
+            `;
+
+            tableBody.innerHTML = APP_STATE.history.map(r => `
+                <tr>
+                    <td class="border p-2">${new Date(r.date).toLocaleDateString()}</td>
+                    <td class="border p-2">${r.type}</td>
+                    <td class="border p-2 text-right">${r.height.toFixed(1)}</td>
+                    <td class="border p-2 text-right">${r.power ? Math.round(r.power) : '-'}</td>
+                </tr>`).join('');
+
+            element.classList.remove('hidden');
+            html2pdf().set({ margin: 10, filename: `JumpLab_${APP_STATE.profile.name}.pdf`, image: { type: 'jpeg', quality: 0.98 }, html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } }).from(element).save().then(() => element.classList.add('hidden'));
+        }
+
+        function exportCSV() {
+            if (APP_STATE.history.length === 0) { alert(t('alert_no_data')); return; }
+            let csvContent = "data:text/csv;charset=utf-8,Date,Time,Type,Height(cm),Power(W)\n";
+            APP_STATE.history.forEach(row => {
+                const d = new Date(row.date);
+                csvContent += `${d.toLocaleDateString()},${d.toLocaleTimeString()},${row.type},${row.height.toFixed(2)},${row.power || 0}\n`;
+            });
+            const link = document.createElement("a"); link.href = encodeURI(csvContent); link.download = "jumplab_data.csv"; document.body.appendChild(link); link.click(); document.body.removeChild(link);
+        }
+
+        function sendEmail() {
+            if (!els.emailRecipient.value) { alert(t('alert_no_email')); return; }
+            if (!APP_STATE.profile) { alert(t('alert_complete_profile')); return; }
+            
+            const subject = `${t('email_subject')} - ${APP_STATE.profile.name}`;
+            let body = `${t('email_greeting')} ${APP_STATE.profile.name},\n\n${t('email_body_intro')}\n\n${t('label_sport')}: ${APP_STATE.profile.sport}\n`;
+            
+            if(APP_STATE.history.length > 0) {
+                 const max = Math.max(...APP_STATE.history.map(r => r.height)).toFixed(1);
+                 body += `${t('email_best')}: ${max} cm\n${t('email_total')}: ${APP_STATE.history.length}\n\n${t('email_last5')}\n`;
+                 APP_STATE.history.slice(0, 5).forEach(h => {
+                     body += `${new Date(h.date).toLocaleDateString()} | ${h.type}: ${h.height.toFixed(1)}cm (${h.power?Math.round(h.power):0}W)\n`;
+                 });
+            }
+            body += `\n${t('email_footer')}`;
+            window.location.href = `mailto:${els.emailRecipient.value}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        }
+    </script>
+</body>
+</html>

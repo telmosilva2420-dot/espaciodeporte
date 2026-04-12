@@ -378,10 +378,68 @@
                                 <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-teal-400 shrink-0"></i>Sin instalación de software adicional</li>
                             </ul>
                             <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
-                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Abrir con navegador</span>
-                                <a href="https://drive.google.com/file/d/1LKUSYFOXPOCReKJC7RUK-EIEF8uFfZfa/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
-                                    <i data-lucide="download" class="w-4 h-4"></i> Descargar
-                                </a>
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador</span>
+                                <button onclick="abrirJumpLab()" class="flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strength Coach -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <!-- Cabecera visual -->
+                        <div class="h-36 bg-gradient-to-br from-violet-900/50 to-slate-800 flex items-center justify-center gap-4">
+                            <i data-lucide="dumbbell" class="w-10 h-10 text-violet-400 opacity-70"></i>
+                            <i data-lucide="trending-up" class="w-12 h-12 text-violet-300"></i>
+                            <i data-lucide="clipboard-list" class="w-10 h-10 text-violet-400 opacity-70"></i>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow gap-4">
+                            <div>
+                                <span class="text-xs font-semibold text-violet-400 uppercase tracking-wider">Preparación física</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1 mb-3">Strength Coach</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed">Herramienta para la planificación y seguimiento del entrenamiento de fuerza. Diseñada para preparadores físicos y entrenadores que trabajan con deportistas.</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-violet-400 shrink-0"></i>Planificación de cargas de entrenamiento</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-violet-400 shrink-0"></i>Seguimiento del rendimiento</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-violet-400 shrink-0"></i>Se ejecuta en cualquier navegador</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-violet-400 shrink-0"></i>Sin instalación de software adicional</li>
+                            </ul>
+                            <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador</span>
+                                <button onclick="abrirStrengthCoach()" class="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 text-white font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unir - Extraer - Editar PDF -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <!-- Cabecera visual -->
+                        <div class="h-36 bg-gradient-to-br from-orange-900/50 to-slate-800 flex items-center justify-center gap-4">
+                            <i data-lucide="file-text" class="w-10 h-10 text-orange-400 opacity-70"></i>
+                            <i data-lucide="scissors" class="w-12 h-12 text-orange-300"></i>
+                            <i data-lucide="pen-line" class="w-10 h-10 text-orange-400 opacity-70"></i>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow gap-4">
+                            <div>
+                                <span class="text-xs font-semibold text-orange-400 uppercase tracking-wider">Gestión de documentos</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1 mb-3">Unir · Extraer · Editar PDF</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed">Herramienta para combinar, dividir y editar archivos PDF directamente en el navegador. Sin subir archivos a servidores externos: todo se procesa en local.</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-orange-400 shrink-0"></i>Unir varios PDF en uno</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-orange-400 shrink-0"></i>Extraer páginas seleccionadas</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-orange-400 shrink-0"></i>Editar contenido del documento</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-orange-400 shrink-0"></i>Procesado 100% local, sin envío de datos</li>
+                            </ul>
+                            <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador</span>
+                                <button onclick="abrirPDFEditor()" class="flex items-center gap-2 bg-orange-500 hover:bg-orange-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -932,6 +990,64 @@
     </div>
 
     <!-- Modal: Estimar la VAM con un test máximo de 5 minutos -->
+    <!-- Modal: Strength Coach -->
+    <div id="modal-strength-coach" class="fixed inset-0 z-[200] flex items-center justify-center p-3 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="cerrarStrengthCoach()"></div>
+        <div class="relative w-full h-full max-w-7xl max-h-[95vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="shrink-0 bg-slate-900 border-b border-slate-800 px-5 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="dumbbell" class="w-5 h-5 text-violet-400"></i>
+                    <span class="text-white font-bold">Strength Coach</span>
+                    <span class="text-xs text-slate-500 font-normal">· Preparación física</span>
+                </div>
+                <button onclick="cerrarStrengthCoach()" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 text-sm">
+                    <i data-lucide="x" class="w-5 h-5"></i> Cerrar
+                </button>
+            </div>
+            <iframe src="Strength Coach.html" class="flex-1 w-full border-0 bg-white" title="Strength Coach"></iframe>
+        </div>
+    </div>
+
+    <!-- Modal: Unir - Extraer - Editar PDF -->
+    <div id="modal-pdf-editor" class="fixed inset-0 z-[200] flex items-center justify-center p-3 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="cerrarPDFEditor()"></div>
+        <div class="relative w-full h-full max-w-7xl max-h-[95vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Cabecera -->
+            <div class="shrink-0 bg-slate-900 border-b border-slate-800 px-5 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="file-text" class="w-5 h-5 text-orange-400"></i>
+                    <span class="text-white font-bold">Unir · Extraer · Editar PDF</span>
+                    <span class="text-xs text-slate-500 font-normal">· Gestión de documentos</span>
+                </div>
+                <button onclick="cerrarPDFEditor()" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 text-sm">
+                    <i data-lucide="x" class="w-5 h-5"></i> Cerrar
+                </button>
+            </div>
+            <!-- App en iframe -->
+            <iframe src="Unir - Extraer - Editar PDF.html" class="flex-1 w-full border-0 bg-white" title="Unir - Extraer - Editar PDF"></iframe>
+        </div>
+    </div>
+
+    <!-- Modal: Jump Lab Pro -->
+    <div id="modal-jumplab" class="fixed inset-0 z-[200] flex items-center justify-center p-3 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="cerrarJumpLab()"></div>
+        <div class="relative w-full h-full max-w-7xl max-h-[95vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Cabecera -->
+            <div class="shrink-0 bg-slate-900 border-b border-slate-800 px-5 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="arrow-up" class="w-5 h-5 text-teal-400"></i>
+                    <span class="text-white font-bold">Jump Lab Pro</span>
+                    <span class="text-xs text-slate-500 font-normal">· Evaluación neuromuscular</span>
+                </div>
+                <button onclick="cerrarJumpLab()" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 text-sm">
+                    <i data-lucide="x" class="w-5 h-5"></i> Cerrar
+                </button>
+            </div>
+            <!-- App en iframe -->
+            <iframe src="JumpLab Pro.html" class="flex-1 w-full border-0 bg-white" title="Jump Lab Pro" allow="camera; microphone"></iframe>
+        </div>
+    </div>
+
     <!-- Modal: Entrenamiento de sprint -->
     <div id="modal-sprint" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalSprint()"></div>
@@ -1131,6 +1247,39 @@
             });
         }
 
+        function abrirStrengthCoach() {
+            const modal = document.getElementById('modal-strength-coach');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarStrengthCoach() {
+            document.getElementById('modal-strength-coach').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirPDFEditor() {
+            const modal = document.getElementById('modal-pdf-editor');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarPDFEditor() {
+            document.getElementById('modal-pdf-editor').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirJumpLab() {
+            const modal = document.getElementById('modal-jumplab');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarJumpLab() {
+            document.getElementById('modal-jumplab').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalCardiaco() {
             const modal = document.getElementById('modal-cardiaco');
             modal.classList.remove('hidden');
@@ -1188,6 +1337,9 @@
 
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                cerrarStrengthCoach();
+                cerrarPDFEditor();
+                cerrarJumpLab();
                 cerrarModalCardiaco();
                 cerrarModalSprinters();
                 cerrarModalDosisMinima();

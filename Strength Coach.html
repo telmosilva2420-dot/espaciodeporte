@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strength Coach - Programador de Rutinas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Librería PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        html { font-size: 120%; }
+        .gradient-bg { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .loading-spinner {
+            border: 4px solid rgba(20, 184, 166, 0.1);
+            border-left-color: #14b8a6;
+            border-radius: 50%;
+            width: 40px; height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #14b8a6; border-radius: 10px; }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* --- MODO EXPORTACIÓN PDF --- */
+
+        /* Elementos solo visibles en PDF */
+        .pdf-only { display: none; }
+        #pdf-content.pdf-export-mode .pdf-only { display: block !important; }
+        /* Elementos a ocultar en PDF */
+        #pdf-content.pdf-export-mode .no-print,
+        #pdf-content.pdf-export-mode .no-pdf { display: none !important; }
+
+        /* Contenedor raíz */
+        #pdf-content.pdf-export-mode {
+            background: #ffffff !important;
+            color: #000000 !important;
+            padding: 16px !important;
+            width: 100% !important;
+        }
+
+        /* Todas las tarjetas: quitar blur, transparencia y sombras */
+        #pdf-content.pdf-export-mode .card,
+        #pdf-content.pdf-export-mode [class*="rounded"] {
+            background: #ffffff !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-shadow: none !important;
+            border-color: #cccccc !important;
+        }
+
+        /* Cabecera del programa: no cortar */
+        #pdf-content.pdf-export-mode .card:first-child {
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            border: 1px solid #aaaaaa !important;
+            border-left: 6px solid #000000 !important;
+            margin-bottom: 14px !important;
+            padding: 14px !important;
+        }
+
+        /* Tarjeta de ejercicio: nunca cortar */
+        #pdf-content.pdf-export-mode .exercise-card {
+            display: block !important;          /* anula flex para evitar columnas rotas */
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
+            background: #ffffff !important;
+            border: 1px solid #cccccc !important;
+            border-left: 5px solid #555555 !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            margin-bottom: 10px !important;
+            padding: 12px 14px !important;
+        }
+
+        /* Colores de borde lateral por sección */
+        #pdf-content.pdf-export-mode .exercise-card.border-blue-500   { border-left-color: #2563eb !important; }
+        #pdf-content.pdf-export-mode .exercise-card.border-purple-500  { border-left-color: #7c3aed !important; }
+        #pdf-content.pdf-export-mode .exercise-card.border-green-500   { border-left-color: #16a34a !important; }
+
+        /* Texto: todo negro */
+        #pdf-content.pdf-export-mode * {
+            color: #000000 !important;
+            text-shadow: none !important;
+        }
+
+        /* Recuadros de info dentro de la cabecera */
+        #pdf-content.pdf-export-mode .pathology-box,
+        #pdf-content.pdf-export-mode [class*="bg-red-"],
+        #pdf-content.pdf-export-mode [class*="bg-blue-"],
+        #pdf-content.pdf-export-mode [class*="bg-teal-"],
+        #pdf-content.pdf-export-mode [class*="bg-gray-"],
+        #pdf-content.pdf-export-mode [class*="bg-white"] {
+            background: #f4f4f4 !important;
+            border: 1px solid #aaaaaa !important;
+        }
+
+        /* Inputs de peso/carga */
+        #pdf-content.pdf-export-mode input {
+            border: none !important;
+            border-bottom: 1.5px solid #000000 !important;
+            background: transparent !important;
+            color: #000000 !important;
+            font-weight: bold !important;
+            width: auto !important;
+        }
+
+        #toast {
+            position: fixed; bottom: 20px; right: 20px; padding: 12px 24px;
+            border-radius: 8px; background: #14b8a6; color: white;
+            font-weight: bold; transform: translateY(150px);
+            transition: transform 0.3s ease; z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        #toast.show { transform: translateY(0); }
+        #toast.error { background: #ef4444; }
+    </style>
+</head>
+<body class="gradient-bg text-gray-100 min-h-screen font-sans">
+
+    <div id="toast">Notificación</div>
+
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <header class="text-center mb-10 no-print">
+            <h1 class="text-4xl md:text-5xl font-bold text-teal-400 mb-2 text-balance">
+                <i class="fas fa-dumbbell mr-3"></i>Strength Coach
+            </h1>
+            <p class="text-gray-300 font-medium tracking-tight text-balance">
+                Programas de entrenamiento de fuerza para la salud, el deporte y profesiones especiales
+            </p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Columna de Configuración -->
+            <aside class="lg:col-span-4 space-y-6 no-print">
+                
+                <div class="card p-6 rounded-2xl shadow-2xl border-white/5 border">
+                    <h2 class="text-xl font-bold mb-6 border-b border-teal-500/50 pb-2 flex items-center">
+                        <i class="fas fa-user-cog mr-2 text-teal-500"></i>Configuración de Sesión
+                    </h2>
+                    
+                    <div class="space-y-4 text-sm">
+                        <!-- Perfil -->
+                        <div class="space-y-3 pb-4 border-b border-white/5">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-[12px] text-gray-400 uppercase font-bold">Deportista y Estado de Salud</label>
+                                <button type="button" id="btnToggleAthletes" onclick="toggleAthletesPanel()" title="Ver deportistas guardados"
+                                    class="flex items-center gap-1.5 text-[11px] font-bold text-teal-400 hover:text-teal-300 bg-teal-500/10 hover:bg-teal-500/20 border border-teal-500/30 rounded-lg px-2 py-1 transition-all">
+                                    <i class="fas fa-users"></i>
+                                    <span id="athletesBadge" class="text-teal-300">0</span>
+                                </button>
+                            </div>
+
+                            <!-- Panel desplegable de deportistas guardados -->
+                            <div id="athletesSidePanelWrapper" class="hidden">
+                                <div class="bg-gray-900/60 border border-teal-500/20 rounded-xl p-3 space-y-2">
+                                    <div class="flex items-center justify-between mb-1">
+                                        <span class="text-[11px] text-teal-400 uppercase font-bold tracking-wider">Deportistas guardados</span>
+                                        <div class="flex gap-2 text-teal-400">
+                                            <button id="btnExportAthletes" title="Exportar" class="hover:text-teal-300"><i class="fas fa-file-export text-[11px]"></i></button>
+                                            <label class="hover:text-teal-300 cursor-pointer" title="Importar"><i class="fas fa-file-import text-[11px]"></i><input type="file" id="inputImportAthletes" class="hidden" accept=".json"></label>
+                                        </div>
+                                    </div>
+                                    <div id="athletesSideList" class="space-y-1.5 max-h-52 overflow-y-auto custom-scrollbar pr-1">
+                                        <p class="text-center text-[11px] py-3 text-gray-500">Sin deportistas guardados.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-2">
+                                <input type="text" id="userName" placeholder="Nombre completo" class="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none focus:ring-1 focus:ring-teal-500">
+                                <button type="button" id="btnSaveAthlete" title="Guardar deportista actual" class="bg-teal-600/30 hover:bg-teal-600/60 border border-teal-500/40 text-teal-400 rounded-lg px-3 transition-all" onclick="saveCurrentAthlete()">
+                                    <i class="fas fa-user-plus"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[12px] text-teal-500 uppercase font-bold mb-1">Fecha</label>
+                                    <input type="date" id="sessionDate" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none focus:ring-1 focus:ring-teal-500">
+                                </div>
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Año de Nacimiento</label>
+                                    <input type="number" id="birthYear" placeholder="Ej: 1990" min="1920" max="2015" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white text-center outline-none focus:ring-1 focus:ring-teal-500" oninput="calcAge()">
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 bg-white/5 rounded-lg px-3 py-2 border border-white/5">
+                                <i class="fas fa-birthday-cake text-teal-400 text-sm"></i>
+                                <span class="text-[12px] text-gray-400 uppercase font-bold">Edad:</span>
+                                <span id="ageDisplay" class="text-teal-400 font-black text-base">—</span>
+                                <span class="text-[12px] text-gray-400">años</span>
+                                <input type="hidden" id="age" value="">
+                            </div>
+                            <textarea id="pathologyHistory" placeholder="Historial de patologías y lesiones..." class="w-full bg-gray-900 border border-red-900/30 rounded-lg p-2 text-[12px] text-white outline-none h-16 focus:ring-1 focus:ring-red-500 resize-none"></textarea>
+                        </div>
+
+                        <!-- Objetivos -->
+                        <div class="space-y-3 pb-4 border-b border-white/5">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Objetivo Gral.</label>
+                                    <select id="genGoal" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none">
+                                        <option value="Mejora de la salud">Mejora de la salud</option>
+                                        <option value="Mejora del rendimiento en deporte">Mejora del rendimiento en deporte</option>
+                                        <option value="Mejora del rendimiento en profesión especial">Mejora del rendimiento en profesión especial</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Objetivo Espec.</label>
+                                    <select id="specGoal" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none">
+                                        <option value="Fuerza-resistencia">Fuerza-resistencia</option>
+                                        <option value="Fuerza-máxima">Fuerza-máxima</option>
+                                        <option value="Fuerza-velocidad">Fuerza-velocidad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Planificación -->
+                        <div class="space-y-3 pb-4 border-b border-white/5">
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[12px] text-teal-400 uppercase font-bold mb-1">Reps a conseguir</label>
+                                    <input type="number" id="targetReps" value="12" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                </div>
+                                <div>
+                                    <label class="block text-[12px] text-teal-400 uppercase font-bold mb-1">Sesiones / sem</label>
+                                    <input type="number" id="sessionsPerWeek" value="2" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Criterio de Ejecución</label>
+                                <select id="execCriteria" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none">
+                                    <option value="Repeticiones máximas para RM seleccionado">Repeticiones máximas para RM seleccionado</option>
+                                    <option value="Velocidad máxima en cada repetición">Velocidad máxima en cada repetición</option>
+                                    <option value="Alcanzar repeticiones marcadas">Alcanzar repeticiones marcadas</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Complemento y Organización -->
+                        <div class="space-y-3 pb-4 border-b border-white/5">
+                            <textarea id="compActivity" placeholder="Actividad complementaria (Running, Natación...)" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white outline-none h-12 focus:ring-1 focus:ring-teal-500 resize-none"></textarea>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Organización</label>
+                                    <select id="org" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-white outline-none">
+                                        <option value="Superserie">Superserie</option>
+                                        <option value="Circuito">Circuito</option>
+                                        <option value="Clúster">Clúster</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Nº Ejercicios</label>
+                                    <input type="number" id="numEx" value="6" min="1" max="20" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                </div>
+                            </div>
+                            <!-- Recuperación entre ejercicios -->
+                            <div>
+                                <label class="block text-[12px] text-teal-400 uppercase font-bold mb-1">Recuperación entre ejercicios</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[11px] text-gray-500 mb-1 text-center">Min</label>
+                                        <input type="number" id="restExMin" value="2" min="0" max="30" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] text-gray-500 mb-1 text-center">Seg</label>
+                                        <input type="number" id="restExSec" value="0" min="0" max="59" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Nº Series -->
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[12px] text-gray-400 uppercase font-bold mb-1">Nº Series</label>
+                                    <input type="number" id="numSeries" value="3" min="1" max="20" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                </div>
+                                <div>
+                                    <!-- spacer -->
+                                </div>
+                            </div>
+                            <!-- Recuperación entre series -->
+                            <div>
+                                <label class="block text-[12px] text-teal-400 uppercase font-bold mb-1">Recuperación entre series</label>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[11px] text-gray-500 mb-1 text-center">Min</label>
+                                        <input type="number" id="restSerMin" value="1" min="0" max="30" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                    </div>
+                                    <div>
+                                        <label class="block text-[11px] text-gray-500 mb-1 text-center">Seg</label>
+                                        <input type="number" id="restSerSec" value="30" min="0" max="59" class="w-full bg-gray-900 border border-teal-900 rounded-lg p-2 text-white text-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="clusterRestContainer" class="hidden border-t border-teal-500/20 pt-2 animate-pulse">
+                            <label class="block mb-1 text-teal-400 font-bold text-[12px] uppercase">Pausa Intraserie (s)</label>
+                            <input type="number" id="clusterRest" value="30" class="w-full bg-gray-900 border border-teal-500 rounded-lg p-2 text-white font-bold text-center">
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-4">
+                            <div class="space-y-1">
+                                <label class="block text-[12px] text-teal-400 uppercase font-bold tracking-tighter">Ejercicios Obligatorios</label>
+                                <select id="mandatoryEx" multiple class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white outline-none h-24 custom-scrollbar">
+                                </select>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="block text-[12px] text-red-400 uppercase font-bold tracking-tighter">Ejercicios Contraindicados</label>
+                                <select id="contraindicatedEx" multiple class="w-full bg-gray-900 border border-red-900/30 rounded-lg p-2 text-[12px] text-white outline-none h-24 custom-scrollbar">
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="button" id="btnGenerate" class="w-full bg-teal-600 hover:bg-teal-500 text-white font-black py-4 rounded-xl transition-all shadow-lg uppercase tracking-wider">
+                            <i class="fas fa-magic mr-2"></i>Diseñar Programa
+                        </button>
+                        <button type="button" id="btnManualDesign" class="w-full bg-indigo-700 hover:bg-indigo-600 text-white font-black py-3 rounded-xl transition-all shadow-lg uppercase tracking-wider text-sm">
+                            <i class="fas fa-list-ol mr-2"></i>Diseño Manual
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tabs Biblioteca e Historial -->
+                <div class="card p-4 rounded-2xl shadow-2xl">
+                    <div class="flex border-b border-white/10 mb-4">
+                        <button id="tabBtnLib" class="flex-1 py-2 text-xs font-bold text-teal-400 border-b-2 border-teal-500">BIBLIOTECA</button>
+                        <button id="tabBtnSessions" class="flex-1 py-2 text-xs font-bold text-gray-500 border-b-2 border-transparent">HISTORIAL</button>
+
+                    </div>
+
+                    <div id="paneLib" class="space-y-4">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[12px] text-gray-400 uppercase font-bold tracking-widest text-teal-400">Mis Ejercicios</span>
+                            <div class="flex gap-3">
+                                <button id="btnExportLib" title="Exportar"><i class="fas fa-file-export"></i></button>
+                                <label class="text-teal-400 hover:text-teal-300 cursor-pointer" title="Importar"><i class="fas fa-file-import"></i><input type="file" id="inputImportLib" class="hidden" accept=".json"></label>
+                            </div>
+                        </div>
+                        <div class="bg-white/5 p-3 rounded-xl space-y-2 border border-white/5">
+                            <input type="hidden" id="editingId" value="">
+                            <input type="text" id="libName" placeholder="Nombre del ejercicio" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white outline-none">
+                            <div class="grid grid-cols-2 gap-2">
+                                <select id="libSection" class="bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white">
+                                    <option value="Tren Inferior">Tren Inferior</option>
+                                    <option value="Tren Superior">Tren Superior</option>
+                                    <option value="Core">Core</option>
+                                </select>
+                                <div id="muscleInputContainer"></div>
+                            </div>
+                            <textarea id="libCriteria" placeholder="Instrucciones técnicas..." class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white h-12 outline-none resize-none"></textarea>
+                            <input type="text" id="libVideo" placeholder="Link Vídeo" class="w-full bg-gray-900 border border-gray-700 rounded-lg p-2 text-[12px] text-white outline-none">
+                            <button id="libSubmitBtn" class="w-full bg-teal-600/30 hover:bg-teal-600/50 text-teal-400 font-bold py-2 rounded-lg text-[12px] border border-teal-500/30 uppercase text-center">Guardar</button>
+                        </div>
+                        <div id="libraryList" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+
+                    <div id="paneSessions" class="hidden space-y-4">
+                        <div class="flex justify-between items-center px-1">
+                            <span class="text-[12px] text-gray-400 uppercase font-bold tracking-widest text-teal-400">Historial</span>
+                            <div class="flex gap-3">
+                                <button id="btnExportSessions" title="Exportar Historial"><i class="fas fa-file-export"></i></button>
+                                <label class="text-teal-400 hover:text-teal-300 cursor-pointer"><i class="fas fa-file-import"></i><input type="file" id="inputImportSessions" class="hidden" accept=".json"></label>
+                            </div>
+                        </div>
+                        <div id="savedSessionsList" class="space-y-2 max-h-80 overflow-y-auto custom-scrollbar pr-1"></div>
+                    </div>
+
+                </div>
+            </aside>
+
+            <!-- Resultados -->
+            <main class="lg:col-span-8">
+                <div id="pdf-content">
+                    <div id="resultsArea" class="space-y-6">
+                        <div class="card p-20 rounded-3xl flex flex-col items-center justify-center text-center opacity-40 border-dashed border-2 border-white/10">
+                            <i class="fas fa-clipboard-list text-6xl text-teal-400 mb-6"></i>
+                            <h3 class="text-2xl font-bold">Programa de Entrenamiento</h3>
+                            <p class="text-sm mt-2 text-gray-400 text-balance">Configura la sesión para generar la ficha profesional biomecánica.</p>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // --- BASE DE DATOS LOCAL (IndexedDB) ---
+        let db;
+        const dbName = "StrengthCoachDB_FinalV1";
+        let exerciseLibrary = [];
+        let savedSessions = [];
+        let savedAthletes = [];
+        let currentSessionData = null;
+        let currentConfig = null;
+        let manualExercises = [];
+
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(dbName, 2);
+                request.onerror = () => reject();
+                request.onupgradeneeded = (e) => {
+                    const db = e.target.result;
+                    if (!db.objectStoreNames.contains("library")) db.createObjectStore("library", { keyPath: "id" });
+                    if (!db.objectStoreNames.contains("sessions")) db.createObjectStore("sessions", { keyPath: "id" });
+                    if (!db.objectStoreNames.contains("athletes")) db.createObjectStore("athletes", { keyPath: "id" });
+                };
+                request.onsuccess = (e) => {
+                    db = e.target.result;
+                    resolve();
+                };
+            });
+        }
+
+        async function saveToDB(storeName, data) {
+            const tx = db.transaction(storeName, "readwrite");
+            const store = tx.objectStore(storeName);
+            store.put(data);
+            return new Promise((res) => tx.oncomplete = res);
+        }
+
+        async function deleteFromDB(storeName, id) {
+            const tx = db.transaction(storeName, "readwrite");
+            const store = tx.objectStore(storeName);
+            store.delete(id);
+            return new Promise((res) => tx.oncomplete = res);
+        }
+
+        async function getAllFromDB(storeName) {
+            const tx = db.transaction(storeName, "readonly");
+            const store = tx.objectStore(storeName);
+            const request = store.getAll();
+            return new Promise((res) => request.onsuccess = () => res(request.result));
+        }
+
+        async function loadAllData() {
+            exerciseLibrary = await getAllFromDB("library");
+            savedSessions = await getAllFromDB("sessions");
+            savedAthletes = await getAllFromDB("athletes");
+            updateLibraryUI();
+            updateSavedSessionsUI();
+            updateAthletesUI();
+        }
+
+        function showToast(msg, type = "success") {
+            const t = document.getElementById('toast');
+            if(!t) return;
+            t.innerText = msg;
+            t.className = 'show ' + type;
+            setTimeout(() => t.classList.remove('show'), 4000);
+        }
+
+        function calcAge() {
+            const by = parseInt(document.getElementById('birthYear').value);
+            const currentYear = new Date().getFullYear();
+            if (by && by >= 1920 && by <= currentYear) {
+                const age = currentYear - by;
+                document.getElementById('ageDisplay').textContent = age;
+                document.getElementById('age').value = age;
+            } else {
+                document.getElementById('ageDisplay').textContent = '—';
+                document.getElementById('age').value = '';
+            }
+        }
+
+                const getVal = (id) => document.getElementById(id) ? document.getElementById(id).value : "";
+        const setVal = (id, val) => { if(document.getElementById(id)) document.getElementById(id).value = val || ""; };
+
+        // --- ALGORITMO LOCAL ---
+        function generateLocalWorkout() {
+            if (exerciseLibrary.length === 0) { showToast("Carga ejercicios primero", "error"); return; }
+            
+            const numRequested = parseInt(getVal('numEx')) || 6;
+            const mandatoryIds = Array.from(document.getElementById('mandatoryEx').selectedOptions).map(opt => opt.getAttribute('data-id'));
+            const contraIds = Array.from(document.getElementById('contraindicatedEx').selectedOptions).map(opt => opt.getAttribute('data-id'));
+
+            const availablePool = exerciseLibrary.filter(e => !contraIds.includes(e.id));
+            if (availablePool.length === 0) { showToast("Sin ejercicios tras el filtro", "error"); return; }
+
+            const lower = availablePool.filter(e => e.section === "Tren Inferior");
+            const upper = availablePool.filter(e => e.section === "Tren Superior");
+            const core = availablePool.filter(e => e.section === "Core");
+
+            const sortByComplexity = (arr) => arr.sort((a, b) => (b.muscle || "").split(',').length - (a.muscle || "").split(',').length);
+            const sortedL = sortByComplexity([...lower]), sortedU = sortByComplexity([...upper]), sortedC = sortByComplexity([...core]);
+
+            let finalExercises = [];
+            const mandatoryObjects = availablePool.filter(e => mandatoryIds.includes(e.id));
+            
+            for(let i = 0; i < numRequested; i++) {
+                let targetPool, turn = i % 3;
+                if (turn === 0) targetPool = sortedL;
+                else if (turn === 1) targetPool = sortedU;
+                else targetPool = sortedC;
+
+                let selection = mandatoryObjects.find(m => m.section === (turn === 0 ? "Tren Inferior" : turn === 1 ? "Tren Superior" : "Core") && !finalExercises.some(f => f.id === m.id));
+                if (!selection) selection = targetPool.find(e => !finalExercises.some(f => f.id === e.id));
+
+                if (selection) {
+                    finalExercises.push({
+                        id: selection.id, nombre: selection.name, seccion: selection.section,
+                        musculo: selection.muscle, instrucciones: selection.criteria, video_url: selection.video, peso: "" 
+                    });
+                }
+            }
+
+            const config = {
+                userName: getVal('userName'), date: getVal('sessionDate'), birthYear: getVal('birthYear'), age: getVal('age'),
+                genGoal: getVal('genGoal'), specGoal: getVal('specGoal'), sessionsPerWeek: getVal('sessionsPerWeek'),
+                targetReps: getVal('targetReps'), execCriteria: getVal('execCriteria'), org: getVal('org'),
+                clusterRest: getVal('clusterRest'), numSeries: getVal('numSeries'),
+                restExMin: getVal('restExMin'), restExSec: getVal('restExSec'),
+                restSerMin: getVal('restSerMin'), restSerSec: getVal('restSerSec'),
+                compActivity: getVal('compActivity'), pathologyHistory: getVal('pathologyHistory'),
+                mandatoryIds, contraIds
+            };
+
+            currentSessionData = { title: `Programa: ${config.specGoal}`, exercises: finalExercises };
+            renderWorkout(currentSessionData, config);
+            showToast("Programa generado");
+        }
+
+        window.updateSessionWeight = (index, value) => {
+            if (currentSessionData && currentSessionData.exercises[index]) {
+                currentSessionData.exercises[index].peso = value;
+            }
+        };
+
+        function renderWorkout(data, config) {
+            currentConfig = config;
+            const resultsArea = document.getElementById('resultsArea');
+            let html = `
+                <div class="card p-8 rounded-3xl border-l-8 border-teal-500 shadow-2xl mb-8">
+                    <div class="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
+                        <div class="flex-1">
+                            <h2 class="text-3xl font-black text-white mb-1 uppercase tracking-tight">${data.title}</h2>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-y-2 text-[12px] font-bold text-teal-400 uppercase mt-3">
+                                <span>ATLETA: ${config.userName || 'Anónimo'}</span>
+                                <span>FRECUENCIA: ${config.sessionsPerWeek} ses/sem</span>
+                                <span>OBJETIVO: ${config.genGoal}</span>
+                                <span>REPS: ${config.targetReps}</span>
+                                <span>FECHA: ${config.date || '-'}</span>
+                                <span>CRITERIO: ${config.execCriteria}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 no-print">
+                            <button id="saveSessBtn" class="bg-teal-600 p-2.5 rounded-xl text-xs font-black shadow-lg">GUARDAR</button>
+                            <button onclick="window.downloadPDF()" class="bg-white/10 p-2.5 rounded-xl text-xs font-black text-white">PDF</button>
+                        </div>
+                    </div>
+                    
+                    ${config.pathologyHistory ? `<div class="pathology-box bg-red-500/20 p-4 rounded-xl border-2 border-red-500/30 text-[12px] text-red-400 font-bold uppercase mb-4 tracking-tighter"><i class="fas fa-exclamation-triangle mr-2"></i>ALERTA CLÍNICA: ${config.pathologyHistory}</div>` : ''}
+                    ${config.compActivity ? `<div class="bg-blue-500/10 p-3 rounded-lg border border-blue-500/20 text-[12px] text-blue-300 font-bold uppercase mb-4 tracking-tighter">COMPLEMENTO: ${config.compActivity}</div>` : ''}
+
+                    <div class="bg-teal-500/5 p-4 rounded-xl border border-teal-500/10 text-xs text-gray-300 italic leading-relaxed"><i class="fas fa-quote-left mr-2 opacity-40"></i>Criterio: ${config.execCriteria}</div>
+                </div>
+                <div class="space-y-4">
+            `;
+            (data.exercises || []).forEach((ex, i) => {
+                const border = (ex.seccion || "").includes('Inferior') ? 'border-blue-500' : (ex.seccion || "").includes('Superior') ? 'border-purple-500' : 'border-green-500';
+                html += `
+                    <div class="card exercise-card p-6 rounded-2xl flex flex-col md:flex-row gap-6 border-l-4 ${border}">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-[11px] font-bold text-teal-500 uppercase">${ex.seccion} - ${ex.musculo}</span>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2 text-white">${i + 1}. ${ex.nombre}</h3>
+                            <p class="text-xs text-gray-400 mb-4 italic leading-relaxed">"${ex.instrucciones}"</p>
+                            <div class="flex items-center gap-8">
+                                <div class="text-center"><span class="block text-[10px] text-gray-500 uppercase font-bold">Series</span><span class="text-lg font-black text-white">${ex._series || config.numSeries || 3}</span></div>
+                                <div class="text-center"><span class="block text-[10px] text-gray-500 uppercase font-bold">Reps</span><span class="text-lg font-black text-white">${ex._reps || config.targetReps}</span></div>
+                                <div class="text-center">
+                                    <span class="block text-[10px] text-teal-500 uppercase font-bold">Peso / Carga</span>
+                                    <input type="text" class="w-20 bg-gray-900 border border-teal-900/40 rounded text-center text-sm font-black text-teal-400 focus:border-teal-500 outline-none p-1" placeholder="kg..." value="${ex.peso || ''}" oninput="window.updateSessionWeight(${i}, this.value)">
+                                </div>
+                                ${config.org === 'Clúster' ? `<div class="text-center"><span class="block text-[10px] text-teal-500 uppercase font-bold">Intra</span><span class="text-lg font-black text-teal-400">${config.clusterRest}s</span></div>` : ''}
+                            </div>
+                        </div>
+                        <div class="md:w-40 flex justify-center items-center no-pdf">
+                            <a href="${ex.video_url || '#'}" target="_blank" class="video-link-container w-full p-4 bg-teal-500/10 rounded-2xl border border-teal-500/30 text-center hover:bg-teal-600 transition-all group">
+                                <i class="fas fa-play text-lg mb-1 text-teal-400 group-hover:text-white transition-colors"></i><br>
+                                <span class="text-[11px] font-black uppercase">Ver Vídeo</span>
+                            </a>
+                        </div>
+                        ${ex.video_url ? `<div class="pdf-only mt-2 text-[9px] text-gray-600" style="word-break:break-all;line-height:1.4"><span style="font-weight:700;text-transform:uppercase;font-size:8px;letter-spacing:.5px">Vídeo: </span>${ex.video_url}</div>` : ''}
+                    </div>
+                `;
+            });
+            html += `</div>`;
+            resultsArea.innerHTML = html;
+            
+            document.getElementById('saveSessBtn').onclick = async () => {
+                const matchedAthlete = savedAthletes.find(a => a.name.toLowerCase() === (config.userName || '').toLowerCase());
+                const sess = { id: 'sess_'+Date.now(), metadata: { name: config.userName, date: config.date, timestamp: Date.now(), athleteId: matchedAthlete ? matchedAthlete.id : null }, config, workout: currentSessionData };
+                await saveToDB("sessions", sess);
+                savedSessions.push(sess);
+                updateSavedSessionsUI();
+                // Refresh athlete programs count badge if panel is visible
+                if (matchedAthlete) {
+                    const badge = document.getElementById('apcount_' + matchedAthlete.id);
+                    if (badge) badge.textContent = getAthleteSessions(matchedAthlete).length;
+                    renderAthleteProgramsList(matchedAthlete.id);
+                }
+                showToast("Sesión guardada");
+            };
+        }
+
+        window.downloadPDF = async function() {
+            if (!currentSessionData || !currentConfig) { showToast("No hay programa para exportar", "error"); return; }
+            showToast("Generando PDF…");
+
+            const cfg       = currentConfig;
+            const data      = currentSessionData;
+            const exercises = data.exercises || [];
+
+            // ── Fetch QR codes as base64 ───────────────────────────────
+            async function fetchQR(url) {
+                const src = `https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=${encodeURIComponent(url)}&bgcolor=ffffff&color=000000&margin=2`;
+                try {
+                    const res  = await fetch(src, { mode: 'cors' });
+                    const blob = await res.blob();
+                    return await new Promise(r => { const fr = new FileReader(); fr.onload = () => r(fr.result); fr.readAsDataURL(blob); });
+                } catch { return null; }
+            }
+            const videoUrls = [...new Set(exercises.map(e => e.video_url).filter(Boolean))];
+            const qrEntries = await Promise.all(videoUrls.map(async url => [url, await fetchQR(url)]));
+            const qrMap     = Object.fromEntries(qrEntries.filter(([,v]) => v));
+
+            // ── jsPDF setup ────────────────────────────────────────────
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
+
+            const PW = 210, PH = 297;
+            const ML = 14, MT = 14, MB = 18;
+            const CW = PW - ML - ML;   // 182 mm
+
+            let curY = MT;
+
+            // ── Drawing helpers ────────────────────────────────────────
+            function fill(x, y, w, h, c) {
+                pdf.setFillColor(...c); pdf.rect(x, y, w, h, 'F');
+            }
+            function strokeBox(x, y, w, h, c = [226,232,240], lw = 0.25) {
+                pdf.setDrawColor(...c); pdf.setLineWidth(lw); pdf.rect(x, y, w, h, 'S');
+            }
+            function hln(x1, x2, y, c = [226,232,240], lw = 0.25) {
+                pdf.setDrawColor(...c); pdf.setLineWidth(lw); pdf.line(x1, y, x2, y);
+            }
+            function vln(x, y1, y2, c = [226,232,240], lw = 0.25) {
+                pdf.setDrawColor(...c); pdf.setLineWidth(lw); pdf.line(x, y1, x, y2);
+            }
+            function t(text, x, y, o = {}) {
+                const { sz=9, b=false, it=false, c=[15,23,42], al='left', mw, url } = o;
+                pdf.setFontSize(sz);
+                pdf.setFont('helvetica', b&&it?'bolditalic':b?'bold':it?'italic':'normal');
+                pdf.setTextColor(...c);
+                const opts = {};
+                if (al !== 'left') opts.align = al;
+                if (mw) opts.maxWidth = mw;
+                if (url) pdf.textWithLink(String(text), x, y, { url, ...opts });
+                else     pdf.text(String(text), x, y, opts);
+            }
+            function ensureSpace(needed) {
+                if (curY + needed > PH - MB) { pdf.addPage(); curY = MT; }
+            }
+            const fmtR = (min, sec) => `${min||0}'${(sec||0)>0?(sec||0)+'"':''}`;
+
+            // ── HEADER ─────────────────────────────────────────────────
+            // Dark bar
+            fill(ML, curY, CW, 11, [15,23,42]);
+            t('STRENGTH COACH', ML+4, curY+7.5, { sz:12, b:true, c:[20,184,166] });
+            t(cfg.date||'', ML+CW-3, curY+7, { sz:8, c:[148,163,184], al:'right' });
+            curY += 11;
+
+            // Teal title bar
+            fill(ML, curY, CW, 8, [13,148,136]);
+            t((data.title||'Programa de Entrenamiento').toUpperCase(), ML+4, curY+5.5, { sz:9.5, b:true, c:[255,255,255] });
+            curY += 8;
+
+            // Info box
+            const infoTop = curY;
+
+            // Athlete / Objective / Frequency
+            const r1y = curY + 5;
+            t('ATLETA', ML+4, r1y, { sz:6.5, c:[148,163,184] });
+            t(cfg.userName||'Anónimo', ML+4, r1y+6, { sz:13, b:true });
+            if (cfg.age) {
+                const nameW = pdf.getTextWidth(cfg.userName||'Anónimo') + 2;
+                t(`(${cfg.age} años)`, ML+4+nameW, r1y+5.8, { sz:9, c:[100,116,139] });
+            }
+            const c2 = ML+CW*0.48;
+            t('OBJETIVO ESPECÍFICO', c2, r1y, { sz:6.5, c:[148,163,184] });
+            t(cfg.specGoal||'-', c2, r1y+6, { sz:10, b:true, mw:CW*0.27 });
+            t(cfg.genGoal||'', c2, r1y+11, { sz:8, c:[100,116,139], mw:CW*0.27 });
+            const c3 = ML+CW*0.8;
+            t('FRECUENCIA', c3, r1y, { sz:6.5, c:[148,163,184] });
+            t(String(cfg.sessionsPerWeek||'-'), c3, r1y+7, { sz:16, b:true });
+            t('ses/sem', c3+pdf.getTextWidth(String(cfg.sessionsPerWeek||'-'))*0.8+2, r1y+6.5, { sz:8, c:[100,116,139] });
+            curY = r1y + 15;
+
+            // Stats bar
+            fill(ML, curY, CW, 14, [248,250,252]);
+            strokeBox(ML, curY, CW, 14);
+            const stats = [
+                ['SERIES',     String(cfg.numSeries||'-')],
+                ['REPS OBJ.',  String(cfg.targetReps||'-')],
+                ['REC. EJ.',   fmtR(cfg.restExMin, cfg.restExSec)],
+                ['REC. SERIE', fmtR(cfg.restSerMin, cfg.restSerSec)],
+                ['ORGANIZ.',   cfg.org||'-'],
+            ];
+            const sw = CW/stats.length;
+            stats.forEach(([lbl,val],i) => {
+                const sx = ML+i*sw;
+                if (i>0) vln(sx, curY, curY+14, [226,232,240], 0.2);
+                t(lbl, sx+sw/2, curY+4,  { sz:6,  c:[148,163,184], al:'center' });
+                t(val, sx+sw/2, curY+11, { sz:13, b:true, al:'center' });
+            });
+            curY += 14;
+
+            // Criterio
+            curY += 1;
+            const critLines = pdf.splitTextToSize(`Criterio: ${cfg.execCriteria||''}`, CW-6);
+            const critH = Math.max(7, critLines.length*4.3+3);
+            fill(ML, curY, CW, critH, [240,253,250]);
+            strokeBox(ML, curY, CW, critH, [153,246,228]);
+            pdf.setFontSize(8); pdf.setFont('helvetica','bolditalic'); pdf.setTextColor(15,118,110);
+            pdf.text(critLines, ML+3, curY+4.5);
+            curY += critH;
+
+            if (cfg.pathologyHistory) {
+                curY += 1;
+                const ls = pdf.splitTextToSize(`(!) ALERTA CLINICA: ${cfg.pathologyHistory}`, CW-6);
+                const h  = Math.max(7, ls.length*4.3+3);
+                fill(ML, curY, CW, h, [255,241,242]);
+                strokeBox(ML, curY, CW, h, [254,205,211]);
+                pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(190,18,60);
+                pdf.text(ls, ML+3, curY+4.5);
+                curY += h;
+            }
+            if (cfg.compActivity) {
+                curY += 1;
+                const ls = pdf.splitTextToSize(`COMPLEMENTO: ${cfg.compActivity}`, CW-6);
+                const h  = Math.max(7, ls.length*4.3+3);
+                fill(ML, curY, CW, h, [239,246,255]);
+                strokeBox(ML, curY, CW, h, [191,219,254]);
+                pdf.setFontSize(8); pdf.setFont('helvetica','bold'); pdf.setTextColor(29,78,216);
+                pdf.text(ls, ML+3, curY+4.5);
+                curY += h;
+            }
+            strokeBox(ML, infoTop, CW, curY-infoTop, [226,232,240], 0.3);
+            curY += 6;
+
+            // ── EXERCISES ──────────────────────────────────────────────
+            const secC  = s => (s||'').includes('Inferior')?[37,99,235]:(s||'').includes('Superior')?[124,58,237]:[22,163,74];
+            const secBg = s => (s||'').includes('Inferior')?[239,246,255]:(s||'').includes('Superior')?[245,243,255]:[240,253,244];
+            const secLb = s => (s||'').includes('Inferior')?'TREN INFERIOR':(s||'').includes('Superior')?'TREN SUPERIOR':'CORE';
+
+            for (const [i, ex] of exercises.entries()) {
+                const bc   = secC(ex.seccion);
+                const bg   = secBg(ex.seccion);
+                const lbl  = secLb(ex.seccion);
+                const ser  = String(ex._series||cfg.numSeries||3);
+                const rep  = String(ex._reps||cfg.targetReps||'-');
+                const peso = ex.peso||'';
+
+                // Measure card height
+                const iLns  = ex.instrucciones ? pdf.splitTextToSize(`"${ex.instrucciones}"`, CW-22) : [];
+                const instrH = iLns.length > 0 ? iLns.length*4.4+6 : 0;
+                const videoH = ex.video_url ? 28 : 0;
+                const cardH  = 6+10+instrH+16+videoH+4;
+
+                ensureSpace(cardH);
+                const cx = ML, cy = curY;
+
+                // Card base
+                fill(cx, cy, 4, cardH, bc);
+                fill(cx+4, cy, CW-4, cardH, [255,255,255]);
+                strokeBox(cx, cy, CW, cardH, [226,232,240], 0.3);
+
+                // Section bar
+                fill(cx+4, cy, CW-4, 6, bg);
+                hln(cx+4, cx+CW, cy+6, [226,232,240], 0.2);
+                t(`${lbl}${ex.musculo?' - '+ex.musculo:''}`, cx+8, cy+4.3, { sz:7, b:true, c:bc });
+                t(`No. ${String(i+1).padStart(2,'0')}`, cx+CW-3, cy+4.3, { sz:7.5, b:true, c:[148,163,184], al:'right' });
+
+                // Exercise name
+                t(ex.nombre||'', cx+8, cy+14, { sz:13, b:true });
+
+                let ey = cy+17;
+
+                // Instructions
+                if (iLns.length > 0) {
+                    fill(cx+8, ey, CW-12, instrH, [248,250,252]);
+                    fill(cx+8, ey, 2.5, instrH, bc);
+                    pdf.setFontSize(8.5); pdf.setFont('helvetica','italic'); pdf.setTextColor(71,85,105);
+                    pdf.text(iLns, cx+14, ey+4.5);
+                    ey += instrH+3;
+                }
+
+                // Stats row
+                hln(cx+8, cx+CW-4, ey, [241,245,249], 0.3);
+                ey += 4;
+                t('SERIES',        cx+8,  ey, { sz:6.5, c:[148,163,184] });
+                t(ser,             cx+8,  ey+8.5, { sz:20, b:true });
+                t('REPS',          cx+32, ey, { sz:6.5, c:[148,163,184] });
+                t(rep,             cx+32, ey+8.5, { sz:20, b:true });
+                t('PESO / CARGA',  cx+58, ey, { sz:6.5, c:[13,148,136] });
+                if (peso) { t(peso, cx+58, ey+8.5, { sz:18, b:true }); }
+                else       { hln(cx+58, cx+108, ey+10.5, [15,23,42], 0.5); }
+                if (cfg.org==='Clúster') {
+                    t('PAUSA INTRA', cx+114, ey, { sz:6.5, c:[124,58,237] });
+                    t(`${cfg.clusterRest}s`, cx+114, ey+8.5, { sz:18, b:true });
+                }
+                ey += 12;
+
+                // Video box
+                if (ex.video_url) {
+                    const vx = cx+8, vy = ey, vw = CW-12, vh = 26;
+                    fill(vx, vy, vw, vh, [248,250,252]);
+                    strokeBox(vx, vy, vw, vh, [226,232,240], 0.3);
+
+                    const qr   = qrMap[ex.video_url];
+                    const qSz  = 22;
+                    const panW = qSz+5;
+
+                    if (qr) {
+                        fill(vx, vy, panW, vh, [255,255,255]);
+                        vln(vx+panW, vy, vy+vh, [226,232,240], 0.2);
+                        try { pdf.addImage(qr, 'PNG', vx+1.5, vy+1.5, qSz, qSz); } catch {}
+                        t('ESCANEAR QR', vx+panW/2, vy+vh-1, { sz:5.5, c:[148,163,184], al:'center' });
+                    } else {
+                        fill(vx, vy, panW, vh, [255,255,255]);
+                        vln(vx+panW, vy, vy+vh, [226,232,240], 0.2);
+                        fill(vx+5, vy+6, 12, 14, [20,184,166]);
+                        t('>>',  vx+4,   vy+16, { sz:11, b:true, c:[255,255,255] });
+                    }
+
+                    const ix = vx+panW+3;
+                    const aw = vw-panW-6;
+
+                    t('>> VER VIDEO DEL EJERCICIO', ix, vy+5.5, { sz:8, b:true });
+
+                    // Clickable URL text in blue
+                    pdf.setFontSize(7); pdf.setFont('helvetica','normal');
+                    let urlShow = ex.video_url;
+                    while (pdf.getTextWidth(urlShow) > aw-2 && urlShow.length > 10)
+                        urlShow = urlShow.slice(0,-4)+'...';
+                    pdf.setTextColor(37,99,235);
+                    pdf.textWithLink(urlShow, ix, vy+11.5, { url: ex.video_url });
+
+                    // Green button
+                    const btnW = Math.min(aw, 56);
+                    fill(ix, vy+14, btnW, 7.5, [13,148,136]);
+                    t('ACCEDER AL VIDEO >>', ix+btnW/2, vy+19, { sz:7.5, b:true, c:[255,255,255], al:'center' });
+
+                    // Link annotations (full box + button — positions are exact since WE placed them)
+                    pdf.link(vx, vy, vw, vh, { url: ex.video_url });
+                }
+
+                curY += cardH+3;
+            }
+
+            // ── FOOTERS (added after all pages are done) ────────────────
+            const total = pdf.getNumberOfPages();
+            for (let p = 1; p <= total; p++) {
+                pdf.setPage(p);
+                hln(ML, ML+CW, PH-MB+2, [226,232,240], 0.3);
+                t('Strength Coach - Programacion de Fuerza Profesional', ML, PH-MB+6, { sz:6.5, c:[148,163,184] });
+                t(cfg.date||'', ML+CW/2, PH-MB+6, { sz:6.5, c:[148,163,184], al:'center' });
+                t(`Pág. ${p} / ${total}`, ML+CW, PH-MB+6, { sz:6.5, c:[148,163,184], al:'right' });
+            }
+
+            pdf.save(`Programa_${(cfg.userName||'Atleta').replace(/\s+/g,'_')}.pdf`);
+        };
+
+        // ── [LEGACY — mantenido por compatibilidad, ya no se usa para PDF] ──
+
+        function getEmbedUrl(url) {
+            if (!url) return null;
+            // YouTube watch
+            let m = url.match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+            if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0`;
+            // YouTube shorts
+            m = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
+            if (m) return `https://www.youtube.com/embed/${m[1]}?rel=0`;
+            // Vimeo
+            m = url.match(/vimeo\.com\/(\d+)/);
+            if (m) return `https://player.vimeo.com/video/${m[1]}`;
+            return null;
+        }
+
+        window.toggleVideoPreview = function(id) {
+            const panel = document.getElementById('vp_' + id);
+            if (!panel) return;
+            const isHidden = panel.classList.contains('hidden');
+            // Close all other open previews
+            document.querySelectorAll('[id^="vp_"]').forEach(el => {
+                el.classList.add('hidden');
+                el.innerHTML = '';
+            });
+            document.querySelectorAll('[id^="vpbtn_"]').forEach(el => el.classList.remove('text-teal-300'));
+            if (!isHidden) return; // was open → just close
+            const item = exerciseLibrary.find(e => e.id === id);
+            if (!item || !item.video) return;
+            const embedUrl = getEmbedUrl(item.video);
+            const btn = document.getElementById('vpbtn_' + id);
+            if (btn) btn.classList.add('text-teal-300');
+            if (embedUrl) {
+                panel.innerHTML = `<iframe src="${embedUrl}" class="w-full rounded-lg aspect-video border border-white/10" allowfullscreen loading="lazy"></iframe>`;
+            } else {
+                panel.innerHTML = `<a href="${item.video}" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 p-3 bg-teal-500/10 border border-teal-500/30 rounded-lg text-teal-400 text-[12px] font-bold hover:bg-teal-500/20 transition-all"><i class="fas fa-external-link-alt"></i>Abrir vídeo en nueva pestaña</a>`;
+            }
+            panel.classList.remove('hidden');
+        };
+
+        function updateLibraryUI() {
+            const list = document.getElementById('libraryList');
+            const mand = document.getElementById('mandatoryEx');
+            const contra = document.getElementById('contraindicatedEx');
+            if(!list || !mand || !contra) return;
+
+            if (exerciseLibrary.length === 0) { list.innerHTML = '<p class="text-center text-[12px] py-4">Vacía.</p>'; mand.innerHTML = ''; contra.innerHTML = ''; return; }
+
+            list.innerHTML = exerciseLibrary.map(item => `
+                <div class="library-item bg-white/5 border border-white/5 rounded-lg text-[12px] group hover:bg-white/10 transition-colors overflow-hidden">
+                    <div class="flex items-center justify-between p-2">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-teal-400 truncate">${item.name}</div>
+                            <div class="text-[10px] text-gray-500">${item.section}</div>
+                        </div>
+                        <div class="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                            ${item.video ? `<button id="vpbtn_${item.id}" onclick="toggleVideoPreview('${item.id}')" class="text-teal-500 hover:text-teal-300 p-1 transition-colors" title="Previsualizar vídeo"><i class="fas fa-play-circle"></i></button>` : ''}
+                            <button onclick="editEx('${item.id}')" class="text-teal-400 p-1"><i class="fas fa-pencil-alt"></i></button>
+                            <button onclick="deleteEx('${item.id}')" class="text-red-400 p-1"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div id="vp_${item.id}" class="hidden px-2 pb-2"></div>
+                </div>
+            `).join('');
+
+            const sortedLib = [...exerciseLibrary].sort((a,b)=>a.name.localeCompare(b.name));
+            const currentMand = Array.from(mand.selectedOptions).map(o => o.getAttribute('data-id'));
+            const currentContra = Array.from(contra.selectedOptions).map(o => o.getAttribute('data-id'));
+            
+            mand.innerHTML = sortedLib.map(i => `<option value="${i.name}" data-id="${i.id}" ${currentMand.includes(i.id)?'selected':''}>${i.name}</option>`).join('');
+            contra.innerHTML = sortedLib.map(i => `<option value="${i.name}" data-id="${i.id}" ${currentContra.includes(i.id)?'selected':''}>${i.name}</option>`).join('');
+        }
+
+        function updateSavedSessionsUI() {
+            const list = document.getElementById('savedSessionsList');
+            if(!list) return;
+            const sorted = [...savedSessions].sort((a,b) => (b.metadata.timestamp || 0) - (a.metadata.timestamp || 0));
+            list.innerHTML = sorted.map(sess => `
+                <div class="flex items-center justify-between p-3 bg-white/5 border border-white/5 rounded-xl text-[12px] group hover:bg-white/10">
+                    <div class="flex-1 cursor-pointer" onclick="loadSession('${sess.id}')">
+                        <div class="font-bold text-white truncate">${sess.metadata.name || 'Plan'}</div>
+                        <div class="text-[10px] text-teal-500">${sess.metadata.date || '-'}</div>
+                    </div>
+                    <button onclick="deleteSess('${sess.id}')" class="opacity-0 group-hover:opacity-100 text-red-400 p-1"><i class="fas fa-trash"></i></button>
+                </div>
+            `).join('');
+        }
+
+        window.editEx = (id) => {
+            const item = exerciseLibrary.find(i => i.id === id);
+            if(item) {
+                setVal('editingId', item.id); setVal('libName', item.name); setVal('libSection', item.section); 
+                setVal('libCriteria', item.criteria); setVal('libVideo', item.video);
+                updateMuscles(); document.getElementById('libSubmitBtn').innerText = "ACTUALIZAR";
+            }
+        };
+
+        window.deleteEx = async (id) => { await deleteFromDB("library", id); exerciseLibrary = exerciseLibrary.filter(ex => ex.id !== id); updateLibraryUI(); };
+        window.deleteSess = async (id) => { await deleteFromDB("sessions", id); savedSessions = savedSessions.filter(s => s.id !== id); updateSavedSessionsUI(); };
+
+        window.loadSession = (id) => {
+            const sess = savedSessions.find(s => s.id === id);
+            if(sess) {
+                setVal('userName', sess.metadata.name); setVal('sessionDate', sess.metadata.date);
+                setVal('birthYear', sess.config.birthYear || ''); if(sess.config.age){ document.getElementById('age').value = sess.config.age; document.getElementById('ageDisplay').textContent = sess.config.age; } setVal('numEx', sess.config.numEx); 
+                setVal('org', sess.config.org); setVal('clusterRest', sess.config.clusterRest);
+                setVal('genGoal', sess.config.genGoal); setVal('specGoal', sess.config.specGoal); 
+                setVal('sessionsPerWeek', sess.config.sessionsPerWeek); setVal('targetReps', sess.config.targetReps);
+                setVal('numSeries', sess.config.numSeries || 3);
+                setVal('restExMin', sess.config.restExMin || 2); setVal('restExSec', sess.config.restExSec || 0);
+                setVal('restSerMin', sess.config.restSerMin || 1); setVal('restSerSec', sess.config.restSerSec || 30);
+                setVal('execCriteria', sess.config.execCriteria); setVal('compActivity', sess.config.compActivity || '');
+                setVal('pathologyHistory', sess.config.pathologyHistory || '');
+                currentSessionData = sess.workout; renderWorkout(sess.workout, sess.config);
+            }
+        };
+
+        function updateMuscles() {
+            const sec = getVal('libSection');
+            const cont = document.getElementById('muscleInputContainer');
+            if(!cont) return;
+            let options = "";
+            if(sec === 'Tren Inferior') options = `<option value="Glúteos">Glúteos</option><option value="Isquiotibiales">Isquiotibiales</option><option value="Cuádriceps">Cuádriceps</option><option value="Tríceps sural">Tríceps sural</option>`;
+            else if(sec === 'Tren Superior') options = `<option value="Pectoral">Pectoral</option><option value="Dorsal">Dorsal</option><option value="Deltoides">Deltoides</option><option value="Bíceps">Bíceps</option><option value="Tríceps">Tríceps</option>`;
+            else options = `<option value="Recto abdomen">Recto abdomen</option><option value="Transverso">Transverso</option><option value="Oblicuos">Oblicuos</option><option value="Lumbares">Lumbares</option>`;
+            cont.innerHTML = `<select id="libMuscle" multiple class="w-full bg-gray-900 border border-gray-700 rounded p-1 text-[11px] text-white h-16 custom-scrollbar">${options}</select>`;
+        }
+
+        // ─── ATHLETES ───
+        function getAthleteData() {
+            return {
+                id: 'ath_' + Date.now(),
+                name: getVal('userName').trim(),
+                birthYear: getVal('birthYear'),
+                age: document.getElementById('age').value,
+                genGoal: getVal('genGoal'),
+                specGoal: getVal('specGoal'),
+                pathologyHistory: getVal('pathologyHistory'),
+                compActivity: getVal('compActivity'),
+                sessionsPerWeek: getVal('sessionsPerWeek'),
+                targetReps: getVal('targetReps'),
+                numEx: getVal('numEx'),
+                numSeries: getVal('numSeries'),
+                restExMin: getVal('restExMin'), restExSec: getVal('restExSec'),
+                restSerMin: getVal('restSerMin'), restSerSec: getVal('restSerSec'),
+                execCriteria: getVal('execCriteria'),
+                org: getVal('org'),
+                clusterRest: getVal('clusterRest'),
+                savedAt: new Date().toLocaleDateString('es-ES')
+            };
+        }
+
+        window.saveCurrentAthlete = async function() {
+            const name = getVal('userName').trim();
+            if (!name) { showToast("Introduce el nombre del deportista primero", "error"); return; }
+            // Check if athlete with same name exists → update
+            const existing = savedAthletes.find(a => a.name.toLowerCase() === name.toLowerCase());
+            const data = getAthleteData();
+            if (existing) { data.id = existing.id; }
+            await saveToDB("athletes", data);
+            savedAthletes = await getAllFromDB("athletes");
+            updateAthletesUI();
+            showToast(existing ? `Deportista "${name}" actualizado` : `Deportista "${name}" guardado`);
+        };
+
+        window.loadAthlete = function(id) {
+            const a = savedAthletes.find(x => x.id === id);
+            if (!a) return;
+            setVal('userName', a.name);
+            setVal('birthYear', a.birthYear || '');
+            if (a.age) { document.getElementById('age').value = a.age; document.getElementById('ageDisplay').textContent = a.age; }
+            setVal('genGoal', a.genGoal); setVal('specGoal', a.specGoal);
+            setVal('pathologyHistory', a.pathologyHistory || '');
+            setVal('compActivity', a.compActivity || '');
+            setVal('sessionsPerWeek', a.sessionsPerWeek || ''); setVal('targetReps', a.targetReps || '');
+            setVal('numEx', a.numEx || ''); setVal('numSeries', a.numSeries || '');
+            setVal('restExMin', a.restExMin || ''); setVal('restExSec', a.restExSec || '');
+            setVal('restSerMin', a.restSerMin || ''); setVal('restSerSec', a.restSerSec || '');
+            setVal('execCriteria', a.execCriteria || '');
+            setVal('org', a.org || ''); setVal('clusterRest', a.clusterRest || '');
+            document.getElementById('clusterRestContainer').classList.toggle('hidden', (a.org || '') !== 'Clúster');
+            // Close the panel after loading
+            const wrapper = document.getElementById('athletesSidePanelWrapper');
+            const btn = document.getElementById('btnToggleAthletes');
+            wrapper.classList.add('hidden');
+            btn.classList.remove('bg-teal-500/30', 'border-teal-500/60');
+            showToast(`Deportista "${a.name}" cargado`);
+        };
+
+        window.deleteAthlete = async function(id) {
+            const a = savedAthletes.find(x => x.id === id);
+            await deleteFromDB("athletes", id);
+            savedAthletes = savedAthletes.filter(x => x.id !== id);
+            updateAthletesUI();
+            if (a) showToast(`"${a.name}" eliminado`);
+        };
+
+        function getAthleteSessions(athlete) {
+            return savedSessions
+                .filter(s =>
+                    (s.metadata.athleteId && s.metadata.athleteId === athlete.id) ||
+                    (!s.metadata.athleteId && s.metadata.name && s.metadata.name.toLowerCase() === athlete.name.toLowerCase())
+                )
+                .sort((a, b) => (b.metadata.timestamp || 0) - (a.metadata.timestamp || 0));
+        }
+
+        window.toggleAthletePrograms = function(athleteId) {
+            const panel = document.getElementById('ap_' + athleteId);
+            if (!panel) return;
+            const opening = panel.classList.contains('hidden');
+            panel.classList.toggle('hidden');
+            if (opening) renderAthleteProgramsList(athleteId);
+        };
+
+        function renderAthleteProgramsList(athleteId) {
+            const panel = document.getElementById('ap_' + athleteId);
+            if (!panel || panel.classList.contains('hidden')) return;
+            const athlete = savedAthletes.find(a => a.id === athleteId);
+            if (!athlete) return;
+            const sessions = getAthleteSessions(athlete);
+            if (sessions.length === 0) {
+                panel.innerHTML = '<p class="text-[11px] text-gray-500 text-center py-2 italic">Sin programas guardados.</p>';
+                return;
+            }
+            panel.innerHTML = sessions.map(sess => {
+                const label = sess.workout?.title || sess.config?.specGoal || 'Programa';
+                const dateStr = sess.metadata.date || new Date(sess.metadata.timestamp).toLocaleDateString('es-ES') || '—';
+                return `
+                <div class="flex items-center gap-2 p-2 bg-white/5 border border-white/5 rounded-lg group/prog">
+                    <div class="flex-1 min-w-0 cursor-pointer" onclick="loadSession('${sess.id}')">
+                        <div class="text-[11px] font-bold text-white truncate">${label}</div>
+                        <div class="text-[10px] text-teal-500">${dateStr}</div>
+                    </div>
+                    <button onclick="deleteAthleteSession('${sess.id}','${athleteId}')"
+                        class="opacity-0 group-hover/prog:opacity-100 text-red-400 hover:text-red-300 p-1 transition-opacity shrink-0" title="Eliminar programa">
+                        <i class="fas fa-trash text-[10px]"></i>
+                    </button>
+                </div>`;
+            }).join('');
+        }
+
+        window.deleteAthleteSession = async function(sessId, athleteId) {
+            await deleteFromDB("sessions", sessId);
+            savedSessions = savedSessions.filter(s => s.id !== sessId);
+            updateSavedSessionsUI();
+            const athlete = savedAthletes.find(a => a.id === athleteId);
+            const badge = document.getElementById('apcount_' + athleteId);
+            if (badge && athlete) badge.textContent = getAthleteSessions(athlete).length;
+            renderAthleteProgramsList(athleteId);
+            showToast("Programa eliminado");
+        };
+
+        function athleteCardHTML(a) {
+            const sesCount = getAthleteSessions(a).length;
+            return `
+                <div class="bg-white/5 border border-white/5 rounded-xl overflow-hidden group">
+                    <div class="flex items-center justify-between p-2.5 hover:bg-teal-500/10 transition-colors cursor-pointer" onclick="loadAthlete('${a.id}')">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-white truncate text-[12px]">
+                                <i class="fas fa-user text-teal-400 mr-1 text-[10px]"></i>${a.name}
+                            </div>
+                            <div class="text-[11px] text-gray-400 mt-0.5 truncate">
+                                ${a.birthYear ? `${a.birthYear}` : ''}${a.birthYear && a.age ? ` · ${a.age} años` : ''}${(a.birthYear || a.age) && a.genGoal ? ' · ' : ''}${a.genGoal ? a.genGoal.replace('Mejora del rendimiento en ', '').replace('Mejora de la ', '') : ''}
+                            </div>
+                            ${a.pathologyHistory ? `<div class="text-[10px] text-red-400 mt-0.5 truncate"><i class="fas fa-exclamation-triangle mr-1"></i>${a.pathologyHistory}</div>` : ''}
+                        </div>
+                        <div class="flex items-center gap-1 ml-2 shrink-0">
+                            <button onclick="event.stopPropagation(); toggleAthletePrograms('${a.id}')"
+                                class="flex items-center gap-1 text-[10px] font-bold text-teal-400 hover:text-teal-200 bg-teal-500/10 hover:bg-teal-500/25 border border-teal-500/20 rounded px-1.5 py-0.5 transition-all"
+                                title="Programas guardados">
+                                <i class="fas fa-clipboard-list text-[9px]"></i>
+                                <span id="apcount_${a.id}">${sesCount}</span>
+                            </button>
+                            <button onclick="event.stopPropagation(); deleteAthlete('${a.id}')"
+                                class="opacity-0 group-hover:opacity-100 text-red-400 p-1 hover:text-red-300 transition-opacity" title="Eliminar deportista">
+                                <i class="fas fa-trash text-[10px]"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="ap_${a.id}" class="hidden border-t border-white/5 p-2 space-y-1.5 bg-black/20"></div>
+                </div>
+            `;
+        }
+
+        function updateAthletesUI() {
+            // Update badge
+            const badge = document.getElementById('athletesBadge');
+            if (badge) badge.textContent = savedAthletes.length;
+
+            const sideList = document.getElementById('athletesSideList');
+            if (!sideList) return;
+
+            if (savedAthletes.length === 0) {
+                sideList.innerHTML = '<p class="text-center text-[11px] py-3 text-gray-500">Sin deportistas guardados.</p>';
+                return;
+            }
+            const sorted = [...savedAthletes].sort((a, b) => a.name.localeCompare(b.name));
+            sideList.innerHTML = sorted.map(a => athleteCardHTML(a)).join('');
+        }
+
+        window.toggleAthletesPanel = function() {
+            const wrapper = document.getElementById('athletesSidePanelWrapper');
+            const btn = document.getElementById('btnToggleAthletes');
+            const hidden = wrapper.classList.toggle('hidden');
+            btn.classList.toggle('bg-teal-500/30', !hidden);
+            btn.classList.toggle('border-teal-500/60', !hidden);
+        };
+
+        // ─── DISEÑO MANUAL ───
+        function openManualDesign() {
+            if (exerciseLibrary.length === 0) { showToast("Carga ejercicios en la biblioteca primero", "error"); return; }
+            manualExercises = [];
+            renderManualDesignUI();
+        }
+
+        function renderManualDesignUI() {
+            const resultsArea = document.getElementById('resultsArea');
+            const sortedLib = [...exerciseLibrary].sort((a, b) => a.name.localeCompare(b.name));
+
+            const listHTML = manualExercises.length === 0
+                ? '<p class="text-center text-gray-500 text-sm py-8 italic">Añade ejercicios desde la biblioteca usando el selector de arriba.</p>'
+                : manualExercises.map((ex, i) => {
+                    const border = (ex.section || "").includes('Inferior') ? 'border-blue-500' : (ex.section || "").includes('Superior') ? 'border-purple-500' : 'border-green-500';
+                    return `
+                    <div class="flex items-center gap-3 p-3 bg-white/5 border-l-4 ${border} border border-white/10 rounded-xl group">
+                        <span class="text-indigo-400 font-black text-lg w-7 text-center shrink-0">${i + 1}</span>
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-white text-sm truncate">${ex.name}</div>
+                            <div class="flex items-center gap-3 mt-1">
+                                <span class="text-[11px] text-gray-400">${ex.section}${ex.muscle ? ' · ' + ex.muscle : ''}</span>
+                            </div>
+                            <div class="flex items-center gap-4 mt-2">
+                                <label class="flex items-center gap-1 text-[11px] text-gray-400 uppercase font-bold">
+                                    Series
+                                    <input type="number" min="1" max="20" value="${ex._series || 3}"
+                                        class="w-12 bg-gray-900 border border-indigo-900/60 rounded px-1 py-0.5 text-white text-center text-xs font-bold outline-none focus:border-indigo-500"
+                                        oninput="setManualExField(${i}, '_series', this.value)">
+                                </label>
+                                <label class="flex items-center gap-1 text-[11px] text-gray-400 uppercase font-bold">
+                                    Reps
+                                    <input type="number" min="1" max="100" value="${ex._reps || document.getElementById('targetReps').value || 12}"
+                                        class="w-12 bg-gray-900 border border-indigo-900/60 rounded px-1 py-0.5 text-white text-center text-xs font-bold outline-none focus:border-indigo-500"
+                                        oninput="setManualExField(${i}, '_reps', this.value)">
+                                </label>
+                                <label class="flex items-center gap-1 text-[11px] text-teal-400 uppercase font-bold">
+                                    Peso/Carga
+                                    <input type="text" placeholder="kg…" value="${ex._peso || ''}"
+                                        class="w-16 bg-gray-900 border border-teal-900/60 rounded px-1 py-0.5 text-teal-300 text-center text-xs font-bold outline-none focus:border-teal-500"
+                                        oninput="setManualExField(${i}, '_peso', this.value)">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="flex flex-col gap-1 shrink-0">
+                            <button onclick="moveManualEx(${i}, -1)" class="text-gray-400 hover:text-white p-1 transition-colors${i === 0 ? ' opacity-20 pointer-events-none' : ''}"><i class="fas fa-chevron-up text-xs"></i></button>
+                            <button onclick="moveManualEx(${i}, 1)" class="text-gray-400 hover:text-white p-1 transition-colors${i === manualExercises.length - 1 ? ' opacity-20 pointer-events-none' : ''}"><i class="fas fa-chevron-down text-xs"></i></button>
+                            <button onclick="removeManualEx(${i})" class="text-red-400 hover:text-red-300 p-1 transition-colors"><i class="fas fa-times text-xs"></i></button>
+                        </div>
+                    </div>`;
+                }).join('');
+
+            resultsArea.innerHTML = `
+                <div class="card p-6 rounded-3xl border-l-8 border-indigo-500 shadow-2xl mb-6">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-black text-white mb-1 uppercase tracking-tight">
+                                <i class="fas fa-list-ol mr-2 text-indigo-400"></i>Diseño Manual del Programa
+                            </h2>
+                            <p class="text-sm text-gray-400">Elige y ordena exactamente los ejercicios que quieres. Puedes ajustar series, reps y carga individualmente.</p>
+                        </div>
+                        <button onclick="openManualDesign()" class="shrink-0 text-[11px] text-red-400 hover:text-red-300 border border-red-500/30 rounded-lg px-3 py-1.5 transition-all no-print">
+                            <i class="fas fa-redo mr-1"></i>Resetear
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card p-5 rounded-2xl mb-4 no-print">
+                    <label class="block text-[12px] text-indigo-300 uppercase font-bold mb-2">Añadir Ejercicio de la Biblioteca</label>
+                    <div class="flex gap-2">
+                        <select id="manualExSelect" class="flex-1 bg-gray-900 border border-gray-700 rounded-lg p-2 text-sm text-white outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option value="">— Seleccionar ejercicio —</option>
+                            ${sortedLib.map(e => `<option value="${e.id}">${e.name} (${e.section})</option>`).join('')}
+                        </select>
+                        <button onclick="addManualEx()" class="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-5 rounded-lg transition-all shrink-0">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card p-5 rounded-2xl mb-5">
+                    <div class="flex justify-between items-center mb-3">
+                        <label class="text-[12px] text-indigo-300 uppercase font-bold">Ejercicios del Programa <span class="text-white">(${manualExercises.length})</span></label>
+                        ${manualExercises.length > 0 ? `<button onclick="clearManual()" class="text-[11px] text-red-400 hover:text-red-300 transition-colors no-print"><i class="fas fa-trash mr-1"></i>Limpiar todo</button>` : ''}
+                    </div>
+                    <div class="space-y-2">${listHTML}</div>
+                </div>
+
+                <button onclick="generateManualWorkout()"
+                    class="w-full ${manualExercises.length === 0 ? 'opacity-40 cursor-not-allowed bg-indigo-900' : 'bg-indigo-600 hover:bg-indigo-500 cursor-pointer'} text-white font-black py-4 rounded-xl transition-all shadow-lg uppercase tracking-wider no-print"
+                    ${manualExercises.length === 0 ? 'disabled' : ''}>
+                    <i class="fas fa-check-circle mr-2"></i>Generar Programa con estos Ejercicios
+                </button>
+            `;
+        }
+
+        window.addManualEx = function() {
+            const sel = document.getElementById('manualExSelect');
+            const id = sel.value;
+            if (!id) { showToast("Selecciona un ejercicio", "error"); return; }
+            const ex = exerciseLibrary.find(e => e.id === id);
+            if (!ex) return;
+            const defaults = {
+                _series: parseInt(getVal('numSeries')) || 3,
+                _reps: parseInt(getVal('targetReps')) || 12,
+                _peso: ""
+            };
+            manualExercises.push({ ...ex, ...defaults });
+            renderManualDesignUI();
+        };
+
+        window.removeManualEx = function(index) {
+            manualExercises.splice(index, 1);
+            renderManualDesignUI();
+        };
+
+        window.moveManualEx = function(index, dir) {
+            const newIndex = index + dir;
+            if (newIndex < 0 || newIndex >= manualExercises.length) return;
+            [manualExercises[index], manualExercises[newIndex]] = [manualExercises[newIndex], manualExercises[index]];
+            renderManualDesignUI();
+        };
+
+        window.clearManual = function() {
+            manualExercises = [];
+            renderManualDesignUI();
+        };
+
+        window.setManualExField = function(index, field, value) {
+            if (manualExercises[index]) manualExercises[index][field] = value;
+        };
+
+        window.generateManualWorkout = function() {
+            if (manualExercises.length === 0) { showToast("Añade al menos un ejercicio", "error"); return; }
+
+            const config = {
+                userName: getVal('userName'), date: getVal('sessionDate'), birthYear: getVal('birthYear'), age: getVal('age'),
+                genGoal: getVal('genGoal'), specGoal: getVal('specGoal'), sessionsPerWeek: getVal('sessionsPerWeek'),
+                targetReps: getVal('targetReps'), execCriteria: getVal('execCriteria'), org: getVal('org'),
+                clusterRest: getVal('clusterRest'), numSeries: getVal('numSeries'),
+                restExMin: getVal('restExMin'), restExSec: getVal('restExSec'),
+                restSerMin: getVal('restSerMin'), restSerSec: getVal('restSerSec'),
+                compActivity: getVal('compActivity'), pathologyHistory: getVal('pathologyHistory'),
+                _manualMode: true
+            };
+
+            const exercises = manualExercises.map(ex => ({
+                id: ex.id, nombre: ex.name, seccion: ex.section,
+                musculo: ex.muscle, instrucciones: ex.criteria, video_url: ex.video,
+                peso: ex._peso || "",
+                _series: ex._series || config.numSeries || 3,
+                _reps: ex._reps || config.targetReps || 12
+            }));
+
+            currentSessionData = { title: `Programa: ${config.specGoal}`, exercises, _manualMode: true };
+            renderWorkout(currentSessionData, config);
+            showToast("Programa manual generado");
+        };
+
+        window.onload = async function() {
+            await initDB();
+            await loadAllData();
+            document.getElementById('btnGenerate').onclick = generateLocalWorkout;
+            document.getElementById('btnManualDesign').onclick = openManualDesign;
+            document.getElementById('tabBtnLib').onclick = () => {
+                document.getElementById('paneLib').classList.remove('hidden');
+                document.getElementById('paneSessions').classList.add('hidden');
+                document.getElementById('tabBtnLib').className = "flex-1 py-2 text-xs font-bold text-teal-400 border-b-2 border-teal-500";
+                document.getElementById('tabBtnSessions').className = "flex-1 py-2 text-xs font-bold text-gray-500 border-b-2 border-transparent";
+            };
+            document.getElementById('tabBtnSessions').onclick = () => {
+                document.getElementById('paneSessions').classList.remove('hidden');
+                document.getElementById('paneLib').classList.add('hidden');
+                document.getElementById('tabBtnSessions').className = "flex-1 py-2 text-xs font-bold text-teal-400 border-b-2 border-teal-500";
+                document.getElementById('tabBtnLib').className = "flex-1 py-2 text-xs font-bold text-gray-500 border-b-2 border-transparent";
+            };
+            document.getElementById('btnExportLib').onclick = () => {
+                const dl = document.createElement('a'); dl.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(exerciseLibrary)));
+                dl.setAttribute("download", "biblioteca.json"); dl.click();
+            };
+            document.getElementById('btnExportSessions').onclick = () => {
+                const dl = document.createElement('a'); dl.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(savedSessions)));
+                dl.setAttribute("download", "historial.json"); dl.click();
+            };
+            document.getElementById('inputImportLib').onchange = (e) => {
+                const file = e.target.files[0]; if(!file) return;
+                const r = new FileReader(); r.onload = async (ev) => { 
+                    const data = JSON.parse(ev.target.result);
+                    for(const item of data) await saveToDB("library", item);
+                    exerciseLibrary = await getAllFromDB("library"); updateLibraryUI();
+                }; r.readAsText(file);
+            };
+            document.getElementById('libSubmitBtn').onclick = async () => {
+                const id = getVal('editingId') || 'ex_'+Date.now();
+                const mEl = document.getElementById('libMuscle');
+                const ex = { 
+                    id, name: getVal('libName').trim(), section: getVal('libSection'), 
+                    muscle: mEl ? Array.from(mEl.selectedOptions).map(o => o.value).join(', ') : "", 
+                    criteria: getVal('libCriteria'), video: getVal('libVideo').trim() 
+                };
+                if(!ex.name || !ex.video) { showToast("Nombre y vídeo obligatorios", "error"); return; }
+                await saveToDB("library", ex); exerciseLibrary = await getAllFromDB("library"); updateLibraryUI();
+                setVal('editingId', ""); setVal('libName', ""); setVal('libVideo', ""); setVal('libCriteria', "");
+                document.getElementById('libSubmitBtn').innerText = "Guardar";
+            };
+            document.getElementById('btnExportAthletes').onclick = () => {
+                const dl = document.createElement('a');
+                dl.setAttribute("href", "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(savedAthletes)));
+                dl.setAttribute("download", "deportistas.json"); dl.click();
+            };
+            document.getElementById('inputImportAthletes').onchange = (e) => {
+                const file = e.target.files[0]; if (!file) return;
+                const r = new FileReader(); r.onload = async (ev) => {
+                    const data = JSON.parse(ev.target.result);
+                    for (const item of data) await saveToDB("athletes", item);
+                    savedAthletes = await getAllFromDB("athletes"); updateAthletesUI();
+                    showToast("Deportistas importados");
+                }; r.readAsText(file);
+            };
+            document.getElementById('org').onchange = () => {
+                document.getElementById('clusterRestContainer').classList.toggle('hidden', getVal('org') !== 'Clúster');
+            };
+            document.getElementById('libSection').onchange = updateMuscles;
+            updateMuscles();
+        };
+    </script>
+</body>
+</html>
