@@ -357,6 +357,35 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
+                    <!-- Performance Lab -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <!-- Cabecera visual -->
+                        <div class="h-36 bg-gradient-to-br from-sky-900/50 to-slate-800 flex items-center justify-center gap-4">
+                            <i data-lucide="activity" class="w-10 h-10 text-sky-400 opacity-70"></i>
+                            <i data-lucide="line-chart" class="w-12 h-12 text-sky-300"></i>
+                            <i data-lucide="gauge" class="w-10 h-10 text-sky-400 opacity-70"></i>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow gap-4">
+                            <div>
+                                <span class="text-xs font-semibold text-sky-400 uppercase tracking-wider">Evaluación del rendimiento</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1 mb-3">Performance Lab</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed">Herramienta para la evaluación de la condición física. Permite registrar resultados de test, analizar datos y visualizar la evolución del deportista.</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i>Registro y análisis de tests físicos</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i>Visualización gráfica de resultados</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i>Exportación de datos en Excel</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-sky-400 shrink-0"></i>Sin instalación de software adicional</li>
+                            </ul>
+                            <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador</span>
+                                <button onclick="abrirPerformanceLab()" class="flex items-center gap-2 bg-sky-500 hover:bg-sky-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Jump Lab -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <!-- Cabecera visual -->
@@ -471,12 +500,29 @@
                     <button onclick="filtrarBlog('rendimiento-fisico')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Rendimiento físico</button>
                     <button onclick="filtrarBlog('evaluacion-rendimiento')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Evaluación del rendimiento físico</button>
                     <button onclick="filtrarBlog('entrenamiento-sprint')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Entrenamiento de sprint</button>
+                    <button onclick="filtrarBlog('baloncesto')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Baloncesto</button>
                 </div>
             </div>
 
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Baloncesto alto nivel -->
+                    <article data-categoria="baloncesto" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="unnamed (19).png" alt="Entrenamiento de Élite: La Ciencia del Baloncesto" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Baloncesto</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Entrenamiento para jugadores de baloncesto de competición y alto nivel</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Un enfoque integral que combina periodización, fuerza y potencia neuromuscular, monitoreo de la fatiga, técnica-táctica, recuperación y prevención de lesiones basado en la evidencia científica actual.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <button onclick="abrirModalBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Adaptaciones Cardiovasculares -->
                     <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -1028,6 +1074,26 @@
         </div>
     </div>
 
+    <!-- Modal: Performance Lab -->
+    <div id="modal-performance-lab" class="fixed inset-0 z-[200] flex items-center justify-center p-3 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="cerrarPerformanceLab()"></div>
+        <div class="relative w-full h-full max-w-7xl max-h-[95vh] flex flex-col bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Cabecera -->
+            <div class="shrink-0 bg-slate-900 border-b border-slate-800 px-5 py-3 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="activity" class="w-5 h-5 text-sky-400"></i>
+                    <span class="text-white font-bold">Performance Lab</span>
+                    <span class="text-xs text-slate-500 font-normal">· Evaluación de la condición física</span>
+                </div>
+                <button onclick="cerrarPerformanceLab()" class="text-slate-400 hover:text-white transition-colors flex items-center gap-1.5 text-sm">
+                    <i data-lucide="x" class="w-5 h-5"></i> Cerrar
+                </button>
+            </div>
+            <!-- App en iframe -->
+            <iframe src="Performamce Lab.html" class="flex-1 w-full border-0 bg-white" title="Performance Lab"></iframe>
+        </div>
+    </div>
+
     <!-- Modal: Jump Lab Pro -->
     <div id="modal-jumplab" class="fixed inset-0 z-[200] flex items-center justify-center p-3 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="cerrarJumpLab()"></div>
@@ -1228,6 +1294,144 @@
         </div>
     </div>
 
+    <!-- Modal: Baloncesto alto nivel -->
+    <div id="modal-baloncesto" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalBaloncesto()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Baloncesto · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Entrenamiento para jugadores de baloncesto de competición y alto nivel</h2>
+                </div>
+                <button onclick="cerrarModalBaloncesto()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <p>El entrenamiento de jugadores de baloncesto de alto nivel requiere un enfoque integral que combine preparación física, técnica, táctica, nutrición y recuperación. La literatura científica actual proporciona evidencia sobre las mejores prácticas en este ámbito.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Periodización y carga de entrenamiento</h3>
+                <p>Los jugadores de baloncesto de élite requieren una cuidadosa periodización del entrenamiento. Un estudio sobre la carga semanal de entrenamiento en jugadores profesionales masculinos mostró que la distribución de la carga debe variar entre períodos duros y fáciles para lograr adaptaciones óptimas [2]. La mayoría de los entrenadores de fuerza y acondicionamiento de la NBA (85%) siguen un modelo de periodización [6].</p>
+                <p>La carga de entrenamiento debe individualizarse según la respuesta de cada jugador, ya que en deportes de equipo las cargas externas pueden ser similares para todos los jugadores, pero las respuestas internas varían significativamente [2]. Un análisis sistemático reveló que las demandas de entrenamiento y competición varían según el nivel competitivo, siendo mayores en niveles más altos [1].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Entrenamiento de fuerza y potencia neuromuscular</h3>
+                <p>El desarrollo de fuerza y potencia neuromuscular es fundamental para el rendimiento en baloncesto. Un enfoque integrado debe considerar tanto la mejora del rendimiento como la prevención de lesiones [4]. Este entrenamiento debe basarse en:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Especificidad del ejercicio (orientación a la tarea y nivel de aproximación).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Necesidades individuales del jugador (posición, historial de lesiones).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Volúmenes, intensidades y patrones de descanso adecuados [4].</span></li>
+                </ul>
+                <p>Los ejercicios más utilizados por los entrenadores de la NBA incluyen variaciones de sentadillas y levantamientos olímpicos, con el 95% de los entrenadores utilizando levantamientos de estilo olímpico con sus atletas [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Monitoreo y gestión de la fatiga</h3>
+                <p>El baloncesto expone a los atletas a movimientos de alta intensidad frecuentes que pueden llevar a fatiga aguda y crónica acumulada [3]. La capacidad de cuantificar la carga de trabajo y la fatiga resultante es esencial para mantener altos niveles de rendimiento y prevenir adaptaciones de entrenamiento desfavorables [3].</p>
+                <p>Las estrategias de monitoreo deben incluir:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Análisis de movimiento en tiempo real.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Evaluación de carga subjetiva.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Tecnología de microsensores para datos objetivos.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Evaluación regular del salto con contramovimiento como indicador de fatiga [3].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Entrenamiento técnico-táctico</h3>
+                <p>La evaluación técnica debe seguir principios de estandarización y cientificidad. Un modelo de construcción de pruebas técnicas para jugadores jóvenes de baloncesto identifica cuatro indicadores de primer nivel: tiro, pase, dribbling y movimiento, con dieciséis indicadores de segundo nivel [8].</p>
+                <p>El entrenamiento técnico-táctico debe considerar:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Especificidad posicional.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Contexto de juego (con compañeros, contra oponentes).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Integración de habilidades técnicas en situaciones tácticas reales.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Uso de tecnología para análisis y retroalimentación.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Carga de competición y entrenamiento en baloncesto femenino</h3>
+                <p>En baloncesto femenino de élite, la mayoría de los estudios se centran en la competición, principalmente a nivel nacional senior, realizando análisis conjunto de carga externa e interna [5]. La investigación muestra la necesidad de investigar conjuntamente el entrenamiento y la competición, estudiar diferentes categorías de entrenamiento y utilizar microtecnología para obtener datos objetivos y fiables [5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Estrategias de recuperación post-ejercicio</h3>
+                <p>Para asegurar una recuperación adecuada después de cualquier actividad de baloncesto, es necesario conocer el tipo de fatiga inducida y sus mecanismos subyacentes [7]. Las estrategias basadas en evidencia incluyen:</p>
+                <p><strong class="text-white">Recuperación nutricional:</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Rehidratación con bebidas que contengan electrolitos.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Reposición de glucógeno con carbohidratos (1–1.2 g/kg/hora).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Proteínas para reparación muscular (20–25 g de alta calidad).</span></li>
+                </ul>
+                <p><strong class="text-white">Recuperación física:</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Crioterapia (inmersión en agua fría a 10–15 °C).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Terapia de compresión.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Sueño adecuado (7–9 horas).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Actividad de recuperación activa.</span></li>
+                </ul>
+                <p><strong class="text-white">Recuperación psicológica:</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Técnicas de relajación.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Gestión del estrés.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Separación mental del deporte [7].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Prevención de lesiones y salud musculoesquelética</h3>
+                <p>Los programas de entrenamiento deben incorporar componentes específicos para la prevención de lesiones, especialmente considerando la alta prevalencia de lesiones musculoesqueléticas en jugadores de baloncesto de élite. Esto incluye:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Ejercicios de estabilización central.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Entrenamiento de equilibrio y propiocepción.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Programas de fortalecimiento excéntrico.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Manejo adecuado de volúmenes e intensidades.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">8. Individualización y monitoreo continuo</h3>
+                <p>La individualización del entrenamiento es crucial en baloncesto de alto nivel. Los programas deben adaptarse a:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Posición específica en la cancha.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Características antropométricas individuales.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Historial de lesiones.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Estado de fatiga y recuperación.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Respuestas individuales a diferentes estímulos de entrenamiento.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">9. Integración de tecnología moderna</h3>
+                <p>El uso de tecnología avanzada permite:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Monitoreo en tiempo real de cargas de entrenamiento.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Análisis de movimiento y biomecánica.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Evaluación objetiva del rendimiento.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Retroalimentación inmediata para ajustes técnicos.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Predicción y prevención de lesiones.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">10. Consideraciones específicas por posición</h3>
+                <p>Diferentes posiciones requieren énfasis distintos en el entrenamiento:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Bases:</strong> velocidad, agilidad, toma de decisiones.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Escoltas:</strong> tiro exterior, manejo de balón bajo presión.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Aleros:</strong> versatilidad, defensa múltiple.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Ala-pívots:</strong> fuerza, rebote, juego interior.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Pívots:</strong> altura, envergadura, juego de poste.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Conclusión</h3>
+                <p>El entrenamiento de jugadores de baloncesto de competición y alto nivel requiere un enfoque multidimensional que integre preparación física, desarrollo técnico-táctico, nutrición adecuada, estrategias de recuperación efectivas y monitoreo continuo. La periodización cuidadosa, la individualización basada en necesidades específicas y el uso de tecnología avanzada son componentes esenciales para optimizar el rendimiento y minimizar el riesgo de lesiones en este deporte de alta exigencia física y mental.</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Petway AJ et al. Training load and match-play demands in basketball based on competition level: A systematic review. <em>PLOS ONE.</em> 2020;15(3):e0229212. <a href="https://doi.org/10.1371/journal.pone.0229212" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1371/journal.pone.0229212</a></p>
+                    <p>[2] Manzi V et al. Profile of Weekly Training Load in Elite Male Professional Basketball Players. <em>Journal of Strength and Conditioning Research.</em> 2010;24(5):1399–1406. <a href="https://doi.org/10.1519/jsc.0b013e3181d7552a" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/jsc.0b013e3181d7552a</a></p>
+                    <p>[3] Edwards T et al. Monitoring and Managing Fatigue in Basketball. <em>Sports.</em> 2018;6(1):19. <a href="https://doi.org/10.3390/sports6010019" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/sports6010019</a></p>
+                    <p>[4] Schelling X, Torres-Ronda L. An Integrative Approach to Strength and Neuromuscular Power Training for Basketball. <em>Strength &amp; Conditioning Journal.</em> 2016;38(3):72–80. <a href="https://doi.org/10.1519/ssc.0000000000000219" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/ssc.0000000000000219</a></p>
+                    <p>[5] Reina M, García-Rubio J, Ibáñez SJ. Training and Competition Load in Female Basketball: A Systematic Review. <em>International Journal of Environmental Research and Public Health.</em> 2020;17(8):2639. <a href="https://doi.org/10.3390/ijerph17082639" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/ijerph17082639</a></p>
+                    <p>[6] Simenz CJ, Dugan CA, Ebben WP. Strength and Conditioning Practices of National Basketball Association Strength and Conditioning Coaches. <em>Journal of Strength and Conditioning Research.</em> 2005;19(3):495–504. <a href="https://doi.org/10.1519/00124278-200508000-00003" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/00124278-200508000-00003</a></p>
+                    <p>[7] Calleja-González J et al. Evidence-based post-exercise recovery strategies in basketball. <em>The Physician and Sportsmedicine.</em> 2015;44(1):74–78. <a href="https://doi.org/10.1080/00913847.2016.1102033" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1080/00913847.2016.1102033</a></p>
+                    <p>[8] Zhang G, Zhang D. Model construction of technical test and evaluation of "young basketball players". <em>Journal of Discrete Mathematical Sciences and Cryptography.</em> 2018;21(6):1449–1454. <a href="https://doi.org/10.1080/09720529.2018.1527813" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1080/09720529.2018.1527813</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="cerrarModalBaloncesto()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function filtrarBlog(categoria) {
             // Actualizar botones activos
@@ -1266,6 +1470,17 @@
         }
         function cerrarPDFEditor() {
             document.getElementById('modal-pdf-editor').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirPerformanceLab() {
+            const modal = document.getElementById('modal-performance-lab');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarPerformanceLab() {
+            document.getElementById('modal-performance-lab').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
@@ -1324,6 +1539,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalBaloncesto() {
+            const modal = document.getElementById('modal-baloncesto');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalBaloncesto() {
+            document.getElementById('modal-baloncesto').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalVAM5() {
             const modal = document.getElementById('modal-vam5');
             modal.classList.remove('hidden');
@@ -1339,12 +1565,14 @@
             if (e.key === 'Escape') {
                 cerrarStrengthCoach();
                 cerrarPDFEditor();
+                cerrarPerformanceLab();
                 cerrarJumpLab();
                 cerrarModalCardiaco();
                 cerrarModalSprinters();
                 cerrarModalDosisMinima();
                 cerrarModalVAM5();
                 cerrarModalSprint();
+                cerrarModalBaloncesto();
             }
         });
     </script>
