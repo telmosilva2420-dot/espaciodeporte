@@ -531,6 +531,35 @@
                         </div>
                     </div>
 
+                    <!-- StartBusiness -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <!-- Cabecera visual -->
+                        <div class="h-36 bg-gradient-to-br from-amber-900/50 to-slate-800 flex items-center justify-center gap-4">
+                            <i data-lucide="briefcase" class="w-10 h-10 text-amber-400 opacity-70"></i>
+                            <i data-lucide="rocket" class="w-12 h-12 text-amber-300"></i>
+                            <i data-lucide="file-text" class="w-10 h-10 text-amber-400 opacity-70"></i>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow gap-4">
+                            <div>
+                                <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider">Emprendimiento deportivo</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1 mb-3">StartBusiness</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed">Generador de planes de negocio. Permite crear, estructurar y exportar planes profesionales para emprendimientos en el ámbito deportivo.</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0"></i>Generación guiada de planes de negocio</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0"></i>Estructura profesional completa</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0"></i>Exportación a PDF</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-amber-400 shrink-0"></i>Sin instalación de software adicional</li>
+                            </ul>
+                            <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador</span>
+                                <button onclick="abrirStartBusiness()" class="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -1594,6 +1623,10 @@
 
         function abrirNutriBalance() {
             window.open('NutriBalance.html', '_blank');
+        }
+
+        function abrirStartBusiness() {
+            window.open('StartBusiness.html', '_blank');
         }
 
         function abrirModalCardiaco() {
