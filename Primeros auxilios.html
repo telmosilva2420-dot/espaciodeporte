@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Primeros Auxilios - Plataforma de Estudio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --red-50: #fef2f2; --red-100: #fee2e2; --red-200: #fecaca; --red-400: #f87171;
+  --red-500: #ef4444; --red-600: #dc2626; --red-700: #b91c1c; --red-800: #991b1b; --red-900: #7f1d1d;
+  --white: #ffffff;
+  --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb; --gray-300: #d1d5db;
+  --gray-400: #9ca3af; --gray-500: #6b7280; --gray-600: #4b5563; --gray-700: #374151;
+  --gray-800: #1f2937; --gray-900: #111827;
+  --green-500: #22c55e; --green-600: #16a34a; --green-100: #dcfce7;
+  --amber-500: #f59e0b; --amber-100: #fef3c7;
+  --blue-500: #3b82f6; --blue-600: #2563eb; --blue-100: #dbeafe;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.05);
+  --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,.1), 0 10px 10px rgba(0,0,0,.04);
+  --radius: 12px; --radius-lg: 16px; --radius-xl: 20px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+.header {
+  background: linear-gradient(135deg, var(--red-700) 0%, var(--red-900) 100%);
+  color: var(--white);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 20px rgba(185,28,28,.3);
+}
+.header-inner {
+  max-width: 1200px; margin: 0 auto; padding: 18px 24px;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+}
+.logo { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 1.35rem; letter-spacing: -.02em; white-space: nowrap; }
+.logo-icon {
+  width: 42px; height: 42px; background: rgba(255,255,255,.18); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+  backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,.15);
+}
+nav { display: flex; gap: 4px; background: rgba(0,0,0,.15); border-radius: 10px; padding: 4px; }
+nav button {
+  background: transparent; border: none; color: rgba(255,255,255,.7);
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  font: 600 .88rem/1 'Inter', sans-serif; transition: all .2s; white-space: nowrap;
+}
+nav button:hover { color: var(--white); background: rgba(255,255,255,.08); }
+nav button.active { background: rgba(255,255,255,.2); color: var(--white); }
+
+.main { max-width: 1200px; margin: 0 auto; padding: 32px 24px 80px; }
+.section { display: none; animation: fadeUp .35s ease; }
+.section.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+.hero {
+  background: linear-gradient(135deg, var(--red-600) 0%, var(--red-800) 100%);
+  color: var(--white); border-radius: var(--radius-xl); padding: 48px 40px;
+  margin-bottom: 32px; position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -60%; right: -20%;
+  width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,.08) 0%, transparent 70%); border-radius: 50%;
+}
+.hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 12px; position: relative; letter-spacing: -.03em; }
+.hero p { font-size: 1.1rem; opacity: .88; max-width: 600px; position: relative; }
+
+.card {
+  background: var(--white); border-radius: var(--radius-lg); padding: 28px;
+  margin-bottom: 20px; box-shadow: var(--shadow); border: 1px solid var(--gray-200); transition: box-shadow .2s;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+.card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 0; cursor: pointer; user-select: none; }
+.card-header.open-h { margin-bottom: 16px; }
+.card-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem; flex-shrink: 0;
+}
+.card-icon.red { background: var(--red-100); color: var(--red-600); }
+.card-icon.blue { background: var(--blue-100); color: var(--blue-600); }
+.card-icon.green { background: var(--green-100); color: var(--green-600); }
+.card-icon.amber { background: var(--amber-100); color: var(--amber-500); }
+.card-title { font-weight: 700; font-size: 1.08rem; color: var(--gray-900); flex: 1; }
+.card-toggle {
+  width: 28px; height: 28px; border-radius: 8px; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center; font-size: .8rem;
+  color: var(--gray-500); transition: transform .3s;
+}
+.card-toggle.open { transform: rotate(180deg); }
+.card-body { display: none; padding-top: 8px; color: var(--gray-600); font-size: .95rem; line-height: 1.75; }
+.card-body.open { display: block; }
+.card-body ul, .card-body ol { padding-left: 22px; margin: 10px 0; }
+.card-body li { margin-bottom: 6px; }
+.card-body strong { color: var(--gray-800); }
+.card-body .highlight {
+  background: var(--red-50); border-left: 3px solid var(--red-500);
+  padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 12px 0; font-size: .9rem;
+}
+
+.stats-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 32px; }
+.stat-card { background: var(--white); border-radius: var(--radius); padding: 20px 24px; text-align: center; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); }
+.stat-number { font-size: 2rem; font-weight: 800; color: var(--red-600); }
+.stat-label { font-size: .82rem; color: var(--gray-500); font-weight: 500; margin-top: 4px; }
+
+/* CHAT */
+.chat-container {
+  background: var(--white); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg);
+  border: 1px solid var(--gray-200); overflow: hidden; display: flex; flex-direction: column;
+  height: 75vh; min-height: 500px;
+}
+.chat-header {
+  background: linear-gradient(135deg, var(--red-600), var(--red-800));
+  color: var(--white); padding: 20px 24px; display: flex; align-items: center; gap: 14px;
+}
+.chat-avatar {
+  width: 44px; height: 44px; background: rgba(255,255,255,.2); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+}
+.chat-status { font-size: .82rem; opacity: .8; }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; background: var(--gray-50);
+}
+.msg { max-width: 82%; padding: 14px 18px; border-radius: 16px; font-size: .93rem; line-height: 1.6; animation: fadeUp .3s ease; }
+.msg.bot { background: var(--white); color: var(--gray-700); border: 1px solid var(--gray-200); align-self: flex-start; border-bottom-left-radius: 4px; }
+.msg.user { background: var(--red-600); color: var(--white); align-self: flex-end; border-bottom-right-radius: 4px; }
+.msg.typing .dots { display: inline-flex; gap: 4px; }
+.msg.typing .dots span { width: 7px; height: 7px; background: var(--gray-400); border-radius: 50%; animation: bounce .6s infinite alternate; }
+.msg.typing .dots span:nth-child(2) { animation-delay: .15s; }
+.msg.typing .dots span:nth-child(3) { animation-delay: .3s; }
+@keyframes bounce { to { transform: translateY(-6px); opacity: .4; } }
+.chat-suggestions { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 24px 12px; background: var(--gray-50); }
+.suggestion-btn {
+  background: var(--white); border: 1px solid var(--gray-200); border-radius: 20px;
+  padding: 8px 16px; font: 500 .82rem 'Inter', sans-serif; color: var(--gray-600); cursor: pointer; transition: all .2s;
+}
+.suggestion-btn:hover { border-color: var(--red-400); color: var(--red-600); background: var(--red-50); }
+.chat-input-area { padding: 16px 24px; background: var(--white); border-top: 1px solid var(--gray-200); display: flex; gap: 12px; }
+.chat-input-area input {
+  flex: 1; border: 1px solid var(--gray-300); border-radius: 10px; padding: 12px 18px;
+  font: 400 .93rem 'Inter', sans-serif; outline: none; transition: border-color .2s;
+}
+.chat-input-area input:focus { border-color: var(--red-400); }
+.chat-input-area button {
+  background: var(--red-600); color: var(--white); border: none; border-radius: 10px;
+  padding: 12px 24px; font: 600 .9rem 'Inter', sans-serif; cursor: pointer; transition: background .2s;
+}
+.chat-input-area button:hover { background: var(--red-700); }
+
+/* EXAM */
+.exam-header {
+  background: var(--white); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 24px;
+  box-shadow: var(--shadow); border: 1px solid var(--gray-200);
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+}
+.exam-info { display: flex; gap: 12px; flex-wrap: wrap; }
+.exam-badge {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px;
+  border-radius: 20px; font-size: .82rem; font-weight: 600;
+}
+.exam-badge.difficulty { background: var(--red-100); color: var(--red-700); }
+.exam-badge.questions { background: var(--blue-100); color: var(--blue-600); }
+.exam-badge.time { background: var(--amber-100); color: var(--amber-500); }
+
+.topic-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 24px;
+}
+.topic-card {
+  background: var(--white); border-radius: var(--radius); padding: 20px; cursor: pointer;
+  border: 2px solid var(--gray-200); transition: all .25s; position: relative; overflow: hidden;
+}
+.topic-card:hover { border-color: var(--red-400); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.topic-card.completed { border-color: var(--green-500); }
+.topic-card .tc-num {
+  font-size: .75rem; font-weight: 700; color: var(--red-600); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 6px;
+}
+.topic-card .tc-title { font-weight: 700; font-size: .95rem; color: var(--gray-900); margin-bottom: 10px; }
+.topic-card .tc-bar { background: var(--gray-200); border-radius: 6px; height: 6px; overflow: hidden; }
+.topic-card .tc-fill { height: 100%; background: var(--red-500); border-radius: 6px; transition: width .4s; }
+.topic-card.completed .tc-fill { background: var(--green-500); }
+.topic-card .tc-score {
+  font-size: .78rem; color: var(--gray-500); margin-top: 8px; font-weight: 500;
+}
+
+.btn {
+  border: none; border-radius: 10px; padding: 12px 24px;
+  font: 600 .9rem 'Inter', sans-serif; cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-primary { background: var(--red-600); color: var(--white); }
+.btn-primary:hover { background: var(--red-700); }
+.btn-outline { background: var(--white); color: var(--gray-700); border: 1px solid var(--gray-300); }
+.btn-outline:hover { background: var(--gray-50); }
+.btn-green { background: var(--green-600); color: var(--white); }
+.btn-green:hover { background: #15803d; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.question-card {
+  background: var(--white); border-radius: var(--radius-lg); padding: 28px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); transition: border-color .3s;
+}
+.question-card.correct { border-color: var(--green-500); background: #f0fdf4; }
+.question-card.incorrect { border-color: var(--red-500); background: var(--red-50); }
+.question-number { font-size: .78rem; font-weight: 700; color: var(--red-600); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 8px; }
+.question-text { font-weight: 600; font-size: 1.02rem; color: var(--gray-900); margin-bottom: 18px; line-height: 1.55; }
+.options { display: flex; flex-direction: column; gap: 10px; }
+.option {
+  display: flex; align-items: center; gap: 14px; padding: 14px 18px;
+  border: 2px solid var(--gray-200); border-radius: 10px; cursor: pointer; transition: all .2s; font-size: .93rem;
+}
+.option:hover { border-color: var(--red-300); background: var(--red-50); }
+.option.selected { border-color: var(--red-500); background: var(--red-50); }
+.option.correct-answer { border-color: var(--green-500); background: var(--green-100); }
+.option.wrong-answer { border-color: var(--red-500); background: var(--red-100); }
+.option.disabled { pointer-events: none; }
+.option-letter {
+  width: 32px; height: 32px; border-radius: 8px; background: var(--gray-100);
+  display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .85rem; color: var(--gray-600); flex-shrink: 0;
+}
+.option.selected .option-letter { background: var(--red-500); color: var(--white); }
+.option.correct-answer .option-letter { background: var(--green-500); color: var(--white); }
+.option.wrong-answer .option-letter { background: var(--red-500); color: var(--white); }
+.explanation { margin-top: 14px; padding: 14px 18px; background: var(--blue-100); border-radius: 10px; font-size: .88rem; color: var(--gray-700); display: none; line-height: 1.6; }
+.explanation.show { display: block; }
+
+.progress-container { background: var(--gray-200); border-radius: 10px; height: 8px; margin-bottom: 24px; overflow: hidden; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--red-500), var(--red-600)); border-radius: 10px; transition: width .4s ease; }
+
+.results-card {
+  background: var(--white); border-radius: var(--radius-xl); padding: 48px; text-align: center;
+  box-shadow: var(--shadow-lg); border: 1px solid var(--gray-200); margin-bottom: 24px;
+}
+.results-score { font-size: 4.5rem; font-weight: 800; margin: 16px 0; }
+.results-score.high { color: var(--green-600); }
+.results-score.mid { color: var(--amber-500); }
+.results-score.low { color: var(--red-600); }
+.results-label { font-size: 1.1rem; color: var(--gray-500); margin-bottom: 24px; }
+.results-stats { display: flex; justify-content: center; gap: 32px; margin-bottom: 32px; flex-wrap: wrap; }
+.results-stat { text-align: center; }
+.results-stat-num { font-size: 1.8rem; font-weight: 700; }
+.results-stat-label { font-size: .8rem; color: var(--gray-500); font-weight: 500; }
+
+.global-results {
+  background: linear-gradient(135deg, var(--red-700), var(--red-900)); color: var(--white);
+  border-radius: var(--radius-xl); padding: 32px; margin-bottom: 24px; text-align: center;
+}
+.global-results h3 { font-size: 1.2rem; margin-bottom: 12px; }
+.global-results .gr-stats { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; }
+.global-results .gr-num { font-size: 2.2rem; font-weight: 800; }
+.global-results .gr-label { font-size: .8rem; opacity: .8; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 10px; }
+
+@media (max-width: 768px) {
+  .header-inner { flex-direction: column; }
+  nav { width: 100%; justify-content: center; flex-wrap: wrap; }
+  nav button { padding: 8px 14px; font-size: .8rem; }
+  .hero { padding: 32px 24px; }
+  .hero h1 { font-size: 1.6rem; }
+  .chat-container { height: 65vh; }
+  .exam-header { flex-direction: column; align-items: stretch; }
+  .results-card { padding: 32px 20px; }
+  .results-stats { flex-direction: column; gap: 16px; }
+  .topic-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo"><div class="logo-icon">+</div>Primeros Auxilios</div>
+    <nav>
+      <button class="active" onclick="showSection('resumen',this)">Resumen</button>
+      <button onclick="showSection('asistente',this)">Asistente IA</button>
+      <button onclick="showSection('examen',this)">Examen Test</button>
+    </nav>
+  </div>
+</header>
+
+<main class="main">
+
+<!-- ===== RESUMEN ===== -->
+<section id="sec-resumen" class="section active">
+  <div class="hero">
+    <h1>Tema 14: Primeros Auxilios</h1>
+    <p>Guia completa de actuacion ante emergencias: desde la conducta PAS hasta el manejo de quemaduras, fracturas, shock y reacciones anafilacticas.</p>
+  </div>
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-number">43</div><div class="stat-label">Conceptos clave</div></div>
+    <div class="stat-card"><div class="stat-number">170</div><div class="stat-label">Preguntas de test</div></div>
+    <div class="stat-card"><div class="stat-number">17</div><div class="stat-label">Temas de examen</div></div>
+    <div class="stat-card"><div class="stat-number">112</div><div class="stat-label">Numero de emergencias</div></div>
+  </div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">1</div><div class="card-title">Urgencia vs Emergencia y Sistema de Emergencias</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Urgencia:</strong> Requiere atencion inmediata pero <strong>NO amenaza la vida</strong> (fiebre alta, lesion menor).<br><br>
+    <strong>Emergencia:</strong> <strong>Amenaza inmediata para la vida</strong> (paro cardiaco, hemorragia grave, dificultad respiratoria severa).<br>
+    <div class="highlight"><strong>Numero de emergencias en Espana: 112</strong></div>
+    <strong>Sistema de emergencia:</strong><ol>
+    <li>Recepcion de llamadas por operador capacitado.</li>
+    <li>Evaluacion de la gravedad y recursos necesarios.</li>
+    <li>Despacho de ayuda (ambulancias, bomberos, policia).</li>
+    <li>Atencion medica inicial (RCP, control hemorragias).</li>
+    <li>Transporte al hospital.</li>
+    <li>Coordinacion con servicios especializados.</li></ol>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">2</div><div class="card-title">Conducta PAS (Proteger, Alertar, Socorrer)</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <ol><li><strong>PROTEGER:</strong> Asegurar seguridad propia y de los demas. Evaluar riesgos.</li>
+    <li><strong>ALERTAR:</strong> Llamar al 112, informacion clara y precisa.</li>
+    <li><strong>SOCORRER:</strong> Primeros auxilios basicos si se tiene conocimiento.</li></ol>
+    <div class="highlight">La conducta PAS es el principio basico ante CUALQUIER emergencia.</div>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">3</div><div class="card-title">Soporte Vital Basico (SVB) y RCP</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>SVB:</strong> Evaluacion conciencia/respiracion/pulso &rarr; Apertura via aerea &rarr; Ventilacion de rescate &rarr; Compresiones toracicas.<br><br>
+    <strong>RCP Basica:</strong><ul>
+    <li><strong>30 compresiones + 2 ventilaciones</strong></li>
+    <li>Profundidad: <strong>4-5 cm</strong> | Frecuencia: <strong>100-120/min</strong></li>
+    <li>Centro del torax, entre los pezones</li></ul><br>
+    <strong>Evaluacion:</strong> Seguridad &rarr; Sacudir y hablar &rarr; 112 &rarr; Abrir via aerea &rarr; Ver-oir-sentir 5-10s &rarr; RCP si no respira.<br><br>
+    <strong>RCP ninos/bebes:</strong><ul>
+    <li><strong>Lactantes (&lt;1 ano):</strong> 2 dedos, ~4 cm (1/3 torax)</li>
+    <li><strong>Ninos (1-pubertad):</strong> 1-2 manos, ~5 cm</li></ul><br>
+    <strong>RCP solo compresiones:</strong> Cuando el rescatador no esta entrenado, no puede o no desea hacer ventilaciones.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon blue">4</div><div class="card-title">Material Basico de Primeros Auxilios (Botiquin)</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <ul><li>Carbon activado, esparadrapo, antihistaminicos</li>
+    <li>Pomada antibiotica, antiseptico, paracetamol/ibuprofeno</li>
+    <li>Tiritas, apositos de gasa, compresas frias/calientes</li>
+    <li>Vendaje elastico, guantes nitrilo, hidrocortisona</li>
+    <li>Tijeras, pinzas, termometro, linterna, torniquete</li>
+    <li>Colirio esteril, inhalador de rescate, manual PPAA</li></ul>
+    <div class="highlight">Revisar y reemplazar regularmente articulos caducados.</div>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon blue">5</div><div class="card-title">Control de la Ansiedad y el Dolor</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <ul><li><strong>Respiracion profunda y lenta</strong></li>
+    <li><strong>Relajacion muscular progresiva</strong></li>
+    <li><strong>Visualizacion guiada</strong></li>
+    <li><strong>Terapia cognitivo-conductual</strong></li>
+    <li><strong>Medicacion:</strong> solo con prescripcion profesional</li></ul>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">6</div><div class="card-title">Obstruccion de Vias Aereas y Atragantamiento</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Heimlich (adultos):</strong> Detras de la persona, compresiones abdominales hacia adentro y arriba.<br><br>
+    <strong>Lactantes:</strong> Boca abajo, palmadas interescapulares. Si persiste: boca arriba, compresiones toracicas con dedos.<br><br>
+    <strong>Embarazadas:</strong> Heimlich modificada (entre esternon y ombligo). Si pierde conciencia: RCP en suelo.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon blue">7</div><div class="card-title">Ahogamiento y Posicion Lateral de Seguridad</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Ahogamiento:</strong> 112 &rarr; Rescatar con objeto largo &rarr; Si no respira: RCP &rarr; Si respira: PLS &rarr; Abrigar.<br><br>
+    <strong>PLS:</strong><ol>
+    <li>Brazo cercano en angulo recto, palma arriba.</li>
+    <li>Otro brazo: dorso contra mejilla cercana.</li>
+    <li>Pierna alejada doblada, pie apoyado.</li>
+    <li>Girar suavemente, via aerea abierta.</li></ol>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">8</div><div class="card-title">Desfibrilador (DEA) y Prioridades ABC</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>DEA:</strong> Encender &rarr; Electrodos en pecho &rarr; Analisis automatico (nadie toca) &rarr; Descarga si indicada (nadie toca).<br>
+    <div class="highlight"><strong>ABC:</strong> A=Via respiratoria | B=Respiracion | C=Circulacion</div>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">9</div><div class="card-title">Heridas, Hemorragias y Epistaxis</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Heridas:</strong> Lavar agua+jabon (NO alcohol/yodo/H2O2) &rarr; Pomada antibiotica &rarr; Vendaje.<br><br>
+    <strong>Hemorragias leves:</strong> Presion 5min + elevar + hielo.<br>
+    <strong>Hemorragias graves:</strong> Presion firme + 112 + torniquete solo extremos.<br><br>
+    <strong>Epistaxis:</strong> Comprimir parte blanda 10min, persona sentada. Causas: aire seco, trauma, hipertension, anticoagulantes.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon amber">10</div><div class="card-title">Golpe de Calor</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Sintomas:</strong> Piel caliente/enrojecida/SECA, T>40C, confusion, convulsiones, nauseas.<br>
+    <strong>Organos afectados:</strong> Cerebro, corazon, pulmones, rinones, higado.<br>
+    <strong>Tratamiento:</strong> Enfriamiento inmediato (agua fria/evaporacion) + liquidos frios + emergencias.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">11</div><div class="card-title">Shock (Choque)</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Tipos:</strong> Hipovolemico (perdida sangre) | Cardiogenico (fallo bomba) | Distributivo (vasodilatacion).<br><br>
+    <strong>PPAA:</strong> 112 + boca arriba + piernas elevadas + abrigar + NO alimentos/liquidos + monitorizar + RCP si necesario.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon blue">12</div><div class="card-title">Fracturas e Inmovilizacion</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Abierta:</strong> Hueso atraviesa piel (riesgo infeccion). <strong>Cerrada:</strong> Piel intacta.<br><br>
+    <strong>Protocolo:</strong> No mover + inmovilizar (ferula) + frio + elevar + 112.<br>
+    <strong>Metodos:</strong> Yeso, ferulas, cabestrillo (tela triangular para EESS).
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon blue">13</div><div class="card-title">Hipotermia</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    T corporal &lt;35C. Causas: frio prolongado, ropa mojada, inmovilidad, alcohol.<br>
+    Sintomas: temblores &rarr; confusion &rarr; inconsciencia &rarr; paro cardiaco.<br>
+    <strong>Protocolo:</strong> 112 + lugar calido + ropa seca + mantas + liquidos calientes (NO alcohol) + NO frotar piel + RCP si necesario.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon amber">14</div><div class="card-title">Lesiones por Corriente Electrica</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Protocolo:</strong> Cortar corriente PRIMERO &rarr; NO tocar si sigue en contacto &rarr; 112 &rarr; Evaluar respiracion/pulso &rarr; RCP.<br>
+    <div class="highlight">Puede haber danos internos no visibles. Siempre atencion medica.</div>
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon amber">15</div><div class="card-title">Quemaduras</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>1er grado:</strong> Epidermis. Enrojecimiento. Sin ampollas.<br>
+    <strong>2do grado:</strong> Dermis. Ampollas, dolor intenso.<br>
+    <strong>3er grado:</strong> Todas las capas. Piel blanca/negra. Urgente.<br><br>
+    <strong>Menores:</strong> Agua fria + pomada + vendaje. <strong>Graves:</strong> 112 + agua fria + NO cremas + vendaje limpio.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon red">16</div><div class="card-title">Picaduras, Mordeduras y Choque Anafilactico</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <strong>Picaduras:</strong> Retirar aguijon + lavar + frio + hidrocortisona + antihistaminico.<br>
+    <strong>Mordeduras:</strong> Lavar + presion + vendaje + atencion medica.<br><br>
+    <strong>Anafilaxia:</strong> Causas: penicilina, insectos, alimentos (huevos, mariscos, frutos secos), latex.<br>
+    <strong>Protocolo:</strong> 112 + <strong>epinefrina (adrenalina)</strong> + posicion comoda + aflojar ropa + monitorizar.
+  </div></div>
+
+  <div class="card"><div class="card-header" onclick="toggleCard(this)"><div class="card-icon green">17</div><div class="card-title">Principios Basicos de Rescate</div><div class="card-toggle">&#9660;</div></div><div class="card-body">
+    <ol><li>Evaluar seguridad (rescatador y victima).</li>
+    <li>Llamar al 112.</li>
+    <li>Evaluar situacion: gravedad, consciencia, respiracion.</li>
+    <li>Aplicar primeros auxilios segun situacion.</li>
+    <li>Calma y apoyo emocional.</li></ol>
+  </div></div>
+</section>
+
+<!-- ===== ASISTENTE IA ===== -->
+<section id="sec-asistente" class="section">
+  <div class="chat-container">
+    <div class="chat-header">
+      <div class="chat-avatar">+</div>
+      <div><strong>Asistente de Primeros Auxilios</strong><div class="chat-status">Basado en el Tema 14 - Listo para ayudarte</div></div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg bot">Hola, soy tu asistente de Primeros Auxilios. Puedo responder preguntas sobre el Tema 14: urgencias, conducta PAS, RCP, hemorragias, fracturas, quemaduras, shock, hipotermia y mas. Preguntame lo que necesites.</div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions">
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Que es la conducta PAS?</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Como hacer RCP basica?</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Tipos de shock</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Maniobra de Heimlich</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Protocolo ante quemaduras</button>
+      <button class="suggestion-btn" onclick="askSuggestion(this)">Que es un choque anafilactico?</button>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Escribe tu pregunta sobre primeros auxilios..." onkeydown="if(event.key==='Enter')sendChat()">
+      <button onclick="sendChat()">Enviar</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== EXAMEN ===== -->
+<section id="sec-examen" class="section">
+  <div class="exam-header">
+    <div>
+      <h2 style="font-size:1.3rem;font-weight:700;margin-bottom:8px;">Examen por Temas</h2>
+      <div class="exam-info">
+        <span class="exam-badge difficulty">Alta dificultad</span>
+        <span class="exam-badge questions" id="totalQBadge">170 preguntas</span>
+        <span class="exam-badge time">10 preguntas / tema</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-outline" onclick="resetAllExams()">Reiniciar todo</button>
+    </div>
+  </div>
+  <div id="globalResults"></div>
+  <div id="topicSelector"></div>
+  <div id="examContent" style="display:none">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="btn btn-outline" onclick="backToTopics()">&larr; Volver a temas</button>
+      <h3 id="examTopicTitle" style="font-weight:700;flex:1;"></h3>
+      <button class="btn btn-primary" id="btnSubmit" onclick="submitCurrentExam()">Corregir</button>
+    </div>
+    <div class="progress-container"><div class="progress-bar" id="progressBar" style="width:0%"></div></div>
+    <div id="topicResults"></div>
+    <div id="questionsArea"></div>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ===== NAV =====
+function showSection(name, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('sec-' + name).classList.add('active');
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+}
+
+// ===== ACCORDION =====
+function toggleCard(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.card-toggle');
+  body.classList.toggle('open');
+  toggle.classList.toggle('open');
+  header.classList.toggle('open-h');
+}
+
+// ===== CHATBOT =====
+const kb = [
+  { kw: ['urgencia','emergencia','diferencia','urgente'], a: '<strong>Urgencia:</strong> requiere atencion inmediata pero NO amenaza la vida.<br><strong>Emergencia:</strong> amenaza inmediata para la vida.<br>Siempre llamar al <strong>112</strong> ante una emergencia.' },
+  { kw: ['pas','proteger','alertar','socorrer','conducta'], a: '<strong>Conducta PAS:</strong><br><strong>P-Proteger:</strong> Seguridad propia y de los demas.<br><strong>A-Alertar:</strong> Llamar al 112.<br><strong>S-Socorrer:</strong> Primeros auxilios si tienes conocimiento.' },
+  { kw: ['rcp','reanimacion','cardiopulmonar','compresiones','ventilaciones','masaje'], a: '<strong>RCP Basica:</strong><br>30 compresiones + 2 ventilaciones. Profundidad: 4-5 cm. Frecuencia: 100-120/min. Centro del torax.<br><strong>Bebes:</strong> 2 dedos, ~4cm. <strong>Ninos:</strong> 1-2 manos, ~5cm.' },
+  { kw: ['heimlich','atragantamiento','obstruccion','vias aereas','asfixia'], a: '<strong>Heimlich adultos:</strong> Detras, compresiones abdominales arriba y adentro.<br><strong>Lactantes:</strong> Palmadas espalda + compresiones toracicas con dedos.<br><strong>Embarazadas:</strong> Heimlich modificada entre esternon y ombligo.' },
+  { kw: ['ahogamiento','agua','sumersion'], a: '<strong>Ahogamiento:</strong> 112 &rarr; Rescatar con objeto largo &rarr; Si no respira: RCP &rarr; Si respira: PLS &rarr; Abrigar.' },
+  { kw: ['posicion lateral','pls'], a: '<strong>PLS:</strong> Brazo cercano angulo recto &rarr; otro brazo dorso contra mejilla &rarr; pierna alejada doblada &rarr; girar suavemente, via aerea abierta.' },
+  { kw: ['botiquin','material'], a: '<strong>Botiquin:</strong> Carbon activado, esparadrapo, antihistaminicos, pomada antibiotica, antiseptico, paracetamol, tiritas, gasa, vendaje elastico, guantes nitrilo, hidrocortisona, tijeras, pinzas, termometro, torniquete, inhalador rescate.' },
+  { kw: ['hemorragia','sangrado','herida','torniquete'], a: '<strong>Heridas:</strong> Lavar agua+jabon (NO alcohol/yodo). <strong>Leves:</strong> Presion 5min+elevar+hielo. <strong>Graves:</strong> Presion firme+112+torniquete solo extremos.' },
+  { kw: ['epistaxis','nasal','nariz'], a: '<strong>Epistaxis:</strong> Comprimir parte blanda de la nariz 10min, persona sentada. Causas: aire seco, trauma, hipertension, anticoagulantes.' },
+  { kw: ['quemadura','fuego'], a: '<strong>Quemaduras:</strong> 1er grado=epidermis, 2do=dermis+ampollas, 3er=todas capas.<br>Menores: agua fria+pomada+vendaje. Graves: 112+agua fria+NO cremas+vendaje.' },
+  { kw: ['shock','choque','hipovolemico','cardiogenico','distributivo'], a: '<strong>Shock:</strong> Hipovolemico (sangre), Cardiogenico (corazon), Distributivo (vasos).<br>PPAA: 112+boca arriba+piernas elevadas+abrigar+NO alimentos+monitorizar.' },
+  { kw: ['fractura','hueso','inmoviliz','ferula','cabestrillo'], a: '<strong>Fractura:</strong> Abierta (hueso rompe piel) o cerrada.<br>Protocolo: No mover+inmovilizar (ferula)+frio+elevar+112.' },
+  { kw: ['hipotermia','frio','congelacion'], a: '<strong>Hipotermia:</strong> T<35C. Protocolo: 112+lugar calido+ropa seca+mantas+liquidos calientes (NO alcohol)+NO frotar piel.' },
+  { kw: ['electr','corriente','electrocucion'], a: '<strong>Electrocucion:</strong> Cortar corriente PRIMERO+NO tocar si contacto+112+evaluar respiracion+RCP si necesario.' },
+  { kw: ['anafilac','anafilaxia','alergica','epinefrina','adrenalina'], a: '<strong>Anafilaxia:</strong> Causas: penicilina, insectos, alimentos, latex.<br>Protocolo: 112+epinefrina autoinyector+posicion comoda+aflojar ropa+monitorizar.' },
+  { kw: ['picadura','mordedura','insecto','abeja'], a: '<strong>Picaduras:</strong> Retirar aguijon+lavar+frio+hidrocortisona+antihistaminico.<br><strong>Mordeduras:</strong> Lavar+presion+vendaje+atencion medica.' },
+  { kw: ['golpe de calor','insolacion','hipertermia','40'], a: '<strong>Golpe de calor:</strong> T>40C, piel caliente/seca, confusion.<br>Tratamiento: Enfriamiento inmediato (agua fria)+liquidos+emergencias.' },
+  { kw: ['dea','desfibrilador','electrodos'], a: '<strong>DEA:</strong> Encender+electrodos en pecho+analisis automatico (nadie toca)+descarga si indicada (nadie toca). Solo en parada cardiaca.' },
+  { kw: ['svb','soporte vital'], a: '<strong>SVB:</strong> Evaluar conciencia/respiracion/pulso+abrir via aerea+ventilacion rescate+compresiones toracicas.' },
+  { kw: ['abc','prioridad'], a: '<strong>ABC:</strong> A=Via respiratoria, B=Respiracion, C=Circulacion.' },
+  { kw: ['rescate','principios'], a: '<strong>Rescate:</strong> Evaluar seguridad+112+evaluar situacion+primeros auxilios+calma y apoyo emocional.' },
+  { kw: ['ansiedad','dolor','relajacion','respiracion','calma'], a: '<strong>Control ansiedad/dolor:</strong> Respiracion profunda, relajacion muscular progresiva, visualizacion guiada, terapia cognitivo-conductual, medicacion (solo prescripcion).' },
+  { kw: ['112','numero','emergencia','llamar'], a: 'El <strong>112</strong> es el numero de emergencias en Espana. Al llamar: operador evalua gravedad, envia servicios apropiados.' }
+];
+
+function findAnswer(q) {
+  const n = q.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"");
+  let best=null, sc=0;
+  for(const e of kb){ let s=0; for(const k of e.kw){ if(n.includes(k.normalize("NFD").replace(/[̀-ͯ]/g,""))) s+=k.length; } if(s>sc){sc=s;best=e;} }
+  return best&&sc>2 ? best.a : 'No he encontrado informacion especifica. Prueba: conducta PAS, RCP, Heimlich, hemorragias, fracturas, quemaduras, shock, hipotermia, golpe de calor, DEA, anafilaxia, picaduras, electrocucion o PLS.';
+}
+function addMsg(t,c){ const m=document.getElementById('chatMessages'),d=document.createElement('div'); d.className='msg '+c; d.innerHTML=t; m.appendChild(d); m.scrollTop=m.scrollHeight; return d; }
+function sendChat(){ const i=document.getElementById('chatInput'),t=i.value.trim(); if(!t)return; addMsg(t,'user'); i.value=''; const ty=addMsg('<div class="dots"><span></span><span></span><span></span></div>','bot typing'); setTimeout(()=>{ty.remove();addMsg(findAnswer(t),'bot');},600+Math.random()*800); }
+function askSuggestion(b){ document.getElementById('chatInput').value=b.textContent; sendChat(); }
+
+// ===== EXAM DATA: 17 temas x 10 preguntas =====
+const examData = [
+  // TEMA 1: Urgencia vs Emergencia
+  { name: "Urgencia vs Emergencia y Sistema de Emergencias", icon: "1", questions: [
+    { q:"Cual de las siguientes situaciones se clasifica como URGENCIA y no como emergencia?", o:["Paro cardiorrespiratorio","Hemorragia cerebral masiva","Fiebre alta de 39.5C en adulto","Dificultad respiratoria severa con cianosis"], c:2, e:"La fiebre alta requiere atencion pero no amenaza la vida de forma inmediata, a diferencia de las otras opciones que son emergencias." },
+    { q:"En el sistema de emergencias espanol, cual es el numero al que se debe llamar?", o:["061","112","091","080"], c:1, e:"El 112 es el numero de emergencias en Espana que centraliza todos los servicios (sanitarios, bomberos, policia)." },
+    { q:"Que funcion cumple el operador del 112 en la fase de evaluacion?", o:["Transportar al paciente","Realizar RCP telefonica","Evaluar la gravedad y determinar que recursos son necesarios","Administrar medicacion al paciente"], c:2, e:"El operador evalua la gravedad de la emergencia y determina que recursos y servicios son necesarios para responder adecuadamente." },
+    { q:"Cual es la secuencia correcta del sistema de emergencias?", o:["Transporte - Llamada - Evaluacion - Atencion","Llamada - Evaluacion - Despacho - Atencion inicial - Transporte","Despacho - Llamada - Transporte - Evaluacion","Atencion - Llamada - Despacho - Transporte"], c:1, e:"La secuencia es: recepcion de llamada, evaluacion, despacho de ayuda, atencion medica inicial, transporte al hospital y coordinacion." },
+    { q:"Cual de estos NO es un servicio que pueda enviar el sistema de emergencias?", o:["Ambulancias","Bomberos","Empresas de mudanzas","Policia"], c:2, e:"El sistema de emergencias coordina ambulancias, bomberos y policia, no servicios privados ajenos a la emergencia." },
+    { q:"Un paciente con infarto agudo de miocardio se clasifica como:", o:["Urgencia diferible","Urgencia no vital","Emergencia","Consulta preferente"], c:2, e:"Un infarto es una amenaza inmediata para la vida, por lo que se clasifica como emergencia." },
+    { q:"Que tipo de apoyo puede coordinar el sistema de emergencias en casos complejos?", o:["Solo ambulancias basicas","Equipos de rescate especializados y apoyo psicologico","Solo la policia local","Unicamente bomberos"], c:1, e:"En casos complejos, el sistema puede coordinar equipos de rescate especializados y servicios de apoyo psicologico." },
+    { q:"Un esguince de tobillo leve se consideraria:", o:["Una emergencia vital","Una urgencia","Una emergencia quirurgica","Requiere activar todos los servicios de emergencia"], c:1, e:"Un esguince leve requiere atencion medica pero no amenaza la vida, siendo una urgencia." },
+    { q:"Que informacion es prioritaria proporcionar al llamar al 112?", o:["El nombre de tu medico de cabecera","La situacion, localizacion y estado de las victimas","Tu numero de la Seguridad Social","El historial medico completo de la victima"], c:1, e:"Es fundamental comunicar que ocurre, donde y el estado de las victimas para una respuesta adecuada." },
+    { q:"Cual es la diferencia fundamental entre urgencia y emergencia?", o:["La urgencia siempre requiere hospitalizacion","La emergencia nunca necesita ambulancia","La emergencia representa una amenaza inmediata para la vida, la urgencia no","Ambos terminos significan exactamente lo mismo"], c:2, e:"La diferencia radica en la amenaza inmediata para la vida: la emergencia la tiene, la urgencia no." }
+  ]},
+  // TEMA 2: Conducta PAS
+  { name: "Conducta PAS", icon: "2", questions: [
+    { q:"En la conducta PAS, que significa la letra P?", o:["Prevenir futuras lesiones","Proteger: asegurar la seguridad propia y de los demas","Pedir ayuda inmediatamente","Posicionar al paciente en decubito supino"], c:1, e:"La P significa Proteger: evaluar riesgos y asegurar la seguridad antes de cualquier otra accion." },
+    { q:"Si al llegar a un accidente hay riesgo de explosion, que paso de la conducta PAS se aplica PRIMERO?", o:["Socorrer a los heridos inmediatamente","Alertar llamando al 112","Proteger: asegurar la zona y alejarse del peligro","Realizar un triaje de victimas"], c:2, e:"Proteger siempre es lo primero. Si hay riesgo de explosion, debemos asegurar la zona antes de alertar o socorrer." },
+    { q:"Al alertar al 112, cual de estas acciones es INCORRECTA?", o:["Proporcionar informacion clara sobre la situacion","Indicar la localizacion exacta del incidente","Colgar inmediatamente despues de dar la direccion","Describir el numero de victimas y su estado"], c:2, e:"No se debe colgar hasta que el operador lo indique, ya que puede necesitar mas informacion o dar instrucciones." },
+    { q:"En la fase de Socorrer, que condicion se debe cumplir para brindar asistencia?", o:["Siempre se debe socorrer sin importar los riesgos","Solo si se tiene conocimiento y capacidad para hacerlo de forma segura","Solo si hay testigos presentes","Solo si la victima lo solicita verbalmente"], c:1, e:"Se debe socorrer solo si se tiene el conocimiento y la capacidad para hacerlo de manera segura." },
+    { q:"Cual es el orden correcto de la conducta PAS?", o:["Proteger - Socorrer - Alertar","Alertar - Proteger - Socorrer","Proteger - Alertar - Socorrer","Socorrer - Alertar - Proteger"], c:2, e:"El orden es siempre: 1. Proteger, 2. Alertar, 3. Socorrer." },
+    { q:"En un accidente de trafico con victimas, que accion de proteccion es adecuada?", o:["Mover rapidamente todos los vehiculos","Senalizar la zona, alejarse de peligros y usar equipos de proteccion","Ignorar los riesgos y atender a las victimas directamente","Dejar que los demas conductores se encarguen"], c:1, e:"Proteger implica senalizar, evaluar peligros (incendio, trafico), alejarse de peligros y usar EPIs si es necesario." },
+    { q:"Un primer interviniente sin formacion en primeros auxilios debe:", o:["Intentar todas las tecnicas que haya visto en television","Proteger la zona, alertar al 112 y esperar instrucciones","Administrar medicamentos del botiquin del coche","Realizar un traslado inmediato de la victima al hospital"], c:1, e:"Sin formacion, lo correcto es proteger, alertar y seguir las instrucciones del operador del 112." },
+    { q:"La conducta PAS puede variar segun:", o:["Nunca varia, es siempre identica","La situacion y el contexto especifico de la emergencia","El dia de la semana","La edad del primer interviniente"], c:1, e:"La conducta PAS puede variar dependiendo de la situacion y el contexto especifico de la emergencia." },
+    { q:"Que incluye la fase de Proteger respecto a fuentes de energia?", o:["Encender todas las luces para ver mejor","Apagar fuentes de energia si es necesario para evitar riesgos","Conectar la electricidad para iluminar la zona","Las fuentes de energia no son relevantes"], c:1, e:"Proteger implica apagar fuentes de energia si es necesario para evitar peligros adicionales." },
+    { q:"Cual de estas acciones forma parte de Socorrer?", o:["Mover a la victima de cualquier manera","Realizar RCP, controlar hemorragias o mantener vias aereas despejadas","Administrar farmacos sin prescripcion","Operar la fractura en el lugar"], c:1, e:"Socorrer incluye RCP, control de hemorragias y mantenimiento de vias aereas, siempre con conocimiento adecuado." }
+  ]},
+  // TEMA 3: SVB y RCP
+  { name: "Soporte Vital Basico y RCP", icon: "3", questions: [
+    { q:"Cual es la frecuencia recomendada de compresiones toracicas en RCP basica adulta?", o:["60-80 por minuto","80-100 por minuto","100-120 por minuto","120-140 por minuto"], c:2, e:"La frecuencia correcta es 100-120 compresiones por minuto, al ritmo de 'La Macarena' o 'Staying Alive'." },
+    { q:"Cual es la relacion compresiones-ventilaciones en RCP basica?", o:["15:2","30:2","15:1","30:1"], c:1, e:"La relacion estandar en RCP basica es de 30 compresiones seguidas de 2 ventilaciones." },
+    { q:"Para evaluar la respiracion de la victima, cuanto tiempo se debe observar-escuchar-sentir?", o:["1-3 segundos","5-10 segundos","15-20 segundos","30 segundos"], c:1, e:"Se debe observar, escuchar y sentir durante 5-10 segundos para determinar si la victima respira normalmente." },
+    { q:"La profundidad correcta de las compresiones en un adulto es:", o:["2-3 cm","3-4 cm","4-5 cm","6-7 cm"], c:2, e:"En adultos, la profundidad de las compresiones debe ser de 4-5 cm." },
+    { q:"En que zona del cuerpo se realizan las compresiones toracicas en adultos?", o:["Sobre el estomago","En el lado izquierdo del torax","En el centro del torax, entre los pezones","Sobre las costillas flotantes"], c:2, e:"Las compresiones se realizan en el centro del torax, entre los pezones." },
+    { q:"Que tecnica se utiliza para abrir la via aerea en la evaluacion?", o:["Hiperextension cervical forzada","Extension de la cabeza y elevacion del menton (frente-menton)","Compresion abdominal","Golpes en la espalda"], c:1, e:"La tecnica estandar es la extension de la cabeza y elevacion del menton (maniobra frente-menton)." },
+    { q:"En la RCP de un lactante menor de 1 ano, como se realizan las compresiones?", o:["Con las dos manos entrelazadas como en adultos","Con una sola mano en el esternon","Con dos dedos (indice y corazon) en el esternon, debajo de los pezones","Con el puno cerrado sobre el abdomen"], c:2, e:"En lactantes se usan dos dedos (indice y corazon) en el esternon justo debajo de los pezones, con profundidad de ~4 cm." },
+    { q:"Cual es la profundidad de compresiones recomendada en ninos de 1 ano a la pubertad?", o:["2 cm","3 cm","5 cm (aproximadamente 2 pulgadas)","7 cm"], c:2, e:"En ninos de 1 ano a la pubertad, la profundidad es de aproximadamente 5 cm (2 pulgadas)." },
+    { q:"La RCP solo con compresiones (sin ventilacion) esta indicada cuando:", o:["El paciente esta respirando normalmente","El rescatador no esta entrenado o no puede/desea hacer ventilacion","Hay un desfibrilador disponible","La victima es un nino menor de 8 anos"], c:1, e:"La RCP solo con compresiones se recomienda cuando el rescatador no esta entrenado, no puede o no desea realizar la respiracion de rescate." },
+    { q:"Si la victima no responde al sacudirla suavemente y hablarle, el siguiente paso es:", o:["Iniciar compresiones toracicas inmediatamente","Darle agua para reanimarla","Llamar al 112 y solicitar ayuda medica","Colocarla en posicion lateral de seguridad"], c:2, e:"Si la victima no responde, se debe llamar inmediatamente al 112 para solicitar ayuda medica." }
+  ]},
+  // TEMA 4: Botiquin
+  { name: "Material Basico de Primeros Auxilios", icon: "4", questions: [
+    { q:"Antes de usar carbon activado del botiquin, que se debe hacer?", o:["Diluirlo en alcohol","Llamar al Servicio medico de informacion toxicologica","Mezclarlo con agua oxigenada","Aplicarlo directamente sobre heridas"], c:1, e:"Se debe llamar al Servicio medico de informacion toxicologica antes de usar carbon activado." },
+    { q:"Que tipo de guantes debe contener el botiquin de primeros auxilios?", o:["Guantes de algodon","Guantes de cuero","Guantes de latex o nitrilo","Guantes de lana"], c:2, e:"El botiquin debe contener guantes de latex o nitrilo para proteccion del socorrista." },
+    { q:"Para que se incluye hidrocortisona en crema en el botiquin?", o:["Para quemaduras de tercer grado","Para picaduras de insectos y erupciones inflamadas con prurito","Para heridas abiertas profundas","Para fracturas oseas"], c:1, e:"La hidrocortisona en crema se usa para picaduras de insectos y erupciones inflamadas con picazon." },
+    { q:"Cual de estos elementos NO se menciona como parte del botiquin basico?", o:["Torniquete","Pinzas y tijeras","Desfibrilador portatil","Linterna con pilas de repuesto"], c:2, e:"El desfibrilador portatil no forma parte del botiquin basico de primeros auxilios." },
+    { q:"Que analgesicos basicos debe incluir el botiquin?", o:["Morfina y codeina","Paracetamol (acetaminofeno) o ibuprofeno","Tramadol y fentanilo","Aspirina exclusivamente"], c:1, e:"El botiquin basico incluye paracetamol (acetaminofeno) o ibuprofeno como analgesicos." },
+    { q:"Para que sirve el vendaje compresivo elastico del botiquin?", o:["Para heridas con sangrado arterial","Para esguinces y desgarros musculares","Para quemaduras quimicas","Para inmovilizar fracturas de femur"], c:1, e:"El vendaje compresivo elastico se utiliza para esguinces y desgarros musculares." },
+    { q:"El botiquin debe incluir un inhalador de rescate para:", o:["Paradas cardiacas","Crisis de asma","Intoxicaciones por gas","Ahogamientos"], c:1, e:"El inhalador de rescate del botiquin esta destinado a crisis de asma." },
+    { q:"Con que frecuencia se deben revisar los articulos del botiquin?", o:["Solo cuando se usa algo","Nunca, los materiales no caducan","Regularmente, reemplazando articulos usados o caducados","Solo una vez al ano"], c:2, e:"Se debe revisar y reemplazar regularmente cualquier articulo usado o caducado para asegurar su eficacia." },
+    { q:"Que tipo de antiseptico debe incluir el botiquin?", o:["Alcohol puro de 96 grados","Antiseptico en forma de solucion o toallitas desinfectantes","Lejia diluida","Vinagre de manzana"], c:1, e:"El botiquin debe incluir un antiseptico en forma de solucion o toallitas desinfectantes." },
+    { q:"Para que se incluyen las bolsas de plastico en el botiquin?", o:["Para guardar alimentos","Para la eliminacion de material contaminado","Para hacer torniquetes improvisados","Para proteger del frio"], c:1, e:"Las bolsas de plastico son para la eliminacion segura de material contaminado." }
+  ]},
+  // TEMA 5: Ansiedad y dolor
+  { name: "Control de Ansiedad y Dolor", icon: "5", questions: [
+    { q:"La tecnica de respiracion para controlar la ansiedad consiste en:", o:["Respiraciones rapidas y superficiales (hiperventilacion)","Respiraciones profundas y lentas","Contener la respiracion el mayor tiempo posible","Respirar solo por la boca rapidamente"], c:1, e:"Practicar respiraciones profundas y lentas ayuda a reducir la ansiedad y promover la relajacion." },
+    { q:"La relajacion muscular progresiva se basa en:", o:["Masajear vigorosamente todos los musculos","Tensar y relajar los diferentes grupos musculares del cuerpo","Mantener todos los musculos tensos durante 30 minutos","Realizar ejercicio fisico intenso"], c:1, e:"Consiste en tensar y relajar los diferentes grupos musculares del cuerpo para aliviar la tension." },
+    { q:"La visualizacion guiada como tecnica de control del dolor:", o:["Requiere mirar fijamente un punto luminoso","Consiste en imaginar imagenes tranquilas y positivas para distraer la mente","Necesita un equipo electronico especializado","Solo funciona con medicacion simultanea"], c:1, e:"Imaginar imagenes tranquilas y positivas ayuda a distraer la mente de la ansiedad y el dolor." },
+    { q:"La terapia cognitivo-conductual se enfoca en:", o:["Administrar sedantes al paciente","Identificar y cambiar pensamientos negativos y patrones de comportamiento","Realizar cirugia cerebral","Aplicar electroshock terapeutico"], c:1, e:"La TCC se enfoca en identificar y cambiar los pensamientos negativos y patrones de comportamiento que contribuyen a la ansiedad y el dolor." },
+    { q:"Respecto a la medicacion para controlar ansiedad y dolor:", o:["Cualquier persona puede recetar medicamentos","Debe ser evaluada y prescrita por un profesional de la salud","Se puede automedicar libremente","Solo se necesita la aprobacion de un farmaceutico"], c:1, e:"La medicacion para ansiedad y dolor debe ser evaluada y prescrita por un profesional de la salud." },
+    { q:"Cual de estas tecnicas NO se menciona en el temario para el control de la ansiedad?", o:["Respiracion profunda","Acupuntura","Relajacion muscular progresiva","Visualizacion guiada"], c:1, e:"La acupuntura no se menciona en el temario como tecnica de control de ansiedad y dolor." },
+    { q:"Que efecto tiene la respiracion profunda sobre el sistema nervioso?", o:["Aumenta la frecuencia cardiaca","Promueve la relajacion y reduce la ansiedad","Genera hiperventilacion","Aumenta la tension muscular"], c:1, e:"Las respiraciones profundas y lentas promueven la relajacion y ayudan a reducir la ansiedad." },
+    { q:"Para determinar el mejor tratamiento de ansiedad y dolor, se recomienda:", o:["Buscar consejos en internet exclusivamente","Consultar con un profesional de la salud","Preguntar a familiares sin formacion medica","Automedicarse con lo disponible"], c:1, e:"Es importante consultar con un profesional de la salud para determinar la mejor opcion de tratamiento." },
+    { q:"La relajacion muscular progresiva puede ayudar a:", o:["Solo a reducir el dolor pero no la ansiedad","Solo a reducir la ansiedad pero no el dolor","Aliviar la tension y reducir el dolor","Aumentar la fuerza muscular"], c:2, e:"La tecnica de relajacion muscular progresiva alivia la tension y reduce el dolor." },
+    { q:"Cual es la principal ventaja de las tecnicas no farmacologicas frente a la medicacion?", o:["Son siempre mas efectivas","No requieren prescripcion medica ni tienen efectos secundarios farmacologicos","Son mas rapidas que cualquier medicamento","Funcionan sin la colaboracion del paciente"], c:1, e:"Las tecnicas como respiracion, relajacion y visualizacion no requieren prescripcion y carecen de efectos secundarios farmacologicos." }
+  ]},
+  // TEMA 6: Obstruccion vias aereas
+  { name: "Obstruccion de Vias Aereas y Atragantamiento", icon: "6", questions: [
+    { q:"La maniobra de Heimlich en adultos consiste en:", o:["Golpes en el pecho frontalmente","Compresiones abdominales desde detras, hacia adentro y hacia arriba","Presion sobre el esternon con las dos manos","Golpes en la nuca de la victima"], c:1, e:"El rescatador se coloca detras, rodea el abdomen con los brazos y realiza compresiones hacia adentro y hacia arriba." },
+    { q:"En lactantes menores de 1 ano con atragantamiento, el primer paso es:", o:["Maniobra de Heimlich convencional","Colgar al bebe boca abajo y sacudirlo","Colocar boca abajo sobre el antebrazo y dar palmadas entre los omoplatos","Meter los dedos en la boca para extraer el objeto"], c:2, e:"Se coloca al bebe boca abajo sobre el antebrazo y se dan palmadas en la espalda entre los omoplatos." },
+    { q:"En embarazadas con obstruccion que no pueden hablar ni toser, la Heimlich modificada se aplica:", o:["En la misma zona que en adultos normales","En el area entre el esternon y el ombligo","Solo en el abdomen bajo","Sobre la espalda exclusivamente"], c:1, e:"En embarazadas la Heimlich modificada se aplica en el area entre el esternon y el ombligo." },
+    { q:"Si una persona atragantada puede toser y hablar, que se debe hacer?", o:["Realizar inmediatamente la maniobra de Heimlich","Alentarla a que continue tosiendo para intentar expulsar el objeto","Darle golpes fuertes en la espalda","Colocarla en posicion horizontal"], c:1, e:"Si puede toser o hablar, se debe alentar a que lo haga para intentar expulsar el objeto obstructor." },
+    { q:"Si tras la Heimlich la persona no recupera la respiracion, que se debe hacer?", o:["Repetir la maniobra indefinidamente","Llamar al servicio de emergencia medica para ayuda profesional","Darle agua para que trague el objeto","Realizar compresiones abdominales mas fuertes"], c:1, e:"Si la maniobra no funciona, se debe llamar al servicio de emergencia medica." },
+    { q:"Si una embarazada pierde el conocimiento durante la obstruccion, el siguiente paso es:", o:["Sentarla en una silla","Colocarla en el suelo e iniciar compresiones toracicas (RCP)","Aplicar la maniobra de Heimlich con mas fuerza","Darle la vuelta boca abajo"], c:1, e:"Si la embarazada pierde el conocimiento, se coloca en el suelo y se inician compresiones toracicas segun RCP." },
+    { q:"En el atragantamiento, cuando se considera que la obstruccion es completa?", o:["Cuando la persona tose debilmente","Cuando la persona puede hablar con dificultad","Cuando la persona no puede toser, hablar ni respirar","Cuando la persona presenta tos fuerte"], c:2, e:"La obstruccion es completa cuando la persona no puede toser, hablar ni respirar, requiriendo actuacion inmediata." },
+    { q:"Donde se posiciona el rescatador para la maniobra de Heimlich en adultos?", o:["Delante de la victima","Al lado izquierdo","Detras de la victima","Encima de la victima tumbada"], c:2, e:"El rescatador se coloca detras de la persona para rodear su abdomen con los brazos." },
+    { q:"En bebes con obstruccion, las compresiones toracicas se realizan con:", o:["Las dos manos entrelazadas","Los dedos indice y corazon sobre el esternon","El puno cerrado","La palma de la mano"], c:1, e:"En lactantes las compresiones toracicas se hacen con los dedos indice y corazon sobre el esternon." },
+    { q:"Ante un atragantamiento, cual es el primer paso del protocolo?", o:["Realizar la maniobra de Heimlich directamente","Evaluar la situacion: determinar si la persona puede toser o hablar","Llamar al 112 inmediatamente","Dar golpes en la espalda"], c:1, e:"Lo primero es evaluar si la persona esta consciente y si puede toser o hablar, para determinar la gravedad." }
+  ]},
+  // TEMA 7: Ahogamiento y PLS
+  { name: "Ahogamiento y Posicion Lateral de Seguridad", icon: "7", questions: [
+    { q:"Ante un ahogamiento, el primer paso es:", o:["Lanzarse al agua a rescatar a la victima","Llamar inmediatamente a los servicios de emergencia","Esperar a que la victima salga del agua sola","Administrar RCP desde la orilla"], c:1, e:"Lo primero es llamar al 112 para solicitar ayuda profesional." },
+    { q:"Si no tienes entrenamiento adecuado para nadar, como debes intentar el rescate?", o:["Entrando al agua igualmente","Utilizando un objeto largo como rama, cuerda o pertiga","No intentar rescatar bajo ninguna circunstancia","Pidiendo a un nino que entre al agua"], c:1, e:"Se debe usar un objeto largo (rama, cuerda, pertiga) y evitar entrar al agua sin entrenamiento adecuado." },
+    { q:"Si una persona rescatada del agua esta consciente y respirando, se la coloca en:", o:["Posicion sentada","Posicion lateral de seguridad","Posicion boca arriba con piernas elevadas","De pie"], c:1, e:"Si esta consciente y respira, se coloca en posicion lateral de seguridad para evitar broncoaspiracion." },
+    { q:"En la PLS, como se coloca el brazo mas cercano al rescatador?", o:["Pegado al cuerpo","En angulo recto con la palma hacia arriba","Detras de la espalda","Cruzado sobre el pecho"], c:1, e:"El brazo mas cercano se dobla en angulo recto con la palma de la mano hacia arriba." },
+    { q:"En la PLS, la pierna mas alejada del rescatador se coloca:", o:["Estirada junto a la otra pierna","Doblada a la altura de la rodilla con el pie apoyado en el suelo","Cruzada sobre la otra pierna","Elevada con un cojin"], c:1, e:"Se sujeta la pierna alejada a la rodilla y se dobla con el pie apoyado en el suelo." },
+    { q:"Si la persona rescatada del agua no respira, se debe:", o:["Esperar a que llegue la ambulancia","Darle golpes en la espalda hasta que respire","Comenzar RCP de inmediato","Administrarle agua para reanimarla"], c:2, e:"Si no respira o no tiene pulso, se debe comenzar la RCP de inmediato." },
+    { q:"Mientras se espera a los servicios de emergencia, que se debe hacer con la victima de ahogamiento?", o:["Dejarla sola para ir a buscar ayuda","Mantenerla abrigada y en reposo","Hacerla caminar para reactivar la circulacion","Sumergirla parcialmente en agua para mantenerla fresca"], c:1, e:"Se debe mantener a la persona abrigada y en reposo mientras llegan los servicios de emergencia." },
+    { q:"La PLS se utiliza cuando la persona:", o:["Esta consciente y puede caminar","Esta inconsciente pero respira, para proteger su via aerea","Esta en parada cardiaca","Tiene una fractura de columna confirmada"], c:1, e:"La PLS se usa cuando la persona esta inconsciente y respira, para proteger la via aerea y prevenir broncoaspiracion." },
+    { q:"En la PLS, el dorso de la mano del brazo alejado se coloca:", o:["Sobre el torax","Contra la mejilla mas cercana al rescatador","Debajo de la cabeza","Sujeto a la rodilla"], c:1, e:"El dorso de la mano del brazo alejado se coloca contra la mejilla mas cercana al rescatador." },
+    { q:"Al girar a la persona para la PLS, que se debe asegurar?", o:["Que la cabeza quede mirando hacia arriba","Que la via aerea este abierta y la posicion sea segura","Que las dos piernas queden estiradas","Que los brazos queden debajo del cuerpo"], c:1, e:"Al girar se debe asegurar que la cabeza, pierna y brazo esten seguros y la via aerea permanezca abierta." }
+  ]},
+  // TEMA 8: DEA y ABC
+  { name: "Desfibrilador (DEA) y Prioridades ABC", icon: "8", questions: [
+    { q:"Que significa ABC en las prioridades de primeros auxilios?", o:["Actuar - Buscar - Comunicar","Airway - Breathing - Circulation (Via aerea - Respiracion - Circulacion)","Alertar - Bloquear - Controlar","Analizar - Buscar - Curar"], c:1, e:"ABC: A=Airway (Via respiratoria), B=Breathing (Respiracion), C=Circulation (Circulacion)." },
+    { q:"El DEA debe usarse cuando:", o:["La persona tiene dolor en el pecho pero esta consciente","La persona no responde y no respira normalmente (parada cardiaca)","La persona tiene taquicardia pero esta estable","La persona tiene un esguince de tobillo"], c:1, e:"El DEA se usa en parada cardiaca: persona que no responde y no respira normalmente." },
+    { q:"Durante el analisis del ritmo cardiaco por el DEA, que se debe hacer?", o:["Seguir con las compresiones toracicas","Asegurarse de que nadie toque a la persona","Colocar al paciente de lado","Retirar los electrodos"], c:1, e:"Nadie debe tocar a la persona durante el analisis automatico del ritmo cardiaco." },
+    { q:"Quien decide si se administra la descarga electrica con el DEA?", o:["El rescatador decide manualmente","El operador del 112 por telefono","El propio DEA automaticamente tras analizar el ritmo","Un medico presente en el lugar"], c:2, e:"El DEA analiza el ritmo y decide automaticamente si la descarga es necesaria." },
+    { q:"Cual es la primera prioridad del ABC?", o:["Circulacion","Respiracion","Via respiratoria (asegurar via aerea despejada)","Desfibrilacion"], c:2, e:"La primera prioridad es asegurar que la via respiratoria este despejada (A-Airway)." },
+    { q:"Los electrodos del DEA se colocan:", o:["En la espalda del paciente","En el pecho del paciente segun las indicaciones del DEA","En el cuello y el abdomen","En ambas manos del paciente"], c:1, e:"Los electrodos adhesivos se colocan en el pecho siguiendo las imagenes o instrucciones del DEA." },
+    { q:"Si el DEA detecta una arritmia tratable, que sucede?", o:["Se apaga automaticamente","Da instrucciones para administrar la descarga electrica","Emite una alarma y se desactiva","Pide que se llame al medico"], c:1, e:"Si detecta una arritmia tratable, el DEA da instrucciones para administrar la descarga." },
+    { q:"Durante la descarga del DEA, la regla fundamental es:", o:["Mantener contacto fisico con el paciente","Asegurarse de que nadie toque a la persona durante la descarga","Sujetar al paciente firmemente","Colocar las manos sobre los electrodos"], c:1, e:"Nadie debe tocar a la persona durante la descarga electrica para evitar electrocucion." },
+    { q:"Si hay obstruccion de vias aereas (prioridad A), que maniobra se menciona?", o:["RCP inmediata","Desfibrilacion","Maniobra de Heimlich","Administracion de oxigeno"], c:2, e:"Para aliviar la asfixia por obstruccion de vias aereas se realiza la maniobra de Heimlich." },
+    { q:"La mayoria de los DEA modernos proporcionan:", o:["Solo senales luminosas","Instrucciones de voz y/o visuales para guiar al usuario","Conexion directa con el hospital","Medicacion intravenosa automatica"], c:1, e:"Los DEA modernos tienen instrucciones de voz y/o visuales para guiar al usuario paso a paso." }
+  ]},
+  // TEMA 9: Heridas y hemorragias
+  { name: "Heridas, Hemorragias y Epistaxis", icon: "9", questions: [
+    { q:"Para limpiar una herida, que sustancias NO se recomiendan?", o:["Agua limpia y jabon suave","Alcohol, yodo o agua oxigenada","Suero fisiologico","Ninguna de las anteriores"], c:1, e:"No se recomienda el uso de alcohol, yodo ni agua oxigenada para limpiar heridas." },
+    { q:"Cuanto tiempo minimo se debe aplicar presion directa en una hemorragia leve?", o:["1 minuto","3 minutos","5 minutos","15 minutos"], c:2, e:"Se debe aplicar presion directa durante al menos 5 minutos en hemorragias leves." },
+    { q:"El torniquete en hemorragias graves se aplica:", o:["Como primera medida siempre","Solo en casos extremos y por persona entrenada","Nunca bajo ninguna circunstancia","Por cualquier persona sin formacion"], c:1, e:"El torniquete solo se aplica en casos extremos cuando la presion directa no detiene la hemorragia, por persona entrenada." },
+    { q:"En la epistaxis, donde se debe presionar la nariz?", o:["En la parte superior osea","En ambos lados de la parte blanda (no osea)","Solo en el lado que sangra, parte osea","En la punta de la nariz"], c:1, e:"Se presionan ambos lados de la nariz en la parte blanda, no sobre la parte superior osea." },
+    { q:"Cual es la posicion correcta del paciente durante una epistaxis?", o:["Acostado boca arriba","Acostado boca abajo","Sentado, con la cabeza ligeramente inclinada hacia adelante","De pie con la cabeza hacia atras"], c:2, e:"La persona debe estar sentada. No se debe inclinar la cabeza hacia atras para evitar que la sangre vaya a la garganta." },
+    { q:"Cuanto tiempo se debe mantener la presion nasal en epistaxis?", o:["2 minutos","5 minutos","Al menos 10 minutos sin soltar","30 minutos"], c:2, e:"Se debe presionar con firmeza durante al menos 10 minutos sin soltar." },
+    { q:"Cual de estas NO es una causa frecuente de epistaxis?", o:["Aire seco","Hipertension arterial","Fractura de femur","Uso de anticoagulantes (aspirina)"], c:2, e:"La fractura de femur no esta relacionada con la epistaxis. Las causas incluyen aire seco, hipertension y anticoagulantes." },
+    { q:"En hemorragias leves, ademas de la presion directa, que se recomienda?", o:["Aplicar un torniquete inmediatamente","Elevar la parte afectada y aplicar hielo envuelto en pano","Sumergir en agua caliente","Frotar vigorosamente la zona"], c:1, e:"Se recomienda elevar la parte que sangra por encima del corazon y aplicar hielo envuelto en un pano." },
+    { q:"En heridas grandes o profundas, puede ser necesario:", o:["Solo lavar con agua","Cerrar con suturas o tiras adhesivas","Aplicar alcohol directamente","Dejar la herida al aire sin cubrir"], c:1, e:"Las heridas grandes o profundas pueden necesitar cierre con suturas o tiras de sutura adhesivas." },
+    { q:"En el tratamiento hospitalario de epistaxis grave, se puede utilizar:", o:["Cauterizacion con nitrato de plata o bisturi electrico","Aplicacion de alcohol en la nariz","Taponamiento con algodon seco sin medicacion","Solo compresion manual indefinida"], c:0, e:"En casos graves o recurrentes, se puede sellar la fuente con nitrato de plata o electrocauterizacion." }
+  ]},
+  // TEMA 10: Golpe de calor
+  { name: "Golpe de Calor", icon: "10", questions: [
+    { q:"La temperatura corporal en un golpe de calor es superior a:", o:["37C","38C","39C","40C"], c:3, e:"En el golpe de calor la temperatura corporal supera los 40C." },
+    { q:"Cual es una caracteristica distintiva de la piel en el golpe de calor?", o:["Piel fria, palida y sudorosa","Piel caliente, enrojecida y SECA","Piel azulada (cianotica)","Piel con ampollas generalizadas"], c:1, e:"La piel aparece caliente, enrojecida y seca. La ausencia de sudor es un signo grave." },
+    { q:"Que organo puede verse afectado causando confusion, desorientacion y convulsiones?", o:["Higado","Rinones","Cerebro","Bazo"], c:2, e:"El cerebro es especialmente vulnerable: puede causar confusion, desorientacion, convulsiones e incluso coma." },
+    { q:"El tratamiento prioritario del golpe de calor es:", o:["Administrar antibioticos","Enfriamiento inmediato del cuerpo","Abrigar al paciente con mantas","Elevar las piernas"], c:1, e:"Lo prioritario es el enfriamiento inmediato: sumersion en agua fria o enfriamiento por evaporacion." },
+    { q:"Cual de estos es un metodo correcto de enfriamiento por evaporacion?", o:["Cubrir con mantas electricas","Humedecer el cuerpo con agua y exponerlo a corriente de aire con ventilador","Aplicar bolsas de agua caliente","Frotar con alcohol"], c:1, e:"El enfriamiento por evaporacion consiste en humedecer el cuerpo y exponerlo a corriente de aire con ventilador." },
+    { q:"Cual de estos organos NO se menciona como afectado por el golpe de calor?", o:["Corazon","Pulmones","Estomago","Rinones"], c:2, e:"Se mencionan cerebro, corazon, pulmones, rinones e higado, pero no el estomago especificamente." },
+    { q:"El golpe de calor puede causar en el corazon:", o:["Bradicardia severa","Aumento de frecuencia cardiaca y alteracion de presion arterial","Disminucion de la frecuencia cardiaca","No afecta al corazon"], c:1, e:"La frecuencia cardiaca aumenta y la presion arterial puede alterarse (alta o baja)." },
+    { q:"Respecto a los liquidos en el golpe de calor:", o:["Se deben administrar liquidos calientes","Se pueden administrar liquidos frios, incluso intravenosos","No se deben dar liquidos en ningun caso","Solo se permite agua con sal"], c:1, e:"Se pueden administrar liquidos frios, incluso por via intravenosa para rehidratar y regular la temperatura." },
+    { q:"Cual de estos NO es un sintoma del golpe de calor?", o:["Nauseas y vomitos","Debilidad y mareo","Temblores y escalofrios intensos","Dolor de cabeza"], c:2, e:"Los temblores y escalofrios son mas propios de la hipotermia. El golpe de calor se caracteriza por piel caliente y seca." },
+    { q:"El golpe de calor se considera:", o:["Una molestia menor","Una emergencia medica que requiere atencion inmediata","Una condicion que se resuelve sola","Un problema que solo requiere descanso"], c:1, e:"El golpe de calor es una emergencia medica grave que requiere atencion inmediata." }
+  ]},
+  // TEMA 11: Shock
+  { name: "Shock (Choque)", icon: "11", questions: [
+    { q:"Que es el shock?", o:["Una reaccion emocional de miedo","Una emergencia en la que los organos no reciben suficiente sangre y oxigeno","Un tipo de fractura osea","Una quemadura electrica"], c:1, e:"El shock es una emergencia medica en la que los organos no reciben suficiente sangre y oxigeno." },
+    { q:"El shock hipovolemico se produce por:", o:["Un fallo en la bomba cardiaca","Dilatacion excesiva de los vasos sanguineos","Disminucion del volumen sanguineo (hemorragias, deshidratacion)","Una reaccion alergica"], c:2, e:"El shock hipovolemico ocurre por perdida de sangre o liquidos corporales." },
+    { q:"El shock cardiogenico es causado por:", o:["Deshidratacion severa","El corazon no puede bombear suficiente sangre (infarto, disfuncion valvular)","Reacciones alergicas graves","Lesiones medulares"], c:1, e:"Se produce cuando el corazon no puede bombear suficiente sangre, por infarto o disfuncion valvular." },
+    { q:"En el shock distributivo, que ocurre con los vasos sanguineos?", o:["Se contraen excesivamente","Se obstruyen por coagulos","Se dilatan excesivamente, disminuyendo la presion arterial","No se alteran en absoluto"], c:2, e:"Los vasos se dilatan excesivamente, provocando caida de la presion arterial." },
+    { q:"Cual es la posicion correcta para un paciente en shock?", o:["Sentado con piernas colgando","Boca arriba con piernas elevadas","Boca abajo","De lado en posicion fetal"], c:1, e:"Se coloca boca arriba con las piernas elevadas para favorecer el retorno venoso." },
+    { q:"Que esta CONTRAINDICADO hacer con un paciente en shock?", o:["Mantenerlo abrigado","Controlar signos vitales","Darle alimentos o liquidos","Llamar al 112"], c:2, e:"No se deben dar alimentos ni liquidos a una persona en estado de shock." },
+    { q:"Si una persona en shock deja de respirar, se debe:", o:["Esperar a la ambulancia sin hacer nada","Realizar maniobras de RCP hasta que llegue ayuda medica","Darle palmadas en la espalda","Administrarle agua"], c:1, e:"Si deja de respirar o su corazon de latir, se deben iniciar maniobras de RCP." },
+    { q:"Cual de estas puede ser causa de shock distributivo?", o:["Hemorragia por fractura de femur","Reacciones alergicas graves, infecciones bacterianas graves o lesiones medulares","Infarto agudo de miocardio","Deshidratacion por vomitos"], c:1, e:"El shock distributivo puede ser causado por alergias graves, sepsis o lesiones en la medula espinal." },
+    { q:"Uno de los sintomas del shock incluye:", o:["Fiebre muy alta","Piel fria, sudorosa y presion arterial baja","Erupcion cutanea generalizada","Dolor de muelas"], c:1, e:"Los sintomas incluyen debilidad, mareos, piel fria y sudorosa, y presion arterial baja." },
+    { q:"En el tratamiento hospitalario del shock, que se administra por via intravenosa?", o:["Antibioticos siempre","Liquidos para aumentar la presion arterial y mejorar la perfusion","Adrenalina en todos los casos","Anestesia general"], c:1, e:"Se administran liquidos intravenosos para aumentar la presion arterial y mejorar la perfusion tisular." }
+  ]},
+  // TEMA 12: Fracturas
+  { name: "Fracturas e Inmovilizacion", icon: "12", questions: [
+    { q:"Que es una fractura?", o:["Una lesion muscular","Una grieta o rotura en un hueso","Un desgarro de ligamentos","Una luxacion articular"], c:1, e:"Una fractura es una grieta o rotura en un hueso causada por fuerza excesiva." },
+    { q:"La diferencia principal entre fractura abierta y cerrada es:", o:["El dolor es diferente","En la abierta el hueso atraviesa la piel, en la cerrada no","La abierta es menos grave","Solo se diferencian por la radiografia"], c:1, e:"En la fractura abierta el hueso rompe la piel (mayor riesgo de infeccion), en la cerrada la piel esta intacta." },
+    { q:"Cual es el principal riesgo adicional de una fractura abierta?", o:["Mayor dolor","Riesgo de infeccion por entrada de bacterias","Menor tiempo de curacion","Imposibilidad de tratamiento"], c:1, e:"Al estar expuesta, permite la entrada de bacterias aumentando significativamente el riesgo de infeccion." },
+    { q:"Ante una sospecha de fractura, se debe mover la parte lesionada?", o:["Si, para evaluar el rango de movimiento","No, a menos que sea necesario para evitar mayor dano","Si, para realinear el hueso","Si, para comprobar si hay fractura"], c:1, e:"No se debe mover la parte lesionada a menos que sea necesario para evitar un mayor dano." },
+    { q:"Cual es el metodo de inmovilizacion mas adecuado in situ?", o:["Masajear la zona","Ferula, tablilla o cualquier objeto rigido disponible","Vendaje elastico sin soporte","Aplicar calor intenso"], c:1, e:"Se inmoviliza utilizando una ferula, tablilla o cualquier objeto rigido disponible." },
+    { q:"El cabestrillo se utiliza para inmovilizar:", o:["Fracturas de pierna","Extremidades superiores (brazo, mano)","Fracturas de columna","Lesiones de rodilla"], c:1, e:"El cabestrillo es una tela triangular que se usa para inmovilizar y sostener extremidades superiores." },
+    { q:"Que se aplica sobre la zona de fractura para reducir la hinchazon?", o:["Calor seco","Compresas frias o hielo envuelto en un pano","Alcohol","Pomada antibiotica"], c:1, e:"Se aplican compresas frias o hielo envuelto en un pano para reducir la hinchazon." },
+    { q:"Las ferulas estan hechas habitualmente de:", o:["Madera exclusivamente","Yeso, fibra de vidrio o aluminio","Plastico flexible","Carton reciclado"], c:1, e:"Las ferulas son tablillas de yeso, fibra de vidrio o aluminio que se aplican con vendas elasticas o cinta." },
+    { q:"El diagnostico definitivo de una fractura se realiza mediante:", o:["Palpacion manual","Radiografias","Analisis de sangre","Ecografia"], c:1, e:"El diagnostico de una fractura generalmente se confirma mediante radiografias." },
+    { q:"Ademas de inmovilizar, que otra accion se recomienda ante una fractura?", o:["Elevar la extremidad afectada si es posible","Masajear la zona fracturada","Aplicar calor intenso","Mover la articulacion para evitar rigidez"], c:0, e:"Se recomienda elevar la extremidad afectada si es posible, ademas de inmovilizar y aplicar frio." }
+  ]},
+  // TEMA 13: Hipotermia
+  { name: "Hipotermia", icon: "13", questions: [
+    { q:"La hipotermia se define como temperatura corporal por debajo de:", o:["37C","36C","35C","33C"], c:2, e:"La hipotermia es cuando la temperatura corporal desciende peligrosamente por debajo de los 35C." },
+    { q:"Cual de estas NO es una causa de hipotermia?", o:["Exposicion prolongada al frio","Estar en ambiente frio con ropa mojada","Exposicion prolongada al sol","Consumo de alcohol en ambiente frio"], c:2, e:"La exposicion al sol causa golpe de calor, no hipotermia." },
+    { q:"Los sintomas iniciales de hipotermia son:", o:["Piel caliente y seca","Temblores y escalofrios","Sudoracion excesiva","Enrojecimiento facial"], c:1, e:"Los sintomas iniciales incluyen temblores y escalofrios." },
+    { q:"A medida que la hipotermia empeora, puede haber:", o:["Mejoria espontanea","Confusion, perdida de conciencia e incluso paro cardiaco","Solo dolor muscular","Aumento de energia"], c:1, e:"Al empeorar puede haber confusion, perdida de conciencia e incluso paro cardiaco." },
+    { q:"Por que NO se debe dar alcohol a una persona con hipotermia?", o:["Porque el alcohol calienta demasiado rapido","Porque causa vasodilatacion periferica que empeora la perdida de calor","Porque no tiene ningun efecto","Porque causa alergia en personas frias"], c:1, e:"El alcohol causa vasodilatacion periferica que aumenta la perdida de calor del cuerpo." },
+    { q:"Que tipo de liquidos se pueden dar a una persona con hipotermia?", o:["Liquidos frios","Bebidas alcoholicas calientes","Liquidos calientes, evitando el alcohol","Solo agua helada"], c:2, e:"Se proporcionan liquidos calientes, evitando el consumo de alcohol." },
+    { q:"Por que esta contraindicado frotar o masajear la piel en hipotermia?", o:["Porque puede causar ampollas","Porque puede empeorar la situacion","Porque no tiene ningun efecto","Porque causa dolor excesivo"], c:1, e:"Frotar puede causar vasodilatacion periferica, enviando sangre fria al corazon y provocando arritmias." },
+    { q:"Que ropa se debe retirar a la persona con hipotermia?", o:["Toda la ropa","Solo los zapatos","La ropa mojada, reemplazandola por ropa seca y abrigada","No se debe retirar ninguna prenda"], c:2, e:"Se retira la ropa mojada y se reemplaza por ropa seca y abrigada." },
+    { q:"Cual de estos es un factor de riesgo para hipotermia?", o:["Juventud y buena salud","Edad avanzada, mala circulacion y consumo de alcohol","Practica de ejercicio fisico regular","Dieta equilibrada"], c:1, e:"La edad avanzada, mala circulacion, alcohol/drogas y ciertos trastornos medicos son factores de riesgo." },
+    { q:"Si la persona con hipotermia deja de respirar, se debe:", o:["Solo abrigarla y esperar","Realizar RCP y monitorear signos vitales","Darle alcohol para reanimarla","Frotar vigorosamente su pecho"], c:1, e:"Si es necesario, se debe realizar RCP y estar preparado para maniobras de reanimacion." }
+  ]},
+  // TEMA 14: Corriente electrica
+  { name: "Lesiones por Corriente Electrica", icon: "14", questions: [
+    { q:"Que es una lesion por corriente electrica?", o:["Solo una quemadura superficial","Dano causado al cuerpo por el paso de corriente electrica a traves del mismo","Una descarga de electricidad estatica sin consecuencias","Una lesion por caida cerca de cables"], c:1, e:"Es el dano causado al cuerpo humano por el paso de corriente electrica." },
+    { q:"La PRIMERA accion ante una electrocucion es:", o:["Tocar a la victima para verificar su estado","Realizar RCP inmediatamente","Interrumpir el contacto electrico / apagar la fuente","Llamar al 112"], c:2, e:"Lo primero es asegurarse de que la persona no este en contacto con la corriente electrica." },
+    { q:"Por que NO se debe tocar a la persona mientras siga en contacto con la corriente?", o:["Porque puede asustarla","Para evitar el riesgo de electrocucion del rescatador","Porque podria empeorar las quemaduras","No hay ninguna razon, se puede tocar"], c:1, e:"Tocar a alguien en contacto con corriente electrica transmite la electricidad al rescatador." },
+    { q:"Las lesiones por corriente electrica pueden incluir:", o:["Solo enrojecimiento leve de la piel","Quemaduras, dano en tejidos, lesiones en organos internos e incluso muerte","Solo dolor muscular temporal","Unicamente perdida temporal de sensibilidad"], c:1, e:"Pueden variar desde quemaduras en la piel hasta dano en tejidos, organos internos e incluso muerte." },
+    { q:"Si la persona electrocutada esta inconsciente y no respira, se debe:", o:["Esperar a la ambulancia sin hacer nada","Iniciar RCP de inmediato","Solo darle agua","Moverla a otro lugar"], c:1, e:"Si no respira o no tiene pulso, se deben iniciar maniobras de RCP de inmediato." },
+    { q:"Por que es importante buscar atencion medica siempre tras una electrocucion?", o:["Solo para obtener un certificado medico","Porque puede haber danos internos que no son visibles a simple vista","No es necesario si la persona parece bien","Solo si hay quemaduras visibles"], c:1, e:"Puede haber danos internos no visibles que requieren evaluacion medica profesional." },
+    { q:"Antes de acercarse a la victima, como se puede eliminar el peligro?", o:["Tocando los cables directamente","Cortando la corriente electrica o desconectando el equipo","Usando agua para apagar la electricidad","Pisando los cables para fijarlos"], c:1, e:"Si es posible, se debe cortar la corriente electrica o desconectar el equipo antes de acercarse." },
+    { q:"Que se evalua una vez que la persona esta libre del contacto electrico?", o:["Solo las quemaduras visibles","La respiracion y el pulso","El nivel de dolor","La capacidad de caminar"], c:1, e:"Se evalua la respiracion y el pulso para determinar si se necesita RCP." },
+    { q:"Las lesiones por corriente electrica pueden ocurrir por:", o:["Solo por rayos","Contacto accidental o por descuido con fuentes de electricidad","Solo en entornos industriales","Solo con alta tension"], c:1, e:"Pueden ocurrir cuando una persona entra en contacto con una fuente de electricidad, por accidente o descuido." },
+    { q:"Cual es el orden correcto del protocolo de electrocucion?", o:["RCP - Llamar 112 - Cortar corriente","Cortar corriente - Llamar 112 - Evaluar respiracion/pulso - RCP si necesario","Llamar 112 - Tocar a la victima - RCP","Evaluar - Cortar corriente - Dar agua"], c:1, e:"El orden es: interrumpir contacto electrico, llamar 112, no tocar si sigue en contacto, evaluar respiracion/pulso, RCP si necesario." }
+  ]},
+  // TEMA 15: Quemaduras
+  { name: "Quemaduras", icon: "15", questions: [
+    { q:"Una quemadura de primer grado afecta:", o:["Todas las capas de la piel","La dermis y tejido adiposo","Solo la capa externa (epidermis)","Los musculos profundos"], c:2, e:"Las quemaduras de primer grado afectan solo la epidermis: enrojecimiento, inflamacion, dolor, sin ampollas." },
+    { q:"Las ampollas son caracteristicas de las quemaduras de:", o:["Primer grado","Segundo grado","Tercer grado exclusivamente","No aparecen en ninguna quemadura"], c:1, e:"Las ampollas son un signo tipico de las quemaduras de segundo grado, que afectan la dermis." },
+    { q:"En quemaduras de tercer grado, la piel puede aparecer:", o:["Enrojecida con ampollas","Blanca, negra o rojo brillante","Rosa palido","Normal sin alteraciones"], c:1, e:"En quemaduras de tercer grado la piel aparece blanca, negra o rojo brillante por el dano profundo." },
+    { q:"Por que puede haber ausencia de dolor en quemaduras de tercer grado?", o:["Porque no son graves","Porque hay dano en los nervios","Porque se curan rapidamente","Porque el paciente esta sedado"], c:1, e:"Las quemaduras de tercer grado causan dano en los nervios, lo que puede producir ausencia de dolor." },
+    { q:"En quemaduras menores (primer grado), el primer paso es:", o:["Aplicar mantequilla","Enfriar con agua fria durante varios minutos","Cubrir con un vendaje apretado","Aplicar alcohol"], c:1, e:"El primer paso es enfriar la quemadura con agua fria durante varios minutos." },
+    { q:"En quemaduras graves (segundo y tercer grado), que NO se debe aplicar?", o:["Agua fria","Vendaje limpio","Ningun tipo de crema o ungüento","Llamar al 112"], c:2, e:"En quemaduras graves NO se debe aplicar ningun tipo de crema o ungüento." },
+    { q:"Que agentes pueden causar quemaduras segun el temario?", o:["Solo el fuego","Calor, electricidad, radiacion o sustancias quimicas","Solo el agua caliente","Solo los productos quimicos"], c:1, e:"Las quemaduras pueden ser causadas por calor, electricidad, radiacion o sustancias quimicas." },
+    { q:"Las quemaduras de primer grado generalmente:", o:["Requieren cirugia","Dejan cicatrices permanentes","Sanan por si solas sin dejar cicatrices","Necesitan injertos de piel"], c:2, e:"Las quemaduras de primer grado generalmente sanan por si solas sin dejar cicatrices." },
+    { q:"Despues de enfriar una quemadura menor, que se aplica?", o:["Alcohol y vendaje apretado","Pomada antibiotica y vendaje limpio","Aceite de cocina","Nada, se deja al aire"], c:1, e:"Despues de enfriar y limpiar, se aplica pomada antibiotica y se cubre con vendaje limpio." },
+    { q:"Las quemaduras de segundo grado afectan:", o:["Solo la epidermis","Las capas intermedias de la piel (dermis)","Todas las capas incluido hueso","Solo el tejido adiposo"], c:1, e:"Las quemaduras de segundo grado afectan la dermis (capas intermedias), causando ampollas." }
+  ]},
+  // TEMA 16: Picaduras, mordeduras y anafilaxia
+  { name: "Picaduras, Mordeduras y Anafilaxia", icon: "16", questions: [
+    { q:"Si una abeja ha dejado su aguijon, como se retira?", o:["Con los dedos apretando la zona","Con unas pinzas o raspando con una tarjeta de credito","Usando alcohol para disolverlo","No se retira, cae solo"], c:1, e:"Se retira con cuidado usando pinzas o raspando suavemente con el borde de una tarjeta de credito." },
+    { q:"Cuales son las causas mas frecuentes de anafilaxia?", o:["Sol y calor","Farmacos (penicilina), picaduras, alimentos (huevos, mariscos, frutos secos), latex","Frio y humedad","Solo alimentos en mal estado"], c:1, e:"Las causas mas frecuentes son farmacos (penicilina), picaduras de insectos, alimentos y latex." },
+    { q:"El farmaco de primera eleccion en el choque anafilactico es:", o:["Antihistaminico oral","Ibuprofeno","Epinefrina (adrenalina)","Paracetamol"], c:2, e:"La epinefrina (adrenalina) mediante autoinyector es el tratamiento de primera eleccion en anafilaxia." },
+    { q:"Que sintomas indican un choque anafilactico grave?", o:["Solo picazon local","Dificultad para respirar, hinchazon de garganta, caida de presion arterial, mareos","Solo enrojecimiento de la zona picada","Dolor de cabeza leve"], c:1, e:"Los sintomas graves incluyen dificultad respiratoria, hinchazon de garganta, caida de presion, mareos, nauseas." },
+    { q:"Ante una mordedura profunda de animal desconocido, se debe:", o:["Solo lavar con agua","Lavar y buscar atencion medica para evaluar riesgo de rabia e infeccion","Aplicar alcohol y olvidar","No hacer nada si no duele"], c:1, e:"Las mordeduras de animal desconocido requieren atencion medica por riesgo de infeccion y rabia." },
+    { q:"Que crema se aplica en picaduras para aliviar picazon e inflamacion?", o:["Crema solar","Hidrocortisona","Vaselina","Crema de afeitar"], c:1, e:"Se aplica hidrocortisona para aliviar la picazon y la inflamacion." },
+    { q:"Si tras una picadura aparece dificultad para respirar e hinchazon facial:", o:["Esperar a que pase solo","Aplicar hielo y descansar","Buscar atencion medica de emergencia de inmediato","Tomar agua abundante"], c:2, e:"Estos son signos de reaccion alergica grave que requiere atencion medica de emergencia inmediata." },
+    { q:"En el choque anafilactico, que se debe hacer con la ropa del paciente?", o:["Ajustarla para mantener calor","Aflojar la ropa ajustada para permitir mejor circulacion y respiracion","No tocar la ropa","Retirar toda la ropa"], c:1, e:"Se debe aflojar la ropa ajustada para permitir mejor circulacion y respiracion." },
+    { q:"Cual de estos alimentos se menciona como causa frecuente de anafilaxia?", o:["Arroz y pan","Huevos, mariscos y frutos secos","Verduras de hoja verde","Frutas tropicales"], c:1, e:"Los alimentos mas frecuentes como causa de anafilaxia son huevos, mariscos y frutos secos." },
+    { q:"En el protocolo de mordeduras, despues de lavar la herida y detener el sangrado, se debe:", o:["Dejar la herida descubierta","Cubrir con un vendaje esteril o gasa limpia","Aplicar tierra para detener el sangrado","Sumergir en agua caliente"], c:1, e:"Despues de lavar y detener el sangrado, se cubre con vendaje esteril o gasa limpia." }
+  ]},
+  // TEMA 17: Principios de rescate
+  { name: "Principios Basicos de Rescate", icon: "17", questions: [
+    { q:"El primer principio basico de un rescate es:", o:["Socorrer inmediatamente a la victima","Evaluar la seguridad tanto para el rescatador como para la victima","Llamar a los medios de comunicacion","Fotografiar la escena"], c:1, e:"Antes de cualquier accion de rescate, se evalua la seguridad para el rescatador y la persona en peligro." },
+    { q:"Despues de evaluar la seguridad, que se debe hacer?", o:["Mover a la victima inmediatamente","Llamar al servicio de emergencia para obtener ayuda profesional","Administrar medicamentos","Realizar un diagnostico medico"], c:1, e:"Se llama al servicio de emergencia para obtener asistencia medica profesional lo mas rapido posible." },
+    { q:"Al evaluar la situacion de la victima, que se debe observar?", o:["Solo si esta sangrando","Si esta consciente, respirando y si presenta lesiones que requieran atencion inmediata","Solo su edad y genero","Solo la posicion en que se encuentra"], c:1, e:"Se evalua consciencia, respiracion y presencia de lesiones o condiciones que requieran atencion inmediata." },
+    { q:"Que tecnicas de primeros auxilios se pueden aplicar durante un rescate?", o:["Solo inmovilizacion","Desobstruccion de vias, RCP, control de hemorragias, inmovilizacion","Solo RCP","Solo llamar al 112"], c:1, e:"Se pueden aplicar desobstruccion de vias, RCP, control de hemorragias e inmovilizacion segun la situacion." },
+    { q:"Por que es importante mantener la calma durante el rescate?", o:["No es importante, la velocidad es lo unico relevante","Para brindar apoyo emocional y tranquilizar a la victima","Solo para impresionar a los testigos","Para evitar el cansancio del rescatador"], c:1, e:"Mantener la calma permite brindar apoyo emocional y hablar de manera tranquilizadora a la persona en peligro." },
+    { q:"Que debe verificar el rescatador ANTES de proceder con el rescate?", o:["Que hay suficientes testigos","Que no haya riesgos adicionales que pongan en peligro al rescatador","Que tiene todas las herramientas medicas necesarias","Que la victima esta asegurada"], c:1, e:"Se debe verificar que no haya riesgos adicionales antes de proceder con el rescate." },
+    { q:"Cual es el objetivo principal de llamar a ayuda medica de emergencia?", o:["Cumplir con la ley","Obtener asistencia medica profesional lo mas rapido posible","Informar a la policia","Registrar el incidente"], c:1, e:"El objetivo es obtener asistencia medica profesional lo mas rapido posible." },
+    { q:"El rescatador sin formacion en primeros auxilios debe:", o:["Intentar todas las tecnicas posibles","Evaluar seguridad, llamar al 112 y seguir instrucciones del operador","No hacer absolutamente nada","Mover a la victima al hospital por sus propios medios"], c:1, e:"Sin formacion, lo correcto es asegurar la zona, llamar al 112 y seguir las instrucciones del operador." },
+    { q:"Que tipo de apoyo se debe brindar a la victima ademas del fisico?", o:["Solo apoyo economico","Apoyo emocional: hablar de manera tranquilizadora","Solo apoyo logistico","No se brinda ningun apoyo adicional"], c:1, e:"Es importante mantener la calma y brindar apoyo emocional, hablando de manera tranquilizadora." },
+    { q:"Si hay multiples victimas, que se debe evaluar primero?", o:["La edad de cada victima","La gravedad de cada situacion y quien necesita atencion mas urgente","El orden de llegada","El genero de las victimas"], c:1, e:"Se evalua la gravedad de la situacion de cada victima para priorizar quien necesita atencion mas urgente." }
+  ]}
+];
+
+// ===== EXAM ENGINE =====
+let topicAnswers = {};
+let topicSubmitted = {};
+let currentTopic = -1;
+
+function renderTopicSelector() {
+  let html = '';
+  const completedCount = Object.keys(topicSubmitted).length;
+  if (completedCount > 0) {
+    let totalCorrect = 0, totalQ = 0;
+    for (const t in topicSubmitted) {
+      const qs = examData[t].questions;
+      totalQ += qs.length;
+      qs.forEach((q, i) => { if (topicAnswers[t] && topicAnswers[t][i] === q.c) totalCorrect++; });
+    }
+    const pct = Math.round((totalCorrect / totalQ) * 100);
+    document.getElementById('globalResults').innerHTML = `
+      <div class="global-results">
+        <h3>Progreso Global</h3>
+        <div class="gr-stats">
+          <div><div class="gr-num">${completedCount}/17</div><div class="gr-label">Temas completados</div></div>
+          <div><div class="gr-num">${totalCorrect}/${totalQ}</div><div class="gr-label">Respuestas correctas</div></div>
+          <div><div class="gr-num">${pct}%</div><div class="gr-label">Puntuacion global</div></div>
+        </div>
+      </div>`;
+  } else {
+    document.getElementById('globalResults').innerHTML = '';
+  }
+
+  html += '<div class="topic-grid">';
+  examData.forEach((topic, i) => {
+    const done = topicSubmitted[i];
+    let score = '--', pct = 0;
+    if (done) {
+      let c = 0;
+      topic.questions.forEach((q, j) => { if (topicAnswers[i] && topicAnswers[i][j] === q.c) c++; });
+      pct = Math.round((c / topic.questions.length) * 100);
+      score = `${c}/${topic.questions.length} (${pct}%)`;
+    }
+    html += `<div class="topic-card ${done ? 'completed' : ''}" onclick="openTopic(${i})">
+      <div class="tc-num">Tema ${topic.icon}</div>
+      <div class="tc-title">${topic.name}</div>
+      <div class="tc-bar"><div class="tc-fill" style="width:${done ? pct : 0}%"></div></div>
+      <div class="tc-score">${done ? score : '10 preguntas - Sin completar'}</div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('topicSelector').innerHTML = html;
+  document.getElementById('topicSelector').style.display = '';
+  document.getElementById('examContent').style.display = 'none';
+}
+
+function openTopic(i) {
+  currentTopic = i;
+  document.getElementById('topicSelector').style.display = 'none';
+  document.getElementById('examContent').style.display = '';
+  document.getElementById('examTopicTitle').textContent = `Tema ${examData[i].icon}: ${examData[i].name}`;
+  document.getElementById('btnSubmit').disabled = !!topicSubmitted[i];
+  document.getElementById('topicResults').innerHTML = '';
+  renderQuestions(i);
+  updateTopicProgress(i);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderQuestions(ti) {
+  const area = document.getElementById('questionsArea');
+  const qs = examData[ti].questions;
+  const letters = ['A','B','C','D'];
+  let html = '';
+  qs.forEach((q, i) => {
+    let cls = '';
+    if (topicSubmitted[ti]) {
+      cls = (topicAnswers[ti] && topicAnswers[ti][i] === q.c) ? 'correct' : 'incorrect';
+    }
+    html += `<div class="question-card ${cls}" id="tq-${i}">
+      <div class="question-number">Pregunta ${i+1} de ${qs.length}</div>
+      <div class="question-text">${q.q}</div><div class="options">`;
+    q.o.forEach((opt, j) => {
+      let oc = '';
+      if (topicSubmitted[ti]) {
+        oc = 'disabled';
+        if (j === q.c) oc += ' correct-answer';
+        if (topicAnswers[ti] && topicAnswers[ti][i] === j && j !== q.c) oc += ' wrong-answer';
+        if (topicAnswers[ti] && topicAnswers[ti][i] === j && j === q.c) oc += ' correct-answer';
+      } else if (topicAnswers[ti] && topicAnswers[ti][i] === j) {
+        oc = 'selected';
+      }
+      html += `<div class="option ${oc}" onclick="selectOpt(${ti},${i},${j})">
+        <div class="option-letter">${letters[j]}</div><div>${opt}</div></div>`;
+    });
+    html += `</div><div class="explanation ${topicSubmitted[ti]?'show':''}" id="texp-${i}">${q.e}</div></div>`;
+  });
+  area.innerHTML = html;
+}
+
+function selectOpt(ti, qi, oi) {
+  if (topicSubmitted[ti]) return;
+  if (!topicAnswers[ti]) topicAnswers[ti] = {};
+  topicAnswers[ti][qi] = oi;
+  renderQuestions(ti);
+  updateTopicProgress(ti);
+}
+
+function updateTopicProgress(ti) {
+  const answered = topicAnswers[ti] ? Object.keys(topicAnswers[ti]).length : 0;
+  const total = examData[ti].questions.length;
+  document.getElementById('progressBar').style.width = (answered / total * 100) + '%';
+}
+
+function submitCurrentExam() {
+  const ti = currentTopic;
+  if (topicSubmitted[ti]) return;
+  const answered = topicAnswers[ti] ? Object.keys(topicAnswers[ti]).length : 0;
+  const total = examData[ti].questions.length;
+  if (answered < total && !confirm(`Has respondido ${answered} de ${total}. Las no respondidas contaran como incorrectas. Continuar?`)) return;
+
+  topicSubmitted[ti] = true;
+  document.getElementById('btnSubmit').disabled = true;
+
+  let correct = 0;
+  examData[ti].questions.forEach((q, i) => {
+    if (topicAnswers[ti] && topicAnswers[ti][i] === q.c) correct++;
+  });
+
+  const pct = Math.round((correct / total) * 100);
+  const scoreClass = pct >= 70 ? 'high' : pct >= 50 ? 'mid' : 'low';
+  const grade = pct >= 90 ? 'Sobresaliente' : pct >= 70 ? 'Notable' : pct >= 50 ? 'Aprobado' : 'Suspenso';
+
+  document.getElementById('topicResults').innerHTML = `
+    <div class="results-card">
+      <h2 style="color:var(--gray-500);font-weight:600;">Resultado - ${examData[ti].name}</h2>
+      <div class="results-score ${scoreClass}">${pct}%</div>
+      <div class="results-label">${grade}</div>
+      <div class="results-stats">
+        <div class="results-stat"><div class="results-stat-num" style="color:var(--green-600)">${correct}</div><div class="results-stat-label">Correctas</div></div>
+        <div class="results-stat"><div class="results-stat-num" style="color:var(--red-600)">${total - correct}</div><div class="results-stat-label">Incorrectas</div></div>
+      </div>
+      <button class="btn btn-outline" onclick="retryTopic(${ti})" style="margin-right:10px">Repetir este tema</button>
+      <button class="btn btn-primary" onclick="backToTopics()">Volver a temas</button>
+    </div>`;
+
+  renderQuestions(ti);
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('topicResults').scrollIntoView({ behavior: 'smooth' });
+}
+
+function retryTopic(ti) {
+  delete topicAnswers[ti];
+  delete topicSubmitted[ti];
+  openTopic(ti);
+}
+
+function backToTopics() {
+  currentTopic = -1;
+  renderTopicSelector();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetAllExams() {
+  if (!confirm('Esto reiniciara todos los examenes. Continuar?')) return;
+  topicAnswers = {};
+  topicSubmitted = {};
+  renderTopicSelector();
+}
+
+// Init
+renderTopicSelector();
+</script>
+</body>
+</html>
