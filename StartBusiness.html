@@ -410,6 +410,46 @@
   }
   .add-row-btn:hover { color: var(--rust); }
 
+  /* SCENARIO TABS & PANELS */
+  .scenario-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-top: 8px;
+  }
+  .scenario-tab {
+    padding: 10px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+  }
+  .scenario-tab:hover { color: var(--ink); }
+  .scenario-tab.active {
+    color: var(--gold);
+    border-bottom-color: var(--gold);
+  }
+  .scenario-panel { padding: 20px 0 0; }
+  .scenario-balance {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  .scenario-balance.positive { background: #e8f5e9; color: #2d6a4f; }
+  .scenario-balance.negative { background: #fde8e4; color: #b84c2e; }
+  .scenario-balance.zero     { background: #fff8e1; color: #8a6d3b; }
+
   /* NAVIGATION BUTTONS */
   .nav-buttons {
     display: flex;
@@ -1557,7 +1597,7 @@
           <div class="step-number">6</div>
           <div>
             <h2>Plan Financiero</h2>
-            <p>Inversiones iniciales, gastos recurrentes, previsión de ingresos y balance estimado.</p>
+            <p>Inversiones iniciales y escenarios financieros (mínimo y máximo) con desglose de IVA.</p>
           </div>
         </div>
 
@@ -1615,119 +1655,207 @@
         <button class="add-row-btn" onclick="addInvRow()">+ Añadir inversión</button>
 
         <br><br>
-        <div class="fin-section-title">Gastos mensuales recurrentes</div>
-        <div style="overflow-x:auto;">
-        <table class="fin-table iva-table" id="tabla-gastos">
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th class="col-importe">Importe c/IVA (€)</th>
-              <th class="col-iva-tipo">Tipo IVA</th>
-              <th class="col-base">Base imponible (€)</th>
-              <th class="col-iva-imp">IVA (€)</th>
-              <th style="width:28px"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input type="text" placeholder="Ej: Alquiler local" /></td>
-              <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-              <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select></td>
-              <td class="col-base auto-field" data-field="base">—</td>
-              <td class="col-iva-imp auto-field" data-field="iva">—</td>
-              <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
-            </tr>
-            <tr>
-              <td><input type="text" placeholder="Ej: Sueldos y SS" /></td>
-              <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-              <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select></td>
-              <td class="col-base auto-field" data-field="base">—</td>
-              <td class="col-iva-imp auto-field" data-field="iva">—</td>
-              <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
-            </tr>
-            <tr>
-              <td><input type="text" placeholder="Ej: Suministros" /></td>
-              <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-              <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select></td>
-              <td class="col-base auto-field" data-field="base">—</td>
-              <td class="col-iva-imp auto-field" data-field="iva">—</td>
-              <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr class="totals-row" id="totals-gastos">
-              <td><strong>TOTAL</strong></td>
-              <td class="col-importe total-cell" id="tot-gastos-importe">—</td>
-              <td class="col-iva-tipo">—</td>
-              <td class="col-base total-cell" id="tot-gastos-base">—</td>
-              <td class="col-iva-imp total-cell" id="tot-gastos-iva">—</td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
-        </div>
-        <button class="add-row-btn" onclick="addIvaRow('tabla-gastos')">+ Añadir fila</button>
+        <div class="fin-section-title">Escenarios financieros</div>
+        <p style="color:var(--muted);font-size:0.82rem;margin-bottom:12px;line-height:1.5;">
+          Define un escenario mínimo (punto de equilibrio: ingresos = gastos) y un escenario máximo (optimista) para analizar la viabilidad.
+        </p>
 
-        <br><br>
-        <div class="fin-section-title">Previsión de ingresos</div>
-        <div style="overflow-x:auto;">
-        <table class="fin-table iva-table" id="tabla-ingresos">
-          <thead>
-            <tr>
-              <th>Concepto</th>
-              <th class="col-importe">Importe c/IVA (€)</th>
-              <th class="col-iva-tipo">Tipo IVA</th>
-              <th class="col-base">Base imponible (€)</th>
-              <th class="col-iva-imp">IVA (€)</th>
-              <th style="width:28px"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><input type="text" placeholder="Ej: Ventas directas" /></td>
-              <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-              <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select></td>
-              <td class="col-base auto-field" data-field="base">—</td>
-              <td class="col-iva-imp auto-field" data-field="iva">—</td>
-              <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
-            </tr>
-            <tr>
-              <td><input type="text" placeholder="Ej: Suscripciones" /></td>
-              <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-              <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
-                <option value="21">21%</option><option value="10">10%</option>
-                <option value="4">4%</option><option value="0">0%</option>
-              </select></td>
-              <td class="col-base auto-field" data-field="base">—</td>
-              <td class="col-iva-imp auto-field" data-field="iva">—</td>
-              <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr class="totals-row" id="totals-ingresos">
-              <td><strong>TOTAL</strong></td>
-              <td class="col-importe total-cell" id="tot-ingresos-importe">—</td>
-              <td class="col-iva-tipo">—</td>
-              <td class="col-base total-cell" id="tot-ingresos-base">—</td>
-              <td class="col-iva-imp total-cell" id="tot-ingresos-iva">—</td>
-              <td></td>
-            </tr>
-          </tfoot>
-        </table>
+        <div class="scenario-tabs">
+          <button class="scenario-tab active" data-scenario="min" onclick="switchScenario('min')">Escenario Mínimo (Break-even)</button>
+          <button class="scenario-tab" data-scenario="max" onclick="switchScenario('max')">Escenario Máximo</button>
         </div>
-        <button class="add-row-btn" onclick="addIvaRow('tabla-ingresos')">+ Añadir fila</button>
+
+        <div class="scenario-panel" id="scenario-min">
+          <div class="scenario-balance zero" id="balance-min">Balance: <span>0,00 €</span></div>
+
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin-bottom:8px;">Gastos — Escenario mínimo</div>
+          <div style="overflow-x:auto;">
+          <table class="fin-table iva-table" id="tabla-gastos-min">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th class="col-importe">Importe c/IVA (€)</th>
+                <th class="col-iva-tipo">Tipo IVA</th>
+                <th class="col-base">Base imponible (€)</th>
+                <th class="col-iva-imp">IVA (€)</th>
+                <th style="width:28px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Ej: Alquiler local" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="Ej: Sueldos y SS" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="totals-row">
+                <td><strong>TOTAL GASTOS</strong></td>
+                <td class="col-importe total-cell" id="tot-sc-gastos-min-importe">—</td>
+                <td class="col-iva-tipo">—</td>
+                <td class="col-base total-cell" id="tot-sc-gastos-min-base">—</td>
+                <td class="col-iva-imp total-cell" id="tot-sc-gastos-min-iva">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          <button class="add-row-btn" onclick="addIvaRow('tabla-gastos-min')">+ Añadir gasto</button>
+
+          <br>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin:12px 0 8px;">Ingresos — Escenario mínimo</div>
+          <div style="overflow-x:auto;">
+          <table class="fin-table iva-table" id="tabla-ingresos-min">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th class="col-importe">Importe c/IVA (€)</th>
+                <th class="col-iva-tipo">Tipo IVA</th>
+                <th class="col-base">Base imponible (€)</th>
+                <th class="col-iva-imp">IVA (€)</th>
+                <th style="width:28px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Ej: Ventas mínimas estimadas" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="totals-row">
+                <td><strong>TOTAL INGRESOS</strong></td>
+                <td class="col-importe total-cell" id="tot-sc-ingresos-min-importe">—</td>
+                <td class="col-iva-tipo">—</td>
+                <td class="col-base total-cell" id="tot-sc-ingresos-min-base">—</td>
+                <td class="col-iva-imp total-cell" id="tot-sc-ingresos-min-iva">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          <button class="add-row-btn" onclick="addIvaRow('tabla-ingresos-min')">+ Añadir ingreso</button>
+        </div>
+
+        <div class="scenario-panel" id="scenario-max" style="display:none;">
+          <div class="scenario-balance positive" id="balance-max">Balance: <span>—</span></div>
+
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin-bottom:8px;">Gastos — Escenario máximo</div>
+          <div style="overflow-x:auto;">
+          <table class="fin-table iva-table" id="tabla-gastos-max">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th class="col-importe">Importe c/IVA (€)</th>
+                <th class="col-iva-tipo">Tipo IVA</th>
+                <th class="col-base">Base imponible (€)</th>
+                <th class="col-iva-imp">IVA (€)</th>
+                <th style="width:28px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Ej: Alquiler local ampliado" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="Ej: Equipo ampliado" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="totals-row">
+                <td><strong>TOTAL GASTOS</strong></td>
+                <td class="col-importe total-cell" id="tot-sc-gastos-max-importe">—</td>
+                <td class="col-iva-tipo">—</td>
+                <td class="col-base total-cell" id="tot-sc-gastos-max-base">—</td>
+                <td class="col-iva-imp total-cell" id="tot-sc-gastos-max-iva">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          <button class="add-row-btn" onclick="addIvaRow('tabla-gastos-max')">+ Añadir gasto</button>
+
+          <br>
+          <div style="font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin:12px 0 8px;">Ingresos — Escenario máximo</div>
+          <div style="overflow-x:auto;">
+          <table class="fin-table iva-table" id="tabla-ingresos-max">
+            <thead>
+              <tr>
+                <th>Concepto</th>
+                <th class="col-importe">Importe c/IVA (€)</th>
+                <th class="col-iva-tipo">Tipo IVA</th>
+                <th class="col-base">Base imponible (€)</th>
+                <th class="col-iva-imp">IVA (€)</th>
+                <th style="width:28px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="text" placeholder="Ej: Ventas máximas esperadas" /></td>
+                <td class="col-importe"><input type="number" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+                <td class="col-iva-tipo"><select onchange="recalcRow(this)" class="iva-select">
+                  <option value="21">21%</option><option value="10">10%</option>
+                  <option value="4">4%</option><option value="0">0%</option>
+                </select></td>
+                <td class="col-base auto-field" data-field="base">—</td>
+                <td class="col-iva-imp auto-field" data-field="iva">—</td>
+                <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="totals-row">
+                <td><strong>TOTAL INGRESOS</strong></td>
+                <td class="col-importe total-cell" id="tot-sc-ingresos-max-importe">—</td>
+                <td class="col-iva-tipo">—</td>
+                <td class="col-base total-cell" id="tot-sc-ingresos-max-base">—</td>
+                <td class="col-iva-imp total-cell" id="tot-sc-ingresos-max-iva">—</td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+          </div>
+          <button class="add-row-btn" onclick="addIvaRow('tabla-ingresos-max')">+ Añadir ingreso</button>
+        </div>
 
         <br><br>
         <div class="fields-grid">
@@ -2021,11 +2149,7 @@ function ivaSelectHTML(defaultVal = '21') {
 
 function addIvaRow(tableId) {
   const tbody = document.querySelector(`#${tableId} tbody`);
-  const labelMap = {
-    'tabla-gastos': 'Concepto de gasto...',
-    'tabla-ingresos': 'Fuente de ingreso...'
-  };
-  const placeholder = labelMap[tableId] || 'Concepto...';
+  const placeholder = tableId.includes('gastos') ? 'Concepto de gasto...' : tableId.includes('ingresos') ? 'Fuente de ingreso...' : 'Concepto...';
   const tr = document.createElement('tr');
   tr.innerHTML = `
     <td><input type="text" placeholder="${placeholder}" /></td>
@@ -2087,14 +2211,26 @@ function recalcTotals(table) {
     }
   });
 
-  const suffix = tableId.includes('gastos') ? 'gastos' : 'ingresos';
-  const elImporte = document.getElementById(`tot-${suffix}-importe`);
-  const elBase = document.getElementById(`tot-${suffix}-base`);
-  const elIva = document.getElementById(`tot-${suffix}-iva`);
+  const isScenario = /^tabla-(gastos|ingresos)-(min|max)$/.test(tableId);
+  let prefix;
+  if (isScenario) {
+    prefix = 'sc-' + tableId.replace('tabla-', '');
+  } else {
+    prefix = tableId.includes('gastos') ? 'gastos' : 'ingresos';
+  }
+
+  const elImporte = document.getElementById(`tot-${prefix}-importe`);
+  const elBase = document.getElementById(`tot-${prefix}-base`);
+  const elIva = document.getElementById(`tot-${prefix}-iva`);
 
   if (elImporte) elImporte.textContent = hasData ? fmt(totImporte) : '—';
   if (elBase) elBase.textContent = hasData ? fmt(totBase) : '—';
   if (elIva) elIva.textContent = hasData ? fmt(totIva) : '—';
+
+  if (isScenario) {
+    const scenario = tableId.endsWith('-min') ? 'min' : 'max';
+    recalcScenarioBalance(scenario);
+  }
 }
 
 function fmt(n) {
@@ -2117,6 +2253,32 @@ function getIvaTableData(tableId) {
     }
   });
   return data;
+}
+
+// ---- SCENARIO TABLE FUNCTIONS ----
+function switchScenario(tab) {
+  document.querySelectorAll('.scenario-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`.scenario-tab[data-scenario="${tab}"]`).classList.add('active');
+  document.getElementById('scenario-min').style.display = tab === 'min' ? '' : 'none';
+  document.getElementById('scenario-max').style.display = tab === 'max' ? '' : 'none';
+}
+
+function recalcScenarioBalance(scenario) {
+  let totGastos = 0, totIngresos = 0;
+  document.querySelectorAll(`#tabla-gastos-${scenario} tbody tr`).forEach(row => {
+    const v = parseFloat(row.querySelector('input[type="number"]')?.value) || 0;
+    if (v > 0) totGastos += v;
+  });
+  document.querySelectorAll(`#tabla-ingresos-${scenario} tbody tr`).forEach(row => {
+    const v = parseFloat(row.querySelector('input[type="number"]')?.value) || 0;
+    if (v > 0) totIngresos += v;
+  });
+  const balance = totIngresos - totGastos;
+  const balEl = document.getElementById(`balance-${scenario}`);
+  if (balEl) {
+    balEl.querySelector('span').textContent = fmt(balance);
+    balEl.className = 'scenario-balance ' + (balance > 0.005 ? 'positive' : balance < -0.005 ? 'negative' : 'zero');
+  }
 }
 
 function getProductTableData(tableId) {
@@ -2192,8 +2354,10 @@ function collectData() {
     proveedores: document.getElementById('f_proveedores').value,
     operaciones_detalle: getOperacionTableData('tabla-operaciones'),
     inversiones: getTableData('tabla-inversiones'),
-    gastos: getIvaTableData('tabla-gastos'),
-    ingresos: getIvaTableData('tabla-ingresos'),
+    escenario_min_gastos: getIvaTableData('tabla-gastos-min'),
+    escenario_min_ingresos: getIvaTableData('tabla-ingresos-min'),
+    escenario_max_gastos: getIvaTableData('tabla-gastos-max'),
+    escenario_max_ingresos: getIvaTableData('tabla-ingresos-max'),
     financiacion: document.getElementById('f_financiacion').value,
     breakeven: document.getElementById('f_breakeven').value,
     calidad: document.getElementById('f_calidad').value,
@@ -2231,8 +2395,6 @@ async function generatePlan() {
   }, 6000);
 
   const totalInversiones = calcTotal(data.inversiones);
-  const totalGastos = calcTotal(data.gastos);
-  const totalIngresos = calcTotal(data.ingresos);
 
   const prompt = `Eres un experto en planes de negocio con 20 años de experiencia. Tu tarea es redactar un plan de negocio profesional, completo y convincente para un proyecto con los siguientes datos:
 
@@ -2278,10 +2440,22 @@ async function generatePlan() {
 **FINANCIERO:**
 - Inversiones totales: ${totalInversiones}€ / Cuota amortización mensual total: ${data.inversiones.reduce((s,r)=>s+(r.cuotaMensual||0),0).toFixed(2)}€
 - Detalle inversiones: ${data.inversiones.map(r => `${r.concepto}: ${r.importe}€${r.años ? ` (${r.años} años, ${r.tipoAnual||0}% interés, cuota ${r.cuotaMensual?.toFixed(2)}€/mes)` : ''}`).join(' | ') || 'No especificado'}
-- Gastos mensuales totales (con IVA): ${totalGastos}€ / Base imponible: ${calcTotalBase(data.gastos).toFixed(2)}€ / IVA soportado: ${calcTotalIva(data.gastos).toFixed(2)}€
-- Ingresos mensuales estimados (con IVA): ${totalIngresos}€ / Base imponible: ${calcTotalBase(data.ingresos).toFixed(2)}€ / IVA repercutido: ${calcTotalIva(data.ingresos).toFixed(2)}€
 - Financiación: ${data.financiacion}
 - Punto de equilibrio: ${data.breakeven}
+
+**ESCENARIO MÍNIMO (Break-even):**
+- Gastos mínimos (c/IVA): ${data.escenario_min_gastos.map(r => `${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}%, base ${r.base?.toFixed(2)}€)`).join(' | ') || 'No especificado'}
+- Total gastos mín.: c/IVA ${calcTotal(data.escenario_min_gastos).toFixed(2)}€ / Base: ${calcTotalBase(data.escenario_min_gastos).toFixed(2)}€ / IVA: ${calcTotalIva(data.escenario_min_gastos).toFixed(2)}€
+- Ingresos mínimos (c/IVA): ${data.escenario_min_ingresos.map(r => `${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}%, base ${r.base?.toFixed(2)}€)`).join(' | ') || 'No especificado'}
+- Total ingresos mín.: c/IVA ${calcTotal(data.escenario_min_ingresos).toFixed(2)}€ / Base: ${calcTotalBase(data.escenario_min_ingresos).toFixed(2)}€ / IVA: ${calcTotalIva(data.escenario_min_ingresos).toFixed(2)}€
+- Margen mín. (base): ${(calcTotalBase(data.escenario_min_ingresos) - calcTotalBase(data.escenario_min_gastos)).toFixed(2)}€
+
+**ESCENARIO MÁXIMO (Optimista):**
+- Gastos máximos (c/IVA): ${data.escenario_max_gastos.map(r => `${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}%, base ${r.base?.toFixed(2)}€)`).join(' | ') || 'No especificado'}
+- Total gastos máx.: c/IVA ${calcTotal(data.escenario_max_gastos).toFixed(2)}€ / Base: ${calcTotalBase(data.escenario_max_gastos).toFixed(2)}€ / IVA: ${calcTotalIva(data.escenario_max_gastos).toFixed(2)}€
+- Ingresos máximos (c/IVA): ${data.escenario_max_ingresos.map(r => `${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}%, base ${r.base?.toFixed(2)}€)`).join(' | ') || 'No especificado'}
+- Total ingresos máx.: c/IVA ${calcTotal(data.escenario_max_ingresos).toFixed(2)}€ / Base: ${calcTotalBase(data.escenario_max_ingresos).toFixed(2)}€ / IVA: ${calcTotalIva(data.escenario_max_ingresos).toFixed(2)}€
+- Margen máx. (base): ${(calcTotalBase(data.escenario_max_ingresos) - calcTotalBase(data.escenario_max_gastos)).toFixed(2)}€
 
 **CALIDAD:**
 - Procedimientos: ${data.calidad}
@@ -2299,6 +2473,7 @@ Genera un JSON con exactamente esta estructura (sin ningún texto fuera del JSON
   "plan_marketing_captacion": "150 palabras con las estrategias de captación, canales y plan de comunicación.",
   "plan_operaciones": "200 palabras describiendo el proceso productivo, estructura organizativa y plan de digitalización.",
   "plan_financiero_comentario": "150-200 palabras analizando la viabilidad financiera, el retorno esperado, el punto de equilibrio y recomendaciones.",
+  "analisis_escenarios": "150-200 palabras comparando el escenario mínimo (break-even) con el máximo (optimista): qué debe ocurrir para alcanzar cada uno, riesgos principales, y recomendaciones para maximizar la probabilidad del escenario óptimo.",
   "control_calidad": "150 palabras describiendo los procedimientos de calidad, KPIs y sistemas de mejora continua.",
   "conclusion_tecnica": "100-120 palabras evaluando la viabilidad técnica del proyecto.",
   "conclusion_economica": "100-120 palabras evaluando la viabilidad económica y recomendación final.",
@@ -2355,9 +2530,19 @@ IMPORTANTE: Responde ÚNICAMENTE con el JSON válido, sin explicaciones adiciona
 // ============================================================
 function renderPlan(data, ai) {
   const totalInversiones = calcTotal(data.inversiones);
-  const totalGastos = calcTotal(data.gastos);
-  const totalIngresos = calcTotal(data.ingresos);
-  const margen = totalIngresos - totalGastos;
+  const minG = data.escenario_min_gastos || [];
+  const minI = data.escenario_min_ingresos || [];
+  const maxG = data.escenario_max_gastos || [];
+  const maxI = data.escenario_max_ingresos || [];
+  const scMinGastos = calcTotal(minG);
+  const scMinIngresos = calcTotal(minI);
+  const scMinBalance = scMinIngresos - scMinGastos;
+  const scMaxGastos = calcTotal(maxG);
+  const scMaxIngresos = calcTotal(maxI);
+  const scMaxBalance = scMaxIngresos - scMaxGastos;
+  const hasMin = minG.length > 0 || minI.length > 0;
+  const hasMax = maxG.length > 0 || maxI.length > 0;
+  const hasScenarios = hasMin || hasMax;
   const fecha = new Date().toLocaleDateString('es-ES', { year:'numeric', month:'long', day:'numeric' });
 
   function renderTable(rows, totalLabel) {
@@ -2564,54 +2749,80 @@ function renderPlan(data, ai) {
       <h3>Inversiones iniciales</h3>
       ${renderTable(data.inversiones, 'Total inversión inicial')}
 
-      <h3>Gastos mensuales recurrentes</h3>
-      ${renderIvaTable(data.gastos, 'Total gastos mensuales')}
-
-      <h3>Previsión de ingresos mensuales</h3>
-      ${renderIvaTable(data.ingresos, 'Total ingresos mensuales')}
-
-      <h3>Balance estimado mensual</h3>
-      <table class="fin-plan-table" style="min-width:400px">
-        <thead><tr><th>Concepto</th><th style="text-align:right">Importe c/IVA (€)</th><th style="text-align:right">Base imponible (€)</th><th style="text-align:right">IVA (€)</th></tr></thead>
+      ${hasScenarios ? `
+      <h3>Comparativa de escenarios</h3>
+      <div style="overflow-x:auto"><table class="fin-plan-table" style="min-width:500px">
+        <thead><tr>
+          <th></th>
+          ${hasMin ? '<th style="text-align:center;background:#fff8e1;color:#8a6d3b" colspan="3">Escenario Mínimo (Break-even)</th>' : ''}
+          ${hasMax ? '<th style="text-align:center;background:#e0f0e4;color:#2d6a4f" colspan="3">Escenario Máximo (Optimista)</th>' : ''}
+        </tr>
+        <tr>
+          <th></th>
+          ${hasMin ? '<th style="text-align:right;font-size:0.75rem">c/IVA</th><th style="text-align:right;font-size:0.75rem">Base</th><th style="text-align:right;font-size:0.75rem">IVA</th>' : ''}
+          ${hasMax ? '<th style="text-align:right;font-size:0.75rem">c/IVA</th><th style="text-align:right;font-size:0.75rem">Base</th><th style="text-align:right;font-size:0.75rem">IVA</th>' : ''}
+        </tr></thead>
         <tbody>
-          <tr><td>Ingresos mensuales</td>
-            <td style="text-align:right">${calcTotal(data.ingresos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right">${calcTotalBase(data.ingresos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right">${calcTotalIva(data.ingresos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
+          <tr>
+            <td><strong>Ingresos</strong></td>
+            ${hasMin ? `<td style="text-align:right">${scMinIngresos.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalBase(minI).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalIva(minI).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
+            ${hasMax ? `<td style="text-align:right">${scMaxIngresos.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalBase(maxI).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalIva(maxI).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
           </tr>
-          <tr><td>Gastos mensuales</td>
-            <td style="text-align:right">${calcTotal(data.gastos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right">${calcTotalBase(data.gastos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right">${calcTotalIva(data.gastos).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
+          <tr>
+            <td><strong>Gastos</strong></td>
+            ${hasMin ? `<td style="text-align:right">${scMinGastos.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalBase(minG).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalIva(minG).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
+            ${hasMax ? `<td style="text-align:right">${scMaxGastos.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalBase(maxG).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right">${calcTotalIva(maxG).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
           </tr>
         </tbody>
         <tfoot>
           <tr style="background:var(--ink)">
-            <td style="color:var(--gold);font-weight:700">Margen operativo (base imponible)</td>
-            <td style="text-align:right;color:${margen>=0?'#4ade80':'#f87171'};font-weight:700">${margen.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right;color:${(calcTotalBase(data.ingresos)-calcTotalBase(data.gastos))>=0?'#4ade80':'#f87171'};font-weight:700">${(calcTotalBase(data.ingresos)-calcTotalBase(data.gastos)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
-            <td style="text-align:right;color:var(--gold-light);font-weight:700">${(calcTotalIva(data.ingresos)-calcTotalIva(data.gastos)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>
+            <td style="color:var(--gold);font-weight:700">Margen (base)</td>
+            ${hasMin ? `<td style="text-align:right;color:${scMinBalance>=0?'#4ade80':'#f87171'};font-weight:700">${scMinBalance.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right;color:${(calcTotalBase(minI)-calcTotalBase(minG))>=0?'#4ade80':'#f87171'};font-weight:700">${(calcTotalBase(minI)-calcTotalBase(minG)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right;color:var(--gold-light);font-weight:700">${(calcTotalIva(minI)-calcTotalIva(minG)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
+            ${hasMax ? `<td style="text-align:right;color:${scMaxBalance>=0?'#4ade80':'#f87171'};font-weight:700">${scMaxBalance.toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right;color:${(calcTotalBase(maxI)-calcTotalBase(maxG))>=0?'#4ade80':'#f87171'};font-weight:700">${(calcTotalBase(maxI)-calcTotalBase(maxG)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td><td style="text-align:right;color:var(--gold-light);font-weight:700">${(calcTotalIva(maxI)-calcTotalIva(maxG)).toLocaleString('es-ES',{minimumFractionDigits:2})} €</td>` : ''}
           </tr>
         </tfoot>
-      </table>
+      </table></div>
+
+      ${hasMin ? `<h3 style="margin-top:24px">Escenario Mínimo (Break-even)</h3>
+      <h4 style="font-size:0.9rem;">Gastos mensuales</h4>
+      ${renderIvaTable(minG, 'Total gastos mínimos')}
+      <h4 style="font-size:0.9rem;">Ingresos mensuales</h4>
+      ${renderIvaTable(minI, 'Total ingresos mínimos')}` : ''}
+
+      ${hasMax ? `<h3 style="margin-top:24px">Escenario Máximo (Optimista)</h3>
+      <h4 style="font-size:0.9rem;">Gastos mensuales</h4>
+      ${renderIvaTable(maxG, 'Total gastos máximos')}
+      <h4 style="font-size:0.9rem;">Ingresos mensuales</h4>
+      ${renderIvaTable(maxI, 'Total ingresos máximos')}` : ''}
+      ` : ''}
 
       ${data.financiacion ? `<h3>Fuentes de financiación</h3><p>${data.financiacion}</p>` : ''}
       ${data.breakeven ? `<h3>Punto de equilibrio</h3><p>${data.breakeven}</p>` : ''}
 
       <h3>Gráficos financieros</h3>
       <div class="charts-grid">
+        ${hasScenarios ? `
+        <div class="chart-card" style="grid-column: 1 / -1;">
+          <h4>Comparativa de escenarios (base imponible)</h4>
+          <canvas id="chartScenarios"></canvas>
+        </div>` : ''}
+        ${hasMax ? `
         <div class="chart-card">
-          <h4>Ingresos vs Gastos mensuales (base imponible)</h4>
-          <canvas id="chartBarFinancial"></canvas>
-        </div>
-        <div class="chart-card">
-          <h4>Distribución de gastos</h4>
+          <h4>Distribución de gastos (esc. máximo)</h4>
           <canvas id="chartPieGastos"></canvas>
         </div>
         <div class="chart-card">
-          <h4>Distribución de ingresos</h4>
+          <h4>Distribución de ingresos (esc. máximo)</h4>
           <canvas id="chartPieIngresos"></canvas>
+        </div>` : hasMin ? `
+        <div class="chart-card">
+          <h4>Distribución de gastos (esc. mínimo)</h4>
+          <canvas id="chartPieGastos"></canvas>
         </div>
+        <div class="chart-card">
+          <h4>Distribución de ingresos (esc. mínimo)</h4>
+          <canvas id="chartPieIngresos"></canvas>
+        </div>` : ''}
         <div class="chart-card">
           <h4>Inversiones vs Cuota amortización mensual</h4>
           <canvas id="chartInversiones"></canvas>
@@ -2620,6 +2831,10 @@ function renderPlan(data, ai) {
 
       <h3>Análisis de viabilidad financiera</h3>
       <p>${ai.plan_financiero_comentario || ''}</p>
+
+      ${hasScenarios && ai.analisis_escenarios ? `
+      <h3>Análisis de escenarios</h3>
+      <p>${ai.analisis_escenarios}</p>` : ''}
     </div>
 
     <!-- 9. CONTROL DE CALIDAD -->
@@ -2669,50 +2884,23 @@ function renderFinancialCharts(data) {
   Chart.defaults.color       = '#3a3530';
 
   // Destroy previous charts if any
-  ['chartBarFinancial','chartPieGastos','chartPieIngresos','chartInversiones'].forEach(id => {
+  ['chartPieGastos','chartPieIngresos','chartInversiones','chartScenarios'].forEach(id => {
     const existing = Chart.getChart(id);
     if (existing) existing.destroy();
   });
 
-  const baseIngresos = calcTotalBase(data.ingresos);
-  const baseGastos   = calcTotalBase(data.gastos);
-  const margenBase   = baseIngresos - baseGastos;
+  const pieGastos = (data.escenario_max_gastos || []).length ? data.escenario_max_gastos : (data.escenario_min_gastos || []);
+  const pieIngresos = (data.escenario_max_ingresos || []).length ? data.escenario_max_ingresos : (data.escenario_min_ingresos || []);
 
-  // 1. Bar: Ingresos vs Gastos vs Margen
-  const ctxBar = document.getElementById('chartBarFinancial');
-  if (ctxBar) {
-    new Chart(ctxBar, {
-      type: 'bar',
-      data: {
-        labels: ['Ingresos', 'Gastos', 'Margen'],
-        datasets: [{
-          data: [baseIngresos, baseGastos, margenBase],
-          backgroundColor: [green, rust, margenBase >= 0 ? gold : '#f87171'],
-          borderRadius: 6,
-          borderSkipped: false,
-        }]
-      },
-      options: {
-        responsive: true,
-        plugins: { legend: { display: false },
-          tooltip: { callbacks: { label: ctx => ` ${ctx.parsed.y.toLocaleString('es-ES',{minimumFractionDigits:2})} €` }}},
-        scales: {
-          y: { grid: { color: '#e8e4df' }, ticks: { callback: v => v.toLocaleString('es-ES') + ' €' }},
-          x: { grid: { display: false }}
-        }
-      }
-    });
-  }
-
-  // 2. Pie: distribución de gastos
+  // 1. Pie: distribución de gastos
   const ctxPieG = document.getElementById('chartPieGastos');
-  if (ctxPieG && data.gastos.length) {
+  if (ctxPieG && pieGastos.length) {
     new Chart(ctxPieG, {
       type: 'doughnut',
       data: {
-        labels: data.gastos.map(r => r.concepto),
+        labels: pieGastos.map(r => r.concepto),
         datasets: [{
-          data: data.gastos.map(r => r.base || r.importe),
+          data: pieGastos.map(r => r.base || r.importe),
           backgroundColor: palette,
           borderWidth: 2,
           borderColor: '#faf7f2'
@@ -2728,15 +2916,15 @@ function renderFinancialCharts(data) {
     });
   }
 
-  // 3. Pie: distribución de ingresos
+  // 2. Pie: distribución de ingresos
   const ctxPieI = document.getElementById('chartPieIngresos');
-  if (ctxPieI && data.ingresos.length) {
+  if (ctxPieI && pieIngresos.length) {
     new Chart(ctxPieI, {
       type: 'doughnut',
       data: {
-        labels: data.ingresos.map(r => r.concepto),
+        labels: pieIngresos.map(r => r.concepto),
         datasets: [{
-          data: data.ingresos.map(r => r.base || r.importe),
+          data: pieIngresos.map(r => r.base || r.importe),
           backgroundColor: palette,
           borderWidth: 2,
           borderColor: '#faf7f2'
@@ -2784,6 +2972,39 @@ function renderFinancialCharts(data) {
         scales: {
           x: { grid: { color: '#e8e4df' }, ticks: { callback: v => v.toLocaleString('es-ES') + ' €' }},
           y: { grid: { display: false }}
+        }
+      }
+    });
+  }
+
+  // 5. Bar: Comparativa de escenarios (base imponible)
+  const ctxSc = document.getElementById('chartScenarios');
+  if (ctxSc) {
+    const scMinI = calcTotalBase(data.escenario_min_ingresos || []);
+    const scMinG = calcTotalBase(data.escenario_min_gastos || []);
+    const scMaxI = calcTotalBase(data.escenario_max_ingresos || []);
+    const scMaxG = calcTotalBase(data.escenario_max_gastos || []);
+    const scMinB = scMinI - scMinG;
+    const scMaxB = scMaxI - scMaxG;
+    new Chart(ctxSc, {
+      type: 'bar',
+      data: {
+        labels: ['Esc. Mínimo', 'Esc. Máximo'],
+        datasets: [
+          { label: 'Ingresos', data: [scMinI, scMaxI], backgroundColor: green, borderRadius: 6 },
+          { label: 'Gastos', data: [scMinG, scMaxG], backgroundColor: rust, borderRadius: 6 },
+          { label: 'Balance', data: [scMinB, scMaxB], backgroundColor: [scMinB >= 0 ? gold : '#f87171', scMaxB >= 0 ? gold : '#f87171'], borderRadius: 6 }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { boxWidth: 10, padding: 10 }},
+          tooltip: { callbacks: { label: ctx => ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('es-ES',{minimumFractionDigits:2})} €` }}
+        },
+        scales: {
+          y: { grid: { color: '#e8e4df' }, ticks: { callback: v => v.toLocaleString('es-ES') + ' €' }},
+          x: { grid: { display: false }}
         }
       }
     });
@@ -3052,20 +3273,18 @@ async function downloadPDF() {
 // ============================================================
 function buildPromptText(data) {
   const totalInversiones = calcTotal(data.inversiones);
-  const totalGastos      = calcTotal(data.gastos);
-  const totalIngresos    = calcTotal(data.ingresos);
   const totalCuota       = data.inversiones.reduce((s,r) => s + (r.cuotaMensual||0), 0);
+  const minG = data.escenario_min_gastos || [];
+  const minI = data.escenario_min_ingresos || [];
+  const maxG = data.escenario_max_gastos || [];
+  const maxI = data.escenario_max_ingresos || [];
 
   const invDetalle = data.inversiones.length
     ? data.inversiones.map(r => `  • ${r.concepto}: ${r.importe}€${r.años ? ` | Amort: ${r.años} años | Interés: ${r.tipoAnual||0}% | Cuota: ${r.cuotaMensual?.toFixed(2)}€/mes` : ''}`).join('\n')
     : '  (sin datos)';
 
-  const gastoDetalle = data.gastos.length
-    ? data.gastos.map(r => `  • ${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}% | Base: ${r.base?.toFixed(2)}€ | IVA: ${r.iva?.toFixed(2)}€)`).join('\n')
-    : '  (sin datos)';
-
-  const ingresoDetalle = data.ingresos.length
-    ? data.ingresos.map(r => `  • ${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}% | Base: ${r.base?.toFixed(2)}€ | IVA: ${r.iva?.toFixed(2)}€)`).join('\n')
+  const fmtIvaList = arr => arr.length
+    ? arr.map(r => `  • ${r.concepto}: ${r.importe}€ (IVA ${r.tipoIva}% | Base: ${r.base?.toFixed(2)}€ | IVA: ${r.iva?.toFixed(2)}€)`).join('\n')
     : '  (sin datos)';
 
   const prodDetalle = data.productos?.length
@@ -3160,13 +3379,24 @@ PLAN FINANCIERO
 INVERSIONES INICIALES (Total: ${totalInversiones.toFixed(2)}€ | Cuota amort. mensual: ${totalCuota.toFixed(2)}€):
 ${invDetalle}
 
-GASTOS MENSUALES (Total c/IVA: ${totalGastos.toFixed(2)}€ | Base: ${calcTotalBase(data.gastos).toFixed(2)}€ | IVA soportado: ${calcTotalIva(data.gastos).toFixed(2)}€):
-${gastoDetalle}
+── ESCENARIO MÍNIMO (Break-even) ──
+Gastos mín. (Total c/IVA: ${calcTotal(minG).toFixed(2)}€ | Base: ${calcTotalBase(minG).toFixed(2)}€ | IVA: ${calcTotalIva(minG).toFixed(2)}€):
+${fmtIvaList(minG)}
 
-INGRESOS MENSUALES (Total c/IVA: ${totalIngresos.toFixed(2)}€ | Base: ${calcTotalBase(data.ingresos).toFixed(2)}€ | IVA repercutido: ${calcTotalIva(data.ingresos).toFixed(2)}€):
-${ingresoDetalle}
+Ingresos mín. (Total c/IVA: ${calcTotal(minI).toFixed(2)}€ | Base: ${calcTotalBase(minI).toFixed(2)}€ | IVA: ${calcTotalIva(minI).toFixed(2)}€):
+${fmtIvaList(minI)}
 
-Margen operativo mensual (base imponible): ${(calcTotalBase(data.ingresos) - calcTotalBase(data.gastos)).toFixed(2)}€
+Margen mín. (base imponible): ${(calcTotalBase(minI) - calcTotalBase(minG)).toFixed(2)}€
+
+── ESCENARIO MÁXIMO (Optimista) ──
+Gastos máx. (Total c/IVA: ${calcTotal(maxG).toFixed(2)}€ | Base: ${calcTotalBase(maxG).toFixed(2)}€ | IVA: ${calcTotalIva(maxG).toFixed(2)}€):
+${fmtIvaList(maxG)}
+
+Ingresos máx. (Total c/IVA: ${calcTotal(maxI).toFixed(2)}€ | Base: ${calcTotalBase(maxI).toFixed(2)}€ | IVA: ${calcTotalIva(maxI).toFixed(2)}€):
+${fmtIvaList(maxI)}
+
+Margen máx. (base imponible): ${(calcTotalBase(maxI) - calcTotalBase(maxG)).toFixed(2)}€
+
 Fuentes de financiación: ${data.financiacion || '—'}
 Punto de equilibrio:     ${data.breakeven || '—'}
 
@@ -3300,27 +3530,17 @@ function collectFullState() {
     });
   });
 
-  // Gastos rows
-  base._gasto_rows = [];
-  document.querySelectorAll('#tabla-gastos tbody tr').forEach(tr => {
-    const inputs = tr.querySelectorAll('input');
-    const sel = tr.querySelector('select');
-    base._gasto_rows.push({
-      concepto: inputs[0]?.value || '',
-      importe:  inputs[1]?.value || '',
-      iva:      sel?.value || '21',
-    });
-  });
-
-  // Ingresos rows
-  base._ingreso_rows = [];
-  document.querySelectorAll('#tabla-ingresos tbody tr').forEach(tr => {
-    const inputs = tr.querySelectorAll('input');
-    const sel = tr.querySelector('select');
-    base._ingreso_rows.push({
-      concepto: inputs[0]?.value || '',
-      importe:  inputs[1]?.value || '',
-      iva:      sel?.value || '21',
+  // Scenario rows
+  ['gastos-min','ingresos-min','gastos-max','ingresos-max'].forEach(key => {
+    base[`_sc_${key.replace('-','_')}`] = [];
+    document.querySelectorAll(`#tabla-${key} tbody tr`).forEach(tr => {
+      const inputs = tr.querySelectorAll('input');
+      const sel = tr.querySelector('select');
+      base[`_sc_${key.replace('-','_')}`].push({
+        concepto: inputs[0]?.value || '',
+        importe:  inputs[1]?.value || '',
+        iva:      sel?.value || '21',
+      });
     });
   });
 
@@ -3386,42 +3606,28 @@ function restoreFullState(state) {
     if (el) recalcInvRow(el);
   });
 
-  // Rebuild gastos
-  const gastoBody = document.querySelector('#tabla-gastos tbody');
-  gastoBody.innerHTML = '';
-  (state._gasto_rows || []).forEach(r => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input type="text" value="${esc(r.concepto)}" placeholder="Concepto de gasto..." /></td>
-      <td class="col-importe"><input type="number" value="${r.importe}" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-      <td class="col-iva-tipo">${ivaSelectHTML(r.iva)}</td>
-      <td class="col-base auto-field" data-field="base">—</td>
-      <td class="col-iva-imp auto-field" data-field="iva">—</td>
-      <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>`;
-    gastoBody.appendChild(tr);
-  });
-  document.querySelectorAll('#tabla-gastos tbody tr').forEach(tr => {
-    const el = tr.querySelector('input[type="number"]');
-    if (el) recalcRow(el);
-  });
-
-  // Rebuild ingresos
-  const ingBody = document.querySelector('#tabla-ingresos tbody');
-  ingBody.innerHTML = '';
-  (state._ingreso_rows || []).forEach(r => {
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td><input type="text" value="${esc(r.concepto)}" placeholder="Fuente de ingreso..." /></td>
-      <td class="col-importe"><input type="number" value="${r.importe}" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
-      <td class="col-iva-tipo">${ivaSelectHTML(r.iva)}</td>
-      <td class="col-base auto-field" data-field="base">—</td>
-      <td class="col-iva-imp auto-field" data-field="iva">—</td>
-      <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>`;
-    ingBody.appendChild(tr);
-  });
-  document.querySelectorAll('#tabla-ingresos tbody tr').forEach(tr => {
-    const el = tr.querySelector('input[type="number"]');
-    if (el) recalcRow(el);
+  // Rebuild scenario tables
+  ['gastos-min','ingresos-min','gastos-max','ingresos-max'].forEach(key => {
+    const stateKey = `_sc_${key.replace('-','_')}`;
+    const tableBody = document.querySelector(`#tabla-${key} tbody`);
+    if (!tableBody) return;
+    const isGasto = key.includes('gastos');
+    tableBody.innerHTML = '';
+    (state[stateKey] || []).forEach(r => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><input type="text" value="${esc(r.concepto)}" placeholder="${isGasto ? 'Concepto de gasto...' : 'Fuente de ingreso...'}" /></td>
+        <td class="col-importe"><input type="number" value="${r.importe}" placeholder="0" step="0.01" oninput="recalcRow(this)" /></td>
+        <td class="col-iva-tipo">${ivaSelectHTML(r.iva)}</td>
+        <td class="col-base auto-field" data-field="base">—</td>
+        <td class="col-iva-imp auto-field" data-field="iva">—</td>
+        <td><button class="del-btn" onclick="delIvaRow(this)">✕</button></td>`;
+      tableBody.appendChild(tr);
+    });
+    document.querySelectorAll(`#tabla-${key} tbody tr`).forEach(tr => {
+      const el = tr.querySelector('input[type="number"]');
+      if (el) recalcRow(el);
+    });
   });
 
   // Rebuild productos
