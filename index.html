@@ -721,6 +721,22 @@
                         </div>
                     </article>
 
+                    <!-- Entrada: Método noruego de entrenamiento de resistencia -->
+                    <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="unnamed (20).png" alt="El Método Noruego: Los Pilares del Éxito en la Resistencia" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de resistencia aeróbica</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">¿Cómo entrenan los corredores de resistencia noruegos?</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">El modelo noruego combina alto volumen, distribución polarizada, control de intensidad mediante lactato, sesiones de umbral doble y desarrollo a largo plazo. El secreto detrás de Jakob Ingebrigtsen y su familia.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <button onclick="abrirModalNoruego()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                            </div>
+                        </div>
+                    </article>
+
                 </div>
             </div>
 
@@ -1588,6 +1604,90 @@
         </div>
     </div>
 
+    <!-- ===== MODAL: Método noruego ===== -->
+    <div id="modal-noruego" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalNoruego()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Entrenamiento de resistencia aeróbica · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">¿Cómo entrenan los corredores de resistencia noruegos?</h2>
+                </div>
+                <button onclick="cerrarModalNoruego()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <p>El éxito reciente de corredores como <strong class="text-white">Jakob Ingebrigtsen</strong> (campeón olímpico y mundial en 1500 m y 5000 m) y sus hermanos Henrik y Filip ha puesto en el foco internacional el modelo de entrenamiento noruego. Este modelo no se basa en un único "secreto", sino en una combinación meticulosa de principios científicos, alto volumen, control preciso de la intensidad mediante lactato, polarización del entrenamiento, desarrollo a largo plazo y un fuerte entorno familiar.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Alto volumen de entrenamiento con distribución polarizada de intensidad</h3>
+                <p>Uno de los rasgos más característicos del entrenamiento noruego es el alto volumen semanal y la cuidadosa distribución de la intensidad. Los hermanos Ingebrigtsen acumulaban un promedio de <strong class="text-white">140–160 km por semana</strong> en la fase de preparación, con un 23–25% del volumen realizado a la velocidad del umbral anaeróbico o por encima de este [1]. Estudios previos sobre corredores de élite noruegos documentaban que los fondistas de pista corrían un promedio de 161 ± 11 km/semana y los maratonistas 186.6 ± 25.7 km/semana en período de preparación, distribuidos en 11 a 13 sesiones semanales [2].</p>
+                <p>La distribución de intensidad sigue el <strong class="text-white">modelo polarizado</strong>: aproximadamente el 80% del volumen semanal se realiza a baja intensidad (ritmo de carrera continua, 65–82% de la frecuencia cardíaca máxima, con lactatos &lt;2 mM), mientras que el 20% restante se dedica a trabajo de alta intensidad cerca y por encima del umbral anaeróbico (82–92% FCmáx) [2]. Este patrón ha sido descrito por Seiler (2010) como el enfoque más común entre atletas de resistencia de nivel mundial [5].</p>
+                <p>La evidencia científica muestra que el entrenamiento polarizado (POL) produce mejoras significativamente superiores en VO₂max, velocidad/potencia máxima y tiempo hasta el agotamiento en comparación con modelos basados solo en alto volumen, solo en umbral o solo en HIIT [3]. Además, una revisión sistemática reciente de Campos et al. (2022) confirma que la distribución de intensidad es un factor clave para optimizar el rendimiento en corredores de media y larga distancia [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Control preciso de la intensidad mediante lactato sanguíneo</h3>
+                <p>Un sello distintivo del método noruego, particularmente bajo la dirección de <strong class="text-white">Gjert Ingebrigtsen</strong> (padre y entrenador de los hermanos), es el uso sistemático de mediciones de lactato sanguíneo durante las sesiones de intervalos para monitorizar y regular la intensidad [1]. En lugar de basarse solo en sensaciones o frecuencia cardíaca, los noruegos miden el lactato capilar durante las repeticiones para asegurarse de que cada atleta trabaja exactamente en la zona de intensidad deseada.</p>
+                <p>Este enfoque permite una <strong class="text-white">dosificación precisa del estímulo</strong> de entrenamiento (evitar entrenar "demasiado rápido" en días de umbral o "demasiado lento" en días de alta intensidad) y reduce el riesgo de sobreentrenamiento.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Sesiones de "umbral doble" (double threshold)</h3>
+                <p>Un concepto que ha recibido mucha atención reciente es la realización de <strong class="text-white">dos sesiones de umbral en el mismo día</strong>. Los hermanos Ingebrigtsen realizaban entre 3 y 5 sesiones semanales a intensidad de umbral anaeróbico o superior [1].</p>
+                <p>El llamado <em>double threshold</em> consiste, por ejemplo, en una sesión de intervalos largos por la mañana (5-6 × 5 minutos a ritmo de umbral) y otra sesión más corta por la tarde (10-12 × 1 minuto a ritmo ligeramente superior al umbral), todo controlado con lactato para mantenerse en las zonas objetivo (~2-4 mmol/L en la primera sesión, ~4-6 mmol/L en la segunda). Este enfoque permite acumular un gran volumen de trabajo de alta calidad sin caer en intensidades excesivas que generarían fatiga residual prolongada.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Progresión gradual desde la infancia y desarrollo multideportivo</h3>
+                <p>Los corredores noruegos no se especializan precozmente. Los hermanos Ingebrigtsen fueron muy activos físicamente desde niños y participaron en diferentes deportes antes de centrarse en el atletismo [1]. Su padre y entrenador fomentó un enfoque lúdico y variado durante la infancia y adolescencia. El volumen de entrenamiento aumentó gradualmente: comenzaron con carreras de baja intensidad y progresaron año tras año hasta alcanzar los altos volúmenes de élite en la edad adulta.</p>
+                <p>Este enfoque de <strong class="text-white">especialización tardía y desarrollo multideportivo</strong> es consistente con la literatura que sugiere que los atletas que practican múltiples deportes durante la juventud tienden a tener carreras más largas y exitosas en deportes de resistencia [8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Fuerza y entrenamiento complementario</h3>
+                <p>Aunque la carrera es el eje central, los corredores noruegos integran trabajo de fuerza, ejercicios de técnica de carrera y entrenamiento en pendiente. Las sesiones de cuestas (<em>uphill intervals</em>) son un componente habitual, ya que mejoran la economía de carrera y la potencia muscular [7]. También realizan un calentamiento estructurado que incluye drills de técnica, skipping, y ejercicios de activación muscular.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Periodización anual</h3>
+                <p>El modelo noruego utiliza una periodización clásica pero con énfasis en mantener altos volúmenes durante gran parte del año. Tjelta (2016) describe que los corredores de 1500–10,000 m deben combinar volúmenes semanales de <strong class="text-white">150–200 km</strong> con 2–4 sesiones semanales al ritmo del umbral anaeróbico y 1–2 sesiones por encima de este en la fase de preparación general [4]. En la fase precompetitiva y competitiva, se reduce el volumen a intensidad de umbral y se incrementan las sesiones específicas al ritmo de competición.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Entorno familiar y factores psicológicos</h3>
+                <p>Un factor que no debe subestimarse es el entorno familiar y la fortaleza mental. Los hermanos Ingebrigtsen fueron entrenados por su padre en un ambiente donde el deporte era una prioridad, con un fuerte apoyo emocional y logístico [1]. La investigación cualitativa sobre corredores de élite noruegos destaca que estos atletas desarrollan una <strong class="text-white">alta tolerancia al dolor y al esfuerzo</strong>, entendiendo que el sufrimiento controlado es parte del proceso de mejora.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Resumen de volúmenes y distribución típica</h3>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-2 pr-4 text-teal-400 font-semibold">Parámetro</th>
+                                <th class="py-2 text-teal-400 font-semibold">Valores típicos (1500–5000 m)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Volumen semanal (preparación)</td><td class="py-2">140–200 km/semana</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Sesiones por semana</td><td class="py-2">11–13 sesiones</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">% Baja intensidad (&lt;2 mM lactato)</td><td class="py-2">~75–80% del volumen</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">% Media-alta intensidad (umbral y superior)</td><td class="py-2">20–25% (3–5 sesiones/semana)</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Control de intensidad</td><td class="py-2">Lactato sanguíneo en sesiones de calidad</td></tr>
+                            <tr><td class="py-2 pr-4">Entrenamiento complementario</td><td class="py-2">Fuerza general, pliometría y cuestas</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Tjelta LI. Three Norwegian Brothers All European 1500 m Champions: What Is the Secret? <em>International Journal of Sports Science &amp; Coaching.</em> 2019;14(5):694–700. <a href="https://doi.org/10.1177/1747954119872321" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1177/1747954119872321</a></p>
+                    <p>[2] Enoksen E, et al. Distribution of Training Volume and Intensity of Elite Male and Female Track and Marathon Runners. <em>International Journal of Sports Science &amp; Coaching.</em> 2011;6(2):273–93. <a href="https://doi.org/10.1260/1747-9541.6.2.273" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1260/1747-9541.6.2.273</a></p>
+                    <p>[3] Stöggl T, Sperlich B. Polarized Training Has Greater Impact on Key Endurance Variables than Threshold, High Intensity, or High Volume Training. <em>Frontiers in Physiology.</em> 2014;5. <a href="https://doi.org/10.3389/fphys.2014.00033" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3389/fphys.2014.00033</a></p>
+                    <p>[4] Tjelta LI. The Training of International Level Distance Runners. <em>International Journal of Sports Science &amp; Coaching.</em> 2016;11(1):122–34. <a href="https://doi.org/10.1177/1747954115624813" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1177/1747954115624813</a></p>
+                    <p>[5] Seiler S. What Is Best Practice for Training Intensity and Duration Distribution in Endurance Athletes? <em>International Journal of Sports Physiology and Performance.</em> 2010;5(3):276–91. <a href="https://doi.org/10.1123/ijspp.5.3.276" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1123/ijspp.5.3.276</a></p>
+                    <p>[6] Campos Y, et al. Training-Intensity Distribution on Middle- and Long-Distance Runners: A Systematic Review. <em>International Journal of Sports Medicine.</em> 2022;43(04):305–16. <a href="https://doi.org/10.1055/a-1559-3623" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1055/a-1559-3623</a></p>
+                    <p>[7] Barnes KR, et al. Effects of Different Uphill Interval-Training Programs on Running Economy and Performance. <em>Journal of Science and Medicine in Sport.</em> 2013;16(3):259–63. <a href="https://doi.org/10.1016/j.jsams.2012.11.035" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jsams.2012.11.035</a></p>
+                    <p>[8] Hydren JR, Cohen BS. Current Scientific Evidence for a Polarized Cardiovascular Endurance Training Model. <em>Journal of Strength and Conditioning Research.</em> 2015;29(12):3523–30. <a href="https://doi.org/10.1519/jsc.0000000000001197" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/jsc.0000000000001197</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="cerrarModalNoruego()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function filtrarBlog(categoria) {
             // Actualizar botones activos
@@ -1722,6 +1822,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalNoruego() {
+            const modal = document.getElementById('modal-noruego');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalNoruego() {
+            document.getElementById('modal-noruego').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalVAM5() {
             const modal = document.getElementById('modal-vam5');
             modal.classList.remove('hidden');
@@ -1745,6 +1856,7 @@
                 cerrarModalVAM5();
                 cerrarModalSprint();
                 cerrarModalBaloncesto();
+                cerrarModalNoruego();
             }
         });
     </script>
