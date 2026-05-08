@@ -34,6 +34,7 @@
     <!-- Iconos: Lucide -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
+
     <style>
         body {
             background-color: #020617; /* slate-950 */
@@ -617,12 +618,32 @@
                     <button onclick="filtrarBlog('evaluacion-rendimiento')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Evaluación del rendimiento físico</button>
                     <button onclick="filtrarBlog('entrenamiento-sprint')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Entrenamiento de sprint</button>
                     <button onclick="filtrarBlog('baloncesto')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Baloncesto</button>
+                    <button onclick="filtrarBlog('salud-emergencias')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Salud y emergencias</button>
                 </div>
             </div>
 
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Reanimación Cardiopulmonar (RCP) -->
+                    <article data-categoria="salud-emergencias" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="unnamed (21).png" alt="RCP: Guía Paso a Paso para Salvar Vidas" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Salud y emergencias</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Reanimación Cardiopulmonar (RCP): qué es, cómo se realiza y cuándo aplicarla</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">La RCP es una intervención de emergencia vital que puede duplicar o triplicar la supervivencia tras una parada cardíaca. Técnica paso a paso, uso del DEA y evidencia científica actualizada.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-rcp','RCP-Reanimacion-Cardiopulmonar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalRCP()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Baloncesto alto nivel -->
                     <article data-categoria="baloncesto" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -635,7 +656,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">Un enfoque integral que combina periodización, fuerza y potencia neuromuscular, monitoreo de la fatiga, técnica-táctica, recuperación y prevención de lesiones basado en la evidencia científica actual.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-baloncesto','Entrenamiento-Baloncesto-Alto-Nivel')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -651,7 +675,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">La duración total del entrenamiento, y no la intensidad, es el principal determinante del remodelado cardíaco en atletas de resistencia. Un estudio longitudinal del consorcio Pro@Heart lo confirma.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalCardiaco()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-cardiaco','Adaptaciones-Cardiovasculares-Resistencia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalCardiaco()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -667,7 +694,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">El sprint de 100 metros es una ventana privilegiada para estudiar los límites de la locomoción humana. ¿Qué diferencia a un velocista de élite de uno subélite? No solo la fuerza, sino cómo la orienta.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalSprinters()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-sprinters','Fuerza-Sprinters-Elite')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalSprinters()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -684,7 +714,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">Cuando el tiempo escasea, ¿cuánto ejercicio es suficiente para no perder lo ganado? La evidencia científica da una respuesta clara: la intensidad es la variable crítica.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalDosisMinima()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-dosis-minima','Dosis-Minima-Entrenamiento')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalDosisMinima()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -700,7 +733,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">Un test de carrera de 5 minutos permite estimar la velocidad aeróbica máxima y el VO₂max con alta precisión, sin necesidad de laboratorio. Una herramienta práctica y válida para entrenadores y deportistas.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalVAM5()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-vam5','Test-VAM-5-Minutos')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalVAM5()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -716,7 +752,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">El entrenamiento de sprinters de competición integra componentes técnicos, físicos, tácticos y de recuperación mediante periodización científica. Un proceso complejo que va mucho más allá de correr rápido.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalSprint()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-sprint','Entrenamiento-Sprint-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalSprint()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -732,7 +771,10 @@
                             <p class="text-slate-400 text-sm leading-relaxed flex-grow">El modelo noruego combina alto volumen, distribución polarizada, control de intensidad mediante lactato, sesiones de umbral doble y desarrollo a largo plazo. El secreto detrás de Jakob Ingebrigtsen y su familia.</p>
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
-                                <button onclick="abrirModalNoruego()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-noruego','Metodo-Noruego-Resistencia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalNoruego()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
                             </div>
                         </div>
                     </article>
@@ -1688,7 +1730,213 @@
         </div>
     </div>
 
+    <!-- ===== MODAL: Reanimación Cardiopulmonar (RCP) ===== -->
+    <div id="modal-rcp" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalRCP()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Salud y emergencias · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Reanimación Cardiopulmonar (RCP): qué es, cómo se realiza y cuándo aplicarla</h2>
+                </div>
+                <button onclick="cerrarModalRCP()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <h3 class="text-base font-bold text-white pt-2">1. ¿Qué es la Reanimación Cardiopulmonar (RCP)?</h3>
+                <p>La reanimación cardiopulmonar (RCP) es un conjunto de maniobras de emergencia diseñadas para mantener el flujo sanguíneo y la oxigenación de los órganos vitales (especialmente el cerebro y el corazón) cuando una persona sufre una parada cardiorrespiratoria (PCR), es decir, cuando el corazón deja de bombear sangre de manera efectiva (paro cardíaco). La RCP consiste fundamentalmente en compresiones torácicas rítmicas intercaladas con ventilaciones (respiración boca a boca o con dispositivos), con el objetivo de preservar la viabilidad de los tejidos hasta que se pueda restaurar la actividad cardíaca espontánea con un desfibrilador u otras intervenciones avanzadas. [1]</p>
+                <p>El concepto se ha desarrollado notablemente desde sus orígenes a mediados del siglo XX, y hoy en día existen guías internacionales estandarizadas, como las del European Resuscitation Council (ERC) y la American Heart Association (AHA), que se actualizan periódicamente basándose en la mejor evidencia científica disponible. [1] [2]</p>
+                <p>La parada cardiorrespiratoria extrahospitalaria (OHCA, por sus siglas en inglés) tiene una incidencia que oscila entre 55 y 113 casos por cada 100.000 personas al año, y representa una importante causa de mortalidad a nivel mundial. [2]</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. ¿Cómo se realiza la RCP? (Técnica paso a paso)</h3>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.1. Reconocimiento de la parada cardíaca</h4>
+                <p>Antes de iniciar la RCP, es crucial identificar correctamente la situación. Según las guías del ERC 2021, se debe iniciar RCP en cualquier persona que esté inconsciente (sin respuesta) y con ausencia de respiración o respiración anormal (la llamada "respiración agónica": jadeos lentos, ruidosos e irregulares). [1]</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.2. Secuencia de actuación (Soporte Vital Básico - SVB)</h4>
+                <p>La secuencia actual recomendada sigue el esquema <strong class="text-white">C-A-B</strong> (Compresiones - Vía aérea - Respiración), priorizando las compresiones torácicas. [3]</p>
+
+                <p><strong class="text-white">C - Compresiones torácicas (Chest compressions)</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Posición de las manos:</strong> Colocar el talón de una mano en el centro del pecho (sobre el esternón, entre los pezones) y la otra mano encima, entrelazando los dedos.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Frecuencia:</strong> 100-120 compresiones por minuto.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Profundidad:</strong> 5-6 cm en adultos, permitiendo la expansión completa del tórax tras cada compresión (recoil completo). [2] [3]</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Relación compresión-ventilación:</strong> 30 compresiones por cada 2 ventilaciones (30:2) para reanimadores entrenados con vía aérea no avanzada. [2]</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Para reanimadores legos no entrenados, se recomiendan compresiones continuas ("hands-only CPR").</span></li>
+                </ul>
+
+                <p><strong class="text-white">A - Apertura de la vía aérea (Airway)</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Realizar la maniobra frente-mentón (inclinar la cabeza hacia atrás y elevar el mentón) para abrir la vía aérea.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En caso de sospecha de lesión cervical, utilizar la maniobra de tracción mandibular sin extensión del cuello.</span></li>
+                </ul>
+
+                <p><strong class="text-white">B - Ventilación (Breathing)</strong></p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Administrar 2 insuflaciones (ventilaciones de rescate), cada una de aproximadamente 1 segundo, observando que el pecho se eleve.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Volumen suficiente para que el tórax se eleve visiblemente (aproximadamente 500-600 mL), evitando ventilaciones excesivas.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La relación se mantiene en 30:2, reanudando las compresiones inmediatamente después. [3]</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.3. Uso del Desfibrilador Externo Automático (DEA)</h4>
+                <p>Tan pronto como esté disponible, se debe utilizar un desfibrilador externo automático (DEA). El DEA analiza el ritmo cardíaco y, si detecta un ritmo desfibrilable (fibrilación ventricular o taquicardia ventricular sin pulso), administra una descarga eléctrica. Las compresiones deben reanudarse inmediatamente después de la descarga, minimizando al máximo las interrupciones. [1] [2]</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.4. RCP de alta calidad</h4>
+                <p>Se define como RCP de alta calidad cuando cumple con los siguientes parámetros [2]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Frecuencia de compresiones: 100-120/min</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Profundidad: 5-6 cm</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Recoil torácico completo (permitir que el pecho se expanda completamente)</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Minimizar las interrupciones (idealmente &lt;10 segundos)</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Evitar la ventilación excesiva</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.5. Soporte Vital Avanzado (SVA)</h4>
+                <p>En el entorno hospitalario o por parte de servicios de emergencia, el SVA incluye:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Manejo avanzado de la vía aérea (intubación endotraqueal, dispositivos supraglóticos).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Acceso vascular (intravenoso o intraóseo) para administración de fármacos como adrenalina (epinefrina) y amiodarona. [3]</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Identificación y tratamiento de las causas reversibles siguiendo la regla de las "4H y 4T":</span></li>
+                </ul>
+                <p class="pl-8"><strong class="text-white">H:</strong> Hipoxia, Hipovolemia, Hipo/Hiperpotasemia, Hipotermia/Hipertermia.<br>
+                <strong class="text-white">T:</strong> Neumotórax a tensión, Taponamiento cardíaco, Tóxicos, Tromboembolismo pulmonar.</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Monitorización mediante ETCO₂ (dióxido de carbono espirado) para evaluar la calidad de las compresiones y detectar el retorno de la circulación espontánea. [2]</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.6. RCP en niños</h4>
+                <p>La RCP pediátrica tiene algunas diferencias importantes. En niños y lactantes, la parada cardíaca suele ser secundaria a insuficiencia respiratoria (hipoxia), por lo que la ventilación tiene mayor relevancia relativa. La relación compresión-ventilación es de 15:2 para dos reanimadores, y la profundidad de compresiones es de aproximadamente 4-5 cm (o un tercio del diámetro anteroposterior del tórax). [4]</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. ¿En qué situaciones se debe aplicar la RCP?</h3>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.1. Indicaciones principales</h4>
+                <p>La RCP debe iniciarse cuando una persona presenta parada cardiorrespiratoria, definida por:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Inconsciencia:</strong> La persona no responde a estímulos verbales ni dolorosos.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Ausencia de respiración normal</strong> o presencia de respiración agónica (jadeos). La respiración agónica es un signo de parada cardíaca y no debe confundirse con una respiración efectiva. [1]</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Causas comunes de parada cardíaca</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Causas cardíacas primarias:</strong> Infarto agudo de miocardio, arritmias malignas (fibrilación ventricular, taquicardia ventricular), miocardiopatías. [2]</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Causas respiratorias:</strong> Asfixia, ahogamiento, obstrucción de la vía aérea, sobredosis de opioides.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Trauma grave:</strong> Trauma torácico penetrante, hemorragia masiva.</span></li>
+                    <li class="flex gap-3"><span class="text-orange-400 mt-0.5 shrink-0">→</span><span><strong class="text-white">Otras:</strong> Sepsis grave, anafilaxia, desequilibrios electrolíticos, intoxicaciones, hipotermia severa. [3]</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Supervivencia y factores pronósticos</h4>
+                <p>El pronóstico depende críticamente del tiempo transcurrido hasta el inicio de las maniobras. Un metaanálisis global que incluyó 141 estudios encontró que, en pacientes con parada cardiorrespiratoria extrahospitalaria que recibieron RCP, la tasa de supervivencia al alta hospitalaria fue del <strong class="text-white">8,8%</strong>, aunque esta tasa fue significativamente mayor cuando la parada fue presenciada por alguien (10,5%) y cuando se realizó RCP por testigos presenciales (11,3%). [5]</p>
+                <p>La tasa de retorno de la circulación espontánea (ROSC) fue del 29,7%, y la supervivencia a 1 año fue del 7,7%. Las cifras han mejorado progresivamente en las últimas décadas gracias a la difusión de la formación en RCP y la accesibilidad a los DEA. [5]</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4. Consideraciones especiales</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">RCP durante la pandemia de COVID-19:</strong> Se implementaron modificaciones para reducir el riesgo de transmisión, priorizando las compresiones continuas y minimizando las ventilaciones, así como el uso de equipos de protección personal (EPP).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Órdenes de no reanimar (DNR/DNAR):</strong> Es fundamental respetar la voluntad del paciente en situaciones de enfermedad terminal o cuando la RCP es fútil. El aspecto bioético es crucial: la RCP no debe aplicarse de forma universal sin considerar el estado previo del paciente y sus deseos anticipados. [6]</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Contraindicaciones relativas:</strong> Signos evidentes de muerte irreversible (rigor mortis, lividez cadavérica, decapitación), contexto de trauma con lesiones incompatibles con la vida, o en presencia de una orden válida de no reanimar.</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.5. Importancia de la formación en RCP</h4>
+                <p>La formación de la población general en RCP básica es uno de los pilares para mejorar la supervivencia. Las guías del ERC 2021 sobre educación en reanimación destacan que los programas de entrenamiento deben ser accesibles, prácticos y repetidos periódicamente para mantener las habilidades. [7] La "cadena de supervivencia" comienza con el reconocimiento temprano de la parada y la activación de los servicios de emergencia, seguido de la RCP inmediata por testigos, la desfibrilación precoz y los cuidados avanzados. [1]</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Conclusión</h3>
+                <p>La reanimación cardiopulmonar es una intervención de emergencia vital que, cuando se realiza de forma rápida y correcta, puede duplicar o triplicar las probabilidades de supervivencia tras una parada cardíaca. La técnica estandarizada actual se centra en compresiones torácicas de alta calidad (100-120/min, 5-6 cm de profundidad), combinadas con ventilaciones de rescate y desfibrilación precoz cuando esté indicada. La RCP debe aplicarse en toda persona inconsciente que no respire o presente respiración agónica. La formación masiva de la población, la instalación de DEA en espacios públicos y la mejora continua de los protocolos son las estrategias clave para aumentar las tasas de supervivencia a nivel mundial.</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Olasveengen TM, Semeraro F, Ristagno G, et al. European Resuscitation Council Guidelines 2021: Basic Life Support. <em>Resuscitation.</em> 2021;161:98-114. <a href="https://doi.org/10.1016/j.resuscitation.2021.02.009" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.resuscitation.2021.02.009</a></p>
+                    <p>[2] Long B, Gottlieb M. Cardiopulmonary Resuscitation. <em>Emergency Medicine Clinics of North America.</em> 2023;41(3):509-528. <a href="https://doi.org/10.1016/j.emc.2023.03.005" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.emc.2023.03.005</a></p>
+                    <p>[3] Antúnez MG, Cobos CLG, García MVV, Miguez AM. Reanimación cardiopulmonar. Soporte vital básico y avanzado. <em>Medicine - Programa de Formación Médica Continuada Acreditado.</em> 2015;11(87):5185-5194. <a href="https://doi.org/10.1016/j.med.2015.09.011" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.med.2015.09.011</a></p>
+                    <p>[4] Garbin S, Easter J. Pediatric Cardiac Arrest and Resuscitation. <em>Emergency Medicine Clinics of North America.</em> 2023;41(3):465-484. <a href="https://doi.org/10.1016/j.emc.2023.03.004" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.emc.2023.03.004</a></p>
+                    <p>[5] Yan S, Gan Y, Jiang N, et al. The global survival rate among adult out-of-hospital cardiac arrest patients who received cardiopulmonary resuscitation: a systematic review and meta-analysis. <em>Critical Care.</em> 2020;24(1). <a href="https://doi.org/10.1186/s13054-020-2773-2" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1186/s13054-020-2773-2</a></p>
+                    <p>[6] Gempeler R FE. Reanimación cardiopulmonar. Más allá de la técnica. <em>Revista Colombiana de Anestesiología.</em> 2015;43(2):142-146. <a href="https://doi.org/10.1016/j.rca.2014.10.010" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.rca.2014.10.010</a></p>
+                    <p>[7] Greif R, Lockey A, Breckwoldt J, et al. European Resuscitation Council Guidelines 2021: Education for resuscitation. <em>Resuscitation.</em> 2021;161:388-407. <a href="https://doi.org/10.1016/j.resuscitation.2021.02.016" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.resuscitation.2021.02.016</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="cerrarModalRCP()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
+        function descargarPDF(modalId, nombreArchivo) {
+            var modal = document.getElementById(modalId);
+            if (!modal) return;
+            var header = modal.querySelector('.sticky');
+            var bodyContent = modal.querySelector('.px-6.py-6');
+            if (!bodyContent) return;
+
+            var titleEl = header ? header.querySelector('h2') : null;
+            var subtitleEl = header ? header.querySelector('span') : null;
+
+            var clone = bodyContent.cloneNode(true);
+            clone.querySelectorAll('i, svg').forEach(function(el) { el.remove(); });
+            clone.querySelectorAll('button').forEach(function(el) { el.remove(); });
+            clone.querySelectorAll('span').forEach(function(el) {
+                var t = el.textContent.trim();
+                if (!t || t === '→') { el.textContent = '• '; }
+            });
+            var allEls = clone.querySelectorAll('*');
+            for (var i = 0; i < allEls.length; i++) {
+                var el = allEls[i];
+                var href = el.tagName === 'A' ? el.getAttribute('href') : null;
+                while (el.attributes.length > 0) el.removeAttribute(el.attributes[0].name);
+                if (href) { el.setAttribute('href', href); el.setAttribute('target', '_blank'); }
+            }
+            while (clone.attributes.length > 0) clone.removeAttribute(clone.attributes[0].name);
+
+            var htmlDoc = '<!DOCTYPE html><html><head><meta charset="UTF-8">';
+            htmlDoc += '<title>' + nombreArchivo + '</title>';
+            htmlDoc += '<link rel="preconnect" href="https://fonts.googleapis.com">';
+            htmlDoc += '<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">';
+            htmlDoc += '<style>';
+            htmlDoc += '@page { size: A4; margin: 18mm 16mm; }';
+            htmlDoc += '*, *::before, *::after { box-sizing: border-box; }';
+            htmlDoc += 'body { font-family: Nunito, Arial, Helvetica, sans-serif; font-size: 12.5px; line-height: 1.65; color: #334155; margin: 0; padding: 0; background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }';
+            htmlDoc += 'h1 { font-size: 20px; font-weight: 800; color: #0f172a; margin: 0 0 14px 0; line-height: 1.3; }';
+            htmlDoc += 'h3 { font-size: 15px; font-weight: 700; color: #0f172a; margin: 16px 0 5px 0; page-break-after: avoid; }';
+            htmlDoc += 'h4 { font-size: 13.5px; font-weight: 700; color: #0f172a; margin: 12px 0 4px 0; page-break-after: avoid; }';
+            htmlDoc += 'p { margin: 0 0 7px 0; orphans: 3; widows: 3; }';
+            htmlDoc += 'ul, ol { margin: 0 0 7px 0; padding: 0 0 0 12px; list-style: none; }';
+            htmlDoc += 'li { margin: 0 0 3px 0; page-break-inside: avoid; }';
+            htmlDoc += 'a { color: #0d9488; text-decoration: underline; }';
+            htmlDoc += 'strong { color: #0f172a; font-weight: 700; }';
+            htmlDoc += 'em { font-style: italic; }';
+            htmlDoc += 'div { margin: 0; padding: 0; }';
+            htmlDoc += '.subtitle { color: #14b8a6; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 4px 0; }';
+            htmlDoc += '.footer { margin-top: 20px; padding-top: 10px; border-top: 1px solid #e2e8f0; font-size: 9px; color: #94a3b8; text-align: center; }';
+            htmlDoc += '</style></head><body>';
+            if (subtitleEl) htmlDoc += '<p class="subtitle">' + subtitleEl.textContent + '</p>';
+            if (titleEl) htmlDoc += '<h1>' + titleEl.textContent + '</h1>';
+            htmlDoc += clone.innerHTML;
+            htmlDoc += '<p class="footer">Espaciodeporte IA &mdash; espaciodeporteia.com</p>';
+            htmlDoc += '</body></html>';
+
+            var iframe = document.createElement('iframe');
+            iframe.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;border:none;visibility:hidden;';
+            document.body.appendChild(iframe);
+
+            var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlDoc);
+            iframeDoc.close();
+
+            setTimeout(function() {
+                try {
+                    iframe.contentWindow.focus();
+                    iframe.contentWindow.print();
+                } catch(e) {
+                    window.open('about:blank').document.write(htmlDoc);
+                }
+                setTimeout(function() { document.body.removeChild(iframe); }, 2000);
+            }, 600);
+        }
+
         function filtrarBlog(categoria) {
             // Actualizar botones activos
             document.querySelectorAll('.blog-cat-btn').forEach(btn => {
@@ -1833,6 +2081,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalRCP() {
+            const modal = document.getElementById('modal-rcp');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalRCP() {
+            document.getElementById('modal-rcp').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalVAM5() {
             const modal = document.getElementById('modal-vam5');
             modal.classList.remove('hidden');
@@ -1857,6 +2116,7 @@
                 cerrarModalSprint();
                 cerrarModalBaloncesto();
                 cerrarModalNoruego();
+                cerrarModalRCP();
             }
         });
     </script>
