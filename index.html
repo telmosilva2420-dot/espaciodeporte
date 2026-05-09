@@ -619,12 +619,32 @@
                     <button onclick="filtrarBlog('entrenamiento-sprint')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Entrenamiento de sprint</button>
                     <button onclick="filtrarBlog('baloncesto')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Baloncesto</button>
                     <button onclick="filtrarBlog('salud-emergencias')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Salud y emergencias</button>
+                    <button onclick="filtrarBlog('remo')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Remo</button>
                 </div>
             </div>
 
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Estilos de remo de competición -->
+                    <article data-categoria="remo" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="unnamed (22).png" alt="La Evolución Técnica del Remo de Competición" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Remo</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Análisis de los estilos Adams, Rosenberg, DDR y contemporáneo en remo de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Los diversos estilos de remo —Adams, Rosenberg, DDR y contemporáneo— representan hitos en la evolución técnica del remo de competición, cada uno con fundamentos biomecánicos, filosóficos y metodológicos particulares.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-remo','Estilos-Remo-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalRemo()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Reanimación Cardiopulmonar (RCP) -->
                     <article data-categoria="salud-emergencias" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -1110,6 +1130,176 @@
         });
 
     </script>
+    <!-- Modal: Estilos de remo de competición -->
+    <div id="modal-remo" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalRemo()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Remo · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Análisis de los estilos Adams, Rosenberg, DDR y contemporáneo en remo de competición</h2>
+                </div>
+                <button onclick="cerrarModalRemo()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="unnamed (22).png" alt="La Evolución Técnica del Remo de Competición: De la Tradición a la Ciencia Moderna" class="w-full rounded-xl border border-slate-700">
+
+                <p>El remo de competición ha experimentado una evolución técnica significativa desde sus inicios en el siglo XIX. Los diversos estilos de remo —Adams, Rosenberg, DDR (Alemania Oriental) y contemporáneo— representan hitos en esta evolución, cada uno con fundamentos biomecánicos, filosóficos y metodológicos particulares.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Fundamentos biomecánicos comunes del ciclo de remada</h3>
+                <p>Antes de analizar los estilos específicos, es necesario comprender las fases universales del ciclo de remada en las que todos ellos se basan. El ciclo se compone de dos fases principales —la fase de <strong class="text-white">drive</strong> (tracción) y la fase de <strong class="text-white">recovery</strong> (recuperación)— separadas por dos eventos clave: el <strong class="text-white">catch</strong> (entrada de la pala en el agua) y el <strong class="text-white">finish</strong> (salida de la pala) [1]. Modificaciones en la magnitud y la temporización de las fuerzas externas en el mango del remo y las fuerzas internas en los estribos y el asiento diferencian los estilos técnicos [2]. Como señala la literatura, la velocidad de la embarcación aumenta si se incrementa la potencia propulsora y/o se reducen las pérdidas de potencia, las cuales pueden organizarse en términos de resistencia del casco, ineficiencia de la pala y técnica de remada [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Estilo Adams (u "Orthodox")</h3>
+                <p>El estilo Adams, también conocido como el estilo "ortodoxo" u "Old German" (viejo estilo alemán), fue desarrollado y popularizado por Karl Adam, entrenador del famoso club Ratzeburger Ruderclub (Ratzeburg, Alemania Occidental) durante las décadas de 1950 y 1960. Adam revolucionó el remo de competición al introducir un enfoque biomecánico y científico al entrenamiento.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Características principales del estilo Adams:</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Posición del cuerpo en el catch:</strong> Entrada de la pala con el torso en una posición relativamente más erguida o con menor flexión hacia adelante. La inclinación del tronco es moderada y la compresión en el slide (deslizadera) es limitada.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Uso de piernas:</strong> Énfasis en una activación temprana y potente de las piernas al inicio del drive. La transferencia de energía de las piernas al tronco y los brazos es un elemento central.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">El "swing" o balanc del cuerpo:</strong> El movimiento del tronco durante el drive mantiene una posición más estable, buscando conservar la inercia y minimizar las oscilaciones verticales del bote. Se prioriza un remado "largo" con amplitud de palada.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Filosofía:</strong> Adam abogaba por un enfoque holístico y fisiológico, incorporando principios de entrenamiento de intervalos y cargas progresivas que se adelantaron a su tiempo. Su equipo del Ratzeburg dominó la escena internacional en la década de 1960.</span></li>
+                </ul>
+                <p>Este estilo sentó las bases para muchas técnicas posteriores y fue el paradigma dominante en Alemania Occidental y otros países durante varias décadas. La revisión de Zatsiorsky y Yakunin sobre la mecánica del remo proporciona el marco biomecánico general que sustenta este estilo [3,4,5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Estilo Rosenberg</h3>
+                <p>El estilo Rosenberg recibe su nombre del entrenador neozelandés Frank Rosenberg, quien introdujo modificaciones fundamentales a la técnica ortodoxa durante las décadas de 1990 y 2000. Este estilo se difundió notablemente a través de los programas de remo de Nueva Zelanda y Australia.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Características principales del estilo Rosenberg:</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Catch más temprano y agresivo:</strong> La pala entra al agua de manera más temprana y agresiva, con el objetivo de "atrapar" el agua de inmediato y maximizar la longitud de la palada efectiva.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mayor flexión de tronco:</strong> Utiliza una mayor flexión del tronco hacia adelante en el catch y una posición más "comprimida" en el slide, lo que permite un mayor recorrido longitudinal de la pala.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">"Fast hands" (manos rápidas):</strong> Se enfatiza la rapidez en la rotación de la muñeca durante el feathering (giro de la pala) y la transición entre el finish y el recovery.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mayor énfasis en la conexión temprana:</strong> La conexión entre la pala y el agua se establece de manera más inmediata en el catch.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Ritmo de palada más alto:</strong> Mayor frecuencia de palada (stroke rate).</span></li>
+                </ul>
+                <p>Un estudio de Fletcher et al. (2015) investigó específicamente los parámetros biomecánicos en remeras novatas que utilizaban las técnicas Rosenberg y Pose en una prueba de 1 km en ergómetro [1]. El estilo Rosenberg se asocia con mayores demandas de flexión lumbar, lo que ha sido objeto de debate en relación con la incidencia de dolor lumbar en remeros.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Estilo DDR (Alemania Oriental)</h3>
+                <p>El estilo DDR fue desarrollado por el sistema deportivo de la República Democrática Alemana (RDA/DDR), particularmente bajo la dirección del legendario entrenador Jürgen Gröbler (quien luego continuaría su carrera en el Reino Unido con gran éxito). La DDR invirtió significativamente en ciencia deportiva, y el remo no fue la excepción.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Características principales del estilo DDR:</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Movimiento más vertical y compacto:</strong> Posición del tronco más erguida y menor compresión en el slide. El exceso de movimiento del tronco y la compresión excesiva generaban pérdida de energía y desaceleración del bote.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Énfasis en ritmo y sincronización (timing):</strong> Sincronización perfecta entre pierna, tronco y brazo, con un ritmo muy marcado y una transición fluida en el finish y el recovery.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mayor potencia por palada:</strong> Se priorizaba la aplicación de gran fuerza en cada palada, en lugar de la alta frecuencia.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Uso de "Ratzeburg modificado":</strong> Tomando elementos del estilo Adams de Karl Adam, el estilo DDR lo modificó para hacerlo más eficiente biomecánicamente.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Eficiencia hidrodinámica:</strong> La DDR fue pionera en la investigación sobre la dinámica de fluidos de la pala, buscando maximizar la propulsión y minimizar la resistencia [6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Sistema de entrenamiento sistemático:</strong> Detección de talentos y entrenamiento altamente centralizado y científico, con distribución de intensidad predominantemente de baja intensidad (~95% del entrenamiento de remo) [8].</span></li>
+                </ul>
+                <p>Este estilo produjo algunos de los mejores remeros del mundo en las décadas de 1970 y 1980. Tras la reunificación alemana, Gröbler llevó estos principios al equipo británico, contribuyendo a su resurgimiento y éxito en la década de 1990 [8,9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Estilo Contemporáneo (Técnica Moderna)</h3>
+                <p>El estilo contemporáneo representa la síntesis y evolución de los estilos anteriores, integrando los conocimientos de la biomecánica moderna, la hidrodinámica computacional y la ciencia del deporte.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Características principales del estilo contemporáneo:</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Optimización de la trayectoria de la pala:</strong> La pala no solo funciona mediante resistencia (drag), sino también mediante sustentación (lift), similar al ala de un ave. La trayectoria se optimiza para maximizar el impulso propulsivo [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Ángulo de catch optimizado:</strong> Holt et al. (2020) demostraron que, después de ajustar por potencia y frecuencia de palada, el ángulo de catch tiene un efecto sustancial en la velocidad del bote [10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Temporización y microfases:</strong> Kleshnev (2009) definió seis microfases dentro de la fase de drive y tres en la de recovery. Se busca optimizar la duración relativa de estas microfases [11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Reducción de oscilaciones:</strong> Se minimizan las fluctuaciones de velocidad del bote mediante una aplicación más continua y suave de la fuerza [3,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mayor integración brazo-tronco-pierna:</strong> Secuencia de movimiento fluida y continua, donde la contribución de cada segmento corporal se integra de manera óptima en la generación de potencia [12,13].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Adaptación individualizada:</strong> La técnica se adapta a las características antropométricas y fisiológicas del remero, utilizando sistemas de monitoreo biomecánico en tiempo real [14,15].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Uso de palas "big blade" o tipo "cleaver":</strong> La introducción de palas más grandes a partir de 1991 cambió la dinámica de la propulsión [3].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Comparación y síntesis de los estilos</h3>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-2 pr-3 text-teal-400 font-semibold">Aspecto</th>
+                                <th class="py-2 pr-3 text-teal-400 font-semibold">Adams</th>
+                                <th class="py-2 pr-3 text-teal-400 font-semibold">Rosenberg</th>
+                                <th class="py-2 pr-3 text-teal-400 font-semibold">DDR</th>
+                                <th class="py-2 text-teal-400 font-semibold">Contemporáneo</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Tronco en catch</td>
+                                <td class="py-2 pr-3">Moderadamente erguido</td>
+                                <td class="py-2 pr-3">Flexionado hacia adelante</td>
+                                <td class="py-2 pr-3">Erguido/vertical</td>
+                                <td class="py-2">Según antropometría</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Compresión en slide</td>
+                                <td class="py-2 pr-3">Moderada</td>
+                                <td class="py-2 pr-3">Alta</td>
+                                <td class="py-2 pr-3">Baja-moderada</td>
+                                <td class="py-2">Variable optimizada</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Frecuencia palada</td>
+                                <td class="py-2 pr-3">Moderada</td>
+                                <td class="py-2 pr-3">Alta</td>
+                                <td class="py-2 pr-3">Moderada-baja</td>
+                                <td class="py-2">Adaptada a distancia</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Énfasis piernas</td>
+                                <td class="py-2 pr-3">Activación temprana</td>
+                                <td class="py-2 pr-3">Conexión temprana</td>
+                                <td class="py-2 pr-3">Potencia por palada</td>
+                                <td class="py-2">Secuencia integrada</td>
+                            </tr>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Filosofía</td>
+                                <td class="py-2 pr-3">Holística, fisiológica</td>
+                                <td class="py-2 pr-3">Agresiva, alta frecuencia</td>
+                                <td class="py-2 pr-3">Científica, sistemática</td>
+                                <td class="py-2">Basada en evidencia</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 pr-3 text-white font-medium">Contexto</td>
+                                <td class="py-2 pr-3">1950s-1960s RFA</td>
+                                <td class="py-2 pr-3">1990s-2000s NZ/AUS</td>
+                                <td class="py-2 pr-3">1970s-1980s RDA</td>
+                                <td class="py-2">2000s-presente</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-base font-bold text-white pt-2">7. La evolución como proceso continuo</h3>
+                <p>Como señala Seiler (2015), la velocidad en el remo ha aumentado linealmente un 2-3% por década durante los últimos 150 años [3]. Este incremento se ha debido a: (1) aumento de la capacidad física de los remeros (solo 10% atribuible a mayor talla y peso); (2) mejoras en el diseño de la embarcación y los remos (25% de la mejora); y (3) optimización de la técnica (~65% restante combinado con volumen de entrenamiento) [3]. Los cambios técnicos —desde la reducción de las fluctuaciones de velocidad del bote hasta la mejora de la eficiencia de la pala— han sido impulsores fundamentales de esta evolución [3,7].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Conclusiones</h3>
+                <p>Los estilos Adams, Rosenberg, DDR y contemporáneo no deben entenderse como técnicas completamente independientes, sino como etapas de una evolución técnica continua en el remo de competición. El estilo Adams estableció un enfoque científico-fisiológico; el estilo Rosenberg introdujo una variante más agresiva y de alta frecuencia; el estilo DDR perfeccionó la eficiencia biomecánica mediante un sistema científico centralizado; y el estilo contemporáneo integra lo mejor de todos ellos con las herramientas analíticas más avanzadas. La comprensión de esta evolución permite a entrenadores y remeros contextualizar las decisiones técnicas actuales y reconocer que la optimización de la técnica sigue siendo un proceso dinámico y en desarrollo.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Fletcher, G., et al. "Determining Key Biomechanical Performance Parameters in Novice Female Rowers Using the Rosenberg and Pose Techniques during a 1 Km Ergometer Time Trial." <em>International Journal of Performance Analysis in Sport</em>, vol. 15, no. 2, 2015, pp. 723–48. DOI: 10.1080/24748668.2015.11868826</p>
+                    <p>[2] Baudouin, A., and D. Hawkins. "A Biomechanical Review of Factors Affecting Rowing Performance." <em>British Journal of Sports Medicine</em>, vol. 36, no. 6, 2002, pp. 396–402. DOI: 10.1136/bjsm.36.6.396</p>
+                    <p>[3] Seiler, S. "150 Years of Rowing Faster: What Are the Sources of More and More Speed?" <em>BMC Sports Science, Medicine and Rehabilitation</em>, vol. 7, no. S1, 2015. DOI: 10.1186/2052-1847-7-s1-o12</p>
+                    <p>[4] Yusof, A. A. M., et al. "Rowing Biomechanics, Physiology and Hydrodynamic: A Systematic Review." <em>International Journal of Sports Medicine</em>, vol. 43, no. 07, 2020, pp. 577–85. DOI: 10.1055/a-1231-5268</p>
+                    <p>[5] Zatsiorsky, V. M., and N. Yakunin. "Mechanics and Biomechanics of Rowing: A Review." <em>International Journal of Sport Biomechanics</em>, vol. 7, no. 3, 1991, pp. 229–81. DOI: 10.1123/ijsb.7.3.229</p>
+                    <p>[6] Caplan, N., and T. N. Gardner. "A Review of Propulsive Mechanisms in Rowing." <em>Proceedings of the Institution of Mechanical Engineers, Part P</em>, vol. 223, no. 1, 2009, pp. 1–11. DOI: 10.1243/17543371jset38</p>
+                    <p>[7] Grift, E. J., et al. "Hydrodynamics of Rowing Propulsion." <em>Journal of Fluid Mechanics</em>, vol. 916, 2021. DOI: 10.1017/jfm.2021.318</p>
+                    <p>[8] Guellich, A., et al. "Training Methods and Intensity Distribution of Young World-Class Rowers." <em>International Journal of Sports Physiology and Performance</em>, vol. 4, no. 4, 2009, pp. 448–60. DOI: 10.1123/ijspp.4.4.448</p>
+                    <p>[9] Elliott, B., et al. "Rowing." <em>Sports Biomechanics</em>, vol. 1, no. 2, 2002, pp. 123–34. DOI: 10.1080/14763140208522791</p>
+                    <p>[10] Holt, A. C., et al. "Technical Determinants of On-Water Rowing Performance." <em>Frontiers in Sports and Active Living</em>, vol. 2, 2020. DOI: 10.3389/fspor.2020.589013</p>
+                    <p>[11] Kleshnev, V. "Boat Acceleration, Temporal Structure of the Stroke Cycle, and Effectiveness in Rowing." <em>Proceedings of the Institution of Mechanical Engineers, Part P</em>, vol. 224, no. 1, 2009, pp. 63–74. DOI: 10.1243/17543371jset40</p>
+                    <p>[12] Filippeschi, A., and E. Ruffaldi. "Expert Rowers' Motion Analysis for Synthesis and Technique Digitalization." <em>BIO Web of Conferences</em>, vol. 1, 2011, p. 00024. DOI: 10.1051/bioconf/20110100024</p>
+                    <p>[13] Wychowanski, M., et al. "Results of Single Sculling Technique Analysis Using 1D Mathematical Model." <em>IFAC-PapersOnLine</em>, vol. 51, no. 2, 2018, pp. 879–83. DOI: 10.1016/j.ifacol.2018.04.025</p>
+                    <p>[14] Lai, H., and W. Zheng. "An Analysis and Study of Technical Characteristics of the Chinese Elite Open Female Rowers." <em>2011 International Conference on Future Computer Science and Education</em>, 2011, pp. 215–18. DOI: 10.1109/icfcse.2011.109</p>
+                    <p>[15] Perić, D., et al. "Kinematic and Dynamic Stroke Variables of Elite and Sub-Elite Rowers." <em>International Journal of Performance Analysis in Sport</em>, vol. 19, no. 1, 2019, pp. 112–24. DOI: 10.1080/24748668.2018.1563857</p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Remo de competición · Biomecánica</span>
+                <button onclick="cerrarModalRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Adaptaciones Cardiovasculares -->
     <div id="modal-cardiaco" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalCardiaco()"></div>
@@ -2092,6 +2282,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalRemo() {
+            const modal = document.getElementById('modal-remo');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalRemo() {
+            document.getElementById('modal-remo').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalVAM5() {
             const modal = document.getElementById('modal-vam5');
             modal.classList.remove('hidden');
@@ -2117,6 +2318,7 @@
                 cerrarModalBaloncesto();
                 cerrarModalNoruego();
                 cerrarModalRCP();
+                cerrarModalRemo();
             }
         });
     </script>
