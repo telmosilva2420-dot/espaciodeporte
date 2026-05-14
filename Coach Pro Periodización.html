@@ -1,0 +1,1898 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoachPro Planner - Planificación Deportiva</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <!-- html2pdf.js para descarga directa -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Google Fonts: DM Sans (body) + DM Mono (code/mono) -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --font-body: 'DM Sans', sans-serif;
+            --font-mono: 'DM Mono', monospace;
+            /* Paleta principal */
+            --color-bg: #f4f6f9;
+            --color-surface: #ffffff;
+            --color-border: #dde1e9;
+            --color-border-strong: #b8bfcc;
+            /* Textos con alto contraste */
+            --color-text-primary: #111827;
+            --color-text-secondary: #374151;
+            --color-text-muted: #6b7280;
+            --color-text-subtle: #9ca3af;
+            /* Acento emerald */
+            --color-accent: #059669;
+            --color-accent-light: #d1fae5;
+            --color-accent-dark: #047857;
+            /* Sidebar */
+            --sidebar-bg: #0f172a;
+            --sidebar-hover: #1e293b;
+            --sidebar-border: #1e293b;
+            --sidebar-text: #e2e8f0;
+            --sidebar-muted: #94a3b8;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+        body { 
+            font-family: var(--font-body); 
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .fade-in { animation: fadeIn 0.25s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Mejoras de fuente mono */
+        .font-mono, code, .text-xs.font-mono { font-family: var(--font-mono) !important; }
+        
+        /* Scrollbar refinada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--color-border-strong); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-text-subtle); }
+
+        /* Mejoras de contraste globales para textos */
+        .text-slate-400 { color: #6b7280 !important; }
+        .text-slate-500 { color: #4b5563 !important; }
+        .text-slate-600 { color: #374151 !important; }
+        .text-slate-700 { color: #1f2937 !important; }
+        .text-slate-800 { color: #111827 !important; }
+        .text-slate-300 { color: #6b7280 !important; }
+
+        /* Fondos ligeramente más definidos */
+        .bg-slate-50 { background-color: #f4f6f9 !important; }
+        .bg-slate-100 { background-color: #eaecf2 !important; }
+
+        /* Bordes más visibles */
+        .border-slate-100 { border-color: #dde1e9 !important; }
+        .border-slate-200 { border-color: #cdd3dc !important; }
+
+        /* Headers de sección más contrastados */
+        h2 { font-size: 1.875rem; font-weight: 700; color: var(--color-text-primary) !important; letter-spacing: -0.02em; }
+        h3 { font-weight: 600; color: var(--color-text-secondary) !important; }
+        h4 { font-weight: 600; color: var(--color-text-primary) !important; }
+
+        /* Labels de formulario más claros */
+        label.block { color: var(--color-text-secondary) !important; font-weight: 500; }
+        
+        /* Inputs con mejor contraste */
+        input, select, textarea {
+            color: var(--color-text-primary) !important;
+            background: #ffffff !important;
+            border-color: var(--color-border) !important;
+            font-family: var(--font-body) !important;
+        }
+        input::placeholder { color: var(--color-text-subtle) !important; }
+        input:focus, select:focus { 
+            border-color: var(--color-accent) !important;
+            box-shadow: 0 0 0 3px rgba(5,150,105,0.12) !important;
+            outline: none !important;
+        }
+
+        /* ================================================================
+           PDF MODE — AUSTERO · GRISES · SOLO TEXTO Y TABLAS
+        ================================================================ */
+
+        body.pdf-mode {
+            background: #ffffff !important;
+            height: auto !important;
+            overflow: visible !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            font-family: 'DM Sans', sans-serif !important;
+            font-size: 12.5px !important;
+            color: #111111 !important;
+        }
+
+        /* Eliminar transparencias */
+        body.pdf-mode * { opacity: 1 !important; }
+
+        /* ── Ocultar elementos de UI ── */
+        body.pdf-mode aside,
+        body.pdf-mode button,
+        body.pdf-mode .no-print,
+        body.pdf-mode [id*="modal"],
+        body.pdf-mode #chart-filter,
+        body.pdf-mode #chart-improvement,
+        body.pdf-mode #save-indicator,
+        body.pdf-mode #pdf-loading,
+        body.pdf-mode #form-overlay,
+        body.pdf-mode #planning-macro-selector,
+        body.pdf-mode #planning-active-macro-bar { display: none !important; }
+
+        /* ── Contenedor principal ── */
+        body.pdf-mode main {
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 0 32px !important;
+            overflow: visible !important;
+            height: auto !important;
+            max-width: none !important;
+            background: #ffffff !important;
+            box-shadow: none !important;
+        }
+
+        /* ── Secciones: todas visibles ── */
+        body.pdf-mode .tab-content {
+            display: block !important;
+            padding: 0 !important;
+            margin-bottom: 0 !important;
+            page-break-before: always;
+        }
+        body.pdf-mode .tab-content:first-of-type { page-break-before: avoid; }
+
+        /* ── Planificación: mostrar contenido ── */
+        body.pdf-mode #planning-content { display: block !important; }
+
+        /* ── Max-width: ancho completo ── */
+        body.pdf-mode .max-w-6xl,
+        body.pdf-mode .max-w-5xl,
+        body.pdf-mode .max-w-4xl,
+        body.pdf-mode .max-w-7xl {
+            max-width: 100% !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+        }
+
+        /* ── Overflow liberado ── */
+        body.pdf-mode .overflow-x-auto,
+        body.pdf-mode .overflow-y-auto,
+        body.pdf-mode .max-h-\[500px\] {
+            overflow: visible !important;
+            max-height: none !important;
+        }
+
+        /* ── Cabecera de sección ── */
+        body.pdf-mode header {
+            background: #ffffff !important;
+            border-bottom: 2px solid #111111 !important;
+            padding: 14px 0 10px 0 !important;
+            margin: 0 0 18px 0 !important;
+            display: flex !important;
+            align-items: flex-end !important;
+        }
+        body.pdf-mode header h2 {
+            font-size: 16px !important;
+            font-weight: 800 !important;
+            color: #111111 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.05em !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+        body.pdf-mode header p,
+        body.pdf-mode header .text-slate-500 {
+            font-size: 11px !important;
+            color: #555555 !important;
+            margin: 2px 0 0 12px !important;
+        }
+        body.pdf-mode header strong,
+        body.pdf-mode header .text-emerald-600 { color: #111111 !important; font-weight: 700 !important; }
+
+        /* ── Todos los textos: escala de grises ── */
+        body.pdf-mode p, body.pdf-mode span, body.pdf-mode div,
+        body.pdf-mode li, body.pdf-mode td, body.pdf-mode th,
+        body.pdf-mode h3, body.pdf-mode h4, body.pdf-mode label {
+            color: #111111 !important;
+        }
+        body.pdf-mode .text-slate-300,
+        body.pdf-mode .text-slate-400,
+        body.pdf-mode .text-slate-500,
+        body.pdf-mode .text-slate-600,
+        body.pdf-mode .text-slate-700,
+        body.pdf-mode .text-slate-800,
+        body.pdf-mode [style*="color:#6b7280"],
+        body.pdf-mode [style*="color:#4b5563"],
+        body.pdf-mode [style*="color:#374151"],
+        body.pdf-mode [style*="color:#1f2937"],
+        body.pdf-mode [style*="color:#111827"] { color: #111111 !important; }
+
+        body.pdf-mode [style*="color:#94a3b8"],
+        body.pdf-mode [style*="color:#9ca3af"] { color: #555555 !important; }
+
+        /* Colores semánticos → gris oscuro */
+        body.pdf-mode .text-emerald-600, body.pdf-mode .text-emerald-700,
+        body.pdf-mode .text-indigo-700, body.pdf-mode .text-indigo-900,
+        body.pdf-mode .text-red-500, body.pdf-mode .text-red-800,
+        body.pdf-mode .text-amber-800, body.pdf-mode [style*="color:#059669"],
+        body.pdf-mode [style*="color:#dc2626"], body.pdf-mode [style*="color:#34d399"] {
+            color: #111111 !important;
+        }
+
+        /* Texto blanco sobre fondo (preservar en tarjetas oscuras) */
+        body.pdf-mode .text-white,
+        body.pdf-mode [style*="color:#fff"],
+        body.pdf-mode [style*="color:white"] { color: #ffffff !important; }
+
+        /* ── Todos los fondos → blanco o gris muy claro ── */
+        body.pdf-mode .bg-white,
+        body.pdf-mode .bg-slate-50,
+        body.pdf-mode .bg-indigo-50,
+        body.pdf-mode .bg-emerald-50,
+        body.pdf-mode .bg-amber-50,
+        body.pdf-mode .bg-blue-50,
+        body.pdf-mode [style*="background:#f4f6f9"],
+        body.pdf-mode [style*="background:#eef2ff"],
+        body.pdf-mode [style*="background:#fef2f2"],
+        body.pdf-mode [style*="background:#f0fdf4"],
+        body.pdf-mode [style*="background:#eff6ff"] {
+            background: #ffffff !important;
+        }
+        body.pdf-mode .bg-slate-100,
+        body.pdf-mode [style*="background:#eaecf2"],
+        body.pdf-mode [style*="background:#f8fafc"] { background: #f2f2f2 !important; }
+
+        /* Fondos oscuros (tarjetas meso) → gris oscuro */
+        body.pdf-mode [style*="background:linear-gradient(135deg,#1e293b"],
+        body.pdf-mode [style*="background:#1e293b"],
+        body.pdf-mode [style*="background:#0f172a"] {
+            background: #222222 !important;
+            -webkit-print-color-adjust: exact !important;
+        }
+        /* Texto dentro de fondos oscuros → blanco */
+        body.pdf-mode [style*="background:linear-gradient(135deg,#1e293b"] *,
+        body.pdf-mode [style*="background:#1e293b"] *,
+        body.pdf-mode [style*="background:#0f172a"] * { color: #ffffff !important; }
+
+        /* ── Sombras y bordes ── */
+        body.pdf-mode .shadow-sm, body.pdf-mode .shadow-md,
+        body.pdf-mode .shadow-xl, body.pdf-mode .shadow-2xl,
+        body.pdf-mode [style*="box-shadow"] { box-shadow: none !important; }
+
+        body.pdf-mode .border-slate-100,
+        body.pdf-mode .border-slate-200,
+        body.pdf-mode .border-indigo-100,
+        body.pdf-mode .border-indigo-200,
+        body.pdf-mode [style*="border:1px solid #c7d2fe"],
+        body.pdf-mode [style*="border:1px solid #dde1e9"] {
+            border-color: #aaaaaa !important;
+        }
+
+        /* ── Bordes de tarjetas inline ── */
+        body.pdf-mode [style*="border-left:4px solid"] {
+            border-left: 3px solid #555555 !important;
+        }
+        body.pdf-mode [style*="border:1px solid rgba(255,255,255"] {
+            border: 1px solid #555555 !important;
+        }
+
+        /* ── Grids: columnas reales ── */
+        body.pdf-mode .grid { display: grid !important; }
+        body.pdf-mode .grid-cols-2 { grid-template-columns: 1fr 1fr !important; }
+        body.pdf-mode .md\:grid-cols-2 { grid-template-columns: 1fr 1fr !important; }
+        body.pdf-mode .lg\:grid-cols-3 { grid-template-columns: 1fr 1fr 1fr !important; }
+        body.pdf-mode .lg\:grid-cols-4 { grid-template-columns: 1fr 1fr !important; }
+        body.pdf-mode .lg\:col-span-2 { grid-column: span 2 !important; }
+        body.pdf-mode .gap-4 { gap: 10px !important; }
+        body.pdf-mode .gap-6 { gap: 14px !important; }
+
+        /* ── Evitar cortes de tarjetas ── */
+        body.pdf-mode #mesos-container > div,
+        body.pdf-mode #micros-container > div,
+        body.pdf-mode #sessions-container > div { page-break-inside: avoid !important; }
+
+        /* ── Tabla de tests ── */
+        body.pdf-mode table { border-collapse: collapse !important; width: 100% !important; }
+        body.pdf-mode table thead {
+            background: #222222 !important;
+            -webkit-print-color-adjust: exact !important;
+        }
+        body.pdf-mode table thead th {
+            color: #ffffff !important;
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            padding: 8px 12px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.06em !important;
+            border: none !important;
+        }
+        body.pdf-mode table tbody tr:nth-child(even) {
+            background: #f5f5f5 !important;
+            -webkit-print-color-adjust: exact !important;
+        }
+        body.pdf-mode table tbody tr:nth-child(odd) { background: #ffffff !important; }
+        body.pdf-mode table tbody td {
+            color: #111111 !important;
+            font-size: 12px !important;
+            padding: 7px 12px !important;
+            border-bottom: 1px solid #dddddd !important;
+        }
+
+        /* Badges de estado → texto puro */
+        body.pdf-mode .bg-emerald-100,
+        body.pdf-mode .bg-red-100 { background: transparent !important; }
+        body.pdf-mode .text-emerald-800 { color: #111111 !important; font-weight: 700 !important; }
+        body.pdf-mode .text-red-800 { color: #555555 !important; font-style: italic !important; }
+
+        /* RPE badge → texto plano */
+        body.pdf-mode [style*="border-radius:20px"] {
+            background: transparent !important;
+            border: 1px solid #aaaaaa !important;
+            color: #111111 !important;
+        }
+
+        /* Códigos mono */
+        body.pdf-mode [style*="font-family:'DM Mono'"],
+        body.pdf-mode .font-mono { font-family: 'DM Mono', monospace !important; color: #333333 !important; }
+
+        /* ── Timeline: barras en grises ── */
+        body.pdf-mode #timeline-container { background: #eeeeee !important; -webkit-print-color-adjust: exact !important; }
+        body.pdf-mode .bg-emerald-500 { background: #444444 !important; -webkit-print-color-adjust: exact !important; }
+        body.pdf-mode .bg-amber-500   { background: #888888 !important; -webkit-print-color-adjust: exact !important; }
+        body.pdf-mode .bg-blue-500    { background: #bbbbbb !important; -webkit-print-color-adjust: exact !important; }
+
+        /* ── Portada ── */
+        #pdf-cover { display: none; }
+        body.pdf-mode #pdf-cover {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: #222222 !important;
+            -webkit-print-color-adjust: exact !important;
+            color: #ffffff !important;
+            padding: 48px 40px !important;
+            margin: 0 -32px 0 -32px !important;
+            min-height: 180px;
+            page-break-after: always;
+        }
+
+        /* ── Perfil resumen ── */
+        #pdf-profile-summary { display: none; }
+        body.pdf-mode #pdf-profile-summary {
+            display: block !important;
+            margin-bottom: 20px !important;
+            border: 1px solid #aaaaaa !important;
+            border-radius: 4px !important;
+        }
+        body.pdf-mode #pdf-profile-summary [style*="background:linear-gradient"] {
+            background: #222222 !important;
+        }
+        body.pdf-mode #profile-form-container { display: none !important; }
+
+        /* ── Separadores ── */
+        body.pdf-mode .border-t,
+        body.pdf-mode .divide-y > * + * { border-color: #cccccc !important; }
+
+        /* ── Gráficos ── */
+        body.pdf-mode #evolutionChart { max-height: 200px !important; }
+        body.pdf-mode .min-h-\[250px\] { min-height: 180px !important; }
+        /* Loading overlay */
+        #pdf-loading { position: fixed; inset: 0; background: rgba(255,255,255,0.98); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }
+        
+        /* Indicador de guardado mejorado */
+        #save-indicator {
+            position: fixed; bottom: 24px; right: 24px; 
+            background: #059669; color: white; 
+            padding: 8px 18px; border-radius: 24px; 
+            font-size: 12px; font-weight: 600; letter-spacing: 0.01em;
+            box-shadow: 0 4px 12px rgba(5,150,105,0.35);
+            opacity: 0; transition: opacity 0.3s; z-index: 1000;
+        }
+        #save-indicator.visible { opacity: 1; }
+
+        /* === SIDEBAR === */
+        aside { background: #0f172a !important; border-right: 1px solid rgba(255,255,255,0.05); }
+        aside .nav-btn { border-radius: 8px !important; font-size: 13.5px !important; font-weight: 500 !important; transition: all 0.15s ease !important; color: #94a3b8 !important; }
+        aside .nav-btn:hover { background: #1e293b !important; color: #fff !important; }
+        aside .nav-btn.bg-slate-800 { background: rgba(255,255,255,0.09) !important; color: #fff !important; }
+        aside h1 { font-size: 1.2rem !important; font-weight: 700 !important; letter-spacing: -0.01em !important; }
+        aside .text-slate-400 { color: #94a3b8 !important; }
+        aside .text-slate-300 { color: #cbd5e1 !important; }
+
+        /* === CONTRASTE TEXTOS GLOBALES === */
+        .text-slate-400 { color: #6b7280 !important; }
+        .text-slate-500 { color: #4b5563 !important; }
+        .text-slate-600 { color: #374151 !important; }
+        .text-slate-700 { color: #1f2937 !important; }
+        .text-slate-800 { color: #111827 !important; }
+        .text-slate-300 { color: #6b7280 !important; }
+
+        /* === FONDO PRINCIPAL === */
+        .bg-slate-50 { background-color: #f4f6f9 !important; }
+        .bg-slate-100 { background-color: #eaecf2 !important; }
+        main#main-content { background: #f4f6f9 !important; }
+
+        /* === TARJETAS === */
+        .bg-white.rounded-xl, .bg-white.rounded-lg {
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.04) !important;
+            border-color: #dde1e9 !important;
+        }
+        .border-slate-100 { border-color: #dde1e9 !important; }
+        .border-slate-200 { border-color: #cdd3dc !important; }
+
+        /* === TIPOGRAFÍA === */
+        h2 { letter-spacing: -0.02em !important; }
+        h3 { font-weight: 600 !important; color: #1f2937 !important; }
+        table thead th { font-size: 11.5px !important; font-weight: 600 !important; letter-spacing: 0.05em !important; text-transform: uppercase !important; color: #374151 !important; }
+        table tbody td { color: #111827 !important; font-size: 13.5px !important; }
+        .divide-y > * + * { border-top-color: #dde1e9 !important; }
+
+        /* === BOTONES === */
+        button.bg-emerald-600 { font-weight: 600 !important; font-size: 13px !important; box-shadow: 0 1px 3px rgba(5,150,105,0.25) !important; }
+        button.bg-slate-700 { background: #374151 !important; font-weight: 500 !important; }
+        button.bg-slate-700:hover { background: #1f2937 !important; }
+
+        /* === TARJETAS MESO (dark) === */
+        .bg-slate-700 { background: #1e293b !important; }
+        .bg-slate-600 { background: #334155 !important; }
+
+        /* === TARJETAS MICRO === */
+        .bg-indigo-50 { background: #eef2ff !important; }
+        .text-indigo-900 { color: #1e1b4b !important; }
+        .text-indigo-700 { color: #3730a3 !important; }
+
+        /* === FORMULARIOS === */
+        .rounded-md.border-slate-300 { border-color: #cdd3dc !important; border-radius: 8px !important; }
+        input, select, textarea { font-family: 'DM Sans', sans-serif !important; color: #111827 !important; }
+        input::placeholder { color: #9ca3af !important; }
+        input:focus, select:focus { border-color: #059669 !important; box-shadow: 0 0 0 3px rgba(5,150,105,0.1) !important; outline: none !important; }
+
+        /* === FONT MONO === */
+        .font-mono, code { font-family: 'DM Mono', monospace !important; }
+
+        /* === TIMELINE === */
+        #timeline-container { background: #eaecf2 !important; border-radius: 12px !important; }
+
+        /* === MODALES === */
+        .shadow-2xl { box-shadow: 0 24px 64px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.08) !important; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 h-screen flex flex-col md:flex-row overflow-hidden" id="app-body" style="font-family:'DM Sans',sans-serif;">
+
+    <!-- Indicador de Guardado -->
+    <div id="save-indicator"><i class="ph ph-check-circle mr-1"></i> Guardado Automático</div>
+
+    <!-- Overlay de Carga PDF -->
+    <div id="pdf-loading">
+        <i class="ph ph-spinner animate-spin text-5xl text-emerald-600 mb-4"></i>
+        <h2 class="text-xl font-bold text-slate-800">Generando Informe HD...</h2>
+        <p class="text-slate-500 mb-4">Aplicando corrección de contraste...</p>
+    </div>
+
+    <!-- Sidebar de Navegación -->
+    <aside class="bg-slate-900 text-white w-full md:w-64 flex-shrink-0 flex flex-col justify-between shadow-xl z-20">
+        <div class="flex flex-col h-full">
+            <div class="p-6 flex items-center space-x-3 border-b border-slate-700" style="background:linear-gradient(135deg,#0f172a 60%,#1a2744);">
+                <div style="width:36px;height:36px;background:linear-gradient(135deg,#059669,#34d399);border-radius:9px;display:flex;align-items:center;justify-content:center;">
+                    <i class="ph ph-strategy" style="font-size:20px;color:#fff;"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide text-white" style="line-height:1.1;letter-spacing:-0.01em;">CoachPro</h1>
+                    <p style="font-size:10px;color:#64748b;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;margin-top:1px;">Planificación Deportiva</p>
+                </div>
+            </div>
+            
+            <div class="px-4 py-4 bg-slate-800 border-b border-slate-700" style="border-bottom:1px solid rgba(255,255,255,0.06);">
+                <p class="text-xs text-slate-400 uppercase tracking-wider mb-2 font-semibold" style="letter-spacing:0.08em;font-size:10.5px;">Deportista Activo</p>
+                <div class="flex items-center justify-between group cursor-pointer rounded-lg p-2 hover:bg-slate-700 transition-colors" onclick="switchTab('perfil')" style="margin:-4px;">
+                    <div class="flex items-center overflow-hidden">
+                        <div class="w-8 h-8 rounded-full bg-emerald-600 flex items-center justify-center text-xs font-bold mr-2 shrink-0 text-white" id="active-avatar" style="box-shadow:0 0 0 2px rgba(52,211,153,0.3);">?</div>
+                        <span class="font-medium truncate text-white" id="active-athlete-name" style="font-size:13.5px;">Seleccionar...</span>
+                    </div>
+                    <i class="ph ph-caret-right text-slate-500 group-hover:text-emerald-400 transition-colors"></i>
+                </div>
+            </div>
+
+            <nav class="mt-4 flex flex-col space-y-1 px-2 flex-1 overflow-y-auto">
+                <button onclick="switchTab('perfil')" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md bg-slate-800 text-white transition-colors" id="btn-perfil">
+                    <i class="ph ph-users mr-3 text-xl text-emerald-400"></i> Gestor Deportistas
+                </button>
+                <button onclick="switchTab('valoracion')" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors" id="btn-valoracion">
+                    <i class="ph ph-chart-line-up mr-3 text-xl text-emerald-400"></i> Valoración Física
+                </button>
+                <button onclick="switchTab('objetivos')" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors" id="btn-objetivos">
+                    <i class="ph ph-target mr-3 text-xl text-emerald-400"></i> Objetivos
+                </button>
+                <button onclick="switchTab('periodizacion')" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors" id="btn-periodizacion">
+                    <i class="ph ph-calendar mr-3 text-xl text-emerald-400"></i> Periodización
+                </button>
+                <button onclick="switchTab('planificacion')" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md text-slate-300 hover:bg-slate-800 hover:text-white transition-colors" id="btn-planificacion">
+                    <i class="ph ph-clipboard-text mr-3 text-xl text-emerald-400"></i> Planificación
+                </button>
+                
+                <div class="my-2 border-t border-slate-700"></div>
+                
+                <button onclick="downloadPDF()" class="nav-btn group flex items-center px-4 py-3 text-sm font-medium rounded-md text-emerald-300 hover:bg-slate-800 hover:text-emerald-100 transition-colors">
+                    <i class="ph ph-file-pdf mr-3 text-xl"></i> Descargar Informe PDF
+                </button>
+            </nav>
+
+            <!-- Área de Persistencia -->
+            <div class="p-4 border-t border-slate-700 bg-slate-900" style="border-top:1px solid rgba(255,255,255,0.06);">
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <button onclick="exportData()" class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white py-1.5 px-2 rounded-lg text-center flex justify-center items-center transition-colors font-medium" title="Guardar copia de seguridad" style="font-size:12px;">
+                        <i class="ph ph-download mr-1.5"></i> Exportar
+                    </button>
+                    <label class="text-xs bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white py-1.5 px-2 rounded-lg text-center flex justify-center items-center cursor-pointer transition-colors font-medium" title="Cargar copia de seguridad" style="font-size:12px;">
+                        <i class="ph ph-upload mr-1.5"></i> Importar
+                        <input type="file" id="import-file" class="hidden" onchange="importData(this)">
+                    </label>
+                </div>
+                <button onclick="requestReset()" class="flex items-center justify-center text-xs text-red-400 hover:text-red-300 w-full p-2 rounded-lg hover:bg-slate-800 transition-colors font-medium" style="font-size:12px;">
+                    <i class="ph ph-trash mr-2"></i> Borrar Todo
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Área Principal -->
+    <main id="main-content" class="flex-1 overflow-y-auto bg-slate-50 p-4 md:p-8 relative" style="background:#f4f6f9;">
+
+        <!-- PORTADA PDF (solo visible en modo pdf-mode) -->
+        <div id="pdf-cover">
+            <div style="text-align:center;width:100%;">
+                <div style="display:inline-flex;align-items:center;gap:12px;margin-bottom:24px;">
+                    <div style="width:52px;height:52px;background:linear-gradient(135deg,#059669,#34d399);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+                        <svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' fill='white' viewBox='0 0 256 256'><path d='M216,40H40A16,16,0,0,0,24,56V200a16,16,0,0,0,16,16H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,160H40V56H216V200ZM184,96a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,96Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,128Zm0,32a8,8,0,0,1-8,8H80a8,8,0,0,1,0-16h96A8,8,0,0,1,184,160Z'/></svg>
+                    </div>
+                    <span style="font-size:28px;font-weight:800;color:#ffffff;letter-spacing:-0.02em;">CoachPro</span>
+                </div>
+                <h1 id="pdf-cover-title" style="font-size:36px;font-weight:800;color:#ffffff;margin:0 0 8px 0;letter-spacing:-0.03em;">Informe de Planificación</h1>
+                <p id="pdf-cover-athlete" style="font-size:18px;color:#34d399;font-weight:600;margin:0 0 4px 0;">Deportista</p>
+                <p id="pdf-cover-date" style="font-size:13px;color:#64748b;margin:0;"></p>
+                <div style="margin-top:32px;display:flex;justify-content:center;gap:40px;">
+                    <div style="text-align:center;">
+                        <p style="font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 4px 0;">Generado por</p>
+                        <p style="font-size:14px;color:#94a3b8;font-weight:600;margin:0;">CoachPro Planner</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <p style="font-size:11px;color:#475569;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 4px 0;">Fecha</p>
+                        <p id="pdf-cover-date2" style="font-size:14px;color:#94a3b8;font-weight:600;margin:0;"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SECCIÓN 1: PERFIL -->
+        <div id="perfil" class="tab-content active fade-in max-w-6xl mx-auto">
+            <header class="mb-8 flex justify-between items-end">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800" style="letter-spacing:-0.02em;">Perfil del Deportista</h2>
+                    <p class="text-slate-500 mt-1" style="font-size:14px;">Datos fundamentales e información personal.</p>
+                </div>
+                <button onclick="prepareNewAthlete()" class="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition text-sm flex items-center shadow-sm no-print">
+                    <i class="ph ph-user-plus mr-2 text-lg"></i> Nuevo Deportista
+                </button>
+            </header>
+
+            <!-- Resumen para PDF -->
+            <div id="pdf-profile-summary" class="bg-white rounded-xl border border-slate-200" style="overflow:hidden;">
+                <div style="background:linear-gradient(135deg,#1e293b,#0f172a);padding:20px 24px;display:flex;align-items:center;gap:20px;">
+                    <div id="pdf-avatar" style="width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;color:#fff;flex-shrink:0;">JP</div>
+                    <div>
+                        <h3 id="pdf-name" style="font-size:22px;font-weight:800;color:#ffffff;margin:0;letter-spacing:-0.02em;">Nombre Deportista</h3>
+                        <p id="pdf-sport" style="font-size:14px;color:#34d399;font-weight:600;margin:4px 0 0 0;">Deporte</p>
+                    </div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid #e2e8f0;">
+                    <div style="padding:14px 18px;border-right:1px solid #e2e8f0;">
+                        <span style="display:block;font-size:10.5px;color:#6b7280;text-transform:uppercase;font-weight:700;letter-spacing:0.07em;margin-bottom:4px;">Año Nacimiento</span>
+                        <span id="pdf-year" style="font-size:18px;font-weight:800;color:#0f172a;">----</span>
+                    </div>
+                    <div style="padding:14px 18px;border-right:1px solid #e2e8f0;">
+                        <span style="display:block;font-size:10.5px;color:#6b7280;text-transform:uppercase;font-weight:700;letter-spacing:0.07em;margin-bottom:4px;">Nivel Deportivo</span>
+                        <span id="pdf-level" style="font-size:18px;font-weight:800;color:#0f172a;">----</span>
+                    </div>
+                    <div style="padding:14px 18px;">
+                        <span style="display:block;font-size:10.5px;color:#6b7280;text-transform:uppercase;font-weight:700;letter-spacing:0.07em;margin-bottom:4px;">Condición Física</span>
+                        <span id="pdf-fitness" style="font-size:18px;font-weight:800;color:#0f172a;">----</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6" id="profile-form-container">
+                <!-- Lista de Deportistas -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden flex flex-col h-[500px] no-print">
+                    <div class="p-4 border-b border-slate-100 bg-slate-50 flex justify-between items-center" style="border-bottom:1px solid #dde1e9;">
+                        <span style="font-weight:600;font-size:13.5px;color:#1f2937;">Mis Deportistas</span>
+                        <span class="text-xs font-normal text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full" id="athlete-count" style="background:#eaecf2;color:#4b5563;font-size:11.5px;font-weight:600;">0</span>
+                    </div>
+                    <div id="athletes-list" class="overflow-y-auto flex-1 p-2 space-y-2"></div>
+                </div>
+
+                <!-- Formulario -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 p-6 relative">
+                    <div id="form-overlay" class="absolute inset-0 bg-white/80 z-10 flex items-center justify-center backdrop-blur-[1px] hidden no-print">
+                        <div class="text-center">
+                            <i class="ph ph-arrow-left text-3xl text-slate-400 mb-2"></i>
+                            <p class="text-slate-500 font-medium">Selecciona un deportista o crea uno nuevo</p>
+                        </div>
+                    </div>
+
+                    <h3 class="font-bold text-lg mb-6 text-slate-700 flex items-center">
+                        <span id="form-title">Datos del Deportista</span>
+                        <span id="editing-indicator" class="ml-3 text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded hidden no-print">Editando</span>
+                    </h3>
+
+                    <form id="profileForm" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="hidden" id="p-id">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nombre Completo</label>
+                            <input type="text" id="p-nombre" class="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2 border" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Año de Nacimiento</label>
+                            <input type="number" id="p-year" class="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2 border" placeholder="Ej. 2004">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Deporte</label>
+                            <select id="p-deporte" class="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2 border bg-white">
+                                <option value="Fútbol">Fútbol</option>
+                                <option value="Baloncesto">Baloncesto</option>
+                                <option value="Voleibol">Voleibol</option>
+                                <option value="Balonmano">Balonmano</option>
+                                <option value="Rugby">Rugby</option>
+                                <option value="Tenis">Tenis</option>
+                                <option value="Atletismo">Atletismo</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Nivel Deportivo</label>
+                            <select id="p-nivel" class="w-full rounded-md border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 sm:text-sm p-2 border bg-white">
+                                <option value="Iniciación">Iniciación</option>
+                                <option value="Tecnificación">Tecnificación</option>
+                                <option value="Competición">Competición</option>
+                                <option value="Alto Rendimiento">Alto Rendimiento</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Nivel de Condición Física (Autopercibido)</label>
+                            <div class="grid grid-cols-5 gap-2 text-center">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="fitness" value="Muy bajo" class="peer sr-only">
+                                    <div class="rounded-lg border border-slate-200 p-2 text-xs md:text-sm hover:bg-slate-50 peer-checked:bg-red-100 peer-checked:border-red-500 peer-checked:text-red-700 transition-all">Muy bajo</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="fitness" value="Bajo" class="peer sr-only">
+                                    <div class="rounded-lg border border-slate-200 p-2 text-xs md:text-sm hover:bg-slate-50 peer-checked:bg-orange-100 peer-checked:border-orange-500 peer-checked:text-orange-700 transition-all">Bajo</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="fitness" value="Regular" class="peer sr-only">
+                                    <div class="rounded-lg border border-slate-200 p-2 text-xs md:text-sm hover:bg-slate-50 peer-checked:bg-yellow-100 peer-checked:border-yellow-500 peer-checked:text-yellow-700 transition-all">Regular</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="fitness" value="Alto" class="peer sr-only">
+                                    <div class="rounded-lg border border-slate-200 p-2 text-xs md:text-sm hover:bg-slate-50 peer-checked:bg-emerald-100 peer-checked:border-emerald-500 peer-checked:text-emerald-700 transition-all">Alto</div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="fitness" value="Muy alto" class="peer sr-only">
+                                    <div class="rounded-lg border border-slate-200 p-2 text-xs md:text-sm hover:bg-slate-50 peer-checked:bg-blue-100 peer-checked:border-blue-500 peer-checked:text-blue-700 transition-all">Muy alto</div>
+                                </label>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex justify-between no-print">
+                         <button type="button" onclick="requestDeleteAthlete()" id="btn-delete-athlete" class="text-red-500 hover:text-red-700 text-sm flex items-center px-2 py-2 rounded hover:bg-red-50 hidden">
+                            <i class="ph ph-trash mr-2"></i> Eliminar perfil
+                        </button>
+                        <button onclick="saveAthlete()" class="bg-slate-900 text-white px-6 py-2 rounded-md hover:bg-slate-800 transition shadow-sm font-medium flex items-center">
+                            <i class="ph ph-floppy-disk mr-2"></i> <span id="btn-save-text">Guardar</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: VALORACIÓN -->
+        <div id="valoracion" class="tab-content fade-in max-w-6xl mx-auto page-break">
+            <header class="mb-8 flex justify-between items-end">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Valoración y Tests</h2>
+                    <p class="text-slate-500">Registro de resultados para: <strong class="text-emerald-600 current-athlete-display">---</strong></p>
+                </div>
+                <button onclick="openTestModal()" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition text-sm flex items-center shadow-sm no-print">
+                    <i class="ph ph-plus-circle mr-2 text-lg"></i> Nuevo Test
+                </button>
+            </header>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Tabla de Resultados -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="p-4 border-b flex justify-between items-center" style="border-bottom:1px solid #dde1e9;background:#f4f6f9;">
+                        <span style="font-weight:600;font-size:13.5px;color:#1f2937;">Histórico de Pruebas</span>
+                        <span style="font-size:11.5px;color:#6b7280;font-weight:400;">Ordenado por fecha</span>
+                    </div>
+                    <div class="overflow-x-auto max-h-[500px]">
+                        <table class="w-full text-left text-sm">
+                            <thead style="background:#f4f6f9;position:sticky;top:0;z-index:10;border-bottom:2px solid #dde1e9;">
+                                <tr>
+                                    <th style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Fecha</th>
+                                    <th style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Prueba</th>
+                                    <th style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Valor</th>
+                                    <th class="hidden sm:table-cell" style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Ref</th>
+                                    <th style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Estado</th>
+                                    <th class="text-right no-print" style="padding:12px 16px;font-size:11.5px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:0.05em;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tests-table-body" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
+                    <div id="empty-tests" class="p-12 text-center hidden" style="color:#9ca3af;">
+                        <i class="ph ph-clipboard-text" style="font-size:2.5rem;display:block;margin-bottom:8px;color:#cbd5e1;"></i>
+                        <p style="font-size:13.5px;">No hay pruebas registradas para este deportista.</p>
+                    </div>
+                </div>
+
+                <!-- Gráfico de Evolución -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex flex-col">
+                    <div class="mb-4 flex justify-between items-center">
+                        <h3 style="font-weight:700;font-size:14px;color:#1f2937;">Evolución</h3>
+                        <select id="chart-filter" onchange="renderChart()" class="no-print" style="font-size:12px;border:1px solid #dde1e9;border-radius:6px;padding:4px 8px;color:#374151;background:#fff;max-width:130px;"></select>
+                    </div>
+                    <div id="chart-improvement" class="mb-2 text-center" style="font-size:12.5px;font-weight:700;color:#4b5563;"></div>
+                    <div class="relative flex-1 min-h-[250px]">
+                        <canvas id="evolutionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: OBJETIVOS -->
+        <div id="objetivos" class="tab-content fade-in max-w-4xl mx-auto page-break">
+            <header class="mb-8">
+                <h2 class="text-3xl font-bold text-slate-800">Objetivos</h2>
+                <p class="text-slate-500">Deportista: <strong class="text-emerald-600 current-athlete-display">---</strong></p>
+            </header>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-indigo-50 border border-indigo-100 rounded-xl p-6">
+                    <div class="flex items-center mb-4 text-indigo-800">
+                        <i class="ph ph-magic-wand text-2xl mr-2"></i>
+                        <h3 class="font-bold text-lg">Sugeridos</h3>
+                    </div>
+                    <p class="text-sm text-indigo-600 mb-4">Basado en "Aspectos a mejorar".</p>
+                    <ul id="auto-goals-list" class="space-y-3"></ul>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+                    <div class="flex items-center mb-4 text-slate-800">
+                        <i class="ph ph-pencil-simple text-2xl mr-2 text-emerald-500"></i>
+                        <h3 class="font-bold text-lg">Manuales</h3>
+                    </div>
+                    <div class="flex space-x-2 mb-4 no-print">
+                        <input type="text" id="manual-goal-input" class="flex-1 rounded-md border-slate-300 border p-2 text-sm focus:ring-emerald-500 focus:border-emerald-500" placeholder="Escribe un objetivo...">
+                        <button onclick="addManualGoal()" class="bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 text-sm">Añadir</button>
+                    </div>
+                    <ul id="manual-goals-list" class="space-y-3 max-h-[300px] overflow-y-auto"></ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 4: PERIODIZACIÓN -->
+        <div id="periodizacion" class="tab-content fade-in max-w-5xl mx-auto page-break">
+            <header class="mb-8 flex justify-between items-end">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Periodización</h2>
+                    <p class="text-slate-500">Calendario para: <strong class="text-emerald-600 current-athlete-display">---</strong></p>
+                </div>
+                <button onclick="openMacroModal()" class="bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-900 transition text-sm flex items-center shadow-sm no-print">
+                    <i class="ph ph-plus-circle mr-2 text-lg"></i> Nuevo Macrociclo
+                </button>
+            </header>
+
+            <!-- Lista de Macrociclos -->
+            <div id="macros-list-section" class="mb-6">
+                <div id="macros-container" class="space-y-3"></div>
+                <div id="empty-macros" class="bg-white border border-dashed border-slate-300 rounded-xl p-8 text-center">
+                    <i class="ph ph-calendar-blank" style="font-size:2.2rem;color:#cbd5e1;display:block;margin-bottom:8px;"></i>
+                    <p class="text-slate-400 text-sm font-medium">No hay macrociclos definidos.</p>
+                    <p class="text-slate-400 text-xs mt-1">Crea uno para estructurar la temporada y definir sus periodos.</p>
+                </div>
+            </div>
+
+            <!-- Periodos del macrociclo activo -->
+            <div id="macro-periods-section" class="hidden">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 mb-6 no-print">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-bold text-lg text-slate-700">Definir Periodos</h3>
+                        <span id="macro-active-badge" class="text-xs font-semibold bg-slate-800 text-white px-3 py-1 rounded-full"></span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="p-4 bg-emerald-50 rounded-lg border border-emerald-100">
+                            <div class="font-bold text-emerald-800 mb-2 flex items-center gap-2"><i class="ph ph-barbell"></i> Preparación</div>
+                            <div class="space-y-2">
+                                <div><label class="text-xs text-emerald-600 block">Inicio</label><input type="date" id="date-prep-start" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-emerald-200"></div>
+                                <div><label class="text-xs text-emerald-600 block">Fin</label><input type="date" id="date-prep-end" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-emerald-200"></div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-amber-50 rounded-lg border border-amber-100">
+                            <div class="font-bold text-amber-800 mb-2 flex items-center gap-2"><i class="ph ph-trophy"></i> Competición</div>
+                            <div class="space-y-2">
+                                <div><label class="text-xs text-amber-600 block">Inicio</label><input type="date" id="date-comp-start" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-amber-200"></div>
+                                <div><label class="text-xs text-amber-600 block">Fin</label><input type="date" id="date-comp-end" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-amber-200"></div>
+                            </div>
+                        </div>
+                        <div class="p-4 bg-blue-50 rounded-lg border border-blue-100">
+                            <div class="font-bold text-blue-800 mb-2 flex items-center gap-2"><i class="ph ph-waves"></i> Transición</div>
+                            <div class="space-y-2">
+                                <div><label class="text-xs text-blue-600 block">Inicio</label><input type="date" id="date-trans-start" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-blue-200"></div>
+                                <div><label class="text-xs text-blue-600 block">Fin</label><input type="date" id="date-trans-end" onchange="updatePeriodization()" class="w-full text-xs p-1 rounded border-blue-200"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+                    <h3 class="font-bold text-lg mb-6 text-slate-700">Calendario Visual</h3>
+                    <div class="relative h-24 bg-slate-100 rounded-lg flex items-center px-4 min-w-[600px] mt-8" id="timeline-container">
+                        <p class="text-slate-400 text-sm text-center w-full">Define las fechas arriba para ver la línea de tiempo</p>
+                    </div>
+                    <div class="flex justify-between mt-2 text-xs text-slate-500 font-mono">
+                        <span id="timeline-start-label">Inicio</span>
+                        <span id="timeline-end-label">Fin</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MODAL MACROCICLO -->
+        <div id="modal-macro" class="fixed inset-0 bg-slate-900/60 hidden z-50 flex items-center justify-center backdrop-blur-sm no-print">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4">
+                <div class="flex justify-between items-center mb-5">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800" id="macro-modal-title">Nuevo Macrociclo</h3>
+                        <span id="macro-code-display" class="text-xs font-mono text-slate-400">MAC-###</span>
+                    </div>
+                    <button onclick="toggleModal('modal-macro')" class="text-slate-400 hover:text-slate-600 p-1"><i class="ph ph-x text-xl"></i></button>
+                </div>
+                <form id="macroForm" class="space-y-4">
+                    <input type="hidden" id="mac-id">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Nombre del Macrociclo</label>
+                        <input type="text" id="mac-name" class="w-full border rounded-md p-2" placeholder="Ej. Temporada 2024-25" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Fecha inicio</label>
+                            <input type="date" id="mac-start" class="w-full border rounded-md p-2" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-slate-700 mb-1">Fecha fin</label>
+                            <input type="date" id="mac-end" class="w-full border rounded-md p-2" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Objetivo principal</label>
+                        <input type="text" id="mac-goal" class="w-full border rounded-md p-2" placeholder="Ej. Clasificación campeonato nacional">
+                    </div>
+                    <div class="flex justify-end space-x-3 pt-4 border-t border-slate-100">
+                        <button type="button" onclick="toggleModal('modal-macro')" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md text-sm">Cancelar</button>
+                        <button type="submit" class="px-4 py-2 bg-slate-800 text-white rounded-md hover:bg-slate-900 text-sm font-semibold">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 5: PLANIFICACIÓN (MESO, MICRO, SESIÓN) -->
+        <div id="planificacion" class="tab-content fade-in max-w-7xl mx-auto page-break">
+            <header class="mb-8 flex flex-col md:flex-row justify-between items-end gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-800">Planificación</h2>
+                    <p class="text-slate-500">Estructura para: <strong class="text-emerald-600 current-athlete-display">---</strong></p>
+                </div>
+                <div class="flex space-x-2 no-print" id="planning-action-btns" style="display:none!important;">
+                    <button onclick="toggleModal('modal-meso')" class="bg-slate-700 text-white px-3 py-2 rounded-md hover:bg-slate-800 transition text-xs flex items-center shadow-sm">
+                        <i class="ph ph-squares-four mr-2 text-base"></i> Nuevo Mesociclo
+                    </button>
+                    <button onclick="toggleModal('modal-micro')" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-700 transition text-xs flex items-center shadow-sm">
+                        <i class="ph ph-calendar-week mr-2 text-base"></i> Nuevo Microciclo
+                    </button>
+                    <button onclick="toggleModal('modal-session')" class="bg-emerald-600 text-white px-3 py-2 rounded-md hover:bg-emerald-700 transition text-xs flex items-center shadow-sm">
+                        <i class="ph ph-plus mr-2 text-base"></i> Nueva Sesión
+                    </button>
+                </div>
+            </header>
+
+            <!-- Selector de Macrociclo -->
+            <div id="planning-macro-selector" class="mb-6 no-print">
+                <div class="bg-white rounded-xl border border-slate-200 overflow-hidden" style="box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+                    <div class="flex items-center justify-between px-5 py-4" style="background:#f4f6f9;border-bottom:1px solid #dde1e9;">
+                        <div class="flex items-center gap-3">
+                            <div style="width:32px;height:32px;background:#1e293b;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+                                <i class="ph ph-calendar-blank" style="color:#34d399;font-size:1rem;"></i>
+                            </div>
+                            <div>
+                                <p style="font-size:13px;font-weight:700;color:#111827;margin:0;">Macrociclo de trabajo</p>
+                                <p style="font-size:11.5px;color:#6b7280;margin:0;">Selecciona el macrociclo al que pertenecerán los ciclos y sesiones</p>
+                            </div>
+                        </div>
+                        <button onclick="switchTab('periodizacion')" class="text-xs text-slate-500 hover:text-slate-700 flex items-center gap-1 no-print" style="font-size:11.5px;">
+                            <i class="ph ph-arrow-square-out"></i> Gestionar macrociclos
+                        </button>
+                    </div>
+                    <div id="planning-macro-cards" class="p-4 flex flex-wrap gap-3">
+                        <div id="planning-no-macros" class="w-full text-center py-6" style="color:#9ca3af;">
+                            <i class="ph ph-calendar-x" style="font-size:1.8rem;display:block;margin-bottom:6px;color:#cbd5e1;"></i>
+                            <p style="font-size:13px;font-weight:500;">No hay macrociclos definidos.</p>
+                            <p style="font-size:12px;margin-top:2px;">Crea uno en la sección <strong>Periodización</strong> para comenzar.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido de planificación (oculto hasta seleccionar macro) -->
+            <div id="planning-content" class="space-y-8" style="display:none;">
+                <!-- Macro activo banner — visible en pantalla y en PDF -->
+                <div id="planning-active-macro-bar" style="background:#0f172a;border-radius:10px;display:flex;align-items:center;justify-content:space-between;padding:12px 20px;">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <i class="ph ph-calendar-check" style="color:#34d399;font-size:1.2rem;"></i>
+                        <div>
+                            <span style="font-size:10.5px;color:#64748b;text-transform:uppercase;letter-spacing:0.07em;font-weight:600;">Macrociclo</span>
+                            <p id="planning-active-macro-name" style="font-size:14px;font-weight:700;color:#fff;margin:0;"></p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2 no-print">
+                        <button onclick="toggleModal('modal-meso')" class="bg-slate-700 text-white px-3 py-2 rounded-md hover:bg-slate-600 transition text-xs flex items-center" style="font-size:12px;">
+                            <i class="ph ph-squares-four mr-1.5"></i> Mesociclo
+                        </button>
+                        <button onclick="toggleModal('modal-micro')" class="bg-indigo-600 text-white px-3 py-2 rounded-md hover:bg-indigo-500 transition text-xs flex items-center" style="font-size:12px;">
+                            <i class="ph ph-calendar-week mr-1.5"></i> Microciclo
+                        </button>
+                        <button onclick="toggleModal('modal-session')" class="bg-emerald-600 text-white px-3 py-2 rounded-md hover:bg-emerald-500 transition text-xs flex items-center" style="font-size:12px;">
+                            <i class="ph ph-plus mr-1.5"></i> Sesión
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Nivel 1: Mesociclos -->
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 flex items-center"><i class="ph ph-squares-four mr-2"></i> Mesociclos</h3>
+                    <div id="mesos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+                </div>
+
+                <!-- Nivel 2: Microciclos -->
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 flex items-center"><i class="ph ph-calendar-week mr-2"></i> Microciclos</h3>
+                    <div id="micros-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+                </div>
+
+                <!-- Nivel 3: Sesiones -->
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 mb-3 flex items-center"><i class="ph ph-calendar-check mr-2"></i> Sesiones</h3>
+                    <div id="sessions-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+                </div>
+
+                <div id="empty-planning" class="text-center py-12 hidden">
+                    <p class="text-slate-400">No hay elementos de planificación creados aún para este macrociclo.</p>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL CONFIRMACIÓN GENÉRICO -->
+    <div id="modal-confirm" class="fixed inset-0 bg-slate-900/60 hidden z-[60] flex items-center justify-center backdrop-blur-sm no-print">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-sm p-6 m-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4 text-red-600">
+                <i class="ph ph-warning text-2xl"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">¿Estás seguro?</h3>
+            <p class="text-sm text-slate-500 mb-6" id="confirm-msg">Esta acción no se puede deshacer.</p>
+            <div class="flex space-x-3 justify-center">
+                <button onclick="closeConfirm()" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md transition">Cancelar</button>
+                <button id="btn-confirm-yes" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition shadow-sm">Sí, eliminar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TEST -->
+    <div id="modal-test" class="fixed inset-0 bg-slate-900/50 hidden z-50 flex items-center justify-center backdrop-blur-sm transition-opacity no-print">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4 scale-100 transition-transform">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-slate-800" id="modal-test-title">Registrar Test</h3>
+                <button onclick="toggleModal('modal-test')" class="text-slate-400 hover:text-slate-600"><i class="ph ph-x text-xl"></i></button>
+            </div>
+            <form id="testForm" class="space-y-4">
+                <input type="hidden" id="t-id">
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wide mb-1">Deportista</label>
+                    <select id="t-athlete-select" class="w-full bg-white border border-slate-300 rounded p-2 text-sm font-medium focus:ring-emerald-500 focus:border-emerald-500"></select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Nombre de la Prueba</label>
+                    <input type="text" id="t-name" class="w-full border rounded-md p-2 mt-1" placeholder="Ej. Squat 1RM" required list="test-suggestions">
+                    <datalist id="test-suggestions">
+                        <option value="Squat 1RM"><option value="Bench Press 1RM"><option value="Salto Vertical (CMJ)"><option value="Yo-Yo Test IR1"><option value="Sprint 30m">
+                    </datalist>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Resultado</label>
+                        <input type="number" step="0.01" id="t-value" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Unidad</label>
+                        <select id="t-unit" class="w-full border rounded-md p-2 mt-1 bg-white">
+                            <option value="kg">kg</option>
+                            <option value="cm">cm</option>
+                            <option value="m">m</option>
+                            <option value="sec">seg (tiempo)</option>
+                            <option value="rep">rep</option>
+                            <option value="ml/kg/min">ml/kg/min</option>
+                            <option value="km/h">km/h</option>
+                            <option value="m/s">m/s</option>
+                            <option value="vatios">vatios</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Referencia (Objetivo)</label>
+                    <input type="number" step="0.01" id="t-ref" class="w-full border rounded-md p-2 mt-1" placeholder="Objetivo" required>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Fecha</label>
+                    <input type="date" id="t-date" class="w-full border rounded-md p-2 mt-1" required>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6 pt-4 border-t border-slate-100">
+                    <button type="button" onclick="toggleModal('modal-test')" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 shadow-sm">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL MESOCICLO -->
+    <div id="modal-meso" class="fixed inset-0 bg-slate-900/50 hidden z-50 flex items-center justify-center backdrop-blur-sm no-print">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4">
+            <h3 class="text-xl font-bold text-slate-800 mb-4" id="meso-modal-title">Nuevo Mesociclo</h3>
+            <p class="text-xs text-slate-400 mb-4">Código (Auto): <span class="font-mono bg-slate-100 px-1 rounded" id="meso-code-display">MES-###</span></p>
+            <form id="mesoForm" class="space-y-4">
+                <input type="hidden" id="m-id">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Inicio</label>
+                        <input type="date" id="m-start" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Final</label>
+                        <input type="date" id="m-end" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Tipo</label>
+                    <select id="m-type" class="w-full border rounded-md p-2 mt-1 bg-white">
+                        <option value="Preparación">Preparación</option>
+                        <option value="Competición">Competición</option>
+                        <option value="Transición">Transición</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Objetivos</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="m-obj" value="Mejora de la condición física" class="mr-2"> Mejora de la condición física</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="m-obj" value="Mejora del componente técnico-táctico" class="mr-2"> Mejora del componente técnico-táctico</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="m-obj" value="Entrenamiento integrado" class="mr-2"> Entrenamiento integrado</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="m-obj" value="Tapering" class="mr-2"> Tapering</label>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="toggleModal('modal-meso')" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-slate-700 text-white rounded-md hover:bg-slate-800">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL MICROCICLO -->
+    <div id="modal-micro" class="fixed inset-0 bg-slate-900/50 hidden z-50 flex items-center justify-center backdrop-blur-sm no-print">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-md p-6 m-4">
+            <h3 class="text-xl font-bold text-slate-800 mb-4" id="micro-modal-title">Nuevo Microciclo</h3>
+            <p class="text-xs text-slate-400 mb-4">Código (Auto): <span class="font-mono bg-slate-100 px-1 rounded" id="micro-code-display">MIC-###</span></p>
+            <form id="microForm" class="space-y-4">
+                <input type="hidden" id="mi-id">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Vincular a Mesociclo</label>
+                    <select id="mi-meso-select" class="w-full border rounded-md p-2 mt-1 bg-slate-50 text-sm">
+                        <option value="">-- Sin vincular --</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Inicio</label>
+                        <input type="date" id="mi-start" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Final</label>
+                        <input type="date" id="mi-end" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Tipo</label>
+                    <select id="mi-type" class="w-full border rounded-md p-2 mt-1 bg-white">
+                        <option value="Preparación">Preparación</option>
+                        <option value="Competición">Competición</option>
+                        <option value="Recuperación">Recuperación</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Objetivos</label>
+                    <div class="space-y-2">
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="mi-obj" value="Mejora de la condición física" class="mr-2"> Mejora de la condición física</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="mi-obj" value="Mejora del componente técnico-táctico" class="mr-2"> Mejora del componente técnico-táctico</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="mi-obj" value="Entrenamiento integrado" class="mr-2"> Entrenamiento integrado</label>
+                        <label class="flex items-center text-sm text-slate-600"><input type="checkbox" name="mi-obj" value="Tapering" class="mr-2"> Tapering</label>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="toggleModal('modal-micro')" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL SESIÓN -->
+    <div id="modal-session" class="fixed inset-0 bg-slate-900/50 hidden z-50 flex items-center justify-center backdrop-blur-sm no-print">
+        <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg p-6 m-4 max-h-[90vh] overflow-y-auto">
+            <h3 class="text-xl font-bold text-slate-800 mb-4" id="session-modal-title">Planificar Sesión</h3>
+            <p class="text-xs text-slate-400 mb-4">Código (Auto): <span class="font-mono bg-slate-100 px-1 rounded" id="session-code-display">SES-###</span></p>
+            <form id="sessionForm" class="space-y-4">
+                <input type="hidden" id="s-id">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Vincular a Microciclo</label>
+                    <select id="s-micro-select" class="w-full border rounded-md p-2 mt-1 bg-slate-50 text-sm">
+                        <option value="">-- Sin vincular --</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Fecha</label>
+                        <input type="date" id="s-date" class="w-full border rounded-md p-2 mt-1" required>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700">Turno</label>
+                        <select id="s-ampm" class="w-full border rounded-md p-2 mt-1 bg-white">
+                            <option value="AM">AM (Mañana)</option>
+                            <option value="PM">PM (Tarde)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Tipo</label>
+                    <select id="s-type" class="w-full border rounded-md p-2 mt-1 bg-white">
+                        <option value="Desarrollo de capacidades">Desarrollo de capacidades</option>
+                        <option value="Preparación de la competición">Preparación de la competición</option>
+                        <option value="Competición">Competición</option>
+                        <option value="Recuperación">Recuperación</option>
+                    </select>
+                </div>
+                
+                <!-- Secuencia de Tareas -->
+                <div class="border-t border-b border-slate-100 py-3 my-2">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Secuencia de Tareas</label>
+                    <div id="tasks-container" class="space-y-2 mb-2">
+                        <!-- Tareas dinámicas -->
+                    </div>
+                    <button type="button" onclick="addTaskRow()" class="text-xs flex items-center text-emerald-600 hover:text-emerald-700">
+                        <i class="ph ph-plus-circle mr-1 text-base"></i> Añadir Tarea
+                    </button>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700">Intensidad Prevista (1-10)</label>
+                    <input type="range" id="s-rpe" min="1" max="10" value="5" class="w-full mt-2 accent-emerald-600" oninput="document.getElementById('rpe-val').innerText = this.value">
+                    <div class="flex justify-between text-xs text-slate-400">
+                        <span>Suave</span><span class="font-bold text-emerald-600 text-lg" id="rpe-val">5</span><span>Máx</span>
+                    </div>
+                </div>
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" onclick="toggleModal('modal-session')" class="px-4 py-2 text-slate-600 hover:bg-slate-100 rounded-md">Cancelar</button>
+                    <button type="submit" class="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- LOGICA DE LA APLICACIÓN -->
+    <script>
+        // --- ESTRUCTURA DE DATOS V4 ---
+        let appData = {
+            athletes: [],
+            currentAthleteId: null,
+            tests: [],
+            manualGoals: [],
+            periods: [],
+            sessions: [], 
+            microcycles: [], 
+            mesocycles: [],
+            macrocycles: []
+        };
+
+        // --- GLOBAL PDF MODE FLAG ---
+        let isPdfMode = false;
+        let microCharts = [];
+
+        // --- HELPERS ---
+        const generateCode = (prefix, collection) => {
+            if(!appData.currentAthleteId) return `${prefix}-001`;
+            const myItems = collection.filter(x => x.athleteId == appData.currentAthleteId);
+            const count = myItems.length + 1;
+            return `${prefix}-${count.toString().padStart(3, '0')}`;
+        };
+
+        let confirmCallback = null;
+        function showConfirm(message, callback) {
+            document.getElementById('confirm-msg').innerText = message;
+            confirmCallback = callback;
+            document.getElementById('modal-confirm').classList.remove('hidden');
+        }
+        function closeConfirm() {
+            document.getElementById('modal-confirm').classList.add('hidden');
+            confirmCallback = null;
+        }
+        document.getElementById('btn-confirm-yes').onclick = function() {
+            if(confirmCallback) confirmCallback();
+            closeConfirm();
+        };
+
+        // --- INICIALIZACIÓN ---
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            updateUIState();
+            const today = new Date().toISOString().split('T')[0];
+            const inputsDate = ['t-date', 's-date', 'm-start', 'm-end', 'mi-start', 'mi-end'];
+            inputsDate.forEach(id => {
+                const el = document.getElementById(id);
+                if(el) el.value = today;
+            });
+        });
+
+        // --- PERSISTENCIA (JSON) ---
+        function exportData() {
+            const dataStr = JSON.stringify(appData, null, 2);
+            const blob = new Blob([dataStr], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `backup_coachpro_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(input) {
+            const file = input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    // Validación básica
+                    if (data.athletes && Array.isArray(data.athletes)) {
+                        appData = data;
+                        saveData();
+                        location.reload(); // Recargar para aplicar cambios
+                    } else {
+                        alert("El archivo no tiene el formato correcto.");
+                    }
+                } catch (err) {
+                    alert("Error al leer el archivo JSON.");
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // --- NAVEGACIÓN ---
+        function switchTab(tabId) {
+            if (tabId !== 'perfil' && !appData.currentAthleteId) {
+                showConfirm("Por favor, selecciona o crea un deportista primero.", () => switchTab('perfil'));
+                return;
+            }
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            const pdfSummary = document.getElementById('pdf-profile-summary');
+            if(tabId === 'perfil') pdfSummary.classList.add('hidden'); 
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-slate-800', 'text-white');
+                btn.classList.add('text-slate-300');
+            });
+            const activeBtn = document.getElementById(`btn-${tabId}`);
+            if(activeBtn) {
+                activeBtn.classList.add('bg-slate-800', 'text-white');
+                activeBtn.classList.remove('text-slate-300');
+            }
+
+            if(tabId === 'valoracion') { renderTests(); renderChart(); }
+            if(tabId === 'objetivos') renderGoals();
+            if(tabId === 'periodizacion') { if(!appData.macrocycles) appData.macrocycles=[]; renderMacros(); populatePeriods(); renderTimeline(); }
+            if(tabId === 'planificacion') { renderPlanningMacroSelector(); }
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+
+            if(!modal.classList.contains('hidden')) {
+                // RELLENAR SELECTS PARA NUEVOS ELEMENTOS
+                if(modalId === 'modal-micro') {
+                    const select = document.getElementById('mi-meso-select');
+                    select.innerHTML = '<option value="">-- Sin vincular --</option>';
+                    if(appData.currentAthleteId) {
+                        const mesos = appData.mesocycles.filter(m => m.athleteId == appData.currentAthleteId && (!planningMacroId || m.macroId == planningMacroId));
+                        mesos.forEach(m => {
+                            const opt = document.createElement('option');
+                            opt.value = m.id;
+                            opt.text = `${m.name || 'Meso'} (${m.code})`;
+                            select.appendChild(opt);
+                        });
+                    }
+                }
+                if(modalId === 'modal-session') {
+                    const select = document.getElementById('s-micro-select');
+                    select.innerHTML = '<option value="">-- Sin vincular --</option>';
+                    if(appData.currentAthleteId) {
+                        const micros = appData.microcycles.filter(m => m.athleteId == appData.currentAthleteId && (!planningMacroId || m.macroId == planningMacroId));
+                        micros.forEach(m => {
+                            const opt = document.createElement('option');
+                            opt.value = m.id;
+                            opt.text = `${m.code} (${m.type})`;
+                            select.appendChild(opt);
+                        });
+                    }
+                    if(document.getElementById('tasks-container').innerHTML === '') addTaskRow();
+                }
+            }
+
+            if(modal.classList.contains('hidden')) {
+                if(modalId === 'modal-meso') { document.getElementById('mesoForm').reset(); document.getElementById('m-id').value = ''; document.getElementById('meso-modal-title').innerText = "Nuevo Mesociclo"; document.getElementById('meso-code-display').innerText = "MES-###"; }
+                if(modalId === 'modal-micro') { document.getElementById('microForm').reset(); document.getElementById('mi-id').value = ''; document.getElementById('micro-modal-title').innerText = "Nuevo Microciclo"; document.getElementById('micro-code-display').innerText = "MIC-###"; }
+                if(modalId === 'modal-session') { document.getElementById('sessionForm').reset(); document.getElementById('s-id').value = ''; document.getElementById('session-modal-title').innerText = "Planificar Sesión"; document.getElementById('session-code-display').innerText = "SES-###"; document.getElementById('tasks-container').innerHTML = ''; addTaskRow(); }
+                if(modalId === 'modal-macro') { document.getElementById('macroForm').reset(); document.getElementById('mac-id').value = ''; document.getElementById('macro-modal-title').innerText = "Nuevo Macrociclo"; document.getElementById('macro-code-display').innerText = "MAC-###"; }
+            }
+        }
+
+        // --- FUNCIONES DE EDICIÓN ---
+        function editMeso(id) {
+            const meso = appData.mesocycles.find(m => m.id === id);
+            if(!meso) return;
+            document.getElementById('m-id').value = meso.id;
+            document.getElementById('m-start').value = meso.start;
+            document.getElementById('m-end').value = meso.end;
+            document.getElementById('m-type').value = meso.type;
+            document.querySelectorAll('input[name="m-obj"]').forEach(cb => { cb.checked = (meso.objectives || []).includes(cb.value); });
+            document.getElementById('meso-modal-title').innerText = "Editar Mesociclo";
+            document.getElementById('meso-code-display').innerText = meso.code;
+            document.getElementById('modal-meso').classList.remove('hidden');
+        }
+
+        function editMicro(id) {
+            const micro = appData.microcycles.find(m => m.id === id);
+            if(!micro) return;
+            const select = document.getElementById('mi-meso-select');
+            select.innerHTML = '<option value="">-- Sin vincular --</option>';
+            if(appData.currentAthleteId) {
+                const mesos = appData.mesocycles.filter(m => m.athleteId == appData.currentAthleteId);
+                mesos.forEach(m => { const opt = document.createElement('option'); opt.value = m.id; opt.text = `${m.name || 'Meso'} (${m.code})`; select.appendChild(opt); });
+            }
+            document.getElementById('mi-id').value = micro.id;
+            document.getElementById('mi-meso-select').value = micro.mesoId || "";
+            document.getElementById('mi-start').value = micro.start;
+            document.getElementById('mi-end').value = micro.end;
+            document.getElementById('mi-type').value = micro.type;
+            document.querySelectorAll('input[name="mi-obj"]').forEach(cb => { cb.checked = (micro.objectives || []).includes(cb.value); });
+            document.getElementById('micro-modal-title').innerText = "Editar Microciclo";
+            document.getElementById('micro-code-display').innerText = micro.code;
+            document.getElementById('modal-micro').classList.remove('hidden');
+        }
+
+        function editSession(id) {
+            const session = appData.sessions.find(s => s.id === id);
+            if(!session) return;
+            const select = document.getElementById('s-micro-select');
+            select.innerHTML = '<option value="">-- Sin vincular --</option>';
+            if(appData.currentAthleteId) {
+                const micros = appData.microcycles.filter(m => m.athleteId == appData.currentAthleteId);
+                micros.forEach(m => { const opt = document.createElement('option'); opt.value = m.id; opt.text = `${m.code} (${m.type})`; select.appendChild(opt); });
+            }
+            document.getElementById('s-id').value = session.id;
+            document.getElementById('s-micro-select').value = session.microId || "";
+            document.getElementById('s-date').value = session.date;
+            document.getElementById('s-ampm').value = session.am_pm;
+            document.getElementById('s-type').value = session.type;
+            document.getElementById('s-rpe').value = session.rpe;
+            document.getElementById('rpe-val').innerText = session.rpe;
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
+            if(session.tasks && session.tasks.length > 0) {
+                session.tasks.forEach(t => {
+                    const row = document.createElement('div');
+                    row.className = "flex gap-2 items-start task-row";
+                    row.innerHTML = `<div class="flex-1"><input type="text" value="${t.desc}" class="task-desc w-full text-sm border rounded p-1"></div><div class="w-20"><input type="text" value="${t.time}" class="task-time w-full text-sm border rounded p-1"></div><button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-red-500 p-1"><i class="ph ph-minus-circle"></i></button>`;
+                    container.appendChild(row);
+                });
+            } else { addTaskRow(); }
+            document.getElementById('session-modal-title').innerText = "Editar Sesión";
+            document.getElementById('session-code-display').innerText = session.code;
+            document.getElementById('modal-session').classList.remove('hidden');
+        }
+
+        // --- PDF GENERATION (PROFESSIONAL REPORT) ---
+        function downloadPDF() {
+            // 1. Populate athlete data
+            const athlete = appData.currentAthleteId ? appData.athletes.find(a => a.id == appData.currentAthleteId) : null;
+            const athleteName = athlete ? athlete.nombre : 'Sin deportista';
+            
+            if(athlete) {
+                document.getElementById('pdf-name').innerText = athlete.nombre;
+                document.getElementById('pdf-sport').innerText = athlete.deporte || '';
+                document.getElementById('pdf-avatar').innerText = athlete.nombre.charAt(0).toUpperCase();
+                document.getElementById('pdf-year').innerText = athlete.year || 'N/A';
+                document.getElementById('pdf-level').innerText = athlete.nivel || 'N/A';
+                document.getElementById('pdf-fitness').innerText = athlete.fitness || 'N/A';
+            }
+
+            // Portada
+            const today = new Date().toLocaleDateString('es-ES', {day:'2-digit', month:'long', year:'numeric'});
+            document.getElementById('pdf-cover-title').innerText = 'Informe de Planificación';
+            document.getElementById('pdf-cover-athlete').innerText = athleteName;
+            if(document.getElementById('pdf-cover-date')) document.getElementById('pdf-cover-date').innerText = today;
+            if(document.getElementById('pdf-cover-date2')) document.getElementById('pdf-cover-date2').innerText = today;
+
+            // 2. Show loading overlay & activate PDF mode
+            const loader = document.getElementById('pdf-loading');
+            loader.style.display = 'flex';
+            document.body.classList.add('pdf-mode');
+
+            // 3. Render all data fresh
+            renderTests();
+            renderChart();
+            renderGoals();
+            renderTimeline();
+            renderPlanning();
+
+            const main = document.getElementById('main-content');
+
+            const opt = {
+                margin: [10, 8, 10, 8], // mm: top, right, bottom, left
+                filename: `Informe_${athleteName.replace(/\s+/g,'_')}.pdf`,
+                image: { type: 'jpeg', quality: 1.0 },
+                html2canvas: {
+                    scale: 2.5,
+                    useCORS: true,
+                    scrollY: 0,
+                    scrollX: 0,
+                    letterRendering: true,
+                    backgroundColor: '#ffffff',
+                    logging: false,
+                    allowTaint: false,
+                    foreignObjectRendering: false
+                },
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['css', 'legacy'], before: '.page-break-before', avoid: '.break-inside-avoid' }
+            };
+
+            // 4. Delay for render to settle
+            setTimeout(() => {
+                html2pdf().set(opt).from(main).save()
+                    .then(() => {
+                        document.body.classList.remove('pdf-mode');
+                        loader.style.display = 'none';
+                        renderTests(); renderChart(); renderPlanning();
+                    })
+                    .catch(err => {
+                        console.error('PDF Error:', err);
+                        alert('Error al generar el PDF. Inténtalo de nuevo.');
+                        document.body.classList.remove('pdf-mode');
+                        loader.style.display = 'none';
+                    });
+            }, 600);
+        }
+
+        // --- DATA LOGIC ---
+        function saveData() { 
+            localStorage.setItem('coachProData_v4', JSON.stringify(appData)); 
+            updateUIState(); 
+            const indicator = document.getElementById('save-indicator');
+            indicator.classList.add('visible');
+            setTimeout(() => indicator.classList.remove('visible'), 2000);
+        }
+        function loadData() { const v4=localStorage.getItem('coachProData_v4'); if(v4) appData=JSON.parse(v4); if(!appData.currentAthleteId&&appData.athletes.length>0) appData.currentAthleteId=appData.athletes[0].id; renderAthletesList(); if(appData.currentAthleteId) fillAthleteForm(appData.currentAthleteId); }
+        function requestReset() { showConfirm('ATENCIÓN: Esto borrará TODO. ¿Continuar?', () => { localStorage.removeItem('coachProData_v4'); location.reload(); }); }
+        function updateUIState() { const current=appData.athletes.find(a=>a.id==appData.currentAthleteId); const name=current?current.nombre:'Seleccionar...'; document.getElementById('active-athlete-name').innerText=name; document.getElementById('active-avatar').innerText=name.charAt(0).toUpperCase(); document.querySelectorAll('.current-athlete-display').forEach(el=>el.innerText=name); document.getElementById('athlete-count').innerText=appData.athletes.length; renderAthletesList(); }
+        function renderAthletesList() { const c=document.getElementById('athletes-list'); c.innerHTML=''; appData.athletes.forEach(a=>{ const isActive=a.id==appData.currentAthleteId; const d=document.createElement('div'); d.className=`p-3 rounded-lg cursor-pointer flex items-center justify-between transition-colors ${isActive?'bg-slate-800 text-white':'bg-slate-50 text-slate-700 hover:bg-slate-100'}`; d.onclick=()=>selectAthlete(a.id); d.innerHTML=`<div class="flex items-center"><div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold mr-3 ${isActive?'bg-emerald-500 text-white':'bg-slate-200 text-slate-600'}">${a.nombre.charAt(0).toUpperCase()}</div><div><div class="font-bold text-sm leading-none">${a.nombre}</div><div class="text-xs opacity-70 mt-1">${a.deporte}</div></div></div>${isActive?'<i class="ph ph-check-circle text-emerald-400"></i>':''}`; c.appendChild(d); }); }
+        function selectAthlete(id){appData.currentAthleteId=id;fillAthleteForm(id);saveData();const t=document.querySelector('.tab-content.active').id;if(t!=='perfil')switchTab(t);}
+        function prepareNewAthlete(){switchTab('perfil');document.getElementById('profileForm').reset();document.getElementById('p-id').value='';document.getElementById('form-title').innerText="Nuevo Deportista";document.getElementById('btn-save-text').innerText="Crear Deportista";document.getElementById('editing-indicator').classList.add('hidden');document.getElementById('btn-delete-athlete').classList.add('hidden');appData.currentAthleteId=null;renderAthletesList();}
+        function fillAthleteForm(id){const a=appData.athletes.find(x=>x.id==id);if(!a)return;document.getElementById('p-id').value=a.id;document.getElementById('p-nombre').value=a.nombre;document.getElementById('p-year').value=a.year;document.getElementById('p-deporte').value=a.deporte;document.getElementById('p-nivel').value=a.nivel;const r=document.querySelector(`input[name="fitness"][value="${a.fitness}"]`);if(r)r.checked=true;document.getElementById('form-title').innerText="Editar Deportista";document.getElementById('btn-save-text').innerText="Guardar Cambios";document.getElementById('editing-indicator').classList.remove('hidden');document.getElementById('btn-delete-athlete').classList.remove('hidden');}
+        function saveAthlete(){const id=document.getElementById('p-id').value,n=document.getElementById('p-nombre').value;if(!n)return showConfirm('Nombre obligatorio',null);const d={nombre:n,year:document.getElementById('p-year').value,deporte:document.getElementById('p-deporte').value,nivel:document.getElementById('p-nivel').value,fitness:document.querySelector('input[name="fitness"]:checked')?.value||'Regular'};if(id){const i=appData.athletes.findIndex(x=>x.id==id);if(i!==-1)appData.athletes[i]={...appData.athletes[i],...d};}else{const nid=Date.now();appData.athletes.push({id:nid,...d});appData.currentAthleteId=nid;}saveData();}
+        function requestDeleteAthlete(){if(!appData.currentAthleteId)return;showConfirm(`¿Eliminar a ${document.getElementById('p-nombre').value}?`,()=>{const id=appData.currentAthleteId;appData.athletes=appData.athletes.filter(x=>x.id!=id);appData.tests=appData.tests.filter(x=>x.athleteId!=id);appData.manualGoals=appData.manualGoals.filter(x=>x.athleteId!=id);appData.sessions=appData.sessions.filter(x=>x.athleteId!=id);appData.microcycles=appData.microcycles?.filter(x=>x.athleteId!=id)||[];appData.mesocycles=appData.mesocycles?.filter(x=>x.athleteId!=id)||[];appData.macrocycles=appData.macrocycles?.filter(x=>x.athleteId!=id)||[];appData.periods=appData.periods.filter(x=>x.athleteId!=id);appData.currentAthleteId=appData.athletes.length>0?appData.athletes[0].id:null;saveData();if(appData.currentAthleteId)fillAthleteForm(appData.currentAthleteId);else prepareNewAthlete();});}
+        function openTestModal(tid=null){const m=document.getElementById('modal-test'),f=document.getElementById('testForm'),s=document.getElementById('t-athlete-select');s.innerHTML='';appData.athletes.forEach(a=>{const o=document.createElement('option');o.value=a.id;o.text=a.nombre;s.appendChild(o)});if(tid){const t=appData.tests.find(x=>x.id===tid);if(!t)return;document.getElementById('t-id').value=t.id;document.getElementById('t-name').value=t.name;document.getElementById('t-value').value=t.val;document.getElementById('t-unit').value=t.unit;document.getElementById('t-ref').value=t.ref;document.getElementById('t-date').value=t.date;s.value=t.athleteId;document.getElementById('modal-test-title').innerText="Editar Test";}else{f.reset();document.getElementById('t-id').value='';document.getElementById('t-date').value=new Date().toISOString().split('T')[0];s.value=appData.currentAthleteId||'';document.getElementById('modal-test-title').innerText="Nuevo Test";}m.classList.remove('hidden');}
+        document.getElementById('testForm').addEventListener('submit',e=>{e.preventDefault();const id=document.getElementById('t-id').value,aid=document.getElementById('t-athlete-select').value,val=parseFloat(document.getElementById('t-value').value),ref=parseFloat(document.getElementById('t-ref').value),u=document.getElementById('t-unit').value,ist=u==='sec',st=(ist?val<=ref:val>=ref)?'Fortaleza':'Mejora',d={athleteId:parseInt(aid),name:document.getElementById('t-name').value,val:val,unit:u,ref:ref,date:document.getElementById('t-date').value,status:st};if(id){const i=appData.tests.findIndex(x=>x.id==id);if(i!==-1)appData.tests[i]={...appData.tests[i],...d};}else{appData.tests.push({id:Date.now(),...d});}appData.tests.sort((a,b)=>new Date(a.date)-new Date(b.date));saveData();renderTests();renderChart();toggleModal('modal-test');});
+        function renderTests(){if(!appData.currentAthleteId)return;const t=appData.tests.filter(x=>x.athleteId==appData.currentAthleteId),b=document.getElementById('tests-table-body'),e=document.getElementById('empty-tests');b.innerHTML='';if(t.length===0)e.classList.remove('hidden');else e.classList.add('hidden');const ut=[...new Set(t.map(x=>x.name))],s=document.getElementById('chart-filter'),sv=s.value;s.innerHTML='';ut.forEach(x=>{const o=document.createElement('option');o.value=x;o.text=x;s.appendChild(o)});if(sv&&ut.includes(sv))s.value=sv;t.forEach(x=>{const r=document.createElement('tr');r.className="hover:bg-slate-50 transition-colors group";const sb=x.status==='Fortaleza'?`<span class="inline-flex items-center rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-medium text-emerald-800">Fortaleza</span>`:`<span class="inline-flex items-center rounded-full bg-red-100 px-2.5 py-0.5 text-xs font-medium text-red-800">Mejora</span>`;r.innerHTML=`<td class="p-4 text-slate-500 whitespace-nowrap">${x.date}</td><td class="p-4 font-medium text-slate-900">${x.name}</td><td class="p-4 text-slate-700 font-bold">${x.val} <span class="text-xs font-normal text-slate-500">${x.unit}</span></td><td class="p-4 text-slate-400 text-xs hidden sm:table-cell">Obj: ${x.ref}</td><td class="p-4">${sb}</td><td class="p-4 text-right no-print"><button onclick="openTestModal(${x.id})" class="text-slate-400 hover:text-indigo-600 mr-2 p-1"><i class="ph ph-pencil-simple text-lg"></i></button><button onclick="requestDeleteTest(${x.id})" class="text-slate-400 hover:text-red-600 p-1"><i class="ph ph-trash text-lg"></i></button></td>`;b.appendChild(r);});}
+        function requestDeleteTest(id){showConfirm('¿Eliminar?',()=>{appData.tests=appData.tests.filter(x=>x.id!==id);saveData();renderTests();renderChart();});}
+        let myChart=null;function renderChart(){if(!appData.currentAthleteId)return;const ctx=document.getElementById('evolutionChart'),imp=document.getElementById('chart-improvement');if(!ctx)return;const tn=document.getElementById('chart-filter').value,fd=appData.tests.filter(t=>t.athleteId==appData.currentAthleteId&&t.name===tn);fd.sort((a,b)=>new Date(a.date)-new Date(b.date));if(fd.length>=2){const f=fd[0].val,l=fd[fd.length-1].val,u=fd[0].unit,ist=u==='sec',d=l-f,pct=(d/f)*100,impv=ist?d<0:d>0,c=impv?'text-emerald-600':'text-red-500',i=impv?'ph-trend-up':'ph-trend-down';imp.innerHTML=`<span class="${c}"><i class="ph ${i}"></i> Mejora: ${Math.abs(pct).toFixed(1)}%</span> <span class="text-slate-400 font-normal">(${f}->${l})</span>`;}else{imp.innerHTML='';}if(myChart)myChart.destroy();myChart=new Chart(ctx.getContext('2d'),{type:'line',data:{labels:fd.map(t=>t.date),datasets:[{label:'Resultado',data:fd.map(t=>t.val),borderColor:'#059669',backgroundColor:'rgba(5,150,105,0.1)',tension:0.3,fill:true},{label:'Obj',data:fd.map(t=>t.ref),borderColor:'#94a3b8',borderDash:[5,5],pointRadius:0}]},options:{responsive:true,maintainAspectRatio:false,scales:{y:{beginAtZero:false}}}});}
+        function renderGoals(){if(!appData.currentAthleteId)return;const al=document.getElementById('auto-goals-list');al.innerHTML='';const mt=appData.tests.filter(t=>t.athleteId==appData.currentAthleteId),lt={};mt.forEach(t=>lt[t.name]=t);let ha=false;Object.values(lt).forEach(t=>{if(t.status==='Mejora'){ha=true;const li=document.createElement('li');li.className="flex items-start text-sm text-slate-700 bg-white p-3 rounded-md border border-indigo-100 shadow-sm";li.innerHTML=`<i class="ph ph-arrow-fat-lines-up text-indigo-500 mr-2 mt-0.5"></i><span>Mejorar <strong>${t.name}</strong> a <strong>${t.ref} ${t.unit}</strong>.</span>`;al.appendChild(li);}});if(!ha)al.innerHTML='<li class="text-sm text-slate-400 italic">Sin debilidades.</li>';const ml=document.getElementById('manual-goals-list');ml.innerHTML='';appData.manualGoals.filter(g=>g.athleteId==appData.currentAthleteId).forEach(g=>{const li=document.createElement('li');li.className="flex items-center justify-between group";li.innerHTML=`<div class="flex items-center"><span class="ml-3 text-sm text-slate-700">${g.text}</span></div><button onclick="deleteGoal(${g.id})" class="text-slate-300 hover:text-red-500 no-print"><i class="ph ph-x"></i></button>`;ml.appendChild(li);});}
+        function addManualGoal(){const t=document.getElementById('manual-goal-input').value;if(t&&appData.currentAthleteId){appData.manualGoals.push({id:Date.now(),athleteId:appData.currentAthleteId,text:t});document.getElementById('manual-goal-input').value='';saveData();renderGoals();}}
+        function deleteGoal(id){appData.manualGoals=appData.manualGoals.filter(x=>x.id!==id);saveData();renderGoals();}
+        // =============================================
+        // MACROCICLOS
+        // =============================================
+        let activeMacroId = null;
+
+        function openMacroModal(id = null) {
+            if (!appData.currentAthleteId) { showConfirm('Selecciona un deportista primero.', null); return; }
+            if (!appData.macrocycles) appData.macrocycles = [];
+            const form = document.getElementById('macroForm');
+            form.reset();
+            document.getElementById('mac-id').value = '';
+            document.getElementById('macro-modal-title').innerText = 'Nuevo Macrociclo';
+            document.getElementById('macro-code-display').innerText = 'MAC-' + String((appData.macrocycles.filter(x => x.athleteId == appData.currentAthleteId).length + 1)).padStart(3,'0');
+            if (id) {
+                const mac = appData.macrocycles.find(x => x.id === id);
+                if (!mac) return;
+                document.getElementById('mac-id').value = mac.id;
+                document.getElementById('mac-name').value = mac.name;
+                document.getElementById('mac-start').value = mac.start;
+                document.getElementById('mac-end').value = mac.end;
+                document.getElementById('mac-goal').value = mac.goal || '';
+                document.getElementById('macro-modal-title').innerText = 'Editar Macrociclo';
+                document.getElementById('macro-code-display').innerText = mac.code;
+            }
+            document.getElementById('modal-macro').classList.remove('hidden');
+        }
+
+        document.getElementById('macroForm').addEventListener('submit', e => {
+            e.preventDefault();
+            if (!appData.macrocycles) appData.macrocycles = [];
+            const id = document.getElementById('mac-id').value;
+            const data = {
+                athleteId: appData.currentAthleteId,
+                name: document.getElementById('mac-name').value,
+                start: document.getElementById('mac-start').value,
+                end: document.getElementById('mac-end').value,
+                goal: document.getElementById('mac-goal').value
+            };
+            if (id) {
+                const idx = appData.macrocycles.findIndex(x => x.id == id);
+                if (idx !== -1) appData.macrocycles[idx] = { ...appData.macrocycles[idx], ...data };
+            } else {
+                const macs = appData.macrocycles.filter(x => x.athleteId == appData.currentAthleteId);
+                appData.macrocycles.push({ id: Date.now(), code: 'MAC-' + String(macs.length + 1).padStart(3,'0'), ...data });
+            }
+            saveData();
+            renderMacros();
+            toggleModal('modal-macro');
+        });
+
+        function deleteMacro(id) {
+            showConfirm('¿Eliminar este macrociclo y toda su planificación vinculada?', () => {
+                appData.macrocycles = (appData.macrocycles || []).filter(x => x.id !== id);
+                appData.periods     = appData.periods.filter(x => x.macroId !== id);
+                appData.mesocycles  = (appData.mesocycles  || []).filter(x => x.macroId !== id);
+                appData.microcycles = (appData.microcycles || []).filter(x => x.macroId !== id);
+                appData.sessions    = (appData.sessions    || []).filter(x => x.macroId !== id);
+                if (activeMacroId === id) activeMacroId = null;
+                if (planningMacroId === id) planningMacroId = null;
+                saveData();
+                renderMacros();
+            });
+        }
+
+        function selectMacro(id) {
+            activeMacroId = id;
+            renderMacros();
+            populatePeriods();
+            renderTimeline();
+        }
+
+        function renderMacros() {
+            if (!appData.currentAthleteId) return;
+            if (!appData.macrocycles) appData.macrocycles = [];
+            const macs = appData.macrocycles.filter(x => x.athleteId == appData.currentAthleteId).sort((a,b) => new Date(a.start) - new Date(b.start));
+            const container = document.getElementById('macros-container');
+            const empty = document.getElementById('empty-macros');
+            const periodsSection = document.getElementById('macro-periods-section');
+
+            if (macs.length === 0) {
+                container.innerHTML = '';
+                empty.classList.remove('hidden');
+                periodsSection.classList.add('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
+
+            // Auto-select first if none active
+            if (!activeMacroId || !macs.find(x => x.id === activeMacroId)) activeMacroId = macs[0].id;
+
+            container.innerHTML = macs.map(m => {
+                const isActive = m.id === activeMacroId;
+                const startY = m.start ? new Date(m.start).toLocaleDateString('es-ES', {day:'2-digit',month:'short',year:'numeric'}) : '?';
+                const endY   = m.end   ? new Date(m.end  ).toLocaleDateString('es-ES', {day:'2-digit',month:'short',year:'numeric'}) : '?';
+                const dur = (m.start && m.end) ? Math.round((new Date(m.end) - new Date(m.start)) / (1000*60*60*24*7)) + ' sem.' : '';
+                return `
+                <div onclick="selectMacro(${m.id})" style="cursor:pointer;border-radius:12px;border:2px solid ${isActive ? '#0f172a' : '#dde1e9'};background:${isActive ? '#0f172a' : '#fff'};padding:16px 20px;display:flex;align-items:center;justify-content:space-between;transition:all 0.15s;box-shadow:${isActive ? '0 4px 16px rgba(15,23,42,0.15)' : '0 1px 3px rgba(0,0,0,0.04)'};" class="group no-print-border">
+                    <div style="display:flex;align-items:center;gap:14px;flex:1;min-width:0;">
+                        <div style="width:42px;height:42px;border-radius:10px;background:${isActive ? 'rgba(52,211,153,0.15)' : '#f4f6f9'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                            <i class="ph ph-calendar-blank" style="font-size:1.3rem;color:${isActive ? '#34d399' : '#6b7280'};"></i>
+                        </div>
+                        <div style="min-width:0;">
+                            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+                                <span style="font-family:'DM Mono',monospace;font-size:10.5px;font-weight:600;color:${isActive ? '#34d399' : '#6b7280'};letter-spacing:0.06em;">${m.code}</span>
+                                ${dur ? `<span style="font-size:11px;color:${isActive ? '#64748b' : '#9ca3af'};">${dur}</span>` : ''}
+                            </div>
+                            <div style="font-size:15px;font-weight:700;color:${isActive ? '#fff' : '#111827'};margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.name}</div>
+                            <div style="font-size:12px;color:${isActive ? '#94a3b8' : '#6b7280'};margin-top:2px;">${startY} → ${endY}</div>
+                            ${m.goal ? `<div style="font-size:11.5px;color:${isActive ? '#34d399' : '#059669'};margin-top:4px;font-weight:500;display:flex;align-items:center;gap:4px;"><i class="ph ph-target"></i> ${m.goal}</div>` : ''}
+                        </div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:6px;margin-left:12px;flex-shrink:0;" onclick="event.stopPropagation()">
+                        ${isActive ? `<span style="font-size:11px;font-weight:700;color:#34d399;background:rgba(52,211,153,0.12);padding:3px 10px;border-radius:20px;margin-right:4px;">ACTIVO</span>` : ''}
+                        <button onclick="openMacroModal(${m.id})" class="no-print" style="width:30px;height:30px;border-radius:7px;background:${isActive ? 'rgba(255,255,255,0.08)' : '#f4f6f9'};border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:${isActive ? '#94a3b8' : '#6b7280'};" title="Editar"><i class="ph ph-pencil-simple"></i></button>
+                        <button onclick="deleteMacro(${m.id})" class="no-print" style="width:30px;height:30px;border-radius:7px;background:${isActive ? 'rgba(239,68,68,0.12)' : '#fef2f2'};border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#ef4444;" title="Eliminar"><i class="ph ph-trash"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Show periods section for active macro
+            const activeMac = macs.find(x => x.id === activeMacroId);
+            if (activeMac) {
+                periodsSection.classList.remove('hidden');
+                document.getElementById('macro-active-badge').innerText = activeMac.name;
+            }
+        }
+
+        // =============================================
+        // SELECTOR DE MACROCICLO EN PLANIFICACIÓN
+        // =============================================
+        let planningMacroId = null;
+
+        function renderPlanningMacroSelector() {
+            if (!appData.currentAthleteId) return;
+            if (!appData.macrocycles) appData.macrocycles = [];
+            const macs = appData.macrocycles
+                .filter(x => x.athleteId == appData.currentAthleteId)
+                .sort((a,b) => new Date(a.start) - new Date(b.start));
+
+            const cardsDiv = document.getElementById('planning-macro-cards');
+            const content  = document.getElementById('planning-content');
+            const noMacros = document.getElementById('planning-no-macros');
+
+            // Limpiar solo las tarjetas generadas (no el nodo persistente)
+            Array.from(cardsDiv.children).forEach(ch => {
+                if (ch.id !== 'planning-no-macros') ch.remove();
+            });
+
+            if (macs.length === 0) {
+                noMacros.style.display = '';
+                content.style.display = 'none';
+                return;
+            }
+
+            noMacros.style.display = 'none';
+
+            // Auto-seleccionar el primero si ninguno está activo
+            if (!planningMacroId || !macs.find(x => x.id === planningMacroId)) {
+                planningMacroId = macs[0].id;
+            }
+
+            macs.forEach(m => {
+                const isSel = m.id === planningMacroId;
+                const startY = m.start ? new Date(m.start).toLocaleDateString('es-ES', {month:'short', year:'numeric'}) : '';
+                const endY   = m.end   ? new Date(m.end  ).toLocaleDateString('es-ES', {month:'short', year:'numeric'}) : '';
+
+                const card = document.createElement('div');
+                card.style.cssText = `cursor:pointer;padding:10px 16px;border-radius:10px;border:2px solid ${isSel ? '#0f172a' : '#dde1e9'};background:${isSel ? '#0f172a' : '#fff'};display:flex;align-items:center;gap:10px;transition:all 0.15s;min-width:180px;flex:0 0 auto;`;
+                card.innerHTML = `
+                    <div style="width:34px;height:34px;border-radius:8px;background:${isSel ? 'rgba(52,211,153,0.15)' : '#f4f6f9'};display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="ph ph-calendar-blank" style="color:${isSel ? '#34d399' : '#6b7280'};font-size:1.1rem;"></i>
+                    </div>
+                    <div style="min-width:0;">
+                        <div style="font-size:10px;font-family:'DM Mono',monospace;font-weight:600;color:${isSel ? '#34d399' : '#9ca3af'};letter-spacing:0.06em;">${m.code}</div>
+                        <div style="font-size:13px;font-weight:700;color:${isSel ? '#fff' : '#111827'};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px;">${m.name}</div>
+                        ${(startY || endY) ? `<div style="font-size:11px;color:${isSel ? '#64748b' : '#9ca3af'};">${startY}${startY && endY ? ' – ' : ''}${endY}</div>` : ''}
+                    </div>
+                    ${isSel ? `<i class="ph ph-check-circle" style="color:#34d399;font-size:1.1rem;margin-left:auto;flex-shrink:0;"></i>` : ''}`;
+                card.addEventListener('click', () => selectPlanningMacro(m.id));
+                cardsDiv.appendChild(card);
+            });
+
+            const mac = macs.find(x => x.id === planningMacroId);
+            if (mac) {
+                content.style.display = '';
+                const s = mac.start ? new Date(mac.start).toLocaleDateString('es-ES',{month:'short',year:'numeric'}) : '';
+                const e = mac.end   ? new Date(mac.end  ).toLocaleDateString('es-ES',{month:'short',year:'numeric'}) : '';
+                document.getElementById('planning-active-macro-name').innerText = mac.name + (s ? '  (' + s + ' – ' + e + ')' : '');
+                renderPlanning();
+            } else {
+                content.style.display = 'none';
+            }
+        }
+
+        function selectPlanningMacro(id) {
+            planningMacroId = id;
+            renderPlanningMacroSelector();
+        }
+
+        function populatePeriods() {
+            if (!appData.currentAthleteId) return;
+            const p = appData.periods.find(x => x.athleteId == appData.currentAthleteId && x.macroId == activeMacroId) || {};
+            document.getElementById('date-prep-start').value = p.prep?.start || '';
+            document.getElementById('date-prep-end').value   = p.prep?.end   || '';
+            document.getElementById('date-comp-start').value = p.comp?.start || '';
+            document.getElementById('date-comp-end').value   = p.comp?.end   || '';
+            document.getElementById('date-trans-start').value = p.trans?.start || '';
+            document.getElementById('date-trans-end').value   = p.trans?.end   || '';
+        }
+
+        function updatePeriodization() {
+            if (!appData.currentAthleteId) return;
+            const np = {
+                athleteId: appData.currentAthleteId,
+                macroId: activeMacroId,
+                prep:  { start: document.getElementById('date-prep-start').value,  end: document.getElementById('date-prep-end').value  },
+                comp:  { start: document.getElementById('date-comp-start').value,  end: document.getElementById('date-comp-end').value  },
+                trans: { start: document.getElementById('date-trans-start').value, end: document.getElementById('date-trans-end').value }
+            };
+            appData.periods = appData.periods.filter(p => !(p.athleteId == appData.currentAthleteId && p.macroId == activeMacroId));
+            appData.periods.push(np);
+            saveData();
+            renderTimeline();
+        }
+
+        function renderTimeline(){const c=document.getElementById('timeline-container');if(!appData.currentAthleteId){c.innerHTML='';return;}const p=appData.periods.find(x=>x.athleteId==appData.currentAthleteId&&x.macroId==activeMacroId);if(!p){c.innerHTML='<p class="text-slate-400 text-sm text-center w-full">Define las fechas arriba para ver la línea de tiempo</p>';return;}const d=[p.prep?.start,p.prep?.end,p.comp?.start,p.comp?.end,p.trans?.start,p.trans?.end].filter(x=>x).map(x=>new Date(x));if(d.length<2){c.innerHTML='<p class="text-slate-400 text-sm text-center w-full">Define fechas</p>';return;}const min=new Date(Math.min.apply(null,d)),max=new Date(Math.max.apply(null,d)),tot=max-min;document.getElementById('timeline-start-label').innerText=min.toLocaleDateString();document.getElementById('timeline-end-label').innerText=max.toLocaleDateString();c.innerHTML='';const db=(s,e,cl,l)=>{if(!s||!e)return;const d1=new Date(s),d2=new Date(e),lf=Math.max(0,((d1-min)/tot)*100),w=Math.min(100-lf,((d2-d1)/tot)*100);if(w<=0)return;const dv=document.createElement('div');dv.className=`absolute h-12 rounded-md flex items-center justify-center text-xs font-bold text-white overflow-hidden ${cl}`;dv.style.cssText=`left:${lf}%;width:${w}%;-webkit-print-color-adjust:exact;print-color-adjust:exact;`;dv.innerText=l;c.appendChild(dv);};db(p.prep?.start,p.prep?.end,'bg-emerald-500','PREP');db(p.comp?.start,p.comp?.end,'bg-amber-500','COMP');db(p.trans?.start,p.trans?.end,'bg-blue-500','TRANS');if(p.comp?.start){const cs=new Date(p.comp.start);if(cs>=min&&cs<=max){const pos=((cs-min)/tot)*100,mk=document.createElement('div');mk.className="absolute top-[-25px] flex flex-col items-center z-10";mk.style.left=`${pos}%`;mk.style.transform="translateX(-50%)";mk.innerHTML=`<div class="bg-amber-600 text-white text-[10px] px-2 py-0.5 rounded-full mb-1">Inicio Liga</div><div class="w-0.5 h-16 bg-amber-600 border-l border-dashed border-white"></div>`;c.appendChild(mk);}}}
+        function addTaskRow(){const c=document.getElementById('tasks-container'),r=document.createElement('div');r.className="flex gap-2 items-start task-row";r.innerHTML=`<div class="flex-1"><input type="text" placeholder="Desc. tarea" class="task-desc w-full text-sm border rounded p-1"></div><div class="w-20"><input type="text" placeholder="Tiempo" class="task-time w-full text-sm border rounded p-1"></div><button type="button" onclick="this.parentElement.remove()" class="text-slate-400 hover:text-red-500 p-1"><i class="ph ph-minus-circle"></i></button>`;c.appendChild(r);}
+        
+        // 1. MESOS
+        document.getElementById('mesoForm').addEventListener('submit',e=>{e.preventDefault();if(!appData.currentAthleteId)return;
+            const id=document.getElementById('m-id').value;
+            const objs=Array.from(document.querySelectorAll('input[name="m-obj"]:checked')).map(c=>c.value);
+            const data={athleteId:appData.currentAthleteId,macroId:planningMacroId,start:document.getElementById('m-start').value,end:document.getElementById('m-end').value,type:document.getElementById('m-type').value,objectives:objs};
+            if(id){const idx=appData.mesocycles.findIndex(x=>x.id==id);if(idx!==-1) appData.mesocycles[idx]={...appData.mesocycles[idx],...data};} else {appData.mesocycles.push({id:Date.now(),code:generateCode('MES',appData.mesocycles),name:'Mesociclo',...data});}
+            saveData();renderPlanning();toggleModal('modal-meso');
+        });
+
+        // 2. MICROS
+        document.getElementById('microForm').addEventListener('submit',e=>{e.preventDefault();if(!appData.currentAthleteId)return;
+            const id=document.getElementById('mi-id').value, ms=document.getElementById('mi-meso-select'),mid=ms.value?parseInt(ms.value):null;
+            const objs=Array.from(document.querySelectorAll('input[name="mi-obj"]:checked')).map(c=>c.value);
+            const data={athleteId:appData.currentAthleteId,macroId:planningMacroId,mesoId:mid,start:document.getElementById('mi-start').value,end:document.getElementById('mi-end').value,type:document.getElementById('mi-type').value,objectives:objs};
+            if(id){const idx=appData.microcycles.findIndex(x=>x.id==id);if(idx!==-1) appData.microcycles[idx]={...appData.microcycles[idx],...data};} else {appData.microcycles.push({id:Date.now(),code:generateCode('MIC',appData.microcycles),...data});}
+            saveData();renderPlanning();toggleModal('modal-micro');
+        });
+
+        // 3. SESIONES
+        document.getElementById('sessionForm').addEventListener('submit',e=>{e.preventDefault();if(!appData.currentAthleteId)return;
+            const id=document.getElementById('s-id').value, ms=document.getElementById('s-micro-select'),mid=ms.value?parseInt(ms.value):null;
+            const t=[];document.querySelectorAll('.task-row').forEach(r=>{const d=r.querySelector('.task-desc').value,tm=r.querySelector('.task-time').value;if(d)t.push({desc:d,time:tm})});
+            const data={athleteId:appData.currentAthleteId,macroId:planningMacroId,microId:mid,date:document.getElementById('s-date').value,am_pm:document.getElementById('s-ampm').value,type:document.getElementById('s-type').value,tasks:t,rpe:document.getElementById('s-rpe').value};
+            if(id){const idx=appData.sessions.findIndex(x=>x.id==id);if(idx!==-1) appData.sessions[idx]={...appData.sessions[idx],...data};} else {appData.sessions.push({id:Date.now(),code:generateCode('SES',appData.sessions),...data});}
+            saveData();renderPlanning();toggleModal('modal-session');
+        });
+
+        function renderPlanning(){
+            if(!appData.currentAthleteId)return;
+            microCharts.forEach(c=>c.destroy()); microCharts=[];
+            
+            // Mesos — filtrar por macrociclo activo en planificación
+            const mesos=(appData.mesocycles||[]).filter(x=>x.athleteId==appData.currentAthleteId&&x.macroId==planningMacroId).sort((a,b)=>new Date(a.start)-new Date(b.start));
+            document.getElementById('mesos-container').innerHTML=mesos.map(m=>`
+                <div style="background:linear-gradient(135deg,#1e293b 0%,#263348 100%);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:14px 16px;position:relative;" class="text-white shadow-md group break-inside-avoid">
+                    <div class="flex justify-between items-start">
+                        <span style="font-family:'DM Mono',monospace;font-size:11px;background:#0f172a;border:1px solid rgba(52,211,153,0.3);padding:2px 8px;border-radius:6px;color:#34d399;font-weight:500;">${m.code}</span>
+                        <div class="flex space-x-1">
+                            <button onclick="editMeso(${m.id})" class="text-slate-400 hover:text-white no-print" style="padding:4px;border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'"><i class="ph ph-pencil-simple"></i></button>
+                            <button onclick="deleteMeso(${m.id})" class="text-slate-400 hover:text-red-400 no-print" style="padding:4px;border-radius:4px;transition:background 0.1s;" onmouseover="this.style.background='rgba(239,68,68,0.15)'" onmouseout="this.style.background='transparent'"><i class="ph ph-trash"></i></button>
+                        </div>
+                    </div>
+                    <span style="font-size:11px;font-weight:600;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.12);padding:2px 10px;border-radius:20px;margin-top:10px;display:inline-block;color:#e2e8f0;">${m.type}</span>
+                    <div style="font-size:12px;color:#94a3b8;margin-top:10px;font-weight:500;display:flex;align-items:center;gap:6px;"><i class="ph ph-calendar-blank" style="color:#64748b;"></i> ${m.start} → ${m.end}</div>
+                    <ul style="margin-top:8px;padding:0;">${(m.objectives||[]).map(o=>`<li style="font-size:11px;color:#94a3b8;padding:1px 0;">• ${o}</li>`).join('')}</ul>
+                </div>`).join('');
+
+            // Micros
+            const micros=(appData.microcycles||[]).filter(x=>x.athleteId==appData.currentAthleteId&&(x.macroId==planningMacroId||(!x.macroId&&!planningMacroId))).sort((a,b)=>new Date(a.start)-new Date(b.start));
+            document.getElementById('micros-container').innerHTML=micros.map(m=>{
+                const pm=appData.mesocycles.find(x=>x.id===m.mesoId),ml=pm?`<div style="font-size:10.5px;color:#6366f1;margin-bottom:6px;display:flex;align-items:center;font-weight:500;"><i class="ph ph-link" style="margin-right:4px;"></i> ${pm.code}</div>`:'';
+                return `<div style="background:#fff;border:1px solid #c7d2fe;border-radius:12px;padding:14px;position:relative;display:flex;flex-direction:column;box-shadow:0 1px 4px rgba(99,102,241,0.08);" class="group break-inside-avoid">
+                    ${ml}
+                    <div class="flex justify-between items-start">
+                        <span style="font-family:'DM Mono',monospace;font-size:12px;font-weight:700;color:#1e1b4b;">${m.code}</span>
+                        <div class="flex space-x-1">
+                            <button onclick="editMicro(${m.id})" class="text-slate-400 hover:text-indigo-600 no-print" style="padding:4px;border-radius:4px;"><i class="ph ph-pencil-simple"></i></button>
+                            <button onclick="deleteMicro(${m.id})" class="text-slate-400 hover:text-red-500 no-print" style="padding:4px;border-radius:4px;"><i class="ph ph-trash"></i></button>
+                        </div>
+                    </div>
+                    <span style="font-size:10.5px;font-weight:700;color:#3730a3;text-transform:uppercase;border:1px solid #c7d2fe;padding:2px 8px;border-radius:20px;background:#eef2ff;margin-top:8px;display:inline-block;width:fit-content;letter-spacing:0.04em;">${m.type}</span>
+                    <div style="font-size:12px;color:#4b5563;margin-top:8px;margin-bottom:6px;font-weight:500;">${new Date(m.start).toLocaleDateString()} – ${new Date(m.end).toLocaleDateString()}</div>
+                    <ul style="flex:1;margin-bottom:8px;padding:0;">${(m.objectives||[]).map(o=>`<li style="font-size:11px;color:#374151;padding:1px 0;">• ${o}</li>`).join('')}</ul>
+                    <div style="margin-top:10px;padding-top:10px;border-top:1px solid #e0e7ff;"><p style="font-size:10.5px;color:#6366f1;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Intensidad</p><div style="height:96px;position:relative;width:100%;"><canvas id="chart-micro-${m.id}"></canvas></div></div>
+                </div>`}).join('');
+
+            micros.forEach(m=>{
+                const sess=appData.sessions.filter(s=>s.microId===m.id).sort((a,b)=>new Date(a.date)-new Date(b.date));
+                const ctx=document.getElementById(`chart-micro-${m.id}`);
+                if(ctx && sess.length>0){
+                    // CONFIGURACIÓN DE ALTA CALIDAD PARA CHART.JS
+                    microCharts.push(new Chart(ctx,{
+                        type:'bar',
+                        data:{
+                            labels:sess.map(s=>{const d=new Date(s.date);return `${d.getDate()}/${d.getMonth()+1}`}),
+                            datasets:[{data:sess.map(s=>s.rpe),backgroundColor:sess.map(s=>s.rpe>=8?'#ef4444':(s.rpe>=5?'#10b981':'#60a5fa')),borderRadius:3,barPercentage:0.6}]
+                        },
+                        options:{
+                            responsive:true,
+                            maintainAspectRatio:false,
+                            devicePixelRatio: 3, // Aumentar densidad para PDF
+                            plugins:{legend:{display:false}},
+                            scales:{y:{display:false,max:10},x:{grid:{display:false},ticks:{font:{size:9}}}},
+                            animation: false // Importante
+                        }
+                    }));
+                } else if(ctx) { ctx.parentElement.innerHTML='<div class="h-full flex items-center justify-center text-xs text-indigo-300 italic">Sin datos</div>'; }
+            });
+
+            // Sessions
+            const sess=appData.sessions.filter(x=>x.athleteId==appData.currentAthleteId&&(x.macroId==planningMacroId||(!x.macroId&&!planningMacroId))).sort((a,b)=>new Date(a.date)-new Date(b.date));
+            document.getElementById('sessions-container').innerHTML=sess.map(s=>{
+                const pm=appData.microcycles.find(x=>x.id===s.microId),ml=pm?`<div style="font-size:10.5px;color:#6b7280;margin-bottom:6px;display:flex;align-items:center;font-weight:500;"><i class="ph ph-link" style="margin-right:4px;"></i> ${pm.code}</div>`:'';
+                const accentColor=s.type==='Competición'?'#f59e0b':(s.type==='Recuperación'?'#60a5fa':'#059669');
+                const tasks=(s.tasks||[]).map((t,i)=>`<div style="display:flex;justify-content:space-between;font-size:12.5px;border-bottom:1px solid #eaecf2;padding:5px 0;"><span><span style="font-weight:700;margin-right:6px;color:#374151;">${i+1}.</span><span style="color:#1f2937;">${t.desc}</span></span><span style="font-family:'DM Mono',monospace;color:#6b7280;white-space:nowrap;margin-left:8px;font-size:11.5px;">${t.time}</span></div>`).join('');
+                const rpeColor=s.rpe>7?'#dc2626':(s.rpe>=5?'#059669':'#3b82f6');
+                const rpeBg=s.rpe>7?'#fef2f2':(s.rpe>=5?'#f0fdf4':'#eff6ff');
+                return `<div style="background:#fff;border-radius:12px;border:1px solid #dde1e9;border-left:4px solid ${accentColor};padding:16px;box-shadow:0 1px 4px rgba(0,0,0,0.04);" class="break-inside-avoid">
+                    ${ml}
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">
+                        <div style="display:flex;align-items:center;gap:6px;">
+                            <span style="font-family:'DM Mono',monospace;font-size:11px;font-weight:600;color:#374151;background:#eaecf2;padding:2px 8px;border-radius:6px;">${s.code}</span>
+                            <span style="font-size:10.5px;font-weight:700;text-transform:uppercase;color:#6b7280;border:1px solid #dde1e9;padding:2px 7px;border-radius:20px;letter-spacing:0.05em;">${s.am_pm}</span>
+                        </div>
+                        <div class="flex space-x-1 no-print">
+                            <button onclick="editSession(${s.id})" style="color:#9ca3af;padding:4px;border-radius:4px;transition:color 0.1s;" onmouseover="this.style.color='#059669'" onmouseout="this.style.color='#9ca3af'"><i class="ph ph-pencil-simple"></i></button>
+                            <button onclick="deleteSession(${s.id})" style="color:#9ca3af;padding:4px;border-radius:4px;transition:color 0.1s;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#9ca3af'"><i class="ph ph-trash"></i></button>
+                        </div>
+                    </div>
+                    <h4 style="font-weight:700;color:#111827;font-size:14px;margin-bottom:4px;">${s.type}</h4>
+                    <div style="font-size:12px;color:#4b5563;margin-bottom:12px;display:flex;align-items:center;gap:4px;"><i class="ph ph-calendar-blank" style="color:#9ca3af;"></i> ${new Date(s.date).toLocaleDateString()}</div>
+                    <div style="background:#f4f6f9;border:1px solid #eaecf2;border-radius:8px;padding:10px;margin-bottom:10px;">
+                        <p style="font-size:10.5px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Tareas</p>
+                        ${tasks||'<p style="font-size:12px;color:#9ca3af;font-style:italic;">Sin tareas registradas</p>'}
+                    </div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid #eaecf2;">
+                        <span style="font-size:12px;font-weight:700;color:${rpeColor};background:${rpeBg};padding:3px 10px;border-radius:20px;">RPE ${s.rpe}/10</span>
+                    </div>
+                </div>`}).join('');
+            
+            if(mesos.length===0&&micros.length===0&&sess.length===0) document.getElementById('empty-planning').classList.remove('hidden');
+            else document.getElementById('empty-planning').classList.add('hidden');
+        }
+
+        function deleteMeso(id){showConfirm('¿Borrar?',()=>{appData.mesocycles=appData.mesocycles.filter(x=>x.id!==id);saveData();renderPlanning()})}
+        function deleteMicro(id){showConfirm('¿Borrar?',()=>{appData.microcycles=appData.microcycles.filter(x=>x.id!==id);saveData();renderPlanning()})}
+        function deleteSession(id){showConfirm('¿Borrar?',()=>{appData.sessions=appData.sessions.filter(x=>x.id!==id);saveData();renderPlanning()})}
+
+    </script>
+</body>
+</html>
