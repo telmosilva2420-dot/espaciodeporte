@@ -1844,7 +1844,6 @@
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 // ══════════════════════════════════════════════════
@@ -6176,233 +6175,398 @@ function updateProgress() {
 // PDF EXPORT — block-by-block, no mid-element cuts
 // ══════════════════════════════════════════════════
 
-const PDF_BLOCK_W = 700; // px width of render sandbox
+// ══════════════════════════════════════════════════
+// PDF GENERATION — native jsPDF text (no html2canvas)
+// ══════════════════════════════════════════════════
 
-// Apply light-mode styles to a cloned DOM node before rendering
-function applyPdfStyles(node) {
-  // Base container
-  node.style.background = '#ffffff';
-  node.style.color = '#1a1a2e';
-  node.style.fontFamily = '"Nunito", sans-serif';
-
-  node.querySelectorAll('table').forEach(t => {
-    t.style.cssText = 'width:100%;border-collapse:collapse;font-size:10.5px;margin-bottom:10px;table-layout:fixed;background:#fff;';
-    t.querySelectorAll('th').forEach(th => {
-      th.style.cssText = 'background:#1a1a2e;color:#fff;padding:5px 7px;text-align:left;font-weight:700;font-size:9.5px;word-wrap:break-word;';
-    });
-    t.querySelectorAll('td').forEach(td => {
-      td.style.cssText = 'border:1px solid #d1d5db;padding:4px 7px;vertical-align:top;color:#1a1a2e;background:#fff;word-wrap:break-word;';
-    });
-    let rows = t.querySelectorAll('tr');
-    rows.forEach((tr, idx) => {
-      if (idx % 2 === 0) tr.querySelectorAll('td').forEach(td => { td.style.background = '#f8fafc'; });
-    });
-  });
-  node.querySelectorAll('.table-wrap').forEach(el => {
-    el.style.cssText = 'overflow:visible;margin-bottom:10px;width:100%;background:#fff;';
-  });
-  node.querySelectorAll('.highlight-box').forEach(el => {
-    el.style.cssText = 'background:#f0fdf4;border-left:3px solid #22c55e;padding:9px 13px;margin:8px 0;border-radius:3px;font-size:11px;color:#166534;';
-  });
-  node.querySelectorAll('.info-grid').forEach(el => {
-    el.style.cssText = 'display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px;background:#fff;';
-  });
-  node.querySelectorAll('.info-card').forEach(el => {
-    el.style.cssText = 'background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:7px 10px;';
-  });
-  node.querySelectorAll('.info-card-label').forEach(el => {
-    el.style.cssText = 'font-weight:800;font-size:10px;color:#1a1a2e;margin-bottom:2px;';
-  });
-  node.querySelectorAll('.info-card-val').forEach(el => {
-    el.style.cssText = 'font-size:10px;color:#444;';
-  });
-  node.querySelectorAll('.lesson-text, p').forEach(el => {
-    el.style.cssText = 'font-size:12px;color:#333;margin-bottom:8px;background:transparent;';
-  });
+/** Strip all HTML tags and decode common entities, returning plain text */
+function pdfStripHtml(html) {
+  return (html || '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/p>/gi, '\n')
+    .replace(/<\/li>/gi, '\n')
+    .replace(/<\/tr>/gi, '\n')
+    .replace(/<\/th>/gi, '\t')
+    .replace(/<\/td>/gi, '\t')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&#\d+;/g, '')
+    .replace(/&[a-z]+;/g, '')
+    .replace(/\t+/g, '  ')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
 }
 
-// Render a single DOM element to a canvas → returns { dataUrl, ptH } where ptH is height in PDF points
-async function renderBlockToPt(el, contentWidthPt) {
-  // Create a fresh wrapper directly in document body, visible but off-screen
-  const wrapper = document.createElement('div');
-  wrapper.style.cssText =
-    `position:absolute;left:0;top:${window.scrollY + window.innerHeight + 200}px;` +
-    `width:${PDF_BLOCK_W}px;background:#ffffff;padding:0;margin:0;` +
-    `font-family:"Nunito",sans-serif;font-size:13px;line-height:1.7;color:#1a1a2e;` +
-    `z-index:-1;`;
-
-  wrapper.appendChild(el);
-  document.body.appendChild(wrapper);
-
-  // Allow browser to lay out
-  wrapper.getBoundingClientRect();
-  await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
-
-  const canvas = await html2canvas(wrapper, {
-    scale: 2,
-    useCORS: true,
-    allowTaint: true,
-    backgroundColor: '#ffffff',
-    width: PDF_BLOCK_W,
-    height: wrapper.scrollHeight,
-    windowWidth: PDF_BLOCK_W,
-    x: 0,
-    y: 0,
-    scrollX: 0,
-    scrollY: 0,
-    logging: false,
-    onclone: (doc, el) => {
-      // ensure no dark background bleeds in
-      el.style.background = '#ffffff';
+/** Extract rows from an HTML table string → array of string arrays */
+function pdfExtractTable(html) {
+  const rows = [];
+  const rowRe = /<tr[^>]*>([\s\S]*?)<\/tr>/gi;
+  const cellRe = /<t[hd][^>]*>([\s\S]*?)<\/t[hd]>/gi;
+  let rowMatch;
+  while ((rowMatch = rowRe.exec(html)) !== null) {
+    const cells = [];
+    let cellMatch;
+    cellRe.lastIndex = 0;
+    while ((cellMatch = cellRe.exec(rowMatch[1])) !== null) {
+      cells.push(pdfStripHtml(cellMatch[1]).replace(/\n/g, ' ').trim());
     }
-  });
-
-  document.body.removeChild(wrapper);
-
-  const dataUrl = canvas.toDataURL('image/jpeg', 0.93);
-  const ptH = (canvas.height / canvas.width) * contentWidthPt;
-  return { dataUrl, ptH };
+    if (cells.length) rows.push(cells);
+  }
+  return rows;
 }
 
-async function downloadModulePDF(mi) {
+function downloadModulePDF(mi) {
   const btn = document.getElementById(`pdf-btn-${mi}`);
+  const BTN_HTML = btn ? btn.innerHTML : '';
   const m = modules[mi];
-  const BTN_ICON = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 2a1 1 0 011-1h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V2z" stroke="currentColor" stroke-width="1.3"/><path d="M9 1v3h3" stroke="currentColor" stroke-width="1.3"/><path d="M5.5 9h5M5.5 11.5h3" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg> Descargar PDF';
+
   if (btn) { btn.disabled = true; btn.textContent = '⏳ Generando PDF…'; }
 
-  try {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
-    const PAGE_W = pdf.internal.pageSize.getWidth();
-    const PAGE_H = pdf.internal.pageSize.getHeight();
-    const MX = 42, MT = 44, MB = 40;
-    const CW = PAGE_W - MX * 2; // content width in pt
+  // Small timeout so UI updates before the sync PDF work
+  setTimeout(() => {
+    try {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'portrait', unit: 'pt', format: 'a4' });
 
-    let curY = MT;
+      const PW  = doc.internal.pageSize.getWidth();   // 595.28
+      const PH  = doc.internal.pageSize.getHeight();  // 841.89
+      const ML  = 48, MR = 48, MT = 52, MB = 48;
+      const CW  = PW - ML - MR;
+      const BODY_FS   = 9.5;
+      const LABEL_FS  = 8;
+      const HEAD_FS   = 11;
+      const MOD_FS    = 16;
+      const LINE_H    = BODY_FS * 1.6;
+      const ACCENT    = [26, 188, 110];   // green
+      const DARK      = [15,  18,  30];   // near-black
+      const GREY      = [120, 125, 140];
+      const LIGHT     = [245, 247, 250];
 
-    function addPageHeader() {
-      pdf.setDrawColor(200, 200, 200);
-      pdf.setLineWidth(0.4);
-      pdf.line(MX, 26, PAGE_W - MX, 26);
-      pdf.setFontSize(7);
-      pdf.setTextColor(160, 160, 160);
-      pdf.text(`Dr. Telmo Silva Alonso · Módulo ${mi+1}: ${m.title}`, MX, 20);
-    }
+      let y = MT;
+      let pageNum = 1;
 
-    function newPage() {
-      pdf.addPage();
-      addPageHeader();
-      curY = MT;
-    }
+      // ── helpers ──────────────────────────────────────────────────────
 
-    // Place a pre-rendered block; if it doesn't fit → new page first
-    async function placeEl(el, gap = 6) {
-      applyPdfStyles(el);
-      const { dataUrl, ptH } = await renderBlockToPt(el, CW);
-      if (ptH === 0) return; // skip empty blocks
-      if (curY + gap + ptH > PAGE_H - MB) {
-        newPage();
-      } else {
-        curY += gap;
-      }
-      pdf.addImage(dataUrl, 'JPEG', MX, curY, CW, ptH, undefined, 'FAST');
-      curY += ptH;
-    }
-
-    // ── HEADER BLOCK ──
-    const headerEl = document.createElement('div');
-    headerEl.innerHTML = `
-      <div style="border-bottom:3px solid #1a1a2e;padding-bottom:14px;margin-bottom:10px;background:#fff;">
-        <div style="font-size:9px;font-weight:700;letter-spacing:0.14em;color:#4a5568;text-transform:uppercase;margin-bottom:4px;background:#fff;">
-          Dr. Telmo Silva Alonso · Preparación Física · Módulo ${String(mi+1).padStart(2,'0')} de ${modules.length}
-        </div>
-        <h1 style="font-size:19px;font-weight:900;margin:0 0 7px;color:#1a1a2e;line-height:1.2;background:#fff;">${m.icon} ${m.title}</h1>
-        <p style="font-size:11px;color:#444;margin:0;line-height:1.6;background:#fff;">${m.intro}</p>
-      </div>
-      <div style="display:flex;flex-wrap:wrap;gap:5px;background:#fff;padding-bottom:4px;">
-        ${m.topics.map(t => `<span style="background:#1a1a2e;color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;display:inline-block;">${t}</span>`).join('')}
-      </div>
-    `;
-    await placeEl(headerEl, 0);
-    curY += 12;
-
-    // ── LESSONS ──
-    for (const l of m.lessons) {
-      // Section heading
-      const headEl = document.createElement('div');
-      headEl.innerHTML = `<div style="font-size:12px;font-weight:800;color:#fff;background:#1a1a2e;padding:6px 10px;border-radius:3px;margin-bottom:2px;">${l.title}</div>`;
-      await placeEl(headEl, 10);
-
-      // Parse content into atomic blocks
-      const tmp = document.createElement('div');
-      tmp.innerHTML = l.content;
-
-      let paraNodes = [];
-
-      async function flushParas() {
-        if (!paraNodes.length) return;
-        const w = document.createElement('div');
-        w.style.background = '#fff';
-        paraNodes.forEach(n => w.appendChild(n.cloneNode(true)));
-        await placeEl(w, 4);
-        paraNodes = [];
-      }
-
-      for (const child of Array.from(tmp.childNodes)) {
-        if (child.nodeType === 3) {
-          if (child.textContent.trim()) paraNodes.push(child);
-          continue;
-        }
-        const tag = (child.tagName || '').toLowerCase();
-        const cls = child.classList || { contains: () => false };
-        const isAtom = tag === 'table' ||
-          cls.contains('table-wrap') ||
-          cls.contains('info-grid') ||
-          cls.contains('highlight-box');
-
-        if (isAtom) {
-          await flushParas();
-          const w = document.createElement('div');
-          w.style.background = '#fff';
-          w.appendChild(child.cloneNode(true));
-          await placeEl(w, 6);
-        } else {
-          paraNodes.push(child);
+      function checkPage(need) {
+        if (y + need > PH - MB) {
+          addFooter();
+          doc.addPage();
+          pageNum++;
+          addHeader();
+          y = MT;
         }
       }
-      await flushParas();
+
+      function addHeader() {
+        doc.setFillColor(...DARK);
+        doc.rect(0, 0, PW, 28, 'F');
+        doc.setFontSize(7); doc.setTextColor(180, 185, 200);
+        doc.text(`Dr. Telmo Silva Alonso · Preparación Física`, ML, 17);
+        doc.text(`Módulo ${mi+1}: ${m.title}`, PW - MR, 17, { align: 'right' });
+      }
+
+      function addFooter() {
+        doc.setDrawColor(220, 222, 228); doc.setLineWidth(0.4);
+        doc.line(ML, PH - MB + 10, PW - MR, PH - MB + 10);
+        doc.setFontSize(7); doc.setTextColor(...GREY);
+        doc.text('espaciodeporte.com', ML, PH - MB + 22);
+        doc.text(`Página ${pageNum}`, PW / 2, PH - MB + 22, { align: 'center' });
+        doc.text(new Date().toLocaleDateString('es-ES'), PW - MR, PH - MB + 22, { align: 'right' });
+      }
+
+      /** Wrap + print text block, returns new y */
+      function printText(text, opts = {}) {
+        const {
+          fs = BODY_FS, color = [50, 55, 70],
+          bold = false, x = ML, maxW = CW,
+          marginBottom = 4, indent = 0
+        } = opts;
+        doc.setFontSize(fs);
+        doc.setTextColor(...color);
+        doc.setFont('helvetica', bold ? 'bold' : 'normal');
+        const lines = doc.splitTextToSize(text, maxW - indent);
+        for (const ln of lines) {
+          checkPage(LINE_H * (fs / BODY_FS));
+          doc.text(ln, x + indent, y);
+          y += LINE_H * (fs / BODY_FS);
+        }
+        y += marginBottom;
+      }
+
+      /** Draw a filled-header table */
+      function printTable(rows, opts = {}) {
+        if (!rows.length) return;
+        const { colWidths } = opts;
+        const cols = rows[0].length;
+        const defaultW = CW / cols;
+        const widths = colWidths || Array(cols).fill(defaultW);
+
+        const ROW_H   = BODY_FS * 1.9;
+        const HEAD_H  = BODY_FS * 2;
+        const CELL_PAD = 4;
+
+        // Estimate total height and trigger page break if needed
+        const estH = HEAD_H + (rows.length - 1) * ROW_H + 6;
+        checkPage(Math.min(estH, PH * 0.4));
+
+        let cx = ML;
+        // Header row
+        doc.setFillColor(...DARK);
+        doc.rect(ML, y, CW, HEAD_H, 'F');
+        doc.setFontSize(LABEL_FS); doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        rows[0].forEach((cell, ci) => {
+          const txt = doc.splitTextToSize(cell, widths[ci] - CELL_PAD * 2);
+          doc.text(txt[0] || '', cx + CELL_PAD, y + HEAD_H - CELL_PAD - 1);
+          cx += widths[ci];
+        });
+        y += HEAD_H;
+
+        // Body rows
+        doc.setFont('helvetica', 'normal');
+        for (let ri = 1; ri < rows.length; ri++) {
+          const row = rows[ri];
+          // Calculate row height by tallest cell
+          doc.setFontSize(BODY_FS);
+          let maxLines = 1;
+          row.forEach((cell, ci) => {
+            const ls = doc.splitTextToSize(cell, widths[ci] - CELL_PAD * 2);
+            if (ls.length > maxLines) maxLines = ls.length;
+          });
+          const rh = Math.max(ROW_H, maxLines * LINE_H + CELL_PAD * 2);
+
+          checkPage(rh + 2);
+
+          // Alternating row fill
+          if (ri % 2 === 0) {
+            doc.setFillColor(...LIGHT);
+            doc.rect(ML, y, CW, rh, 'F');
+          }
+          // Cell border
+          doc.setDrawColor(215, 218, 225); doc.setLineWidth(0.3);
+          doc.rect(ML, y, CW, rh, 'S');
+
+          cx = ML;
+          doc.setFontSize(BODY_FS); doc.setTextColor(40, 44, 60);
+          row.forEach((cell, ci) => {
+            const lines = doc.splitTextToSize(cell, widths[ci] - CELL_PAD * 2);
+            lines.forEach((ln, li) => {
+              doc.text(ln, cx + CELL_PAD, y + CELL_PAD + LINE_H * (li + 0.8));
+            });
+            // vertical divider
+            if (ci < cols - 1) {
+              doc.setDrawColor(215, 218, 225);
+              doc.line(cx + widths[ci], y, cx + widths[ci], y + rh);
+            }
+            cx += widths[ci];
+          });
+          y += rh;
+        }
+        y += 8;
+      }
+
+      /** Print a highlight box */
+      function printHighlight(text) {
+        const clean = pdfStripHtml(text);
+        if (!clean) return;
+        const lines = doc.splitTextToSize(clean, CW - 24);
+        const boxH = lines.length * LINE_H + 14;
+        checkPage(boxH + 8);
+        doc.setFillColor(240, 253, 246);
+        doc.setDrawColor(...ACCENT); doc.setLineWidth(2);
+        doc.rect(ML, y, CW, boxH, 'F');
+        doc.line(ML, y, ML, y + boxH);
+        doc.setFontSize(BODY_FS - 0.5); doc.setTextColor(22, 100, 60);
+        doc.setFont('helvetica', 'normal');
+        lines.forEach((ln, i) => {
+          doc.text(ln, ML + 12, y + 9 + i * LINE_H);
+        });
+        y += boxH + 8;
+      }
+
+      /** Print info-grid cards as a 2-col grid */
+      function printInfoGrid(html) {
+        const cards = [];
+        const cardRe = /<div class="info-card">([\s\S]*?)<\/div>\s*<\/div>/gi;
+        const labelRe = /<div class="info-card-label">([\s\S]*?)<\/div>/i;
+        const valRe   = /<div class="info-card-val">([\s\S]*?)<\/div>/i;
+        // Simpler: extract label/val pairs
+        const pairRe = /class="info-card-label">([\s\S]*?)<\/div>[\s\S]*?class="info-card-val">([\s\S]*?)<\/div>/gi;
+        let pm;
+        while ((pm = pairRe.exec(html)) !== null) {
+          cards.push({ label: pdfStripHtml(pm[1]), val: pdfStripHtml(pm[2]) });
+        }
+        if (!cards.length) return;
+
+        const halfW = CW / 2 - 4;
+        for (let i = 0; i < cards.length; i += 2) {
+          const left  = cards[i];
+          const right = cards[i + 1];
+
+          const lLines = doc.splitTextToSize(left.val, halfW - 10);
+          const rLines = right ? doc.splitTextToSize(right.val, halfW - 10) : [];
+          const cardH  = Math.max(lLines.length, rLines.length) * (LINE_H * 0.85) + 28;
+
+          checkPage(cardH + 4);
+
+          // Left card
+          doc.setFillColor(248, 250, 252);
+          doc.setDrawColor(220, 224, 232); doc.setLineWidth(0.4);
+          doc.rect(ML, y, halfW, cardH, 'FD');
+          doc.setFontSize(LABEL_FS - 0.5); doc.setTextColor(...ACCENT);
+          doc.setFont('helvetica', 'bold');
+          const lLab = doc.splitTextToSize(left.label.toUpperCase(), halfW - 10);
+          doc.text(lLab[0] || '', ML + 6, y + 11);
+          doc.setFontSize(BODY_FS - 1); doc.setTextColor(55, 60, 80);
+          doc.setFont('helvetica', 'normal');
+          lLines.forEach((ln, li) => doc.text(ln, ML + 6, y + 21 + li * LINE_H * 0.85));
+
+          // Right card
+          if (right) {
+            const rx = ML + halfW + 8;
+            doc.setFillColor(248, 250, 252);
+            doc.rect(rx, y, halfW, cardH, 'FD');
+            doc.setFontSize(LABEL_FS - 0.5); doc.setTextColor(...ACCENT);
+            doc.setFont('helvetica', 'bold');
+            const rLab = doc.splitTextToSize(right.label.toUpperCase(), halfW - 10);
+            doc.text(rLab[0] || '', rx + 6, y + 11);
+            doc.setFontSize(BODY_FS - 1); doc.setTextColor(55, 60, 80);
+            doc.setFont('helvetica', 'normal');
+            rLines.forEach((ln, li) => doc.text(ln, rx + 6, y + 21 + li * LINE_H * 0.85));
+          }
+
+          y += cardH + 6;
+        }
+        y += 4;
+      }
+
+      /** Parse lesson HTML and print each block */
+      function printLessonContent(html) {
+        // Split on major block boundaries
+        const tmp = document.createElement('div');
+        tmp.innerHTML = html;
+
+        Array.from(tmp.childNodes).forEach(node => {
+          if (node.nodeType === Node.TEXT_NODE) {
+            const t = node.textContent.trim();
+            if (t) printText(t);
+            return;
+          }
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+          const cls = node.className || '';
+          const tag = node.tagName.toLowerCase();
+          const outerH = node.outerHTML || '';
+
+          if (cls.includes('highlight-box')) {
+            printHighlight(outerH);
+          } else if (cls.includes('info-grid')) {
+            printInfoGrid(outerH);
+          } else if (cls.includes('table-wrap') || tag === 'table') {
+            const tableHtml = tag === 'table' ? outerH : (node.querySelector('table') || node).outerHTML;
+            const rows = pdfExtractTable(tableHtml);
+            if (rows.length) printTable(rows);
+          } else if (cls.includes('lesson-text') || tag === 'p') {
+            const t = pdfStripHtml(outerH).replace(/\n+/g, ' ').trim();
+            if (t) printText(t, { marginBottom: 6 });
+          } else if (tag === 'ul' || tag === 'ol') {
+            Array.from(node.querySelectorAll('li')).forEach(li => {
+              const t = pdfStripHtml(li.innerHTML).replace(/\n+/g, ' ').trim();
+              if (t) printText('• ' + t, { indent: 8, marginBottom: 2 });
+            });
+            y += 4;
+          } else {
+            // Generic fallback: extract text
+            const t = pdfStripHtml(outerH).replace(/\n+/g, ' ').trim();
+            if (t) printText(t, { marginBottom: 4 });
+          }
+        });
+      }
+
+      // ── PAGE 1: COVER ────────────────────────────────────────────────
+
+      // Dark header band
+      doc.setFillColor(...DARK);
+      doc.rect(0, 0, PW, 90, 'F');
+      doc.setFontSize(8); doc.setTextColor(100, 110, 130);
+      doc.setFont('helvetica', 'bold');
+      doc.text('DR. TELMO SILVA ALONSO · PREPARACIÓN FÍSICA', ML, 22);
+      doc.setFontSize(7); doc.setFont('helvetica', 'normal');
+      doc.text(`MÓDULO ${String(mi+1).padStart(2,'0')} DE ${modules.length}`, PW - MR, 22, { align: 'right' });
+
+      // Module title
+      doc.setFontSize(MOD_FS); doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      const titleLines = doc.splitTextToSize(m.title, CW - 20);
+      titleLines.forEach((ln, i) => doc.text(ln, ML, 52 + i * (MOD_FS * 1.25)));
+
+      // Accent line under title
+      doc.setFillColor(...ACCENT);
+      doc.rect(ML, 78, 48, 2.5, 'F');
+
+      y = 108;
+
+      // Intro paragraph
+      printText(m.intro, { fs: BODY_FS + 0.5, color: [55, 60, 80], marginBottom: 14 });
+
+      // Topics row
+      let tx = ML;
+      const TAG_H = 16, TAG_PAD = 7, TAG_GAP = 5;
+      doc.setFontSize(7.5); doc.setFont('helvetica', 'bold');
+      m.topics.forEach(topic => {
+        const tw = doc.getTextWidth(topic) + TAG_PAD * 2;
+        if (tx + tw > PW - MR) { tx = ML; y += TAG_H + 4; }
+        doc.setFillColor(...DARK);
+        doc.roundedRect(tx, y - TAG_H + 3, tw, TAG_H, 2, 2, 'F');
+        doc.setTextColor(200, 210, 220);
+        doc.text(topic, tx + TAG_PAD, y - 1);
+        tx += tw + TAG_GAP;
+      });
+      y += TAG_H + 16;
+
+      // Divider
+      doc.setDrawColor(...ACCENT); doc.setLineWidth(0.6);
+      doc.line(ML, y, PW - MR, y);
+      y += 16;
+
+      // ── LESSONS ──────────────────────────────────────────────────────
+      m.lessons.forEach((lesson, li) => {
+        checkPage(40);
+
+        // Lesson heading bar
+        doc.setFillColor(...DARK);
+        doc.rect(ML, y, CW, 20, 'F');
+        doc.setFontSize(HEAD_FS - 0.5); doc.setTextColor(255, 255, 255);
+        doc.setFont('helvetica', 'bold');
+        doc.text(lesson.title, ML + 8, y + 13);
+        y += 26;
+
+        printLessonContent(lesson.content);
+        y += 6;
+      });
+
+      // ── FOOTER on last page ───────────────────────────────────────────
+      addFooter();
+
+      // ── SAVE ─────────────────────────────────────────────────────────
+      const slug = m.title.toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
+      doc.save(`modulo-${String(mi+1).padStart(2,'0')}-${slug}.pdf`);
+
+    } catch (e) {
+      console.error('PDF error:', e);
+      alert('Error al generar el PDF: ' + e.message);
+    } finally {
+      if (btn) { btn.disabled = false; btn.innerHTML = BTN_HTML; }
     }
-
-    // ── FOOTER ──
-    curY += 18;
-    if (curY + 20 > PAGE_H - MB) newPage();
-    pdf.setDrawColor(200, 200, 200);
-    pdf.setLineWidth(0.4);
-    pdf.line(MX, curY, PAGE_W - MX, curY);
-    curY += 9;
-    pdf.setFontSize(7.5);
-    pdf.setTextColor(150, 150, 150);
-    pdf.text('Dr. Telmo Silva Alonso — espaciodeporte.com', MX, curY);
-    pdf.text(`Módulo ${mi+1}: ${m.title}`, PAGE_W - MX, curY, { align: 'right' });
-
-    // Page numbers
-    const total = pdf.internal.getNumberOfPages();
-    for (let p = 1; p <= total; p++) {
-      pdf.setPage(p);
-      pdf.setFontSize(7.5);
-      pdf.setTextColor(150, 150, 150);
-      pdf.text(`${p} / ${total}`, PAGE_W / 2, PAGE_H - 14, { align: 'center' });
-    }
-
-    const slug = m.title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9\-]/g, '');
-    pdf.save(`modulo-${String(mi+1).padStart(2,'0')}-${slug}.pdf`);
-
-  } catch (e) {
-    console.error('PDF error:', e);
-    alert('Error al generar el PDF: ' + e.message);
-  } finally {
-    if (btn) { btn.disabled = false; btn.innerHTML = BTN_ICON; }
-  }
+  }, 50);
 }
 
 // ══════════════════════════════════════════════════
