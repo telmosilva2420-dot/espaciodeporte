@@ -97,7 +97,7 @@
                     <button data-target="blog" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Blog</button>
                     <button data-target="servicios" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Servicios</button>
                     <button data-target="recursos" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Software y Aplicaciones</button>
-                    <button data-target="libros" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Libros</button>
+                    <button data-target="campus" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Campus virtual</button>
                     <button data-target="contacto" class="nav-link text-base font-semibold transition-colors duration-300 text-slate-300 hover:text-white">Contacto</button>
                 </nav>
 
@@ -119,7 +119,7 @@
                 <button data-target="blog" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Blog</button>
                 <button data-target="servicios" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Servicios</button>
                 <button data-target="recursos" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Software y Aplicaciones</button>
-                <button data-target="libros" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Libros</button>
+                <button data-target="campus" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Campus virtual</button>
                 <button data-target="contacto" class="nav-link block w-full text-left px-4 py-4 rounded-xl text-lg font-semibold text-slate-300 hover:bg-slate-800 hover:text-white transition-colors">Contacto</button>
             </div>
         </div>
@@ -833,20 +833,27 @@
 
         </section>
 
-        <!-- ================= VISTA: LIBROS ================= -->
-        <section id="view-libros" class="page-view hidden fade-in bg-slate-950 min-h-screen">
+        <!-- ================= VISTA: CAMPUS VIRTUAL ================= -->
+        <section id="view-campus" class="page-view hidden fade-in bg-slate-950 min-h-screen flex flex-col">
 
             <!-- Cabecera -->
             <div class="py-12 md:py-16 bg-slate-900 border-b border-slate-800">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-teal-400 mb-4 tracking-tight">Libros</h1>
+                    <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-teal-400 mb-4 tracking-tight">Campus virtual</h1>
                     <p class="text-lg sm:text-xl text-slate-300 max-w-2xl font-light mx-auto">
-                        Lecturas recomendadas para profesionales de la actividad física y del deporte.
+                        Formación online en inteligencia artificial aplicada al deporte y la actividad física.
                     </p>
                 </div>
             </div>
 
-            <div class="py-16 md:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Curso embebido -->
+            <div class="flex-1" style="min-height:80vh;">
+                <iframe
+                    src="Curso VCF e IA.html"
+                    title="Curso de Preparación Física e IA"
+                    style="width:100%; height:100%; min-height:80vh; border:none; display:block;"
+                    loading="lazy"
+                ></iframe>
             </div>
 
         </section>
@@ -967,7 +974,7 @@
                         <li><button data-target="nosotros" class="nav-link hover:text-teal-400 transition-colors">¿Quiénes somos?</button></li>
                         <li><button data-target="servicios" class="nav-link hover:text-teal-400 transition-colors">Servicios</button></li>
                         <li><button data-target="recursos" class="nav-link hover:text-teal-400 transition-colors">Software y Aplicaciones</button></li>
-                        <li><button data-target="libros" class="nav-link hover:text-teal-400 transition-colors">Libros</button></li>
+                        <li><button data-target="campus" class="nav-link hover:text-teal-400 transition-colors">Campus virtual</button></li>
                         <li><button data-target="contacto" class="nav-link hover:text-teal-400 transition-colors">Contacto</button></li>
                     </ul>
                 </div>
@@ -1067,7 +1074,7 @@
                 servicios: 'Servicios — Espaciodeporte IA',
                 recursos: 'Software y Aplicaciones — Espaciodeporte IA',
                 blog: 'Blog — Espaciodeporte IA',
-                libros: 'Libros — Espaciodeporte IA',
+                campus: 'Campus virtual — Espaciodeporte IA',
                 contacto: 'Contacto — Espaciodeporte IA'
             };
             document.title = titles[targetPageId] || 'Espaciodeporte IA';
