@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celador Galicia · Oposiciones SERGAS</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --azul: #003366;
+    --azul-medio: #1a5fa8;
+    --azul-claro: #2d82d8;
+    --celeste: #e8f2ff;
+    --verde: #00875a;
+    --verde-claro: #e6f7f1;
+    --amarillo: #f5a623;
+    --rojo: #d94f3d;
+    --gris-oscuro: #1a1a2e;
+    --gris: #4a5568;
+    --gris-claro: #f0f4f8;
+    --blanco: #ffffff;
+    --sombra: 0 4px 24px rgba(0,51,102,0.10);
+    --sombra-lg: 0 12px 48px rgba(0,51,102,0.16);
+    --radio: 14px;
+    --radio-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--gris-claro);
+    color: var(--gris-oscuro);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── TOPBAR ── */
+  #topbar {
+    background: var(--azul);
+    color: #fff;
+    padding: 0 2rem;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .topbar-logo {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    cursor: pointer;
+  }
+  .topbar-logo-icon {
+    width: 36px; height: 36px;
+    background: var(--azul-claro);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .topbar-logo-text {
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -.3px;
+    line-height: 1.1;
+  }
+  .topbar-logo-text span {
+    font-weight: 400;
+    font-size: .78rem;
+    display: block;
+    opacity: .7;
+    letter-spacing: .5px;
+  }
+  .topbar-nav {
+    display: flex;
+    gap: .25rem;
+    align-items: center;
+  }
+  .topbar-nav button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,.75);
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
+    padding: .45rem .85rem;
+    border-radius: var(--radio-sm);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .topbar-nav button:hover,
+  .topbar-nav button.active {
+    background: rgba(255,255,255,.15);
+    color: #fff;
+  }
+  /* ── PÁGINAS ── */
+  .page { display: none; flex: 1; }
+  .page.active { display: block; }
+
+  .hero {
+    background: linear-gradient(135deg, var(--azul) 0%, var(--azul-medio) 60%, var(--azul-claro) 100%);
+    border-radius: 20px;
+    padding: 2.5rem 3rem;
+    color: #fff;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    right: -40px; top: -60px;
+    width: 280px; height: 280px;
+    background: rgba(255,255,255,.06);
+    border-radius: 50%;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: 80px; bottom: -80px;
+    width: 180px; height: 180px;
+    background: rgba(255,255,255,.04);
+    border-radius: 50%;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    background: rgba(255,255,255,.18);
+    border-radius: 20px;
+    padding: .3rem .9rem;
+    font-size: .78rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .hero h1 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: .75rem;
+    max-width: 540px;
+  }
+  .hero p {
+    opacity: .8;
+    font-size: 1rem;
+    max-width: 480px;
+    line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 2rem;
+    margin-top: 1.75rem;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .val {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    display: block;
+  }
+  .hero-stat .lbl {
+    font-size: .75rem;
+    opacity: .65;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: var(--radio);
+    padding: 1.2rem 1.4rem;
+    box-shadow: var(--sombra);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .stat-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+  .stat-card .num {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--azul);
+  }
+  .stat-card .desc {
+    font-size: .78rem;
+    color: var(--gris);
+    margin-top: .2rem;
+  }
+
+  /* Cabecera genérica de apartado */
+  .page-header {
+    margin-bottom: 1.75rem;
+  }
+  .page-header h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--azul);
+  }
+  .page-header p {
+    color: var(--gris);
+    font-size: .9rem;
+    margin-top: .3rem;
+    max-width: 640px;
+    line-height: 1.6;
+  }
+
+  /* Grid de temas */
+  .temas-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .tema-card {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    overflow: hidden;
+    transition: transform .2s, box-shadow .2s;
+    cursor: default;
+    border: 1.5px solid transparent;
+  }
+  .tema-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-lg);
+    border-color: #cde;
+  }
+  .tema-head {
+    padding: 1.1rem 1.3rem .8rem;
+    display: flex;
+    align-items: flex-start;
+    gap: .85rem;
+  }
+  .tema-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: -.5px;
+  }
+  .tema-num.comun {
+    background: #dbeafe;
+    color: var(--azul-medio);
+  }
+  .tema-num.especifica {
+    background: var(--verde-claro);
+    color: var(--verde);
+  }
+  .tema-info h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: .92rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--azul);
+    margin-bottom: .2rem;
+  }
+  .tema-info p {
+    font-size: .75rem;
+    color: var(--gris);
+    line-height: 1.4;
+  }
+  .tema-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid #f0f4f8;
+  }
+  .btn-accion {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .3rem;
+    padding: .75rem .4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: 'Nunito', sans-serif;
+    font-size: .68rem;
+    font-weight: 500;
+    color: var(--gris);
+    transition: all .18s;
+    border-right: 1px solid #f0f4f8;
+    position: relative;
+  }
+  .btn-accion:last-child { border-right: none; }
+  .btn-accion:hover { background: var(--gris-claro); }
+  .btn-accion .icono {
+    width: 28px; height: 28px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    transition: transform .18s;
+  }
+  .btn-accion:hover .icono { transform: scale(1.15); }
+  .btn-accion.infografia .icono { background: #fef3c7; }
+  .btn-accion.resumen .icono { background: #dbeafe; }
+  .btn-accion.podcast .icono { background: #fce7f3; }
+  .btn-accion.cuestionario .icono { background: var(--verde-claro); }
+  .btn-accion.infografia:hover { color: #92400e; }
+  .btn-accion.resumen:hover { color: var(--azul-medio); }
+  .btn-accion.podcast:hover { color: #9d174d; }
+  .btn-accion.cuestionario:hover { color: var(--verde); }
+  .btn-accion .badge-new {
+    position: absolute;
+    top: 6px; right: 6px;
+    background: var(--azul-claro);
+    color: #fff;
+    border-radius: 10px;
+    font-size: .5rem;
+    padding: 1px 4px;
+    font-weight: 700;
+    letter-spacing: .5px;
+  }
+
+  /* ══════════════════════════════════
+     PÁGINA GENÉRICA (Infografía / Resumen / Podcast / Cuestionario)
+  ══════════════════════════════════ */
+  #page-recurso {
+    padding: 2rem;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .recurso-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.75rem;
+  }
+  .btn-back {
+    background: #fff;
+    border: 1.5px solid #dde4ef;
+    border-radius: var(--radio-sm);
+    padding: .45rem .85rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: .85rem;
+    cursor: pointer;
+    color: var(--gris);
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+    transition: all .18s;
+  }
+  .btn-back:hover { background: var(--celeste); border-color: var(--azul-claro); color: var(--azul); }
+  .recurso-titulo {
+    flex: 1;
+  }
+  .recurso-titulo h2 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--azul);
+    line-height: 1.2;
+  }
+  .recurso-titulo p {
+    font-size: .82rem;
+    color: var(--gris);
+    margin-top: .2rem;
+  }
+  .recurso-tipo-badge {
+    padding: .35rem 1rem;
+    border-radius: 20px;
+    font-size: .78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+  /* Tab tipos dentro de recurso */
+  .recurso-tabs {
+    display: flex;
+    gap: .5rem;
+    margin-bottom: 1.5rem;
+    background: #fff;
+    border-radius: var(--radio);
+    padding: .5rem;
+    box-shadow: var(--sombra);
+  }
+  .recurso-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .4rem;
+    padding: .65rem;
+    border-radius: var(--radio-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: .82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    background: none;
+    color: var(--gris);
+    transition: all .2s;
+  }
+  .recurso-tab.active {
+    background: var(--azul);
+    color: #fff;
+    font-weight: 600;
+  }
+  .recurso-tab:hover:not(.active) { background: var(--gris-claro); }
+
+  /* Contenido placeholder */
+  .contenido-placeholder {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    border: 2px dashed #c8d9ef;
+    padding: 3rem;
+    text-align: center;
+  }
+  .contenido-audio {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    min-height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.2rem;
+    padding: 3rem;
+    text-align: center;
+  }
+  .contenido-audio h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--azul);
+    max-width: 480px;
+  }
+  .contenido-audio audio {
+    width: 100%;
+    max-width: 440px;
+  }
+
+  /* ── CUESTIONARIO INTERACTIVO ── */
+  .quiz-box {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 2rem;
+    min-height: 480px;
+  }
+  .quiz-top {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  .quiz-progreso-texto {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--azul);
+    white-space: nowrap;
+  }
+  .quiz-progreso-bar {
+    flex: 1;
+    height: 6px;
+    background: var(--gris-claro);
+    border-radius: 10px;
+    margin: 0 1rem;
+    overflow: hidden;
+  }
+  .quiz-progreso-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(to right, var(--azul-medio), var(--azul-claro));
+    transition: width .3s ease;
+  }
+  .quiz-pregunta-num {
+    font-size: .72rem;
+    font-weight: 700;
+    color: var(--verde);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: .5rem;
+  }
+  .quiz-pregunta-texto {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gris-oscuro);
+    line-height: 1.5;
+    margin-bottom: 1.25rem;
+  }
+  .quiz-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+    margin-bottom: 1rem;
+  }
+  .quiz-opcion {
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    text-align: left;
+    padding: .75rem 1rem;
+    border: 1.5px solid #dde4ef;
+    border-radius: var(--radio-sm);
+    background: #fff;
+    font-family: 'Nunito', sans-serif;
+    font-size: .9rem;
+    color: var(--gris-oscuro);
+    cursor: pointer;
+    transition: all .18s;
+  }
+  .quiz-opcion:hover:not(:disabled) {
+    border-color: var(--azul-claro);
+    background: var(--celeste);
+  }
+  .quiz-opcion:disabled { cursor: default; }
+  .quiz-opcion .letra {
+    flex-shrink: 0;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--gris-claro);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800;
+    font-size: .78rem;
+    color: var(--gris);
+  }
+  .quiz-opcion.correcta { border-color: var(--verde); background: var(--verde-claro); }
+  .quiz-opcion.correcta .letra { background: var(--verde); color: #fff; }
+  .quiz-opcion.incorrecta { border-color: var(--rojo); background: #fdecea; }
+  .quiz-opcion.incorrecta .letra { background: var(--rojo); color: #fff; }
+  .quiz-feedback {
+    padding: .8rem 1rem;
+    border-radius: var(--radio-sm);
+    font-size: .85rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+  }
+  .quiz-feedback.ok { background: var(--verde-claro); color: var(--verde); }
+  .quiz-feedback.ko { background: #fdecea; color: var(--rojo); }
+  .quiz-acciones {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+  }
+  .quiz-btn {
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    color: #fff;
+    border: none;
+    border-radius: var(--radio-sm);
+    padding: .7rem 1.4rem;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 700;
+    font-size: .88rem;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+  }
+  .quiz-btn:hover { opacity: .92; transform: translateY(-1px); }
+  .quiz-btn.secundario {
+    background: #fff;
+    color: var(--gris);
+    border: 1.5px solid #dde4ef;
+  }
+  .quiz-btn.secundario:hover { background: var(--gris-claro); }
+  .quiz-resultado { text-align: center; }
+  .quiz-resultado .puntuacion {
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: var(--azul);
+    margin: .5rem 0;
+  }
+  .quiz-resultado .detalle {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .quiz-resultado .detalle .num {
+    font-size: 1.4rem;
+    font-weight: 800;
+  }
+  .quiz-resultado .detalle .lbl {
+    font-size: .72rem;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  .placeholder-icon {
+    width: 80px; height: 80px;
+    border-radius: 24px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem;
+  }
+  .contenido-placeholder h3 {
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--azul);
+  }
+  .contenido-placeholder p {
+    color: var(--gris);
+    font-size: .88rem;
+    max-width: 380px;
+    line-height: 1.6;
+  }
+  .placeholder-chip {
+    background: var(--celeste);
+    border-radius: 20px;
+    padding: .35rem 1rem;
+    font-size: .78rem;
+    color: var(--azul-medio);
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════
+     PÁGINA: ¿CÓMO SON LAS PRUEBAS?
+  ══════════════════════════════════ */
+  #page-pruebas {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .info-card {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+  }
+  .info-card-icon {
+    flex-shrink: 0;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.3rem;
+  }
+  .info-card h4 {
+    font-family: 'Nunito', sans-serif;
+    font-size: .92rem;
+    font-weight: 700;
+    color: var(--azul);
+    margin-bottom: .4rem;
+  }
+  .info-card p {
+    font-size: .82rem;
+    color: var(--gris);
+    line-height: 1.55;
+  }
+  .info-disclaimer {
+    display: flex;
+    align-items: center;
+    gap: .6rem;
+    background: var(--celeste);
+    border-radius: var(--radio-sm);
+    padding: .85rem 1.1rem;
+    font-size: .8rem;
+    color: var(--azul-medio);
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  /* ══════════════════════════════════
+     PÁGINA: PREPARACIÓN (COMÚN / ESPECÍFICA)
+  ══════════════════════════════════ */
+  #page-comun, #page-especifica {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* ══════════════════════════════════
+     PÁGINA: SIMULACIÓN DE PRUEBAS
+  ══════════════════════════════════ */
+  #page-simulacro {
+    padding: 2rem;
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .simulacro-config {
+    background: #fff;
+    border-radius: var(--radio);
+    box-shadow: var(--sombra);
+    padding: 2rem;
+    margin-bottom: 1.25rem;
+  }
+  .config-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .config-item label {
+    display: block;
+    font-size: .8rem;
+    font-weight: 600;
+    color: var(--gris);
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    margin-bottom: .5rem;
+  }
+  .config-item select {
+    width: 100%;
+    padding: .6rem .9rem;
+    border: 1.5px solid #dde4ef;
+    border-radius: var(--radio-sm);
+    font-family: 'Nunito', sans-serif;
+    font-size: .88rem;
+    color: var(--gris-oscuro);
+    background: var(--gris-claro);
+    cursor: pointer;
+    outline: none;
+    transition: border-color .18s;
+  }
+  .config-item select:focus { border-color: var(--azul-claro); }
+  .btn-iniciar {
+    width: 100%;
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    color: #fff;
+    border: none;
+    border-radius: var(--radio-sm);
+    padding: .85rem;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .2s, transform .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+  }
+  .btn-iniciar:hover { opacity: .92; transform: translateY(-1px); }
+
+  /* ══════════════════════════════════
+     FOOTER
+  ══════════════════════════════════ */
+  footer {
+    background: var(--azul);
+    color: rgba(255,255,255,.55);
+    text-align: center;
+    padding: 1rem;
+    font-size: .75rem;
+    letter-spacing: .3px;
+    margin-top: auto;
+  }
+  footer strong { color: rgba(255,255,255,.85); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .hero h1 { font-size: 1.6rem; }
+    .hero-stats { gap: 1rem; }
+    .temas-grid { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .topbar-nav { overflow-x: auto; max-width: 45vw; }
+    .topbar-nav button { font-size: .78rem; padding: .4rem .6rem; white-space: nowrap; }
+    .config-grid { grid-template-columns: 1fr; }
+    #page-pruebas, #page-comun, #page-especifica, #page-recurso, #page-simulacro { padding: 1rem; }
+    .hero { padding: 1.5rem; }
+  }
+
+  /* ── ACORDEÓN ── */
+  .accordion-chevron {
+    font-size: 1.1rem;
+    color: var(--gris);
+    transition: transform .25s ease;
+    flex-shrink: 0;
+    margin-left: auto;
+    padding-left: .5rem;
+  }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .35s ease;
+  }
+  .accordion-body.open {
+    max-height: 2000px;
+  }
+
+  /* ── APARTADOS ── */
+  .apartado-row {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    padding: .65rem 1.1rem;
+    border-top: 1px solid #f0f4f8;
+    flex-wrap: wrap;
+  }
+  .apartado-row:hover { background: #fafbff; }
+  .apartado-info {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+    flex: 1;
+    min-width: 180px;
+  }
+  .apartado-num {
+    font-size: .72rem;
+    font-weight: 800;
+    color: var(--azul-claro);
+    flex-shrink: 0;
+    min-width: 28px;
+  }
+  .apartado-titulo {
+    font-size: .82rem;
+    color: var(--gris-oscuro);
+    line-height: 1.35;
+    font-weight: 500;
+  }
+  .apartado-btns {
+    display: flex;
+    gap: .35rem;
+    flex-shrink: 0;
+  }
+  .btn-apt {
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .3rem .65rem;
+    border-radius: 20px;
+    border: 1.5px solid transparent;
+    font-family: 'Nunito', sans-serif;
+    font-size: .72rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .18s;
+    white-space: nowrap;
+  }
+  .btn-apt span { display: inline; }
+  .btn-apt.infografia   { background: #fef9ec; border-color: #f5d98a; color: #92400e; }
+  .btn-apt.resumen      { background: #eff6ff; border-color: #93c5fd; color: #1a5fa8; }
+  .btn-apt.podcast      { background: #fdf2f8; border-color: #f9a8d4; color: #9d174d; }
+  .btn-apt.cuestionario { background: #f0fdf4; border-color: #86efac; color: #065f46; }
+  .btn-apt.referencias  { background: #f5f3ff; border-color: #c4b5fd; color: #5b21b6; }
+  .btn-apt.infografia:hover   { background: #fef3c7; }
+  .btn-apt.resumen:hover      { background: #dbeafe; }
+  .btn-apt.podcast:hover      { background: #fce7f3; }
+  .btn-apt.cuestionario:hover { background: #dcfce7; }
+  .btn-apt.referencias:hover  { background: #ede9fe; }
+
+  /* En móvil, ocultar texto de los botones de apartado */
+  @media (max-width: 640px) {
+    .btn-apt span { display: none; }
+    .btn-apt { padding: .35rem .5rem; }
+    .apartado-row { gap: .5rem; }
+  }
+
+  /* Animaciones de entrada */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .tema-card { animation: fadeUp .3s ease both; }
+  .tema-card:nth-child(1)  { animation-delay: .03s; }
+  .tema-card:nth-child(2)  { animation-delay: .06s; }
+  .tema-card:nth-child(3)  { animation-delay: .09s; }
+  .tema-card:nth-child(4)  { animation-delay: .12s; }
+  .tema-card:nth-child(5)  { animation-delay: .15s; }
+  .tema-card:nth-child(6)  { animation-delay: .18s; }
+  .tema-card:nth-child(7)  { animation-delay: .21s; }
+  .tema-card:nth-child(8)  { animation-delay: .24s; }
+  .tema-card:nth-child(9)  { animation-delay: .27s; }
+  .tema-card:nth-child(10) { animation-delay: .30s; }
+</style>
+</head>
+<body>
+
+<!-- ── TOPBAR ── -->
+<nav id="topbar">
+  <div class="topbar-logo" onclick="irA('pruebas')">
+    <div class="topbar-logo-icon">🏥</div>
+    <div class="topbar-logo-text">
+      CeladorGal
+      <span>SERGAS · Oposiciones</span>
+    </div>
+  </div>
+  <div class="topbar-nav">
+    <button class="active" onclick="irA('pruebas')">❓ ¿Cómo son las pruebas?</button>
+    <button onclick="irA('comun')">🔵 Parte común</button>
+    <button onclick="irA('especifica')">🟢 Parte específica</button>
+    <button onclick="irA('simulacro')">🎯 Simulación de pruebas</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: ¿CÓMO SON LAS PRUEBAS?
+══════════════════════════════════════ -->
+<div id="page-pruebas" class="page active">
+  <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-badge">🎓 SERGAS · Xunta de Galicia</div>
+      <h1>Prepara tus oposiciones de Celador/a</h1>
+      <p>Temario completo estructurado por temas, con infografías, resúmenes, podcast y cuestionarios interactivos para aprobar.</p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="val">17</span>
+          <span class="lbl">Temas totales</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">8</span>
+          <span class="lbl">Parte común</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">9</span>
+          <span class="lbl">Parte específica</span>
+        </div>
+        <div class="hero-stat">
+          <span class="val">4</span>
+          <span class="lbl">Recursos/tema</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats cards -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#dbeafe;">🖼️</div>
+        <div>
+          <div class="num">17</div>
+          <div class="desc">Infografías</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fef3c7;">📄</div>
+        <div>
+          <div class="num">17</div>
+          <div class="desc">Resúmenes</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#fce7f3;">🎙️</div>
+        <div>
+          <div class="num">17</div>
+          <div class="desc">Podcasts</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:#e6f7f1;">✅</div>
+        <div>
+          <div class="num">340</div>
+          <div class="desc">Preguntas test</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-header">
+      <h2>❓ ¿Cómo son las pruebas?</h2>
+      <p>Resumen orientativo del proceso selectivo de Celador/a del SERGAS: cómo se estructura, en qué consiste el examen y qué materias entran. Consulta siempre las bases oficiales de tu convocatoria para los datos exactos (número de preguntas, tiempos, baremos, etc.).</p>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-card-icon" style="background:#dbeafe;">🗂️</div>
+        <div>
+          <h4>Estructura del proceso selectivo</h4>
+          <p>Suele articularse como concurso-oposición: una fase de oposición (examen tipo test, de carácter eliminatorio) y una fase de concurso en la que se valoran méritos como experiencia profesional y formación.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon" style="background:#fef3c7;">📝</div>
+        <div>
+          <h4>El examen tipo test</h4>
+          <p>Cuestionario de preguntas con varias opciones de respuesta (una válida), incluyendo habitualmente preguntas de reserva. Suele tener un tiempo limitado y penalización por respuestas erróneas (frecuentemente restando una fracción del valor de un acierto).</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon" style="background:var(--verde-claro);">📚</div>
+        <div>
+          <h4>Contenido: parte común y específica</h4>
+          <p>La parte común (8 temas) recoge normativa general: Constitución, Estatuto de Autonomía de Galicia, legislación sanitaria, Estatuto Marco, protección de datos, PRL e igualdad. La parte específica (9 temas) recoge las funciones propias del puesto de celador/a.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon" style="background:#fce7f3;">🏆</div>
+        <div>
+          <h4>Fase de concurso y lista final</h4>
+          <p>Tras superar el examen, se suman los méritos baremables (experiencia, formación, otros méritos) para obtener la puntuación final, de la que resulta la lista de personas aprobadas o la bolsa de empleo.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-disclaimer">📌 Contenido orientativo — verifica siempre los detalles en las bases oficiales de la convocatoria vigente.</div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: PREPARACIÓN PARTE COMÚN
+══════════════════════════════════════ -->
+<div id="page-comun" class="page">
+  <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+    <div class="page-header">
+      <h2>🔵 Preparación parte común</h2>
+      <p>8 temas de materias comunes: Constitución, Estatuto de Autonomía de Galicia, legislación sanitaria, Estatuto Marco del personal estatutario, protección de datos, prevención de riesgos e igualdad. Infografía, resumen, podcast, cuestionario y referencias por apartado.</p>
+    </div>
+    <div class="temas-grid" id="grid-comun"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: PREPARACIÓN PARTE ESPECÍFICA
+══════════════════════════════════════ -->
+<div id="page-especifica" class="page">
+  <div style="max-width:1200px;margin:0 auto;padding:2rem;">
+    <div class="page-header">
+      <h2>🟢 Preparación parte específica</h2>
+      <p>9 temas propios del puesto de celador/a: movilización y traslado de pacientes, área quirúrgica, urgencias y transporte sanitario, suministros, informática básica y más. Infografía, resumen, podcast, cuestionario y referencias por apartado.</p>
+    </div>
+    <div class="temas-grid" id="grid-especifica"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: RECURSO (Infografía / Resumen / Podcast / Cuestionario)
+══════════════════════════════════════ -->
+<div id="page-recurso" class="page">
+  <div class="recurso-header">
+    <button class="btn-back" onclick="volverDesdeRecurso()">← Volver</button>
+    <div class="recurso-titulo">
+      <h2 id="recurso-tema-titulo">Tema 1</h2>
+      <p id="recurso-tema-subtitulo">Parte Común</p>
+    </div>
+    <div class="recurso-tipo-badge" id="recurso-tipo-badge" style="background:#dbeafe;color:#1a5fa8;">Resumen</div>
+  </div>
+
+  <!-- Tabs de tipo -->
+  <div class="recurso-tabs">
+    <button class="recurso-tab" data-tipo="infografia" onclick="cambiarTipo('infografia')">🖼️ Infografía</button>
+    <button class="recurso-tab" data-tipo="resumen" onclick="cambiarTipo('resumen')">📄 Resumen</button>
+    <button class="recurso-tab" data-tipo="podcast" onclick="cambiarTipo('podcast')">🎙️ Podcast</button>
+    <button class="recurso-tab" data-tipo="cuestionario" onclick="cambiarTipo('cuestionario')">✅ Cuestionario</button>
+    <button class="recurso-tab" data-tipo="referencias" onclick="cambiarTipo('referencias')">📚 Referencias</button>
+  </div>
+
+  <!-- Área de contenido -->
+  <div id="recurso-contenido">
+    <!-- Se rellena dinámicamente -->
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PÁGINA: SIMULACIÓN DE PRUEBAS
+══════════════════════════════════════ -->
+<div id="page-simulacro" class="page">
+  <div class="page-header">
+    <h2>🎯 Simulación de pruebas</h2>
+    <p>Configura y realiza un examen simulado con preguntas aleatorias del temario oficial.</p>
+  </div>
+
+  <div class="simulacro-config">
+    <h4 style="font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--azul);margin-bottom:1.25rem;">⚙️ Configuración del simulacro</h4>
+    <div class="config-grid">
+      <div class="config-item">
+        <label>Bloque de preguntas</label>
+        <select>
+          <option>Todo el temario</option>
+          <option>Solo Parte Común</option>
+          <option>Solo Parte Específica</option>
+        </select>
+      </div>
+      <div class="config-item">
+        <label>Número de preguntas</label>
+        <select>
+          <option>60 preguntas (examen completo)</option>
+          <option>30 preguntas</option>
+          <option>20 preguntas</option>
+          <option>10 preguntas (repaso rápido)</option>
+        </select>
+      </div>
+      <div class="config-item">
+        <label>Tiempo límite</label>
+        <select>
+          <option>90 minutos (oficial)</option>
+          <option>60 minutos</option>
+          <option>45 minutos</option>
+          <option>Sin límite</option>
+        </select>
+      </div>
+      <div class="config-item">
+        <label>Penalización por error</label>
+        <select>
+          <option>Sí — 1/3 de la respuesta correcta</option>
+          <option>No — solo aciertos</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-iniciar">🚀 Iniciar Simulacro</button>
+  </div>
+
+  <div class="simulacro-config">
+    <h4 style="font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:var(--azul);">📋 Últimos simulacros realizados</h4>
+    <div style="margin-top:1rem;text-align:center;padding:2rem;color:var(--gris);font-size:.88rem;">
+      <div style="font-size:2.5rem;margin-bottom:.75rem;">📭</div>
+      Aún no has realizado ningún simulacro.<br>¡Configura uno y empieza a practicar!
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <strong>CeladorGal</strong> · Preparación de oposiciones SERGAS · Xunta de Galicia &nbsp;|&nbsp; Contenido orientativo, sin valor oficial
+</footer>
+
+<script>
+// ══════════════════════════════════════
+// DATOS DE TEMAS CON APARTADOS
+// ══════════════════════════════════════
+const temasComun = [
+  {
+    num: 1, titulo: "La Constitución española",
+    simple: true
+  },
+  {
+    num: 2, titulo: "El Estatuto de autonomía de Galicia",
+    simple: true
+  },
+  {
+    num: 3, titulo: "La Ley general de sanidad",
+    simple: true
+  },
+  {
+    num: 4, titulo: "La Ley de salud de Galicia",
+    apartados: [
+      "El sistema público de salud de Galicia",
+      "Competencias sanitarias en Galicia",
+      "El Servicio Gallego de Salud (SERGAS)",
+      "La estructura organizativa de gestión integrada"
+    ]
+  },
+  {
+    num: 5, titulo: "El Estatuto marco del personal estatutario",
+    apartados: [
+      "Clasificación del personal estatutario",
+      "Derechos y deberes del personal estatutario",
+      "Retribuciones y jornada",
+      "Situaciones del personal estatutario",
+      "Régimen disciplinario e incompatibilidades",
+      "Representación del personal estatutario"
+    ]
+  },
+  {
+    num: 6, titulo: "El personal estatutario del SERGAS",
+    apartados: [
+      "Régimen de provisión de plazas del SERGAS",
+      "Selección de plazas del SERGAS"
+    ]
+  },
+  {
+    num: 7, titulo: "Protección de datos y consentimiento informado",
+    apartados: [
+      "El Reglamento UE 2016/679 de protección de datos",
+      "La Ley gallega 3/2001: el consentimiento informado",
+      "La historia clínica de los pacientes"
+    ]
+  },
+  {
+    num: 8, titulo: "Prevención de riesgos, violencia de género e igualdad",
+    apartados: [
+      "Prevención de riesgos laborales en el ámbito sanitario",
+      "Medidas de protección integral contra la violencia de género",
+      "Legislación sobre igualdad entre mujeres y hombres"
+    ]
+  },
+];
+
+const temasEspecifica = [
+  {
+    num: 1, titulo: "El personal subalterno: funciones del celador/a",
+    apartados: [
+      "Funciones generales del celador/a en instituciones sanitarias",
+      "Vigilancia y apertura y cierre de instalaciones",
+      "Control de acceso e identificación",
+      "Información y atención a usuarios"
+    ]
+  },
+  {
+    num: 2, titulo: "Utensilios, mobiliario y objetos de las instituciones sanitarias",
+    apartados: [
+      "Conocimientos básicos de utensilios y equipamiento sanitario",
+      "Mobiliario y objetos de las instituciones sanitarias",
+      "Cuidados y conservación del material"
+    ]
+  },
+  {
+    num: 3, titulo: "Técnicas de movilización y traslado de pacientes",
+    apartados: [
+      "Técnicas de movilización de pacientes",
+      "Técnicas de traslado de pacientes",
+      "Posiciones terapéuticas del paciente",
+      "Actuación en unidades de críticos"
+    ]
+  },
+  {
+    num: 4, titulo: "Área quirúrgica y unidades de hospitalización",
+    apartados: [
+      "Actuación del celador/a en el área quirúrgica",
+      "Normas de higiene en el área quirúrgica",
+      "Actuación en unidades de hospitalización y estancias comunes",
+      "Actuación en unidades de salud mental"
+    ]
+  },
+  {
+    num: 5, titulo: "Actuación ante pacientes fallecidos",
+    apartados: [
+      "Actuación del celador/a ante pacientes fallecidos",
+      "Actuación en salas de autopsias",
+      "Actuación en mortuorios"
+    ]
+  },
+  {
+    num: 6, titulo: "Los suministros",
+    apartados: [
+      "Recepción de suministros",
+      "Almacenamiento y organización del almacén",
+      "Distribución de pedidos"
+    ]
+  },
+  {
+    num: 7, titulo: "Farmacia, esterilización, higiene y reprografía",
+    apartados: [
+      "La farmacia hospitalaria: funciones del celador/a",
+      "Traslado de documentos y objetos",
+      "Esterilización: conceptos básicos",
+      "Higiene de los pacientes",
+      "Funciones en el Servicio de Reprografía"
+    ]
+  },
+  {
+    num: 8, titulo: "Organización de urgencias y transporte sanitario",
+    apartados: [
+      "Organización de las urgencias hospitalarias",
+      "Actuación del celador/a en la entrada de urgencias",
+      "Transporte de enfermos en ambulancias"
+    ]
+  },
+  {
+    num: 9, titulo: "Nociones básicas de informática",
+    apartados: [
+      "Sistemas ofimáticos: conceptos generales",
+      "Procesadores de texto",
+      "Hojas de cálculo",
+      "Internet y correo electrónico"
+    ]
+  },
+];
+
+// Estado de la app
+let apartadoActual = null;
+let tipoActual = 'infografia';
+
+// ══════════════════════════════════════
+// RENDER TEMAS CON APARTADOS
+// ══════════════════════════════════════
+function renderTema(tema, bloque) {
+  const prefix = bloque === 'comun' ? 'C' : 'E';
+  const idAccordion = `acc-${bloque}-${tema.num}`;
+
+  if (tema.simple) {
+    const aptId = `${bloque}-${tema.num}-0`;
+    const tituloEsc = tema.titulo.replace(/'/g,"\\'");
+    return `
+    <div class="tema-card">
+      <div class="tema-head">
+        <div class="tema-num ${bloque}">${prefix}${tema.num}</div>
+        <div class="tema-info">
+          <h3>${tema.titulo}</h3>
+        </div>
+      </div>
+      <div class="apartado-row" style="border-top:1px solid #f0f4f8;justify-content:flex-end;">
+        <div class="apartado-btns">
+          <button class="btn-apt podcast" title="Audio" onclick="abrirRecurso('${aptId}','${bloque}','podcast','${tituloEsc}',['podcast','cuestionario'])">
+            🎙️<span>Audio</span>
+          </button>
+          <button class="btn-apt cuestionario" title="Cuestionario" onclick="abrirRecurso('${aptId}','${bloque}','cuestionario','${tituloEsc}',['podcast','cuestionario'])">
+            ✅<span>Cuestionario</span>
+          </button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  const apartadosHTML = tema.apartados.map((apt, idx) => {
+    const aptNum = `${tema.num}.${idx + 1}`;
+    const aptId  = `${bloque}-${tema.num}-${idx}`;
+    return `
+    <div class="apartado-row">
+      <div class="apartado-info">
+        <span class="apartado-num">${aptNum}</span>
+        <span class="apartado-titulo">${apt}</span>
+      </div>
+      <div class="apartado-btns">
+        <button class="btn-apt infografia" title="Infografía" onclick="abrirRecurso('${aptId}','${bloque}','infografia','${aptNum}. ${apt.replace(/'/g,"\\'")}')">
+          🖼️<span>Infografía</span>
+        </button>
+        <button class="btn-apt resumen" title="Resumen" onclick="abrirRecurso('${aptId}','${bloque}','resumen','${aptNum}. ${apt.replace(/'/g,"\\'")}')">
+          📄<span>Resumen</span>
+        </button>
+        <button class="btn-apt podcast" title="Podcast" onclick="abrirRecurso('${aptId}','${bloque}','podcast','${aptNum}. ${apt.replace(/'/g,"\\'")}')">
+          🎙️<span>Podcast</span>
+        </button>
+        <button class="btn-apt cuestionario" title="Cuestionario" onclick="abrirRecurso('${aptId}','${bloque}','cuestionario','${aptNum}. ${apt.replace(/'/g,"\\'")}')">
+          ✅<span>Cuestionario</span>
+        </button>
+        <button class="btn-apt referencias" title="Referencias" onclick="abrirRecurso('${aptId}','${bloque}','referencias','${aptNum}. ${apt.replace(/'/g,"\\'")}')">
+          📚<span>Referencias</span>
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+
+  return `
+  <div class="tema-card">
+    <div class="tema-head" onclick="toggleAccordion('${idAccordion}')" style="cursor:pointer;">
+      <div class="tema-num ${bloque}">${prefix}${tema.num}</div>
+      <div class="tema-info">
+        <h3>${tema.titulo}</h3>
+        <p>${tema.apartados.length} apartado${tema.apartados.length > 1 ? 's' : ''}</p>
+      </div>
+      <div class="accordion-chevron" id="chev-${idAccordion}">▾</div>
+    </div>
+    <div class="accordion-body" id="${idAccordion}">
+      ${apartadosHTML}
+    </div>
+  </div>`;
+}
+
+document.getElementById('grid-comun').innerHTML = temasComun.map(t => renderTema(t, 'comun')).join('');
+document.getElementById('grid-especifica').innerHTML = temasEspecifica.map(t => renderTema(t, 'especifica')).join('');
+
+// Acordeón
+function toggleAccordion(id) {
+  const body = document.getElementById(id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+// ══════════════════════════════════════
+// NAVEGACIÓN
+// ══════════════════════════════════════
+function irA(paginaId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + paginaId).classList.add('active');
+  document.querySelectorAll('.topbar-nav button').forEach(b => b.classList.remove('active'));
+  const mapaBtn = { pruebas: 0, comun: 1, especifica: 2, simulacro: 3 };
+  const idx = mapaBtn[paginaId];
+  if (idx !== undefined) {
+    document.querySelectorAll('.topbar-nav button')[idx].classList.add('active');
+  }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ══════════════════════════════════════
+// ABRIR RECURSO
+// ══════════════════════════════════════
+function abrirRecurso(aptId, bloqueId, tipo, titulo, tiposDisponibles) {
+  apartadoActual = { aptId, bloqueId, titulo };
+  tipoActual = tipo;
+
+  const bloque = bloqueId === 'comun' ? 'Parte Común' : 'Parte Específica';
+  document.getElementById('recurso-tema-titulo').textContent = titulo;
+  document.getElementById('recurso-tema-subtitulo').textContent = bloque;
+
+  const tipos = tiposDisponibles || ['infografia', 'resumen', 'podcast', 'cuestionario', 'referencias'];
+  document.querySelectorAll('.recurso-tab').forEach(t => {
+    t.style.display = tipos.includes(t.dataset.tipo) ? '' : 'none';
+  });
+
+  cambiarTipo(tipo);
+  irA('recurso');
+}
+
+function volverDesdeRecurso() {
+  irA(apartadoActual && apartadoActual.bloqueId === 'especifica' ? 'especifica' : 'comun');
+}
+
+// ══════════════════════════════════════
+// CAMBIAR TIPO DE RECURSO
+// ══════════════════════════════════════
+const tipoConfig = {
+  infografia:   { label: 'Infografía',   emoji: '🖼️', bg: '#fef3c7', color: '#92400e' },
+  resumen:      { label: 'Resumen',      emoji: '📄', bg: '#dbeafe', color: '#1a5fa8' },
+  podcast:      { label: 'Podcast',      emoji: '🎙️', bg: '#fce7f3', color: '#9d174d' },
+  cuestionario: { label: 'Cuestionario', emoji: '✅', bg: '#e6f7f1', color: '#00875a' },
+  referencias:  { label: 'Referencias',  emoji: '📚', bg: '#f5f3ff', color: '#5b21b6' },
+};
+
+const recursosAudio = {
+  'comun-1-0': 'Audio tema 1.mp3',
+  'comun-2-0': 'Audio tema 2.mp3',
+  'comun-3-0': 'Audio tema 3.mp3',
+};
+
+const mensajePlaceholder = {
+  infografia:   { icon: '🖼️', bg: '#fef3c7', titulo: 'Infografía en preparación',    desc: 'El contenido visual de este apartado estará disponible próximamente. Aquí se mostrará una infografía interactiva con los conceptos clave.' },
+  resumen:      { icon: '📄', bg: '#dbeafe', titulo: 'Resumen en preparación',        desc: 'El resumen estructurado de este apartado estará disponible próximamente. Incluirá los puntos clave, legislación aplicable y tablas comparativas.' },
+  podcast:      { icon: '🎙️', bg: '#fce7f3', titulo: 'Podcast en preparación',       desc: 'El audio explicativo de este apartado estará disponible próximamente. Podrás escucharlo directamente desde la aplicación.' },
+  cuestionario: { icon: '✅', bg: '#e6f7f1', titulo: 'Cuestionario en preparación',  desc: 'El banco de preguntas de este apartado estará disponible próximamente. Incluirá entre 10 y 15 preguntas tipo test con explicaciones.' },
+  referencias:  { icon: '📚', bg: '#f5f3ff', titulo: 'Referencias en preparación',   desc: 'La bibliografía y normativa de referencia de este apartado estará disponible próximamente. Incluirá legislación oficial, manuales y recursos de estudio recomendados.' },
+};
+
+function cambiarTipo(tipo) {
+  tipoActual = tipo;
+  document.querySelectorAll('.recurso-tab').forEach(t => {
+    t.classList.toggle('active', t.dataset.tipo === tipo);
+  });
+  const cfg = tipoConfig[tipo];
+  const badge = document.getElementById('recurso-tipo-badge');
+  badge.textContent = cfg.emoji + ' ' + cfg.label;
+  badge.style.background = cfg.bg;
+  badge.style.color = cfg.color;
+
+  const audioSrc = tipo === 'podcast' && apartadoActual ? recursosAudio[apartadoActual.aptId] : null;
+  if (audioSrc) {
+    document.getElementById('recurso-contenido').innerHTML = `
+      <div class="contenido-audio">
+        <div class="placeholder-icon" style="background:${cfg.bg};">${cfg.emoji}</div>
+        <h3>${apartadoActual.titulo}</h3>
+        <audio controls>
+          <source src="${encodeURI(audioSrc)}" type="audio/mpeg">
+          Tu navegador no soporta el elemento de audio.
+        </audio>
+      </div>`;
+    return;
+  }
+
+  if (tipo === 'cuestionario' && apartadoActual && CUESTIONARIOS[apartadoActual.aptId]) {
+    renderInicioQuiz(apartadoActual.aptId);
+    return;
+  }
+
+  const m = mensajePlaceholder[tipo];
+  document.getElementById('recurso-contenido').innerHTML = `
+    <div class="contenido-placeholder">
+      <div class="placeholder-icon" style="background:${m.bg};">${m.icon}</div>
+      <h3>${m.titulo}</h3>
+      <p>${m.desc}</p>
+      <div class="placeholder-chip">📌 Próximamente — Contenido siendo añadido</div>
+    </div>`;
+}
+
+// ══════════════════════════════════════
+// CUESTIONARIO INTERACTIVO — TEMA 1: LA CONSTITUCIÓN ESPAÑOLA
+// ══════════════════════════════════════
+const preguntasTema1 = [
+  { pregunta: "¿Qué valores superiores propugna el ordenamiento jurídico español según el artículo 1.1 de la Constitución?",
+    opciones: ["Libertad, justicia, igualdad y pluralismo político", "Libertad, igualdad, fraternidad y solidaridad", "Justicia, paz, orden y seguridad", "Democracia, libertad, unidad e igualdad"], correcta: 0,
+    justificacion: "El art. 1.1 CE establece expresamente estos cuatro valores superiores del ordenamiento jurídico." },
+  { pregunta: "Según el artículo 1.2 CE, ¿dónde reside la soberanía nacional?",
+    opciones: ["En las Cortes Generales", "En el Rey", "En el pueblo español, del que emanan los poderes del Estado", "En el Tribunal Constitucional"], correcta: 2,
+    justificacion: "El art. 1.2 CE dispone que la soberanía nacional reside en el pueblo español, del que emanan los poderes del Estado." },
+  { pregunta: "¿Cuál es la forma política del Estado español según la Constitución?",
+    opciones: ["República parlamentaria", "Monarquía parlamentaria", "Monarquía absoluta", "República presidencialista"], correcta: 1,
+    justificacion: "El art. 1.3 CE establece que la forma política del Estado español es la Monarquía parlamentaria." },
+  { pregunta: "Según el artículo 2 de la Constitución, la Nación española es...",
+    opciones: ["Divisible en función de acuerdos autonómicos", "Indisoluble, patria común e indivisible de todos los españoles", "Una confederación de nacionalidades soberanas", "Un concepto exclusivamente histórico sin valor jurídico"], correcta: 1,
+    justificacion: "El art. 2 CE se fundamenta en la indisoluble unidad de la Nación española, reconociendo a la vez el derecho a la autonomía de las nacionalidades y regiones que la integran." },
+  { pregunta: "¿Cuál es la lengua oficial del Estado según el artículo 3 CE?",
+    opciones: ["El castellano", "El catalán", "El gallego", "Todas las lenguas españolas por igual, sin diferenciación"], correcta: 0,
+    justificacion: "El art. 3.1 CE dice: «El castellano es la lengua española oficial del Estado. Todos los españoles tienen el deber de conocerla y el derecho a usarla»." },
+  { pregunta: "Según el artículo 4 CE, la bandera de España está formada por...",
+    opciones: ["Tres franjas horizontales rojo, amarillo y rojo, siendo la amarilla de doble anchura que cada una de las rojas", "Tres franjas verticales rojo, amarillo y rojo", "Una franja roja con un escudo azul central", "Dos franjas, amarilla y roja, de igual anchura"], correcta: 0,
+    justificacion: "El art. 4.1 CE describe la bandera con esa proporción exacta entre las franjas roja, amarilla y roja." },
+  { pregunta: "¿Cuál es, según el artículo 5 CE, la capital del Estado?",
+    opciones: ["Barcelona", "Sevilla", "Madrid", "Toledo"], correcta: 2,
+    justificacion: "El art. 5 CE establece que «la capital del Estado es la villa de Madrid»." },
+  { pregunta: "Según el artículo 6 CE, los partidos políticos...",
+    opciones: ["Expresan el pluralismo político y concurren a la formación y manifestación de la voluntad popular", "Son órganos del Estado con potestad normativa directa", "Sustituyen a las Cortes Generales en su función legislativa", "Solo pueden constituirse con autorización previa del Gobierno"], correcta: 0,
+    justificacion: "El art. 6 CE atribuye a los partidos políticos la expresión del pluralismo político y la concurrencia a la formación y manifestación de la voluntad popular." },
+  { pregunta: "¿Qué misión atribuye el artículo 8 CE a las Fuerzas Armadas?",
+    opciones: ["Garantizar la soberanía e independencia de España, defender su integridad territorial y el ordenamiento constitucional", "Ejercer funciones de gobierno en estados de excepción", "Sustituir al poder judicial en caso de conflicto", "Controlar el orden público en tiempos de paz"], correcta: 0,
+    justificacion: "El art. 8.1 CE define esa misión como propia de las Fuerzas Armadas." },
+  { pregunta: "El principio de irretroactividad de las disposiciones sancionadoras no favorables está recogido en...",
+    opciones: ["El artículo 9.3 CE", "El artículo 14 CE", "El artículo 24 CE", "El artículo 53 CE"], correcta: 0,
+    justificacion: "El art. 9.3 CE enumera los principios de legalidad, jerarquía normativa, publicidad de las normas, irretroactividad de disposiciones sancionadoras no favorables, seguridad jurídica, responsabilidad e interdicción de la arbitrariedad de los poderes públicos." },
+  { pregunta: "El artículo 14 CE consagra...",
+    opciones: ["El derecho a la vida", "La igualdad de los españoles ante la ley, sin discriminación", "La libertad religiosa", "El derecho a la educación"], correcta: 1,
+    justificacion: "El art. 14 CE establece que los españoles son iguales ante la ley, sin que pueda prevalecer discriminación alguna." },
+  { pregunta: "Según el artículo 15 CE, queda abolida...",
+    opciones: ["La cadena perpetua", "La pena de muerte, salvo lo que puedan disponer las leyes penales militares para tiempos de guerra", "Toda pena privativa de libertad superior a 20 años", "La pena de destierro"], correcta: 1,
+    justificacion: "El art. 15 CE reconoce el derecho a la vida y a la integridad física y moral, abolida la pena de muerte con esa salvedad histórica para tiempos de guerra." },
+  { pregunta: "¿Qué establece el artículo 16 CE respecto a la confesionalidad del Estado?",
+    opciones: ["España es un Estado confesional católico", "Ninguna confesión tendrá carácter estatal, si bien los poderes públicos mantendrán relaciones de cooperación con la Iglesia católica y las demás confesiones", "Se prohíbe cualquier manifestación religiosa pública", "El Estado subvenciona únicamente a la Iglesia católica"], correcta: 1,
+    justificacion: "El art. 16.3 CE fija la aconfesionalidad del Estado junto con el mandato de cooperación con las confesiones religiosas." },
+  { pregunta: "¿Cuál es, según el artículo 17 CE, el plazo máximo de la detención preventiva?",
+    opciones: ["24 horas", "48 horas", "72 horas", "5 días"], correcta: 2,
+    justificacion: "El art. 17.2 CE fija un plazo máximo de 72 horas, tras el cual el detenido debe ser puesto en libertad o a disposición judicial." },
+  { pregunta: "El derecho a la intimidad personal y familiar y a la propia imagen se recoge en...",
+    opciones: ["El artículo 18 CE", "El artículo 20 CE", "El artículo 24 CE", "El artículo 27 CE"], correcta: 0,
+    justificacion: "El art. 18 CE garantiza el derecho al honor, a la intimidad personal y familiar y a la propia imagen." },
+  { pregunta: "Según el artículo 27 CE, ¿qué se garantiza a todos?",
+    opciones: ["El derecho a la vivienda", "El derecho a la educación", "El derecho al trabajo", "El derecho a la salud"], correcta: 1,
+    justificacion: "El art. 27.1 CE dice: «Todos tienen el derecho a la educación»." },
+  { pregunta: "El artículo 32 CE establece que...",
+    opciones: ["Solo el hombre puede solicitar el divorcio", "El hombre y la mujer tienen derecho a contraer matrimonio con plena igualdad jurídica", "El matrimonio requiere autorización estatal previa", "La edad mínima para casarse es de 21 años"], correcta: 1,
+    justificacion: "El art. 32.1 CE reconoce ese derecho con plena igualdad jurídica entre el hombre y la mujer." },
+  { pregunta: "¿En qué artículo de la Constitución se reconoce el derecho a la protección de la salud?",
+    opciones: ["Artículo 41", "Artículo 43", "Artículo 45", "Artículo 50"], correcta: 1,
+    justificacion: "El art. 43.1 CE dice: «Se reconoce el derecho a la protección de la salud»." },
+  { pregunta: "Según el artículo 43.2 CE, ¿a quién compete organizar y tutelar la salud pública?",
+    opciones: ["Exclusivamente a las Comunidades Autónomas", "A los poderes públicos, a través de medidas preventivas y de las prestaciones y servicios necesarios", "Exclusivamente a la Unión Europea", "A las entidades privadas de seguros médicos"], correcta: 1,
+    justificacion: "El art. 43.2 CE atribuye esa competencia a los poderes públicos." },
+  { pregunta: "El artículo 43.3 CE dispone que los poderes públicos fomentarán...",
+    opciones: ["Únicamente la investigación farmacéutica", "La educación sanitaria, la educación física y el deporte, además de facilitar la adecuada utilización del ocio", "Exclusivamente la construcción de hospitales públicos", "La privatización de la sanidad"], correcta: 1,
+    justificacion: "El art. 43.3 CE recoge expresamente el fomento de la educación sanitaria, la educación física, el deporte y la adecuada utilización del ocio." },
+];
+
+// ══════════════════════════════════════
+// CUESTIONARIO INTERACTIVO — TEMA 2: EL ESTATUTO DE AUTONOMÍA DE GALICIA
+// ══════════════════════════════════════
+const preguntasTema2 = [
+  { pregunta: "¿Mediante qué norma se aprobó el vigente Estatuto de Autonomía de Galicia?",
+    opciones: ["Ley Orgánica 1/1981, de 6 de abril", "Ley Orgánica 2/2007, de 5 de abril", "Ley Orgánica 4/1981, de 30 de diciembre", "Real Decreto 1245/1981"], correcta: 0 },
+  { pregunta: "Según el artículo 1 del Estatuto, Galicia se define como...",
+    opciones: ["Una provincia con régimen especial", "Nacionalidad histórica constituida en Comunidad Autónoma", "Una región administrativa del Estado", "Un territorio foral"], correcta: 1 },
+  { pregunta: "¿Cuál es la capital de Galicia según el Estatuto de Autonomía?",
+    opciones: ["A Coruña", "Vigo", "Santiago de Compostela", "Lugo"], correcta: 2 },
+  { pregunta: "¿Qué provincias integran el territorio de Galicia según el Estatuto?",
+    opciones: ["A Coruña, Lugo, Ourense y Pontevedra", "A Coruña, Lugo, Ourense y Vigo", "A Coruña, Santiago, Ourense y Pontevedra", "Lugo, Ourense, Pontevedra y Vigo"], correcta: 0 },
+  { pregunta: "¿Cuáles son los idiomas oficiales de Galicia según el Estatuto?",
+    opciones: ["Únicamente el gallego", "El gallego y el castellano, ambos oficiales", "El gallego, el castellano y el portugués", "Únicamente el castellano"], correcta: 1 },
+  { pregunta: "¿Qué día se celebra el Día de Galicia según el Estatuto?",
+    opciones: ["17 de mayo", "25 de julio", "6 de abril", "28 de febrero"], correcta: 1 },
+  { pregunta: "La bandera de Galicia, según su descripción estatutaria, es...",
+    opciones: ["Blanca, con una banda diagonal de color azul", "Roja, con una cruz blanca", "Azul, con una franja amarilla", "Blanca, con el escudo dorado en el centro"], correcta: 0 },
+  { pregunta: "¿Forma parte el escudo de Galicia de la descripción oficial de la bandera recogida en el Estatuto?",
+    opciones: ["Sí, debe figurar siempre en el centro", "No, la descripción estatutaria de la bandera no incluye el escudo", "Sí, pero solo en actos institucionales", "No, porque la bandera de Galicia carece de regulación estatutaria"], correcta: 1 },
+  { pregunta: "¿Quién es el autor de la letra del himno gallego?",
+    opciones: ["Rosalía de Castro", "Eduardo Pondal", "Ramón Cabanillas", "Alfonso Daniel Castelao"], correcta: 1 },
+  { pregunta: "¿Quién compuso la música del himno gallego?",
+    opciones: ["Pascual Veiga", "Isaac Albéniz", "Manuel de Falla", "Andrés Gaos"], correcta: 0 },
+  { pregunta: "El Parlamento de Galicia es elegido por sufragio...",
+    opciones: ["Universal, libre, igual, directo y secreto", "Censitario", "Indirecto, a través de las diputaciones provinciales", "Restringido a residentes con más de 10 años de antigüedad"], correcta: 0 },
+  { pregunta: "¿Cuál es la duración del mandato de los diputados del Parlamento de Galicia?",
+    opciones: ["5 años", "4 años", "3 años", "6 años"], correcta: 1 },
+  { pregunta: "El Presidente de la Xunta de Galicia es...",
+    opciones: ["Elegido directamente por los ciudadanos en las urnas", "Elegido por el Parlamento de Galicia de entre sus miembros y nombrado por el Rey", "Designado por el Gobierno central", "Elegido por sorteo entre los conselleiros"], correcta: 1 },
+  { pregunta: "La Xunta de Galicia es...",
+    opciones: ["El órgano colegiado de gobierno de Galicia, integrado por el presidente y los conselleiros", "El nombre oficial del Parlamento gallego", "Un órgano exclusivamente consultivo sin funciones ejecutivas", "El órgano jurisdiccional superior de Galicia"], correcta: 0 },
+  { pregunta: "¿Cuál es el órgano jurisdiccional en que culmina la organización judicial en el territorio de Galicia?",
+    opciones: ["El Tribunal Constitucional", "El Tribunal Superior de Justicia de Galicia", "La Audiencia Nacional", "El Tribunal Supremo"], correcta: 1 },
+  { pregunta: "¿Cómo se aprueba una reforma del Estatuto de Autonomía de Galicia?",
+    opciones: ["Por mayoría absoluta del Parlamento gallego, sin más trámites", "Por el Parlamento de Galicia y las Cortes Generales mediante Ley Orgánica, con ratificación en referéndum del pueblo gallego", "Únicamente por las Cortes Generales, sin intervención del Parlamento gallego", "Por decreto del Presidente de la Xunta"], correcta: 1 },
+  { pregunta: "¿Cuál de las siguientes es una competencia exclusiva de la Comunidad Autónoma de Galicia según el Estatuto?",
+    opciones: ["La organización de sus instituciones de autogobierno", "La política exterior del Estado", "La Defensa Nacional", "La emisión de moneda"], correcta: 0 },
+  { pregunta: "En materia de sanidad e higiene, el Estatuto atribuye a Galicia...",
+    opciones: ["Competencia exclusiva excluyente de toda intervención estatal", "Competencias de desarrollo legislativo y ejecución en el marco de la legislación básica del Estado", "Ninguna competencia", "Competencia compartida exclusivamente con la Unión Europea"], correcta: 1 },
+  { pregunta: "¿Qué relación establece el Estatuto entre esta norma y la Constitución Española?",
+    opciones: ["El Estatuto es de rango superior a la Constitución", "El Estatuto es la norma institucional básica de Galicia, de acuerdo con la Constitución", "El Estatuto es independiente de la Constitución", "El Estatuto solo es válido si se ratifica cada 4 años"], correcta: 1 },
+  { pregunta: "¿Qué tipo de mayoría suele exigirse en el Parlamento de Galicia para aprobar las leyes de desarrollo básico del Estatuto?",
+    opciones: ["Mayoría simple", "Mayoría absoluta", "Mayoría de dos tercios", "Unanimidad"], correcta: 1 },
+];
+
+// ══════════════════════════════════════
+// CUESTIONARIO INTERACTIVO — TEMA 3: LA LEY GENERAL DE SANIDAD
+// ══════════════════════════════════════
+const preguntasTema3 = [
+  { pregunta: "¿Qué número y fecha tiene la Ley General de Sanidad?",
+    opciones: ["Ley 14/1986, de 25 de abril", "Ley 16/2003, de 28 de mayo", "Ley 41/2002, de 14 de noviembre", "Ley 33/2011, de 4 de octubre"], correcta: 0,
+    justificacion: "La Ley General de Sanidad es la Ley 14/1986, de 25 de abril; las otras normas citadas regulan cohesión y calidad del SNS, autonomía del paciente y salud pública, respectivamente." },
+  { pregunta: "¿Qué derecho constitucional desarrolla fundamentalmente la Ley General de Sanidad?",
+    opciones: ["El derecho a la protección de la salud del artículo 43 CE", "El derecho a la educación del artículo 27 CE", "El derecho a la intimidad del artículo 18 CE", "El derecho de reunión del artículo 21 CE"], correcta: 0,
+    justificacion: "El art. 1.1 LGS regula todas las acciones que permiten hacer efectivo el derecho a la protección de la salud reconocido en el art. 43 CE." },
+  { pregunta: "Según el artículo 1.2 de la Ley General de Sanidad, ¿quiénes son titulares del derecho a la protección de la salud y a la atención sanitaria?",
+    opciones: ["Únicamente los ciudadanos españoles", "Todos los españoles y los ciudadanos extranjeros con residencia establecida en territorio nacional", "Únicamente los trabajadores en alta en la Seguridad Social", "Únicamente los residentes en la Unión Europea"], correcta: 1,
+    justificacion: "El art. 1.2 LGS extiende la titularidad a españoles y extranjeros residentes en España." },
+  { pregunta: "¿Cuál de los siguientes es un principio general recogido en el artículo 3 de la Ley General de Sanidad?",
+    opciones: ["Los medios y actuaciones del sistema sanitario estarán orientados prioritariamente a la promoción de la salud y a la prevención de las enfermedades", "La asistencia sanitaria será exclusivamente curativa", "El sistema sanitario se financiará únicamente con cuotas privadas", "Solo tendrán acceso a la sanidad quienes coticen a la Seguridad Social"], correcta: 0,
+    justificacion: "El art. 3.1 LGS fija esa orientación prioritaria hacia la promoción y la prevención." },
+  { pregunta: "Según la Ley General de Sanidad, la asistencia sanitaria pública se extenderá...",
+    opciones: ["Únicamente a los trabajadores por cuenta ajena", "A toda la población española", "Únicamente a los mayores de 65 años", "Únicamente a quienes residan en zonas rurales"], correcta: 1,
+    justificacion: "El art. 3.2 LGS establece la extensión de la asistencia sanitaria pública a toda la población española." },
+  { pregunta: "¿Qué son las Áreas de Salud según la Ley General de Sanidad?",
+    opciones: ["Las estructuras fundamentales del sistema sanitario, responsables de la gestión unitaria de los centros y establecimientos del Servicio de Salud en su demarcación", "Los órganos de dirección del Ministerio de Sanidad", "Las delegaciones territoriales de la Seguridad Social", "Las unidades de gestión hospitalaria privada"], correcta: 0,
+    justificacion: "El art. 56 LGS define las Áreas de Salud como las estructuras fundamentales del sistema sanitario." },
+  { pregunta: "¿Qué población debe atender, con carácter general, cada Área de Salud según la Ley General de Sanidad?",
+    opciones: ["Entre 50.000 y 100.000 habitantes", "Entre 200.000 y 250.000 habitantes", "Entre 500.000 y 1.000.000 de habitantes", "No existe ningún límite orientativo de población"], correcta: 1,
+    justificacion: "El art. 56.4 LGS establece esa horquilla como referencia general, adaptable a las características geográficas del territorio." },
+  { pregunta: "¿Qué constituye el marco territorial de la atención primaria de salud según la Ley General de Sanidad?",
+    opciones: ["El Área de Salud en su conjunto", "La Zona Básica de Salud", "El municipio", "La Comunidad Autónoma"], correcta: 1,
+    justificacion: "El art. 63 LGS define la Zona Básica de Salud como el marco territorial de la Atención Primaria." },
+  { pregunta: "El Centro de Salud, según el artículo 63 de la Ley General de Sanidad, es...",
+    opciones: ["La estructura física y funcional que posibilita el desarrollo de la Atención Primaria de Salud", "El hospital de referencia de un Área de Salud", "Un órgano exclusivamente administrativo sin atención directa a pacientes", "La sede del Servicio de Salud de la Comunidad Autónoma"], correcta: 0,
+    justificacion: "El art. 63 LGS atribuye esa función al Centro de Salud." },
+  { pregunta: "¿Qué órgano constituye el instrumento permanente de coordinación entre el Estado y las Comunidades Autónomas en materia sanitaria?",
+    opciones: ["El Consejo Interterritorial del Sistema Nacional de Salud", "El Congreso de los Diputados", "El Tribunal Constitucional", "La Alta Inspección de Sanidad"], correcta: 0,
+    justificacion: "El art. 47 LGS crea el Consejo Interterritorial del Sistema Nacional de Salud como órgano permanente de coordinación." },
+  { pregunta: "Según la Ley General de Sanidad, la Alta Inspección en materia sanitaria corresponde a...",
+    opciones: ["Las Comunidades Autónomas", "La Administración del Estado", "Los Ayuntamientos", "La Unión Europea"], correcta: 1,
+    justificacion: "La LGS atribuye la Alta Inspección al Estado, como garantía del cumplimiento de las competencias propias y de las de las Comunidades Autónomas." },
+  { pregunta: "¿Cuál de las siguientes NO es una característica fundamental del Sistema Nacional de Salud según el artículo 46 LGS?",
+    opciones: ["La extensión de sus servicios a toda la población", "La financiación exclusivamente mediante cuotas de los usuarios", "Las prestaciones sanitarias iguales en todo el territorio del Estado", "La organización adecuada para prestar una atención integral a la salud"], correcta: 1,
+    justificacion: "El art. 46 LGS establece la financiación pública mediante presupuestos del Estado y de las CCAA, no una financiación exclusiva por cuotas de los usuarios." },
+  { pregunta: "Según el artículo 10 de la Ley General de Sanidad, ¿qué derecho tiene todo paciente respecto a las intervenciones sanitarias?",
+    opciones: ["A que se le practique cualquier intervención sin necesidad de informarle", "A que se le dé, en términos comprensibles, información completa y continuada sobre su proceso", "A elegir libremente el hospital, sin ninguna limitación organizativa", "A negarse siempre a cualquier tratamiento sin excepción"], correcta: 1,
+    justificacion: "El art. 10.5 LGS reconoce el derecho a ser informado, de forma completa y continuada, verbal y escrita, sobre su proceso." },
+  { pregunta: "¿Qué derecho reconoce el artículo 10 LGS en relación con la elección y el consentimiento del paciente?",
+    opciones: ["El consentimiento previo y por escrito es exigible para cualquier intervención, sin excepciones", "La libre elección entre las opciones que le presente el médico responsable, siendo preciso el previo consentimiento del usuario para cualquier intervención", "El consentimiento solo se exige a menores de edad", "El paciente nunca puede negarse a un tratamiento"], correcta: 1,
+    justificacion: "Los apartados 6 y 9 del art. 10 LGS regulan la libre elección de opciones y la exigencia de consentimiento previo, con las excepciones legalmente previstas." },
+  { pregunta: "¿En qué supuestos permite la Ley General de Sanidad prescindir del consentimiento previo del paciente?",
+    opciones: ["Nunca, es un derecho absoluto sin excepciones", "Cuando existe urgencia, riesgo para la salud pública o incapacidad para tomar decisiones", "Únicamente si el paciente es menor de edad", "Cuando lo decida unilateralmente el personal administrativo del centro"], correcta: 1,
+    justificacion: "El art. 10.6 LGS contempla esas excepciones al consentimiento previo." },
+  { pregunta: "Según el artículo 10 LGS, toda la información relacionada con el proceso del paciente, incluidos diagnóstico, pronóstico y alternativas de tratamiento, tiene carácter...",
+    opciones: ["Público, accesible a cualquier persona", "Confidencial", "Irrelevante para el paciente", "Solo accesible a la Administración sanitaria"], correcta: 1,
+    justificacion: "El art. 10.3 LGS reconoce el derecho a la confidencialidad de toda la información relacionada con el proceso del paciente." },
+  { pregunta: "¿Cuál de los siguientes es un deber de los ciudadanos recogido en el artículo 11 de la Ley General de Sanidad?",
+    opciones: ["Cumplir las prescripciones generales de naturaleza sanitaria comunes a toda la población", "Pagar directamente todas las prestaciones sanitarias recibidas", "Renunciar a cualquier derecho de reclamación", "Elegir obligatoriamente médico privado"], correcta: 0,
+    justificacion: "El art. 11.1 LGS impone ese deber a los ciudadanos." },
+  { pregunta: "Según el artículo 11 LGS, si un paciente se niega a aceptar el tratamiento prescrito, está obligado a...",
+    opciones: ["Abandonar inmediatamente el centro sin ningún trámite", "Firmar el documento de alta voluntaria", "Pagar una sanción económica", "Notificarlo únicamente de forma verbal, sin dejar constancia escrita"], correcta: 1,
+    justificacion: "El art. 11.3 LGS exige la firma del alta voluntaria; si el paciente se niega, la Dirección del centro, a propuesta del facultativo, puede disponer el alta." },
+  { pregunta: "¿Qué deber impone el artículo 11 LGS en relación con las instalaciones sanitarias?",
+    opciones: ["Cuidar las instalaciones del centro sanitario y colaborar en su mantenimiento", "Sufragar personalmente el coste de las reparaciones", "Realizar las tareas de limpieza del centro", "No existe ningún deber al respecto"], correcta: 0,
+    justificacion: "El art. 11.2 LGS impone ese deber de cuidado y colaboración." },
+  { pregunta: "¿Cómo distribuye la Ley General de Sanidad las competencias sanitarias entre el Estado y las Comunidades Autónomas?",
+    opciones: ["Corresponden en exclusiva al Estado, sin ninguna competencia autonómica", "El Estado fija las bases y la coordinación general, mientras las Comunidades Autónomas asumen la gestión y organización de los servicios sanitarios en su territorio", "Corresponden en exclusiva a los Ayuntamientos", "La distribución de competencias no está regulada por la Ley General de Sanidad"], correcta: 1,
+    justificacion: "Los arts. 40 y 41 LGS distribuyen las competencias entre el Estado (bases y coordinación general) y las Comunidades Autónomas (gestión de sus servicios de salud)." },
+];
+
+const CUESTIONARIOS = {
+  'comun-1-0': { titulo: 'La Constitución española', preguntas: preguntasTema1 },
+  'comun-2-0': { titulo: 'El Estatuto de autonomía de Galicia', preguntas: preguntasTema2 },
+  'comun-3-0': { titulo: 'La Ley general de sanidad', preguntas: preguntasTema3 },
+};
+
+function barajarArray(array) {
+  const copia = array.slice();
+  for (let i = copia.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copia[i], copia[j]] = [copia[j], copia[i]];
+  }
+  return copia;
+}
+
+let quizEstado = null;
+
+function prepararPreguntasQuiz(bancoPreguntas) {
+  return barajarArray(bancoPreguntas).map(p => {
+    const opciones = p.opciones.map((texto, i) => ({ texto, esCorrecta: i === p.correcta }));
+    return { pregunta: p.pregunta, justificacion: p.justificacion, opciones: barajarArray(opciones) };
+  });
+}
+
+function renderInicioQuiz(aptId) {
+  const banco = CUESTIONARIOS[aptId];
+  document.getElementById('recurso-contenido').innerHTML = `
+    <div class="quiz-box" style="text-align:center;">
+      <div class="placeholder-icon" style="background:var(--verde-claro);margin:0 auto 1rem;">✅</div>
+      <h3 style="font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:700;color:var(--azul);margin-bottom:.5rem;">Cuestionario — ${banco.titulo}</h3>
+      <p style="color:var(--gris);font-size:.88rem;max-width:440px;margin:0 auto 1.5rem;line-height:1.6;">${banco.preguntas.length} preguntas tipo test con 4 opciones de respuesta, nivel de dificultad alto y mismo formato que el examen oficial. El orden de las preguntas y de las respuestas cambia en cada intento. Recibirás feedback justificado justo después de responder y una puntuación final. Puedes repetirlo tantas veces como quieras.</p>
+      <button class="quiz-btn" onclick="iniciarQuiz('${aptId}')">🚀 Empezar cuestionario</button>
+    </div>`;
+}
+
+function iniciarQuiz(aptId) {
+  const banco = CUESTIONARIOS[aptId];
+  quizEstado = {
+    aptId,
+    titulo: banco.titulo,
+    preguntas: prepararPreguntasQuiz(banco.preguntas),
+    indice: 0,
+    respuestas: [],
+  };
+  renderPreguntaQuiz();
+}
+
+function renderPreguntaQuiz() {
+  const { preguntas, indice, titulo } = quizEstado;
+  const total = preguntas.length;
+  const p = preguntas[indice];
+  const letras = ['A', 'B', 'C', 'D'];
+
+  const opcionesHTML = p.opciones.map((op, i) => `
+    <button class="quiz-opcion" onclick="responderQuiz(${i})">
+      <span class="letra">${letras[i]}</span>
+      <span>${op.texto}</span>
+    </button>`).join('');
+
+  document.getElementById('recurso-contenido').innerHTML = `
+    <div class="quiz-box">
+      <div class="quiz-top">
+        <span class="quiz-progreso-texto">Pregunta ${indice + 1}/${total}</span>
+        <div class="quiz-progreso-bar"><div class="quiz-progreso-fill" style="width:${(indice / total) * 100}%"></div></div>
+      </div>
+      <div class="quiz-pregunta-num">${titulo}</div>
+      <div class="quiz-pregunta-texto">${p.pregunta}</div>
+      <div class="quiz-opciones" id="quiz-opciones">${opcionesHTML}</div>
+      <div class="quiz-acciones">
+        <button class="quiz-btn secundario" onclick="pasarPreguntaQuiz()">Pasar sin responder</button>
+      </div>
+    </div>`;
+}
+
+function responderQuiz(i) {
+  const { preguntas, indice } = quizEstado;
+  const p = preguntas[indice];
+  const seleccionada = p.opciones[i];
+  quizEstado.respuestas[indice] = { seleccion: i, correcta: seleccionada.esCorrecta };
+
+  document.querySelectorAll('#quiz-opciones .quiz-opcion').forEach((btn, idx) => {
+    btn.disabled = true;
+    if (p.opciones[idx].esCorrecta) btn.classList.add('correcta');
+    else if (idx === i) btn.classList.add('incorrecta');
+  });
+
+  const letras = ['A', 'B', 'C', 'D'];
+  const indiceCorrecta = p.opciones.findIndex(o => o.esCorrecta);
+  const feedback = document.createElement('div');
+  feedback.className = 'quiz-feedback ' + (seleccionada.esCorrecta ? 'ok' : 'ko');
+  const encabezado = seleccionada.esCorrecta
+    ? '✅ ¡Correcto!'
+    : `❌ Incorrecto. La respuesta correcta es la ${letras[indiceCorrecta]}.`;
+  feedback.innerHTML = p.justificacion
+    ? `${encabezado}<br><span style="font-weight:500;">${p.justificacion}</span>`
+    : encabezado;
+  document.getElementById('quiz-opciones').insertAdjacentElement('afterend', feedback);
+
+  const acciones = document.querySelector('.quiz-acciones');
+  acciones.innerHTML = `<button class="quiz-btn" onclick="siguientePreguntaQuiz()">${indice + 1 < preguntas.length ? 'Siguiente pregunta →' : 'Ver resultado →'}</button>`;
+}
+
+function pasarPreguntaQuiz() {
+  quizEstado.respuestas[quizEstado.indice] = { seleccion: null, correcta: null };
+  siguientePreguntaQuiz();
+}
+
+function siguientePreguntaQuiz() {
+  if (quizEstado.indice + 1 < quizEstado.preguntas.length) {
+    quizEstado.indice++;
+    renderPreguntaQuiz();
+  } else {
+    renderResultadoQuiz();
+  }
+}
+
+function renderResultadoQuiz() {
+  const { respuestas } = quizEstado;
+  const total = respuestas.length;
+  const aciertos = respuestas.filter(r => r.correcta === true).length;
+  const errores = respuestas.filter(r => r.correcta === false).length;
+  const blancas = respuestas.filter(r => r.seleccion === null).length;
+  const puntuacionBruta = aciertos - errores / 3;
+  const puntuacionSobre10 = Math.max(0, (puntuacionBruta / total) * 10);
+
+  document.getElementById('recurso-contenido').innerHTML = `
+    <div class="quiz-box quiz-resultado">
+      <div class="placeholder-icon" style="background:var(--celeste);margin:0 auto 1rem;">🏁</div>
+      <h3 style="font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:700;color:var(--azul);">Resultado del cuestionario</h3>
+      <div class="puntuacion">${puntuacionSobre10.toFixed(2)} / 10</div>
+      <p style="color:var(--gris);font-size:.82rem;">Puntuación bruta: ${puntuacionBruta.toFixed(2)} sobre ${total} (acierto +1, error −1/3, en blanco 0)</p>
+      <div class="detalle">
+        <div><div class="num" style="color:var(--verde);">${aciertos}</div><div class="lbl">Aciertos</div></div>
+        <div><div class="num" style="color:var(--rojo);">${errores}</div><div class="lbl">Errores</div></div>
+        <div><div class="num" style="color:var(--gris);">${blancas}</div><div class="lbl">En blanco</div></div>
+      </div>
+      <button class="quiz-btn" onclick="iniciarQuiz('${quizEstado.aptId}')">🔁 Repetir cuestionario</button>
+    </div>`;
+}
+</script>
+</body>
+</html>
