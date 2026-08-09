@@ -622,7 +622,7 @@
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-teal-400 mb-4 tracking-tight">Blog</h1>
                     <p class="text-lg sm:text-xl text-slate-300 max-w-2xl font-light mx-auto">
-                        Artículos sobre ejercicio físico, preparación física, deporte, tecnología e inteligencia artificial.
+                        Ejercicio físico, preparación física, deporte, tecnología e inteligencia artificial.
                     </p>
                 </div>
             </div>
@@ -646,6 +646,25 @@
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Fuerza en mujeres futbolistas -->
+                    <article data-categoria="futbol" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Futbol mujer.png" alt="Entrenamiento de la Fuerza en Mujeres Futbolistas: Evidencia Científica y Recomendaciones Prácticas" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Fútbol</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Entrenamiento de la fuerza en mujeres futbolistas: evidencia científica y recomendaciones prácticas</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Fuerza máxima, potencia, pliometría y sprint; prevención de lesiones de LCA e isquiotibiales; y recomendaciones de programación según la edad y la maduración biológica de las jugadoras.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="descargarPDF('modal-fuerza-futbol-femenino','Fuerza-Mujeres-Futbolistas')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalFuerzaFutbolFemenino()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Preparación física en el fútbol profesional -->
                     <article data-categoria="futbol" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -726,7 +745,7 @@
                     <!-- Entrada: Adaptaciones Cardiovasculares -->
                     <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="unnamed (5).png" alt="¿Qué hace crecer el corazón de un atleta? La duración vs. la intensidad" class="w-full h-full object-cover object-top">
+                            <img src="Adaptación cardiovascular.png" alt="¿Qué hace crecer el corazón de un atleta? La duración vs. la intensidad" class="w-full h-full object-cover object-top">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
                             <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de resistencia aeróbica</span>
@@ -745,7 +764,7 @@
                     <!-- Entrada: Sprinters de élite -->
                     <article data-categoria="entrenamiento-fuerza" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="unnamed (8).png" alt="Cómo aplican la fuerza los sprinters de élite" class="w-full h-full object-cover object-center">
+                            <img src="Sprint.png" alt="Cómo aplican la fuerza los sprinters de élite" class="w-full h-full object-cover object-center">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
                             <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de fuerza</span>
@@ -765,7 +784,7 @@
                     <!-- Entrada: Dosis mínima de entrenamiento -->
                     <article data-categoria="rendimiento-fisico" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="unnamed (6).png" alt="Infografía: La dosis mínima de entrenamiento para mantener el rendimiento físico" class="w-full h-full object-cover object-center">
+                            <img src="Dosis optima.png" alt="Infografía: La dosis mínima de entrenamiento para mantener el rendimiento físico" class="w-full h-full object-cover object-center">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
                             <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rendimiento físico</span>
@@ -784,7 +803,7 @@
                     <!-- Entrada: Test VAM 5 minutos -->
                     <article data-categoria="evaluacion-rendimiento" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="unnamed (7).png" alt="Infografía: El test de los 5 minutos para medir la VAM" class="w-full h-full object-cover object-top">
+                            <img src="VAM.png" alt="Infografía: El test de los 5 minutos para medir la VAM" class="w-full h-full object-cover object-top">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
                             <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Evaluación del rendimiento físico</span>
@@ -803,7 +822,7 @@
                     <!-- Entrada: Entrenamiento de sprint -->
                     <article data-categoria="entrenamiento-sprint" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
-                            <img src="unnamed (16).png" alt="Entrenamiento de sprint: El Camino hacia la Velocidad Máxima" class="w-full h-full object-cover object-top">
+                            <img src="Sprinters como entrenan.png" alt="Entrenamiento de sprint: El Camino hacia la Velocidad Máxima" class="w-full h-full object-cover object-top">
                         </div>
                         <div class="p-6 flex flex-col flex-grow">
                             <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de sprint</span>
@@ -2037,6 +2056,126 @@
         </div>
     </div>
 
+    <!-- ===== MODAL: Fuerza en mujeres futbolistas ===== -->
+    <div id="modal-fuerza-futbol-femenino" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalFuerzaFutbolFemenino()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Fútbol · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Entrenamiento de la fuerza en mujeres futbolistas: evidencia científica y recomendaciones prácticas</h2>
+                </div>
+                <button onclick="cerrarModalFuerzaFutbolFemenino()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <h3 class="text-base font-bold text-white pt-2">Introducción</h3>
+                <p>El fútbol femenino ha experimentado un crecimiento explosivo en participación y profesionalización en las últimas décadas. Sin embargo, la investigación científica sobre el entrenamiento en mujeres futbolistas ha ido por detrás de la realizada en varones, existiendo todavía importantes lagunas de conocimiento [1,4]. Las jugadoras de fútbol se enfrentan a demandas fisiológicas que combinan esfuerzos aeróbicos con acciones explosivas (saltos, sprints, cambios de dirección, golpeos), lo que hace del entrenamiento de fuerza un componente esencial tanto para optimizar el rendimiento como para reducir el riesgo de lesiones [4,5].</p>
+                <p>La revisión narrativa de Milanović et al. [4] señala que las jugadoras de fútbol de élite cubren entre 9000 y 11 000 metros por partido, con alrededor de 125 acciones de alta intensidad y 26 sprints por encuentro. La capacidad de realizar estas acciones explosivas de forma repetida depende en gran medida de los niveles de fuerza y potencia muscular.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Efectos del entrenamiento de fuerza sobre el rendimiento</h3>
+                <h4 class="text-sm font-bold text-white pt-1">Fuerza máxima y potencia</h4>
+                <p>El estudio de Pacholek y Zemková [2] comparó dos modelos de entrenamiento de fuerza de 9 semanas en jugadoras de élite eslovacas. El modelo combinado (que alternaba el método de fuerza máxima al 80% de 1RM con el método dinámico al 30% de 1RM) mejoró significativamente la fuerza máxima en sentadilla (9,6 kg de aumento en 1RM, p &lt; 0,001) y press de banca (4 kg, p &lt; 0,001). Por su parte, el modelo complejo (basado en cambios intermitentes de la intensidad y tipo de contracción simulando las acciones del juego) mejoró la potencia (10 W/kg, p = 0,006) y la altura del salto vertical (5,3 cm, p = 0,001). Estos hallazgos demuestran que ambos modelos son efectivos pero para objetivos diferentes: el modelo complejo favorece la explosividad mientras que el combinado desarrolla mejor la fuerza máxima [2].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Velocidad y sprints</h4>
+                <p>El meta-análisis de Hughes et al. [5] sobre los efectos de diferentes modalidades de entrenamiento de fuerza en el rendimiento de sprint en mujeres deportistas de equipo (12 de los 15 estudios incluidos fueron con futbolistas) reveló que el entrenamiento de fuerza produce mejoras pequeñas en la aceleración (0–10 m) y moderadas en distancias más largas (0–20 m y 0–40 m). Especialmente relevantes fueron los hallazgos sobre las modalidades: el entrenamiento de fuerza reactiva (pliometría) y el entrenamiento combinado (fuerza máxima + explosiva + reactiva) mostraron efectos mayores que el entrenamiento de fuerza máxima sola o la fuerza especial (sprints resistidos). Los programas de más de 8 semanas de duración y con más de 12 sesiones totales produjeron mejores resultados [5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Salto y potencia de miembros inferiores</h4>
+                <p>Los ejercicios pliométricos han demostrado ser particularmente efectivos en jugadoras jóvenes. Claudiu [6] aplicó un programa de ejercicios pliométricos en jugadoras de 10–12 años y encontró mejoras significativas en salto vertical (3,33 cm, p &lt; 0,05), salto de longitud (5,3 cm, p &lt; 0,001) y salto triple (15,5 cm, p &lt; 0,001). Milanović et al. [4] también reportan que el entrenamiento pliométrico de bajo impacto y baja frecuencia (1 día por semana) puede aumentar la distancia de golpeo (11,5% en 7 semanas) en jugadoras adolescentes.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Entrenamiento de fuerza y prevención de lesiones</h3>
+                <h4 class="text-sm font-bold text-white pt-1">Incidencia de lesiones en el fútbol femenino</h4>
+                <p>Las futbolistas presentan un perfil de lesiones diferenciado respecto a los varones. La revisión de Milanović et al. [4] indica que entre el 57 y el 88% de las lesiones en fútbol femenino afectan a las extremidades inferiores, siendo los esguinces de tobillo (16–36%) y las lesiones de rodilla (11,7–14%) las más frecuentes. Las jugadoras tienen entre 2 y 8 veces más riesgo de sufrir una lesión del ligamento cruzado anterior (LCA) que los varones, debido a factores anatómicos y biomecánicos [1,4].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Efectividad de los programas de prevención</h4>
+                <p>La revisión sistemática de Molina y Pons [1] concluye que el entrenamiento de fuerza neuromuscular muestra beneficios claros en la reducción de lesiones ligamentarias, especialmente del LCA. El entrenamiento pliométrico parece esencial en cualquier programa de prevención de LCA al disminuir la fuerza máxima de reacción en el suelo y mejorar los patrones de aterrizaje [1]. El entrenamiento excéntrico, por su parte, es el más recomendado para prevenir lesiones musculares de la cadena posterior (isquiotibiales) [1].</p>
+                <p>El meta-análisis de Crossley et al. [7], que incluyó 12 estudios con 11 773 jugadoras, demostró que los programas de ejercicio multicomponente (que incluyen al menos dos componentes como fuerza, pliometría, equilibrio y agilidad) reducen significativamente:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Lesiones totales:</strong> 27% (IRR 0,73, IC 95%: 0,59–0,91).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Lesiones de LCA:</strong> 45% (IRR 0,55, IC 95%: 0,32–0,92).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Lesiones de isquiotibiales:</strong> 60% (IRR 0,40, IC 95%: 0,17–0,95) en programas basados en ejercicio (tanto monocomponente como multicomponente).</span></li>
+                </ul>
+                <p>Las reducciones en lesiones de rodilla (17%), tobillo (22%) y cadera/ingle (29%) no alcanzaron significación estadística pero fueron clínicamente relevantes [7].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Programas estandarizados vs. individualizados</h4>
+                <p>Es importante destacar que los programas estandarizados como el FIFA 11+ no siempre muestran beneficios significativos en prevención de lesiones ni en mejora del rendimiento cuando se aplican sin considerar la individualización [1,8]. Steffen et al. [8] encontraron que el programa "11" (predecesor del FIFA 11+), aplicado durante 10 semanas en adolescentes (15 min, 3 veces/semana), no produjo mejoras significativas en fuerza isocinética, salto, sprint ni habilidades futbolísticas comparado con el calentamiento habitual. Los autores atribuyeron esta falta de efecto al bajo volumen e intensidad del programa, insuficientes para generar adaptaciones en el rendimiento [8]. Esto subraya la necesidad de que los programas de prevención incluyan una progresión adecuada de la intensidad y el volumen.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Consideraciones según la edad y la maduración</h3>
+                <p>Wright y Laas [3] ofrecen recomendaciones clave basadas en la maduración biológica de las jugadoras jóvenes:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Antes del pico de velocidad de crecimiento (PHV):</strong> el enfoque debe centrarse en mejorar la fuerza neuromuscular, los patrones de movimiento fundamentales y la velocidad mediante ejercicios lúdicos que impliquen saltos, aterrizajes y carreras. Los ejercicios pliométricos y los levantamientos de tipo olímpico son adecuados siempre que el énfasis esté en la ejecución técnica y no en la carga externa [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Durante el PHV (circumpuberal):</strong> las jugadoras experimentan un "déficit neuromuscular" que aumenta el riesgo de lesión de rodilla. Se recomiendan ejercicios de fuerza con carga reducida (por debajo del peso corporal) y variantes isométricas para proporcionar estímulo de entrenamiento seguro mientras se mantiene la movilidad [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Después del PHV (postpuberal):</strong> es el momento óptimo para un entrenamiento progresivo de fuerza neuromuscular e hipertrofia, incluyendo sentadillas sobrecargadas (overhead, frontales, unipodales) y progresiones hacia levantamientos de tipo olímpico, además de un trabajo específico de fortalecimiento de isquiotibiales [3].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Modalidades específicas de entrenamiento de fuerza</h3>
+                <h4 class="text-sm font-bold text-white pt-1">Fuerza reactiva (pliometría)</h4>
+                <p>La fuerza reactiva —capacidad de soportar una carga de estiramiento y cambiar rápidamente de una contracción excéntrica a concéntrica— es fundamental para el sprint y el salto. Hughes et al. [5] recomiendan combinar saltos unilaterales y bilaterales, en dirección vertical y horizontal, utilizando acciones de ciclo de estiramiento-acortamiento tanto rápidas (&lt;0,250 s) como lentas (≥0,250 s). El volumen puede oscilar entre 90 y 260 contactos por sesión, con 1–2 sesiones semanales.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Fuerza máxima</h4>
+                <p>Aunque el entrenamiento de fuerza máxima por sí solo produce solo mejoras triviales o pequeñas en el sprint en mujeres deportistas de equipo [5], constituye la base sobre la que se construye la potencia. Los estudios analizados sugieren que las mujeres pueden lograr adaptaciones relativas similares a los hombres en fuerza máxima tras un entrenamiento adecuado [5]. Se recomiendan cargas ≥85% de 1RM en ejercicios como sentadilla, peso muerto y zancadas.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Entrenamiento combinado</h4>
+                <p>La combinación de fuerza máxima y fuerza reactiva/explosiva en un mismo programa parece ser la estrategia más efectiva para mejorar el rendimiento de sprint en mujeres [5]. Este enfoque metodológico mixto permite abordar todos los componentes neuromusculares asociados con la carrera de velocidad (pico de fuerza, pico de potencia, rigidez de la extremidad).</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">Fuerza excéntrica</h4>
+                <p>El trabajo excéntrico de isquiotibiales (ejercicio nórdico) es particularmente relevante para la prevención de lesiones musculares y de LCA. Molina y Pons [1] señalan que una asimetría en la relación cuádriceps-isquiotibiales (cociente Q:H &lt; 0,6) aumenta el riesgo de lesiones en extremidades inferiores.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Parámetros de programación</h3>
+                <p>La evidencia revisada permite extraer las siguientes recomendaciones generales:</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700">
+                                <th class="py-2 pr-4 text-teal-400 font-semibold">Parámetro</th>
+                                <th class="py-2 text-teal-400 font-semibold">Recomendación</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-slate-300">
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Frecuencia semanal</td><td class="py-2">2–3 sesiones [1,2,5]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Duración mínima del programa</td><td class="py-2">≥ 8 semanas para mejoras sustanciales [5]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Volumen por sesión</td><td class="py-2">15–90 minutos según objetivos [1,2,8]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Número total de sesiones</td><td class="py-2">&gt; 12 sesiones para sprint [5]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-4">Progresión de carga</td><td class="py-2">Aumento del 4–6% cada 2 semanas [2]</td></tr>
+                            <tr><td class="py-2 pr-4">Fase de ejecución</td><td class="py-2">Como calentamiento estructurado (si el objetivo es prevención) o en sesión específica (si el objetivo es rendimiento) [1,8]</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 class="text-base font-bold text-white pt-2">Conclusiones y recomendaciones prácticas</h3>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El entrenamiento de fuerza es esencial para las mujeres futbolistas tanto para mejorar el rendimiento (salto, sprint, potencia de golpeo) como para prevenir lesiones, especialmente las de LCA e isquiotibiales [1,4,5,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los programas multicomponente que combinan ejercicios de fuerza, pliometría, equilibrio y agilidad son más efectivos para reducir lesiones totales y de LCA que los programas de un solo componente [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La individualización es clave: los programas estandarizados como el FIFA 11+ pueden no ser suficientes para mejorar el rendimiento si no incluyen una progresión adecuada de intensidad y volumen [1,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La edad maduracional importa: antes del PHV el énfasis debe estar en la técnica y el movimiento; durante el PHV, en la fuerza protectora con cargas moderadas; después del PHV, en el desarrollo máximo de fuerza y potencia [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La combinación de métodos (fuerza máxima + fuerza reactiva + entrenamiento pliométrico) parece ser la estrategia óptima para mejorar la velocidad de sprint en futbolistas femeninas [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Se necesita más investigación específica en mujeres futbolistas que considere factores como el ciclo menstrual, el nivel inicial de fuerza y las diferencias interindividuales en la respuesta al entrenamiento [5].</span></li>
+                </ul>
+                <p>En definitiva, el entrenamiento de fuerza en mujeres futbolistas debe abordarse con una perspectiva integral que considere las demandas específicas del deporte, las características biológicas de la mujer deportista y el momento maduracional de cada jugadora, todo ello dentro de un programa progresivo, individualizado y supervisado.</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Molina AP, Pons TC. Strength training in relation to injury prevention in professional and semi-professional women's football: A systematic review. <em>Apunts Sports Medicine.</em> 2021;56(209):100342. <a href="https://doi.org/10.1016/j.apunsm.2020.100342" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.apunsm.2020.100342</a></p>
+                    <p>[2] Pacholek M, Zemková E. Effect of Two Strength Training Models on Muscle Power and Strength in Elite Women's Football Players. <em>Sports.</em> 2020;8(4):42. <a href="https://doi.org/10.3390/sports8040042" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/sports8040042</a></p>
+                    <p>[3] Wright MD, Laas MM. Strength Training and Metabolic Conditioning for Female Youth and Adolescent Soccer Players. <em>Strength &amp; Conditioning Journal.</em> 2016;38(2):96-104. <a href="https://doi.org/10.1519/ssc.0000000000000212" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/ssc.0000000000000212</a></p>
+                    <p>[4] Milanović Z, Sporiš G, James N, et al. Physiological Demands, Morphological Characteristics, Physical Abilities and Injuries of Female Soccer Players. <em>Journal of Human Kinetics.</em> 2017;60(1):77-83. <a href="https://doi.org/10.1515/hukin-2017-0091" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1515/hukin-2017-0091</a></p>
+                    <p>[5] Hughes W, Healy R, Lyons M, et al. The Effect of Different Strength Training Modalities on Sprint Performance in Female Team-Sport Athletes: A Systematic Review and Meta-Analysis. <em>Sports Medicine.</em> 2023;53(5):993-1015. <a href="https://doi.org/10.1007/s40279-023-01820-5" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1007/s40279-023-01820-5</a></p>
+                    <p>[6] Claudiu M. The Role of Plyometric Exercises in the Physical Preparation of Junior Female Football Players. <em>Procedia - Social and Behavioral Sciences.</em> 2015;180:1257-1262. <a href="https://doi.org/10.1016/j.sbspro.2015.02.261" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.sbspro.2015.02.261</a></p>
+                    <p>[7] Crossley KM, Patterson BE, Culvenor AG, Bruder AM, Mosler AB, Mentiplay BF. Making football safer for women: a systematic review and meta-analysis of injury prevention programmes in 11 773 female football (soccer) players. <em>British Journal of Sports Medicine.</em> 2020;54(18):1089-1098. <a href="https://doi.org/10.1136/bjsports-2019-101587" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1136/bjsports-2019-101587</a></p>
+                    <p>[8] Steffen K, Bakka HM, Myklebust G, Bahr R. Performance aspects of an injury prevention program: a ten‐week intervention in adolescent female football players. <em>Scandinavian Journal of Medicine &amp; Science in Sports.</em> 2008;18(5):596-604. <a href="https://doi.org/10.1111/j.1600-0838.2007.00708.x" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1111/j.1600-0838.2007.00708.x</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="cerrarModalFuerzaFutbolFemenino()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- ===== MODAL: Preparación física en el fútbol profesional ===== -->
     <div id="modal-futbol" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalFutbol()"></div>
@@ -2514,6 +2653,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalFuerzaFutbolFemenino() {
+            const modal = document.getElementById('modal-fuerza-futbol-femenino');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalFuerzaFutbolFemenino() {
+            document.getElementById('modal-fuerza-futbol-femenino').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalFutbol() {
             const modal = document.getElementById('modal-futbol');
             modal.classList.remove('hidden');
@@ -2573,6 +2723,7 @@
                 cerrarModalBaloncesto();
                 cerrarModalNoruego();
                 cerrarModalFutbol();
+                cerrarModalFuerzaFutbolFemenino();
                 cerrarModalRCP();
                 cerrarModalRemo();
             }
