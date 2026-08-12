@@ -645,12 +645,73 @@
                     <button onclick="filtrarBlog('diabetes')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Diabetes</button>
                     <button onclick="filtrarBlog('rehabilitacion')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Rehabilitación</button>
                     <button onclick="filtrarBlog('cancer')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Cáncer</button>
+                    <button onclick="filtrarBlog('metabolismo')" class="blog-cat-btn px-4 py-2 rounded-full text-sm font-semibold transition-colors duration-200 bg-slate-800 text-slate-300 hover:bg-slate-700 hover:text-white">Metabolismo</button>
                 </div>
             </div>
 
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Creatina como suplemento en personas mayores -->
+                    <article data-categoria="nutricion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Creatina.png" alt="Creatina como suplemento en personas mayores: estado de la evidencia" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Nutrición</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Creatina como suplemento en personas mayores: estado de la evidencia</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Combinada con entrenamiento de fuerza, la creatina aumenta masa magra, fuerza y capacidad funcional en adultos mayores; sus efectos sobre el hueso, la cognición y las poblaciones frágiles son prometedores pero aún preliminares.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'creatina-mayores','Creatina como suplemento en personas mayores: estado de la evidencia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-creatina-mayores','Creatina-Suplemento-Personas-Mayores')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalCreatinaMayores()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Entrada: Ejercicio, ayuno y nutrición como moduladores metabólicos -->
+                    <article data-categoria="metabolismo" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Moduladores.png" alt="Ejercicio físico, ayuno y nutrición como moduladores fisiológicos de la homeostasis y del metabolismo" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Metabolismo</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Ejercicio físico, ayuno y nutrición como moduladores fisiológicos de la homeostasis y del metabolismo</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Ayuno, ejercicio y nutrición comparten sensores moleculares (AMPK, mTOR) y efectores (PGC-1α, cuerpos cetónicos, mioquinas, adipocinas) que convergen en una misma red reguladora de la homeostasis metabólica.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'moduladores-metabolicos','Ejercicio físico, ayuno y nutrición como moduladores fisiológicos de la homeostasis y del metabolismo')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-moduladores-metabolicos','Ejercicio-Ayuno-Nutricion-Homeostasis-Metabolismo')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalModuladoresMetabolicos()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Entrada: Dolor lumbar crónico por discopatía -->
+                    <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Dolor lumbar.png" alt="Tratamiento conservador y ejercicio físico en el dolor lumbar crónico por discopatía" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Tratamiento conservador y ejercicio físico en el dolor lumbar crónico por discopatía</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">El ejercicio terapéutico y la escuela de espalda son la intervención con mayor evidencia en el dolor lumbar crónico por discopatía, con resultados a medio plazo comparables a la cirugía en muchos pacientes.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'dolor-lumbar','Tratamiento conservador y ejercicio físico en el dolor lumbar crónico por discopatía')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-dolor-lumbar','Dolor-Lumbar-Cronico-Discopatia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalDolorLumbar()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Ejercicio físico y cáncer -->
                     <article data-categoria="cancer" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -664,6 +725,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'cancer-ejercicio','El papel del ejercicio físico en la prevención y el tratamiento del cáncer')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-cancer-ejercicio','Ejercicio-Fisico-Prevencion-Tratamiento-Cancer')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalCancerEjercicio()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -683,6 +745,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'atrofia-rodilla','Recuperación de atrofias musculares como consecuencia de cirugía artroscópica de rodilla')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-atrofia-rodilla','Atrofia-Muscular-Cirugia-Artroscopica-Rodilla')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalAtrofiaRodilla()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -702,6 +765,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'diabetes-ejercicio','Diabetes tipo 2 y ejercicio físico: prevención, control y reversión')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-diabetes-ejercicio','Diabetes-Tipo2-Ejercicio-Fisico')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalDiabetesEjercicio()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -721,6 +785,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'sarcopenia-neural','Envejecimiento neuromuscular: factores dependientes del sistema nervioso que contribuyen a la sarcopenia y al deterioro funcional')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-sarcopenia-neural','Envejecimiento-Neuromuscular-Sarcopenia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalSarcopeniaNeural()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -740,6 +805,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'nutricion-hiit','Nutrición en procesos de entrenamiento de alta intensidad')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-nutricion-hiit','Nutricion-Entrenamiento-Alta-Intensidad')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalNutricionHIIT()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -759,6 +825,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'fuerza-futbol-femenino','Entrenamiento de la fuerza en mujeres futbolistas: evidencia científica y recomendaciones prácticas')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-fuerza-futbol-femenino','Fuerza-Mujeres-Futbolistas')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalFuerzaFutbolFemenino()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -778,6 +845,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'futbol','La preparación física en el fútbol profesional: principios, métodos y estrategias')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-futbol','Preparacion-Fisica-Futbol-Profesional')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalFutbol()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -797,6 +865,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'remo','Análisis de los estilos Adams, Rosenberg, DDR y contemporáneo en remo de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-remo','Estilos-Remo-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalRemo()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -816,6 +885,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'rcp','Reanimación Cardiopulmonar (RCP): qué es, cómo se realiza y cuándo aplicarla')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-rcp','RCP-Reanimacion-Cardiopulmonar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalRCP()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -835,6 +905,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'baloncesto','Entrenamiento para jugadores de baloncesto de competición y alto nivel')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-baloncesto','Entrenamiento-Baloncesto-Alto-Nivel')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -854,6 +925,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'cardiaco','Adaptaciones cardiovasculares a la carga de entrenamiento en deportistas de resistencia: un estudio longitudinal')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-cardiaco','Adaptaciones-Cardiovasculares-Resistencia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalCardiaco()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -873,6 +945,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'sprinters','Cómo aplican la fuerza los sprinters de élite')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-sprinters','Fuerza-Sprinters-Elite')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalSprinters()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -893,6 +966,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'dosis-minima','Mantener el rendimiento físico: ¿cuál es la dosis mínima de entrenamiento?')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-dosis-minima','Dosis-Minima-Entrenamiento')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalDosisMinima()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -912,6 +986,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'vam5','Estimar la VAM con un test máximo de 5 minutos')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-vam5','Test-VAM-5-Minutos')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalVAM5()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -931,6 +1006,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'sprint','Entrenamiento de sprint: cómo entrenan los sprinters de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-sprint','Entrenamiento-Sprint-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalSprint()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -950,6 +1026,7 @@
                             <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
                                 <span class="text-xs text-slate-500">2026</span>
                                 <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'noruego','¿Cómo entrenan los corredores de resistencia noruegos?')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
                                     <button onclick="descargarPDF('modal-noruego','Metodo-Noruego-Resistencia')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
                                     <button onclick="abrirModalNoruego()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
                                 </div>
@@ -1297,23 +1374,37 @@
         });
 
         // Navegación con botón atrás/adelante del navegador
-        window.addEventListener('popstate', (e) => {
-            if (e.state && e.state.page) {
-                navigateTo(e.state.page, false);
-            } else {
-                const hash = window.location.hash.slice(1);
-                navigateTo(hash || 'inicio', false);
+        // Abre la entrada de blog correspondiente a un slug (usado por los enlaces "#blog/<slug>" compartidos)
+        function abrirModalPorSlug(slug) {
+            const modal = document.getElementById('modal-' + slug);
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+
+        // Navega según el hash actual de la URL, soportando el formato "#blog/<slug>" para entradas individuales
+        function navegarDesdeHash() {
+            const raw = window.location.hash.slice(1);
+            const [page, slug] = raw.split('/');
+            navigateTo(page || 'inicio', false);
+            if (page === 'blog' && slug) {
+                setTimeout(() => abrirModalPorSlug(slug), 60);
             }
+        }
+
+        window.addEventListener('popstate', () => {
+            navegarDesdeHash();
         });
 
         // Cargar la sección correcta al abrir la página con un hash en la URL
         (function () {
             const hash = window.location.hash.slice(1);
             if (hash) {
-                navigateTo(hash, false);
+                navegarDesdeHash();
             }
             // Guardar el estado inicial en el historial
-            history.replaceState({ page: hash || 'inicio' }, '', window.location.hash || '#inicio');
+            history.replaceState({ page: hash.split('/')[0] || 'inicio' }, '', window.location.hash || '#inicio');
         })();
 
         // Funcionalidad del Menú Móvil
@@ -1513,6 +1604,7 @@
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
                 <span class="text-slate-500 text-sm">Remo de competición · Biomecánica</span>
+                <button onclick="compartirEntrada(event,'remo','Análisis de los estilos Adams, Rosenberg, DDR y contemporáneo en remo de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -1552,6 +1644,7 @@
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
                 <a href="https://doi.org/10.1093/eurheartj/ehaf1018" target="_blank" rel="noopener noreferrer" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Ver artículo original <i data-lucide="external-link" class="w-4 h-4"></i></a>
+                <button onclick="compartirEntrada(event,'cardiaco','Adaptaciones cardiovasculares a la carga de entrenamiento en deportistas de resistencia: un estudio longitudinal')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalCardiaco()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -1606,6 +1699,7 @@
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
                 <a href="https://doi.org/10.1111/sms.12389" target="_blank" rel="noopener noreferrer" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Ver artículo original <i data-lucide="external-link" class="w-4 h-4"></i></a>
+                <button onclick="compartirEntrada(event,'sprinters','Cómo aplican la fuerza los sprinters de élite')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalSprinters()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -1652,6 +1746,7 @@
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
                 <a href="https://journals.lww.com/nsca-jscr/fulltext/2021/05000/maintaining_physical_performance__the_minimal_dose.35.aspx" target="_blank" rel="noopener noreferrer" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Ver artículo original <i data-lucide="external-link" class="w-4 h-4"></i></a>
+                <button onclick="compartirEntrada(event,'dosis-minima','Mantener el rendimiento físico: ¿cuál es la dosis mínima de entrenamiento?')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalDosisMinima()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -1881,6 +1976,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'sprint','Entrenamiento de sprint: cómo entrenan los sprinters de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalSprint()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -1929,6 +2025,7 @@
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
                 <a href="https://link.springer.com/article/10.1007/s004210050153" target="_blank" rel="noopener noreferrer" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Ver artículo original <i data-lucide="external-link" class="w-4 h-4"></i></a>
+                <button onclick="compartirEntrada(event,'vam5','Estimar la VAM con un test máximo de 5 minutos')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalVAM5()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2067,6 +2164,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'baloncesto','Entrenamiento para jugadores de baloncesto de competición y alto nivel')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalBaloncesto()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2151,7 +2249,261 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'noruego','¿Cómo entrenan los corredores de resistencia noruegos?')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalNoruego()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Dolor lumbar crónico por discopatía -->
+    <div id="modal-dolor-lumbar" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalDolorLumbar()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Rehabilitación · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Tratamiento conservador y ejercicio físico en el dolor lumbar crónico por discopatía</h2>
+                </div>
+                <button onclick="cerrarModalDolorLumbar()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Concepto y relevancia del problema</h3>
+                <p>La discopatía lumbar degenerativa (enfermedad degenerativa del disco intervertebral) constituye una de las causas más frecuentes de dolor lumbar crónico. Se distingue clásicamente entre dolor discogénico axial (dolor originado en el propio disco sin hernia, asociado a degeneración o alteración interna del disco) y dolor secundario a hernia discal con compromiso radicular [2]. La degeneración discal es un proceso casi universal con la edad (más del 90% de los voluntarios asintomáticos mayores de 60 años presentan al menos un disco degenerado en resonancia magnética), y los hallazgos de imagen no siempre se correlacionan con el dolor [2]. El dolor lumbar crónico se define como el que persiste más de 12 semanas y genera una enorme carga sanitaria y socioeconómica [1].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Evidencia procedente de las guías de práctica clínica</h3>
+                <p>Una revisión sistemática de ocho guías de práctica clínica basadas en la evidencia (incluidas las de NICE, SIGN, ACP/APS y otras) concluyó que el ejercicio y la escuela de espalda constituyen la terapia más efectiva para el dolor lumbar crónico, con el nivel de evidencia más alto y recomendación fuerte (grado A) [1]. Las recomendaciones clave de las guías incluyen:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Iniciar un programa de ejercicio de forma progresiva y supervisada; ningún tipo de ejercicio ha demostrado ser claramente superior a otro, con resultados positivos para ejercicios de fuerza, resistencia, coordinación, flexión, extensión (método McKenzie), isocinéticos y trabajo aeróbico de bajo impacto [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Mantener una vida activa y evitar el reposo en cama, que expresamente no se recomienda [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Escuela de espalda:</strong> combina educación del paciente, ejercicios e higiene postural, con eficacia similar a otros tratamientos conservadores [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Tratamiento multidisciplinar (enfoque biopsicosocial) por los múltiples mecanismos del dolor crónico [1,2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>No utilizar tracción para el dolor lumbar crónico, por falta de eficacia demostrada [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los ejercicios de estabilización lumbar están indicados especialmente en pacientes jóvenes (&lt;40 años) con signos de inestabilidad [1].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Ejercicio físico: tipos y evidencia específica en discopatía</h3>
+                <p><strong class="text-white">3.1. Ejercicio terapéutico general.</strong> El ejercicio es útil en la lumbalgia crónica para reducir el dolor, aumentar la funcionalidad y acelerar la vuelta a las actividades normales y al trabajo, aunque no se ha demostrado beneficio en la fase aguda (primeras 2 semanas) [3]. A partir de las dos semanas del inicio se puede comenzar un programa progresivo que trabaje flexión, extensión, flexión lateral y rotación lumbar, con ejercicios de movilidad, isométricos, estiramientos y, posteriormente, fuerza isotónica [3].</p>
+                <p><strong class="text-white">3.2. Ejercicios de estabilización lumbar y entrenamiento del core.</strong> Los ejercicios de estabilización lumbar, dirigidos a la musculatura profunda (multífidos y transverso del abdomen), son una de las intervenciones conservadoras más estudiadas en discopatía. Un estudio realizado en adultos jóvenes (20-35 años) con enfermedad degenerativa discal confirmada por RM (protrusión o extrusión) mostró que cuatro semanas de entrenamiento de estabilización del core (20 sesiones) mejoraron significativamente la discapacidad medida con el índice de Oswestry (reducciones del 42-59%) y el dolor, tanto en protrusiones como en extrusiones [7]. Los autores destacan que esta es una de las pocas investigaciones que distinguen el estadio de la lesión discal, aunque por sus limitaciones (ausencia de grupo control) no permite concluir que el tipo de lesión condicione la respuesta [7].</p>
+                <p>Otro estudio con 30 pacientes con hernia discal lumbar encontró que cuatro semanas de ejercicios de estabilización lumbar (30 min, 3 veces/semana) mejoraron el índice de herniación discal medido por RM, el ángulo sacro y la función lumbar (KODI), especialmente con ejercicios de estabilización-resistencia con control del balance y movimientos pélvicos, que mejoran la estabilidad de la articulación sacroilíaca y la propiocepción [8].</p>
+                <p>El abordaje de McKenzie (ejercicios de extensión y centralización del dolor) está recomendado en las guías con fuerza B para la lumbalgia crónica [1]. La centralización del dolor durante movimientos repetidos se ha descrito como un hallazgo con alta especificidad para identificar el disco como fuente del dolor [2].</p>
+                <p><strong class="text-white">3.4. Ejercicio aeróbico y programas estructurados (pilates, yoga, taichí).</strong> La práctica de ejercicio aeróbico (caminar, pedalear, nadar) es recomendable a partir de la segunda semana, de forma progresiva hasta al menos 30-60 minutos, 3-5 días/semana [3]. En cuanto a programas como pilates, yoga o taichí, la evidencia indica que son útiles para reducir el dolor y la discapacidad en la lumbalgia crónica, pero no superan a otros programas de ejercicio bien diseñados; su eficacia parece deberse más a los principios generales de prescripción del ejercicio que al método concreto [3]. Las guías señalan que el yoga (variantes Iyengar y Viniyoga) puede ayudar en la lumbalgia crónica [1].</p>
+                <p><strong class="text-white">3.5. Ejercicio de carga específica y posible efecto regenerativo sobre el disco.</strong> Una revisión narrativa examinó si la carga mecánica aplicada mediante ejercicio podría inducir curación o regeneración del disco intervertebral [10]. Los estudios en modelos animales sugieren una relación dosis-respuesta entre la carga y los procesos regenerativos: cargas altas con volumen y frecuencia bajos (el patrón típico del ejercicio de extensión lumbar aislada, 8-12 repeticiones hasta fatiga, 1 vez/semana) pueden inducir mecanismos potencialmente regenerativos: mejora del contenido de proteoglicanos, expresión génica de la matriz, menor apoptosis celular y mejor flujo de fluidos y transporte de solutos [10]. Aunque se trata de una hipótesis con plausibilidad biológica aún no confirmada en ensayos clínicos con RM, apoya el concepto de "ventana segura" de carga y el papel del ejercicio de extensión lumbar aislada en pacientes con discos degenerados [10].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Tratamiento conservador frente a cirugía en la hernia discal</h3>
+                <p>Una de las preguntas centrales es si el tratamiento conservador es suficiente frente a la opción quirúrgica. La revisión basada en la evidencia de los principales estudios (Weber, Osterman, ensayo de Peul, Maine Lumbar Spine Study y SPORT) concluye que [5]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La cirugía (discectomía) consigue una mejoría más rápida y de mayor magnitud del dolor y la función a corto plazo.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Sin embargo, una gran proporción de pacientes tratados de forma conservadora mejora hasta niveles aceptables: en el ensayo de Peul, el 61% de los asignados a tratamiento conservador prolongado evitó la cirugía; en SPORT, el 55%.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>A medio y largo plazo (1-4 años), las diferencias entre cirugía y tratamiento conservador tienden a disminuir o desaparecer, y no hay diferencias en la vuelta al trabajo.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los pacientes con déficit neurológico progresivo o síntomas intolerables pueden beneficiarse de cirugía, pero muchos pacientes que cumplen criterios de cirugía pueden evitar la operación sin perjuicio a largo plazo [5].</span></li>
+                </ul>
+                <p>Una cohorte prospectiva suiza en práctica clínica habitual (370 pacientes con hernia discal y radiculopatía) comparó discectomía abierta con tratamiento conservador (instrucción ergonómica, fisioterapia activa, educación y ejercicios domiciliarios, AINE, infiltraciones si precisaba). El grupo quirúrgico presentó menos dolor a las 6 semanas, pero no hubo diferencias clínicamente relevantes a los 3, 12 o 24 meses en dolor, síntomas neurogénicos, función ni calidad de vida [6]. Este estudio refuerza que el tratamiento conservador estructurado es una opción eficaz y que la cirugía puede reservarse para pacientes que buscan alivio rápido o que no responden al tratamiento conservador [6].</p>
+                <p>En el caso específico del dolor discogénico crónico (discopatía sin hernia), la evidencia es aún más favorable al tratamiento conservador: la fusión lumbar no ha demostrado superioridad sobre la rehabilitación multidisciplinar biopsicosocial o la fisioterapia bien diseñada, y los estudios a 11 años de seguimiento no muestran diferencias entre fusión y tratamiento no quirúrgico [2].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Otras modalidades conservadoras</h3>
+                <p><strong class="text-white">5.1. Educación, escuela de espalda y terapia cognitivo-conductual.</strong> La educación del paciente sobre su enfermedad y autocuidado debe formar parte de la terapia, y el tratamiento cognitivo-conductual está recomendado como parte de un conjunto de terapias (grado A) [1]. La rehabilitación multidisciplinar biopsicosocial es la modalidad con mejor evidencia entre las intervenciones físicas y de rehabilitación para el dolor lumbar crónico [2].</p>
+                <p><strong class="text-white">5.2. Descompresión espinal no quirúrgica y tracción.</strong> La descompresión espinal no quirúrgica combinada con ejercicios de estabilización del core demostró en un ensayo aleatorizado con 31 pacientes con prolapso discal lumbar crónico una reducción significativamente mayor del dolor (61% vs 36%) y de la discapacidad (80% vs 57%) que los ejercicios de estabilización solos [9]. También se ha documentado mediante RM la resorción casi completa de una hernia discal extruida tras un programa de fisioterapia con descompresión no quirúrgica, frío local y TENS [4], lo que ilustra la capacidad de remisión espontánea/inducida de las hernias y que los enfoques conservadores pueden ser tan eficaces como la cirugía a largo plazo (2 años) [4]. No obstante, la tracción convencional no está recomendada en el dolor lumbar crónico por las guías de práctica clínica [1].</p>
+                <p><strong class="text-white">5.3. Terapia farmacológica como coadyuvante.</strong> La farmacoterapia (paracetamol, AINE, antidepresivos tricíclicos a dosis bajas, relajantes musculares en brotes cortos) está indicada solo durante periodos cortos, como coadyuvante al inicio del control del dolor, retirándose en cuanto se consolidan los efectos del ejercicio y las terapias no farmacológicas [1,2]. Los opioides se reservan como último recurso y en pacientes muy seleccionados, dado el balance riesgo-beneficio desfavorable [1,2].</p>
+                <p><strong class="text-white">5.4. Otras terapias con evidencia limitada o controvertida.</strong> Las guías no recomiendan de forma generalizada la TENS, el láser de baja intensidad, los ultrasonidos, las fajas lumbares ni la tracción [1]. La manipulación espinal puede ser útil a corto plazo en pacientes seleccionados, pero con evidencia contradictoria [1,2]. Las infiltraciones epidurales de corticosteroides constituyen una opción de nivel de evidencia II (moderado) en el dolor discogénico crónico cuando fracasa el tratamiento conservador, mientras que las terapias intradiscales (termocoagulación, etc.) presentan evidencia pobre [2].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Síntesis práctica</h3>
+                <p>Con base en la evidencia revisada, el abordaje recomendado del dolor lumbar crónico por discopatía sería:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Primera línea:</strong> ejercicio terapéutico supervisado y progresivo — estabilización lumbar/core, método McKenzie si hay preferencia direccional, ejercicio aeróbico y fortalecimiento general, adaptados al paciente [1,3,7,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Educación y mantenimiento de vida activa, evitando el reposo en cama; escuela de espalda si está disponible [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Tratamiento multidisciplinar biopsicosocial en casos crónicos complejos [1,2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Fármacos solo de forma puntual y breve como coadyuvantes [1,2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La cirugía debe reservarse para pacientes con dolor severo refractario, déficit neurológico progresivo o fracaso del tratamiento conservador bien realizado; la mayoría de los pacientes puede mejorar sin cirugía, aunque esta proporciona alivio más rápido [5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Técnicas como la descompresión espinal no quirúrgica pueden considerarse complementarias en hernia discal, con evidencia preliminar favorable [4,9], mientras que la tracción convencional debe evitarse [1].</span></li>
+                </ul>
+                <p>La evidencia actual, en conjunto, sitúa al ejercicio físico como el pilar central del tratamiento conservador de la discopatía lumbar crónica, con efectos tanto sobre el dolor y la función como, potencialmente, sobre la salud del propio disco [10].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Ángel García D, Martínez Nicolás I, Saturno Hernández PJ, López Soriano F. Abordaje clínico del dolor lumbar crónico: síntesis de recomendaciones basadas en la evidencia de las guías de práctica clínica existentes. <em>Anales del Sistema Sanitario de Navarra.</em> 2015;38(1):117-130. <a href="https://doi.org/10.4321/s1137-66272015000100012" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.4321/s1137-66272015000100012</a></p>
+                    <p>[2] Manchikanti L, Hirsch JA. An Update on the Management of Chronic Lumbar Discogenic Pain. <em>Pain Management.</em> 2015;5(5):373-386. <a href="https://doi.org/10.2217/pmt.15.33" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.2217/pmt.15.33</a></p>
+                    <p>[3] Sánchez-Pinilla RO. ¿Cuáles son los ejercicios indicados en la lumbalgia crónica y en la hernia discal? <em>FMC - Formación Médica Continuada en Atención Primaria.</em> 2020;27(1):34-46. <a href="https://doi.org/10.1016/j.fmc.2019.06.007" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.fmc.2019.06.007</a></p>
+                    <p>[4] Ağırman M. Resorption of extruded intervertebral disc herniation: Effect of physical therapy modalities. <em>Türkiye Fiziksel Tıp ve Rehabilitasyon Dergisi.</em> 2016;62(3):286-287. <a href="https://doi.org/10.5606/tftrd.2016.24483" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.5606/tftrd.2016.24483</a></p>
+                    <p>[5] Moschetti W, Pearson AM, Abdu WA. Treatment of Lumbar Disc Herniation: An Evidence-Based Review. <em>Seminars in Spine Surgery.</em> 2009;21(4):223-229. <a href="https://doi.org/10.1053/j.semss.2009.08.005" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1053/j.semss.2009.08.005</a></p>
+                    <p>[6] Gugliotta M, da Costa BR, Dabis E, et al. Surgical versus conservative treatment for lumbar disc herniation: a prospective cohort study. <em>BMJ Open.</em> 2016;6(12):e012938. <a href="https://doi.org/10.1136/bmjopen-2016-012938" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1136/bmjopen-2016-012938</a></p>
+                    <p>[7] Kuligowski T, Cieślik B, Kuciel N, Dębiec-Bąk A, Skrzek A. Effect of Core Stabilizing Training on Young Individuals Presenting Different Stages of Degenerative Disc Disease—Preliminary Report. <em>International Journal of Environmental Research and Public Health.</em> 2021;18(7):3499. <a href="https://doi.org/10.3390/ijerph18073499" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/ijerph18073499</a></p>
+                    <p>[8] Jeong DK, Choi HH, Kang J il, Choi H. Effect of lumbar stabilization exercise on disc herniation index, sacral angle, and functional improvement in patients with lumbar disc herniation. <em>Journal of Physical Therapy Science.</em> 2017;29(12):2121-2125. <a href="https://doi.org/10.1589/jpts.29.2121" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1589/jpts.29.2121</a></p>
+                    <p>[9] Gaowgzeh RAM, Chevidikunnan MF, BinMulayh EA, Khan F. Effect of spinal decompression therapy and core stabilization exercises in management of lumbar disc prolapse: A single blind randomized controlled trial. <em>Journal of Back and Musculoskeletal Rehabilitation.</em> 2020;33(2):225-231. <a href="https://doi.org/10.3233/bmr-171099" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3233/bmr-171099</a></p>
+                    <p>[10] Steele J, Bruce-Low S, Smith D, Osborne N, Thorkeldsen A. Can specific loading through exercise impart healing or regeneration of the intervertebral disc? <em>The Spine Journal.</em> 2015;15(10):2117-2121. <a href="https://doi.org/10.1016/j.spinee.2014.08.446" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.spinee.2014.08.446</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'dolor-lumbar','Tratamiento conservador y ejercicio físico en el dolor lumbar crónico por discopatía')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalDolorLumbar()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Ejercicio, ayuno y nutrición como moduladores metabólicos -->
+    <div id="modal-creatina-mayores" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalCreatinaMayores()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Nutrición · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Creatina como suplemento en personas mayores: estado de la evidencia</h2>
+                </div>
+                <button onclick="cerrarModalCreatinaMayores()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Contexto: sarcopenia, dinapenia y envejecimiento</h3>
+                <p>Con la edad se produce una pérdida progresiva de masa muscular (≈0,8 % anual a partir de los 50 años) y, sobre todo, de fuerza muscular (1,2–1,5 % anual a partir de la quinta década), lo que se conoce como sarcopenia y dinapenia [4,7]. La sarcopenia afecta aproximadamente al 8–13 % de los adultos ≥60 años y se asocia con osteoporosis, fragilidad, caídas, fracturas, discapacidad y mayor mortalidad [1,3,6]. El músculo esquelético de las personas mayores presenta, además, concentraciones reducidas de creatina y fosfocreatina (PCr) intramusculares, sobre todo en los grandes grupos musculares de las extremidades inferiores, lo que justifica el interés por la suplementación [9,10].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Mecanismos de acción propuestos</h3>
+                <p>La creatina (ácido metilguanidinoacético) participa en el sistema energético de la fosfocreatina: al fosforilarse, la PCr dona un fosfato para resintetizar ATP durante esfuerzos de alta intensidad, lo que permite mantener la capacidad de trabajo y aumentar el volumen de entrenamiento [3,5]. Además, se le atribuyen efectos directos sobre el músculo: señalización anabólica (vía mTOR, IGF-1, factores de transcripción miogénicos), proliferación de células satélite, retención de agua intracelular (que por sí sola explica parte del aumento de masa magra), efectos anticatabólicos (reducción de la oxidación de leucina y de la excreción de 3-metilhistidina) y propiedades antioxidantes/antiinflamatorias que protegerían la mitocondria [3–5,9]. Estos mecanismos explican por qué la creatina es más eficaz como coadyuvante del ejercicio que como intervención aislada [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Efectos sobre masa muscular, fuerza y capacidad funcional</h3>
+                <p><strong class="text-white">3.1. Creatina combinada con entrenamiento de fuerza.</strong> La evidencia más sólida proviene de metaanálisis de ensayos aleatorizados controlados con placebo. Devries y Phillips [7], con 357 adultos de 55–71 años, encontraron que añadir creatina al entrenamiento de fuerza aumentaba la masa corporal total (1,0 kg), la masa libre de grasa (1,33 kg), la fuerza en press de banca y press de pierna, y mejoraba la prueba de levantarse/sentarse de la silla en 30 s respecto al entrenamiento solo [7]. Chilibeck y colaboradores (2017), el metaanálisis más amplio hasta la fecha (22 estudios, &gt;700 adultos ≥50 años), mostró incrementos superiores de masa magra (+1,37 kg) y de fuerza de press de banca y pierna frente a placebo, incluso al excluir estudios que combinaban creatina con proteína o ácido linoleico conjugado [1,4]. Forbes y colaboradores (2021) confirmaron aumentos de masa magra (+1,32 kg) y fuerza, y señalaron que los protocolos con fase de carga (≥20 g/día durante 5–7 días) o la suplementación solo en los días de entrenamiento son estrategias eficaces [1,6]. Una revisión sistemática de ensayos controlados (2020) concluyó que los efectos beneficiosos sobre fuerza, masa magra y capacidad funcional requieren dosis bajas continuas de creatina combinadas con entrenamiento de fuerza de intensidad moderada durante al menos 12 semanas, y que los resultados son más consistentes en mujeres mayores que en hombres [2]. Estos beneficios se traducen en mejoras de la capacidad funcional (p. ej., test de sentarse-levantarse), lo que tiene relevancia clínica porque esta prueba predice el riesgo de caídas en adultos mayores [1,4,6].</p>
+                <p><strong class="text-white">3.2. Creatina sin entrenamiento.</strong> Sin estímulo de ejercicio, la evidencia es mucho más limitada y contradictoria: algunos estudios breves con dosis altas (0,3 g/kg/día, ≈20 g/día durante 5–7 días) mostraron mejoras en fuerza, potencia y pruebas funcionales (sit-to-stand, marcha en tándem) [1,4,9], mientras que la mayoría de los estudios de suplementación aislada a largo plazo (1–2 años, 1–3 g/día) no hallaron efectos sobre masa magra, fuerza o función en mujeres posmenopáusicas [3,6]. Por ello, los autores concluyen que la creatina actúa fundamentalmente potenciando la respuesta al entrenamiento, y que sin ejercicio sus beneficios son limitados [3,6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Efectos sobre el hueso, caídas y fracturas</h3>
+                <p>En estudios celulares, la creatina estimula la actividad, diferenciación y mineralización de los osteoblastos [1,4]. Sin embargo, los resultados en humanos son dispares. Algunos ensayos con creatina (~7–8 g/día) y entrenamiento de fuerza durante 10–12 meses mostraron efectos favorables: aumento del contenido mineral óseo del brazo, atenuación de la pérdida de densidad mineral ósea (DMO) del cuello femoral (pérdida de 1,2 % frente a 3,9 % con placebo) y mejora de propiedades geométricas del fémur (ancho subperióstico, módulo de sección) [1,4,6,11]. No obstante, la mayoría de los estudios —y el metaanálisis de Forbes sobre 5 estudios— no encontraron efectos significativos de la creatina (con o sin entrenamiento) sobre la DMO de columna lumbar, cadera o cuerpo entero [1,6,11]. Sin entrenamiento, hasta 2 años de suplementación (1–3 g/día) no modifican la DMO ni la microarquitectura ósea [6,11].</p>
+                <p>En cuanto a la prevención de caídas, no existe ningún estudio que mida directamente la incidencia de caídas, pero los metaanálisis muestran que la creatina durante el entrenamiento de fuerza mejora la fuerza de miembros inferiores y el rendimiento en el test de sentarse-levantarse, ambos predictores de riesgo de caídas [4]. Un estudio de 12 meses en hombres y mujeres mayores también mostró mayor densidad muscular de la pantorrilla (indicador de riesgo de caídas y discapacidad) con creatina y entrenamiento frente a placebo [1].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Efectos sobre la cognición</h3>
+                <p>Un ensayo doble ciego en adultos mayores (media 76 años) encontró que 7 días de creatina (20 g/día) mejoraron la memoria de trabajo (recuerdo espacial directo e inverso, recuerdo numérico directo) y la memoria a largo plazo, sin efectos sobre la generación aleatoria de números [8]. Una revisión reciente señala que un metaanálisis de ensayos controlados mostró mejoras de memoria en adultos mayores sanos con creatina, aunque ningún estudio ha medido directamente el aumento de creatina cerebral en mayores, y un estudio con espectroscopia ¹³¹P-MRS no detectó acumulación cerebral tras 7 días de suplementación [11]. La evidencia es prometedora pero preliminar; no se ha demostrado beneficio en demencia o enfermedad de Alzheimer [11]. Además, cuando la creatina se combina con entrenamiento de fuerza, no se han observado efectos aditivos sobre la cognición o el estado de ánimo más allá del ejercicio [2].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Efectos antiinflamatorios</h3>
+                <p>La inflamación crónica de bajo grado ("inflamm-aging") contribuye a la sarcopenia. Estudios en modelos animales y en deportistas jóvenes sugieren que la creatina puede atenuar marcadores proinflamatorios (TNF-α, IL-6, PCR, PGE2) tras ejercicio aeróbico extenuante [4,5]. En adultos mayores, un suplemento multiingrediente con 2,5 g de creatina durante 12 semanas de entrenamiento redujo TNF-α e IL-6, aunque el efecto no puede atribuirse solo a la creatina [4,5]. En general, la evidencia de un efecto antiinflamatorio clínico en mayores es limitada y no se observó beneficio en individuos con osteoartritis de rodilla [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Seguridad</h3>
+                <p>La creatina monohidrato es segura en personas mayores según la evidencia disponible: no altera marcadores de función renal (urea, creatinina, albuminuria, aclaramiento de creatinina) ni hepática (ALT, AST, GGT, bilirrubina, fosfatasa alcalina) en estudios de 10 semanas a 2 años, incluso en adultos mayores frágiles, con diabetes tipo 2 o enfermedad de Parkinson [1,2,4,5,10]. Los efectos adversos reportados son leves: molestias gastrointestinales, calambres y distensiones musculares [2,4,5]. La posición oficial de la Sociedad Internacional de Nutrición Deportiva respalda su seguridad en adultos mayores [4]. No obstante, se recomienda monitorización en mayores con enfermedad renal preexistente [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">8. Variables que influyen en la respuesta individual</h3>
+                <p>La respuesta a la creatina es muy variable. Entre los factores que la modulan se incluyen: las concentraciones basales de creatina/PCr intramuscular (quienes parten de niveles más bajos —p. ej., vegetarianos o mayores con menor ingesta de carne— responden más), la proporción de fibras tipo II (que almacenan más creatina y disminuyen con la edad), la ingesta dietética habitual de creatina, el sexo (los hombres mayores parecen responder algo mejor que las mujeres en masa magra), el tipo de protocolo (con fase de carga frente a dosis bajas), y la coingesta de carbohidratos [5,6,9]. La presencia de "no respondedores" (≈20–30 % en jóvenes, probablemente mayor en mayores) explica parte de los resultados negativos [9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">9. Poblaciones clínicas: sarcopenia, fragilidad y caquexia</h3>
+                <p>La investigación en personas mayores con sarcopenia, pre-fragilidad/fragilidad u osteoporosis es muy escasa [1,6]. Los datos preliminares sugieren que la creatina (≥5 g/día) con entrenamiento de fuerza supervisado durante ≥12 semanas puede revertir la clasificación de sarcopenia en algunos participantes, pero los tamaños muestrales son mínimos [6]. En adultos frágiles, los estudios disponibles no muestran beneficios aditivos claros de la creatina sobre el entrenamiento [1,6]. En caquexia (p. ej., cáncer), la creatina aislada no ha mostrado efectos consistentes, aunque combinada con proteína y entrenamiento podría atenuar la pérdida de masa magra; se requieren ensayos más amplios [1,6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">10. Recomendaciones prácticas y conclusiones</h3>
+                <p>Con base en la evidencia actual:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La creatina es eficaz como complemento del entrenamiento de fuerza (2–3 sesiones/semana, ≥7–12 semanas) para incrementar masa magra (~1,2–1,4 kg adicionales), fuerza de miembros superiores e inferiores y rendimiento funcional en adultos mayores sanos [1,4,6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Sin entrenamiento, su beneficio es limitado, aunque dosis altas a corto plazo (≈0,3 g/kg/día o 20 g/día durante 5–7 días) pueden mejorar fuerza y función [1,6,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los protocolos típicos son: fase de carga de 20 g/día (o 0,3 g/kg/día) durante 5–7 días, seguida de mantenimiento de 3–5 g/día; o directamente 5 g/día [1,2,6,7]. La suplementación solo en días de entrenamiento también es eficaz para masa magra y fuerza [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>No hay evidencia suficiente para recomendar creatina como tratamiento de la osteoporosis o para mejorar la DMO; sus posibles beneficios óseos parecen limitados a propiedades geométricas cuando se combina con entrenamiento a largo plazo [1,6,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los efectos cognitivos y antiinflamatorios son prometedores pero preliminares [4,8,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Es segura en las dosis habituales, con efectos adversos menores, aunque se necesita más investigación sobre seguridad a largo plazo en mayores frágiles o con comorbilidad renal [2–5].</span></li>
+                </ul>
+                <p>En definitiva, la evidencia apoya el uso de creatina monohidrato como una intervención nutricional segura y de bajo coste para potenciar los efectos del entrenamiento de fuerza en el envejecimiento saludable, especialmente para contrarrestar la sarcopenia y la dinapenia; sin embargo, su papel en el hueso, la cognición y las poblaciones clínicas frágiles aún requiere ensayos aleatorizados a gran escala y de larga duración [1,6,11].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Candow DG, Chilibeck PD, Forbes SC, Fairman CM, Gualano B, Roschel H. Creatine supplementation for older adults: Focus on sarcopenia, osteoporosis, frailty and Cachexia. <em>Bone.</em> 2022;162:116467. <a href="https://doi.org/10.1016/j.bone.2022.116467" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.bone.2022.116467</a></p>
+                    <p>[2] Stares A, Bains M. The Additive Effects of Creatine Supplementation and Exercise Training in an Aging Population: A Systematic Review of Randomized Controlled Trials. <em>Journal of Geriatric Physical Therapy.</em> 2020;43(2):99-112. <a href="https://doi.org/10.1519/jpt.0000000000000222" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/jpt.0000000000000222</a></p>
+                    <p>[3] Dolan E, Artioli GG, Pereira RMR, Gualano B. Muscular Atrophy and Sarcopenia in the Elderly: Is There a Role for Creatine Supplementation? <em>Biomolecules.</em> 2019;9(11):642. <a href="https://doi.org/10.3390/biom9110642" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/biom9110642</a></p>
+                    <p>[4] Candow DG, Forbes SC, Chilibeck PD, Cornish SM, Antonio J, Kreider RB. Effectiveness of Creatine Supplementation on Aging Muscle and Bone: Focus on Falls Prevention and Inflammation. <em>Journal of Clinical Medicine.</em> 2019;8(4):488. <a href="https://doi.org/10.3390/jcm8040488" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/jcm8040488</a></p>
+                    <p>[5] Candow DG, Forbes SC, Chilibeck PD, Cornish SM, Antonio J, Kreider RB. Variables Influencing the Effectiveness of Creatine Supplementation as a Therapeutic Intervention for Sarcopenia. <em>Frontiers in Nutrition.</em> 2019;6. <a href="https://doi.org/10.3389/fnut.2019.00124" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3389/fnut.2019.00124</a></p>
+                    <p>[6] Candow DG, Forbes SC, Kirk B, Duque G. Current Evidence and Possible Future Applications of Creatine Supplementation for Older Adults. <em>Nutrients.</em> 2021;13(3):745. <a href="https://doi.org/10.3390/nu13030745" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/nu13030745</a></p>
+                    <p>[7] Devries MC, Phillips SM. Creatine Supplementation during Resistance Training in Older Adults—A Meta-analysis. <em>Medicine &amp; Science in Sports &amp; Exercise.</em> 2014;46(6):1194-1203. <a href="https://doi.org/10.1249/mss.0000000000000220" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1249/mss.0000000000000220</a></p>
+                    <p>[8] McMorris T, Mielcarz G, Harris RC, Swain JP, Howard A. Creatine Supplementation and Cognitive Performance in Elderly Individuals. <em>Aging, Neuropsychology, and Cognition.</em> 2007;14(5):517-528. <a href="https://doi.org/10.1080/13825580600788100" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1080/13825580600788100</a></p>
+                    <p>[9] Dalbo VJ, Roberts MD, Lockwood CM, Tucker PS, Kreider RB, Kerksick CM. The effects of age on skeletal muscle and the phosphocreatine energy system: can creatine supplementation help older adults. <em>Dynamic Medicine.</em> 2009;8(1). <a href="https://doi.org/10.1186/1476-5918-8-6" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1186/1476-5918-8-6</a></p>
+                    <p>[10] Tarnopolsky MA. Potential benefits of creatine monohydrate supplementation in the elderly. <em>Current Opinion in Clinical Nutrition and Metabolic Care.</em> 2000;3(6):497-502. <a href="https://doi.org/10.1097/00075197-200011000-00013" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1097/00075197-200011000-00013</a></p>
+                    <p>[11] Candow DG, Moriarty T. Effects of Creatine Monohydrate Supplementation on Muscle, Bone and Brain—Hope or Hype for Older Adults? <em>Current Osteoporosis Reports.</em> 2024;23(1). <a href="https://doi.org/10.1007/s11914-024-00895-x" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1007/s11914-024-00895-x</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'creatina-mayores','Creatina como suplemento en personas mayores: estado de la evidencia')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalCreatinaMayores()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-moduladores-metabolicos" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalModuladoresMetabolicos()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Metabolismo · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Ejercicio físico, ayuno y nutrición como moduladores fisiológicos de la homeostasis y del metabolismo</h2>
+                </div>
+                <button onclick="cerrarModalModuladoresMetabolicos()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Introducción: homeostasis, flexibilidad metabólica y el concepto de "red reguladora metabólica"</h3>
+                <p>La homeostasis metabólica depende de un equilibrio dinámico entre la disponibilidad de nutrientes, las reservas energéticas y el gasto calórico. Durante milenios, el genoma humano fue seleccionado en un entorno de alternancia entre abundancia y escasez de alimentos y de actividad física obligatoria, de modo que los ciclos de "festín y hambruna" y de "ejercicio y reposo" forman parte del sustrato evolutivo sobre el que se regula el metabolismo [4]. En la actualidad, el sedentarismo y la disponibilidad constante de alimentos generan un desajuste entre ese genotipo "ahorrador" (thrifty genes) y el ambiente, que favorece la resistencia a la insulina y las enfermedades cardiometabólicas [4].</p>
+                <p>Una idea central que articula esta revisión es que los nutrientes no son solo sustratos combustibles o precursores biosintéticos, sino también moléculas señalizadoras que activan vías de transducción específicas. Marshall propuso que las vías de señalización por nutrientes —la vía de la hexosamina (sensor de glucosa), la vía de mTOR (sensor de aminoácidos y de energía) y la vía de AMPK (sensor de baja energía)—, junto con la insulina y las hormonas del adipocito (leptina y adiponectina), forman parte de una "red reguladora metabólica" integrada que coordina el metabolismo de los combustibles a nivel celular, tisular y de organismo completo [10]. Esta red es la que permite interpretar cómo el ayuno, el ejercicio y la composición de la dieta convergen en los mismos nodos moleculares para modular la homeostasis.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. El ayuno como modulador fisiológico</h3>
+                <p><strong class="text-white">2.1. Fisiología del ayuno prolongado y los cuerpos cetónicos.</strong> Los estudios clásicos de inanición en personas con obesidad demostraron que el organismo puede sobrevivir semanas sin ingesta gracias a la movilización de las reservas de tejido adiposo. El enigma de cómo el cerebro, que se creía dependiente exclusivamente de glucosa, podía funcionar con hipoglucemia fisiológica condujo al descubrimiento del papel metabólico de los cuerpos cetónicos: el β-hidroxibutirato (BHB) y el acetoacetato (AcAc), producidos en el hígado a partir de la oxidación de ácidos grasos, cruzan la barrera hematoencefálica y se convierten en el combustible preferente del cerebro durante la inanición [1]. La concentración total de cuerpos cetónicos circulantes aumenta desde 2–3 mmol/L a los 3 días de ayuno hasta 6–8 mmol/L a los 24–42 días, estabilizándose cuando la producción hepática se equilibra con la captación tisular [1].</p>
+                <p>Este "cambio metabólico" (metabolic switch) tiene varios correlatos fisiológicos: descenso de insulina y de glucosa, aumento de ácidos grasos libres, lipólisis adipocitaria y cetogénesis hepática. En el músculo esquelético, los cuerpos cetónicos sostienen 50–85% del metabolismo oxidativo en los primeros días de ayuno, aunque con la inanición prolongada el músculo pasa a oxidar preferentemente ácidos grasos libres, "ahorrando" los cuerpos cetónicos para el sistema nervioso central [1]. El riñón, por su parte, aumenta la reabsorción tubular de cuerpos cetónicos y conserva nitrógeno al sustituir urea por amonio, un mecanismo de ahorro proteico esencial para la supervivencia [1].</p>
+                <p>A nivel molecular, el ayuno prolongado eleva el AMP intracelular y activa la AMPK, que fosforila e inactiva la acetil-CoA carboxilasa (ACC), reduciendo la síntesis de malonil-CoA. Dado que el malonil-CoA inhibe alostéricamente a la carnitina palmitoiltransferasa 1 (CPT1), su descenso libera la entrada de ácidos grasos de cadena larga a la mitocondria para su β-oxidación y favorece la cetogénesis [1]. El ayuno con restricción temporal también reduce la expresión de la sintasa de ácidos grasos (FASN) a través del represor circadiano Rev-erb, lo que deprime la lipogénesis de novo [1].</p>
+                <p><strong class="text-white">2.2. Ayuno intermitente y alimentación con restricción de tiempo.</strong> Las modalidades de ayuno intermitente (ayuno en días alternos, dieta 5:2 y alimentación con restricción temporal, TRE) son versiones más practicables que la inanición y producen beneficios metabólicos sin sus riesgos [1,3]. En los ensayos clínicos revisados, la mayoría de los regímenes de ayuno intermitente producen pérdida de peso (11 de 16 ensayos) y mejoras variables en glucosa, insulina, lípidos y marcadores inflamatorios [3]. En general, los beneficios metabólicos del ayuno intermitente no han demostrado ser superiores a los de la restricción calórica continua, pero sí representan una estrategia no farmacológica viable y sostenible [3].</p>
+                <p>Un hallazgo temprano y relevante es el de Halberg et al., que sometieron a hombres jóvenes sanos a ayuno de 20 h en días alternos durante 15 días, manteniendo el peso corporal: la captación de glucosa mediada por insulina (medida por clamp euglucémico-hiperinsulinémico) aumentó de 6,3 a 7,3 mg·kg⁻¹·min⁻¹, y la inhibición de la lipólisis por insulina en tejido adiposo fue más pronunciada tras la intervención [4]. Tras cada período de ayuno de 20 h, la adiponectina plasmática aumentó ~37% y la leptina disminuyó, lo que sugiere que el tejido adiposo actúa como un "sensor" activo de las oscilaciones de las reservas energéticas y que la adiponectina media al menos parte del efecto sensibilizador de la insulina del ayuno intermitente [4]. Es importante señalar que estos efectos ocurrieron sin cambios en el peso, el glucógeno muscular o los triglicéridos intramiocelulares, lo que indica que el ayuno y el ejercicio podrían sensibilizar a la insulina por vías parcialmente distintas [4].</p>
+                <p><strong class="text-white">2.3. Mecanismos propuestos: ritmos circadianos, microbiota y conducta.</strong> Patterson y Sears destacan tres mecanismos hipotéticos por los cuales el ayuno intermitente mejora la salud: (1) la biología circadiana, ya que los relojes periféricos (hígado, músculo, grasa) se sincronizan con la ingesta; comer de noche se asocia con peores respuestas glucémicas postprandiales y mayor riesgo metabólico, mientras que prolongar el ayuno nocturno (≥12–13 h) se asocia con menor HbA1c y menor inflamación en estudios observacionales; (2) la microbiota intestinal, cuyas oscilaciones cíclicas diarias se restauran con la alimentación restringida en el tiempo y cuyas alteraciones (disbiosis por jet lag) se han relacionado con intolerancia a la glucosa; y (3) conductas modificables como el sueño, la ingesta energética total y la actividad física [3]. La sensibilidad a la insulina disminuye a lo largo del día, de modo que alinear la ingesta con las horas de mayor tolerancia glucémica constituye una estrategia "crononutricional" relevante [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Ejercicio físico: perturbación homeostática y adaptación</h3>
+                <p><strong class="text-white">3.1. Metabolismo agudo del ejercicio.</strong> El músculo esquelético es un órgano central en la regulación metabólica: es el principal sitio de almacenamiento de glucógeno, de captación de glucosa estimulada por insulina y de oxidación de sustratos. Durante el ejercicio agudo, el ATP libre intramuscular solo sostiene &lt;2 s de contracción máxima, por lo que la resíntesis de ATP depende de la integración de los sistemas fosfágeno (fosfocreatina/creatina quinasa), glucolítico y oxidativo [5]. Según el "concepto de cruce" (crossover), a intensidades bajas-moderadas domina la oxidación de ácidos grasos no esterificados (NEFA) y lípidos intramiocelulares, mientras que al aumentar la intensidad se produce una transición hacia la utilización preferente de carbohidratos (glucógeno muscular y glucosa sanguínea) [5]. La captación de glucosa por el músculo puede aumentar 15–50 veces respecto al reposo, mediada por la translocación de GLUT4 regulada por Ca²⁺/CaMKII, AMPK y RAC1 [5].</p>
+                <p>El ejercicio también genera especies reactivas de oxígeno (ROS), principalmente por las NADPH oxidasas (NOX2 y NOX4) en la sarcolema y el retículo sarcoplásmico, que actúan como moléculas señalizadoras necesarias para las adaptaciones al entrenamiento; de hecho, atenuar el estrés oxidativo con antioxidantes en dosis altas reduce los efectos sensibilizadores de la insulina del entrenamiento [5].</p>
+                <p><strong class="text-white">3.2. Adaptaciones al entrenamiento: biogénesis mitocondrial y señalización.</strong> El entrenamiento crónico aumenta la capacidad oxidativa del músculo mediante la biogénesis mitocondrial, proceso iniciado por la activación de AMPK (por aumento de AMP/ATP), CaMK (por los transitorios de Ca²⁺) y p38 MAPK, que convergen en la expresión y actividad del coactivador transcripcional PGC-1α, el "regulador maestro" de la biogénesis mitocondrial [6]. PGC-1α coactiva factores como NRF1/2 y MEF2 para inducir la expresión de genes mitocondriales nucleares y mitocondriales [6]. Este programa adaptativo no se limita al músculo: el ejercicio induce biogénesis mitocondrial también en tejido adiposo (vía catecolaminas, glucagón, IL-6 y lactato), y hay evidencia en hígado, cerebro y riñón, lo que apoya la noción de una biogénesis mitocondrial "sistémica" mediada por señales circulantes [6]. En el tejido adiposo, el aumento de PGC-1α y de enzimas mitocondriales tras el entrenamiento podría mejorar el reciclaje ácido graso-triglicérido y contribuir a la salud metabólica global [6].</p>
+                <p>A nivel celular, el ejercicio remodela el retículo mitocondrial (subsarcolemal e intermidfibrillar), las crestas mitocondriales y los supercomplejos de la cadena respiratoria, mejorando la eficiencia del acoplamiento oxidativo [5]. Además, la mitofagia selectiva de mitocondrias dañadas, regulada por AMPK mitocondrial y ULK1/MFF, es esencial para mantener la calidad mitocondrial y la homeostasis energética celular [5].</p>
+                <p><strong class="text-white">3.3. Regulación epigenética y redox del músculo.</strong> El ejercicio modifica el paisaje epigenético del músculo: una sesión aguda induce hipometilación global del ADN y cambios en la metilación de promotores de genes como PGC-1α, PDK4 y PPAR-δ, mientras que el entrenamiento produce patrones de metilación que podrían constituir una "memoria muscular" [2,5]. Las ROS generadas por la contracción modifican la guanina del ADN a 8-oxoguanina (8-oxoGua), que actúa como una "marca epigenética-like": es leída por la glicosilasa OGG1, que puede reclutar a TET1 para promover la desmetilación de citosinas o bien modular la unión de factores de transcripción y la topografía de la cromatina [2]. El 8-oxoGua liberado por la reparación BER se comporta además como un segundo mensajero: el complejo OGG1·8-oxoGua tiene actividad de factor de intercambio de nucleótidos de guanina (GEF) que activa RAS/MEK/ERK y promueve la activación de células satélite y la diferenciación miogénica (vía MyoD) [2]. De este modo, el "estrés oxidativo" inducido por el ejercicio se reinterpreta como un mecanismo fisiológico de señalización que contribuye a la adaptación, la reparación muscular y, posiblemente, al enlentecimiento del reloj epigenético de envejecimiento [2].</p>
+                <p><strong class="text-white">3.4. Efectos sistémicos: mioquinas y comunicación interorgánica.</strong> El músculo en contracción secreta mioquinas (IL-6, apelina, lactato, succinato, etc.) que actúan de forma autocrina, paracrina y endocrina. La IL-6 muscular moviliza NEFA y modula la inflamación; el lactato participa en ejes de comunicación músculo-tejido adiposo (TGF-β2) y en la supresión del apetito vía Lac-Phe; y el eje PGC-1α-KAT detoxifica el quinurenina, ejerciendo efectos antidepresivos [5]. Estas señales contribuyen a explicar por qué el ejercicio mejora la homeostasis de la glucosa, la función endotelial y la salud metabólica sistémica más allá del músculo [5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Nutrición: nutrientes como señales y órganos sensores</h3>
+                <p><strong class="text-white">4.1. Vías de señalización por nutrientes.</strong> La nutrición modula la homeostasis no solo aportando sustratos, sino activando sensores moleculares [10]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Vía de la hexosamina:</strong> funciona como sensor de glucosa; el exceso de flujo glucolítico genera UDP-GlcNAc y O-GlcNAcilación de proteínas reguladoras, lo que se asocia con desensibilización del transportador de glucosa (resistencia a la insulina inducida por glucosa, "glucotoxicidad"), aumento de la lipogénesis y regulación de la secreción de leptina y adiponectina por el adipocito [10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Vía de mTOR (mTORC1):</strong> sensora de aminoácidos y de energía; promueve síntesis proteica, biogénesis ribosomal e inhibe la autofagia; es inhibida por AMPK cuando la energía escasea, conectando el estado nutricional con el crecimiento celular [10]. En músculo, la actividad de mTORC1 tras el ejercicio de fuerza es potenciada por la ingesta de proteínas y aminoácidos [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Vía de AMPK:</strong> sensor de déficit energético (AMP/ATP alto); activa vías catabólicas generadoras de ATP e inhibe vías anabólicas, y es regulada por hormonas como leptina y adiponectina [10]. AMPK es el nexo común entre ayuno, ejercicio y ciertos fármacos como la metformina [10].</span></li>
+                </ul>
+                <p>Estas vías están interconectadas entre sí y con la señalización insulínica, configurando la "red reguladora metabólica" que mantiene la glucemia en un rango estrecho, requisito indispensable para el cerebro, que depende de glucosa [10].</p>
+                <p><strong class="text-white">4.2. El intestino como regulador de la homeostasis energética.</strong> El intestino delgado es un órgano plástico y endocrino clave: sus células enteroendocrinas secretan GLP-1, GIP, PYY, colecistoquinina y otras hormonas que regulan la secreción de insulina (efecto incretina), el apetito y la motilidad [9]. La superficie absortiva del intestino se remodela en respuesta a la dieta: la sobrealimentación (dietas altas en grasa y azúcares) alarga las vellosidades y aumenta la capacidad absortiva mediante la proliferación de células madre intestinales regulada por la vía Wnt y por el metabolismo lipídico dependiente de PPARα; la restricción calórica, paradójicamente, aumenta la proliferación de células madre en las criptas [9]. El intestino también amortigua la carga de fructosa y participa en la gluconeogénesis intestinal durante el ayuno prolongado, que señaliza al hígado y al cerebro a través de un sensor de glucosa portal, reduciendo la producción hepática de glucosa y el apetito [9]. La microbiota, a través de ácidos grasos de cadena corta (butirato, propionato) y otros metabolitos, modula la gluconeogénesis intestinal, la secreción hormonal y la integridad de la barrera, constituyendo otro nexo entre nutrición y homeostasis [3,9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Interacciones: ejercicio en ayunas, disponibilidad de sustratos y adaptación</h3>
+                <p><strong class="text-white">5.1. Efectos metabólicos del ejercicio en estado de ayuno.</strong> El estado nutricional previo modifica profundamente el metabolismo del ejercicio. El metaanálisis de Aird et al. concluye que la alimentación pre-ejercicio mejora el rendimiento en ejercicio aeróbico prolongado (&gt;60 min), mientras que no afecta al rendimiento en ejercicios más cortos ni al interválico de alta intensidad [8]. Por el contrario, el ejercicio en ayunas eleva significativamente los ácidos grasos libres circulantes post-ejercicio (efecto grande, g = 0,7) y activa en mayor medida vías de señalización metabólica: la ingesta de glucosa antes del ejercicio atenúa la fosforilación de AMPK (Thr172), la expresión de SIRT1 y las respuestas de señalización en músculo (STAT3, ERK1/2) y en tejido adiposo (PDK4, ATGL, HSL, CD36, GLUT4, IRS2) [8]. Estos datos apoyan la hipótesis de que el ejercicio en condiciones de baja disponibilidad de glucosa optimiza la señalización adaptativa relacionada con la utilización de lípidos y la biogénesis mitocondrial, aunque los estudios crónicos (p. ej., HIIT en ayunas vs. alimentado) muestran resultados más matizados [8].</p>
+                <p><strong class="text-white">5.2. Entrenamiento en ayunas: mayor capacidad oxidativa.</strong> El estudio controlado de Van Proeyen et al. comparó 6 semanas de entrenamiento de resistencia isocalórico en ayunas (F) frente a entrenamiento con abundantes carbohidratos (CHO). El entrenamiento en ayunas produjo: mayor aumento de la intensidad de ejercicio correspondiente a la oxidación máxima de grasas (FATmax, +21% vs. +6%), mayor actividad de citrato sintasa (+47%) y de β-hidroxiacil-CoA deshidrogenasa (+34%), mayor degradación neta de triglicéridos intramiocelulares en fibras tipo I y tipo IIa durante el ejercicio, y previno la caída de la glucemia durante el ejercicio en ayunas, lo que sugiere adaptaciones en la gluconeogénesis hepática [7]. Estos efectos se produjeron con la misma intensidad, duración y aporte energético total, lo que indica que el estado nutricional en el que se entrena modula la magnitud de las adaptaciones musculares [7]. No obstante, el rendimiento en contrarreloj de 60 min fue similar entre grupos, lo que advierte que la mayor capacidad oxidativa no se traduce automáticamente en mejor rendimiento [7].</p>
+                <p><strong class="text-white">5.3. Implicaciones integradoras para la salud.</strong> En conjunto, la evidencia sugiere que:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El ayuno intermitente mejora la sensibilidad a la insulina, favorece la oxidación de grasas y reduce peso e inflamación, con mecanismos que implican la activación de AMPK, el aumento de adiponectina, la sincronización circadiana de la ingesta y cambios en la microbiota [1,3,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El ejercicio físico mejora la flexibilidad metabólica mediante biogénesis mitocondrial (PGC-1α/AMPK/CaMK), remodelación epigenética y redox (8-oxoGua/OGG1), secreción de mioquinas y mejoras en la acción de la insulina [2,5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La nutrición actúa como señal (hexosamina, mTOR, AMPK) y a través de órganos sensores como el tejido adiposo (leptina, adiponectina) y el intestino (incretinas, gluconeogénesis intestinal, microbiota) [9,10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La combinación de ayuno y ejercicio potencia la señalización adaptativa ligada a la oxidación de lípidos y a la capacidad oxidativa muscular, pero debe ponderarse con el efecto del estado alimentado sobre el rendimiento en sesiones prolongadas [7,8].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Conclusiones</h3>
+                <p>Ejercicio, ayuno y nutrición no son intervenciones independientes, sino moduladores fisiológicos convergentes de una misma red de homeostasis metabólica: comparten sensores (AMPK, mTOR), efectores (PGC-1α, cuerpos cetónicos, mioquinas, adipocinas, incretinas) y mecanismos reguladores (ritmos circadianos, epigenética, microbiota) [1,3,5,6,10]. El ayuno promueve un cambio metabólico hacia la oxidación de lípidos y la cetogénesis, con efectos sensibilizadores de la insulina mediados en parte por la adiponectina [1,4]; el ejercicio induce adaptaciones mitocondriales, epigenéticas y sistémicas que aumentan la flexibilidad metabólica [2,5,6]; y la nutrición modula estas respuestas tanto por la composición de macronutrientes como por el momento de la ingesta [3,7,8]. La investigación futura deberá aclarar los mecanismos moleculares específicos del ayuno intermitente, el papel de los cuerpos cetónicos y las mejores estrategias para integrar el ejercicio en ayunas en programas de salud y rendimiento [1,8].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Rebello CJ et al. From starvation to time-restricted eating: a review of fasting physiology. <em>International Journal of Obesity.</em> 2024;49(1):43-48. <a href="https://doi.org/10.1038/s41366-024-01641-0" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1038/s41366-024-01641-0</a></p>
+                    <p>[2] Radak Z et al. Epigenetic and "redoxogenetic" adaptation to physical exercise. <em>Free Radical Biology and Medicine.</em> 2024;210:65-74. <a href="https://doi.org/10.1016/j.freeradbiomed.2023.11.005" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.freeradbiomed.2023.11.005</a></p>
+                    <p>[3] Patterson RE, Sears DD. Metabolic Effects of Intermittent Fasting. <em>Annual Review of Nutrition.</em> 2017;37(1):371-393. <a href="https://doi.org/10.1146/annurev-nutr-071816-064634" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1146/annurev-nutr-071816-064634</a></p>
+                    <p>[4] Halberg N et al. Effect of intermittent fasting and refeeding on insulin action in healthy men. <em>Journal of Applied Physiology.</em> 2005;99(6):2128-2136. <a href="https://doi.org/10.1152/japplphysiol.00683.2005" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1152/japplphysiol.00683.2005</a></p>
+                    <p>[5] Smith JAB, Murach KA, Dyar KA, Zierath JR. Exercise metabolism and adaptation in skeletal muscle. <em>Nature Reviews Molecular Cell Biology.</em> 2023;24(9):607-632. <a href="https://doi.org/10.1038/s41580-023-00606-x" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1038/s41580-023-00606-x</a></p>
+                    <p>[6] Little JP, Safdar A, Benton CR, Wright DC. Skeletal muscle and beyond: the role of exercise as a mediator of systemic mitochondrial biogenesis. <em>Applied Physiology, Nutrition, and Metabolism.</em> 2011;36(5):598-607. <a href="https://doi.org/10.1139/h11-076" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1139/h11-076</a></p>
+                    <p>[7] Van Proeyen K et al. Beneficial metabolic adaptations due to endurance exercise training in the fasted state. <em>Journal of Applied Physiology.</em> 2011;110(1):236-245. <a href="https://doi.org/10.1152/japplphysiol.00907.2010" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1152/japplphysiol.00907.2010</a></p>
+                    <p>[8] Aird TP, Davies RW, Carson BP. Effects of fasted vs fed-state exercise on performance and post-exercise metabolism: A systematic review and meta-analysis. <em>Scandinavian Journal of Medicine &amp; Science in Sports.</em> 2018;28(5):1476-1493. <a href="https://doi.org/10.1111/sms.13054" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1111/sms.13054</a></p>
+                    <p>[9] Stojanović O, Miguel-Aliaga I, Trajkovski M. Intestinal plasticity and metabolism as regulators of organismal energy homeostasis. <em>Nature Metabolism.</em> 2022;4(11):1444-1458. <a href="https://doi.org/10.1038/s42255-022-00679-6" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1038/s42255-022-00679-6</a></p>
+                    <p>[10] Marshall S. Role of Insulin, Adipocyte Hormones, and Nutrient-Sensing Pathways in Regulating Fuel Metabolism and Energy Homeostasis: A Nutritional Perspective of Diabetes, Obesity, and Cancer. <em>Science's STKE.</em> 2006;2006(346). <a href="https://doi.org/10.1126/stke.3462006re7" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1126/stke.3462006re7</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'moduladores-metabolicos','Ejercicio físico, ayuno y nutrición como moduladores fisiológicos de la homeostasis y del metabolismo')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalModuladoresMetabolicos()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -2250,6 +2602,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'nutricion-hiit','Nutrición en procesos de entrenamiento de alta intensidad')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalNutricionHIIT()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2323,6 +2676,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'sarcopenia-neural','Envejecimiento neuromuscular: factores dependientes del sistema nervioso que contribuyen a la sarcopenia y al deterioro funcional')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalSarcopeniaNeural()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2437,6 +2791,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'diabetes-ejercicio','Diabetes tipo 2 y ejercicio físico: prevención, control y reversión')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalDiabetesEjercicio()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2504,6 +2859,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'atrofia-rodilla','Recuperación de atrofias musculares como consecuencia de cirugía artroscópica de rodilla')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalAtrofiaRodilla()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2654,6 +3010,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'cancer-ejercicio','El papel del ejercicio físico en la prevención y el tratamiento del cáncer')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalCancerEjercicio()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2774,6 +3131,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'fuerza-futbol-femenino','Entrenamiento de la fuerza en mujeres futbolistas: evidencia científica y recomendaciones prácticas')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalFuerzaFutbolFemenino()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -2889,6 +3247,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'futbol','La preparación física en el fútbol profesional: principios, métodos y estrategias')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalFutbol()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -3022,6 +3381,7 @@
             </div>
             <!-- Pie -->
             <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'rcp','Reanimación Cardiopulmonar (RCP): qué es, cómo se realiza y cuándo aplicarla')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalRCP()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
@@ -3117,6 +3477,49 @@
                 const mostrar = categoria === 'todas' || card.dataset.categoria === categoria;
                 card.style.display = mostrar ? '' : 'none';
             });
+        }
+
+        // Comparte el enlace directo a una entrada del blog (Web Share API si está disponible, o copia al portapapeles)
+        function compartirEntrada(event, slug, titulo) {
+            if (event) event.stopPropagation();
+            const url = window.location.origin + window.location.pathname + '#blog/' + slug;
+
+            // La Web Share API y el portapapeles solo funcionan en contextos seguros
+            // (https o localhost). En file:// (o http sin cifrar) hay que evitarlas:
+            // en Chrome, llamar a navigator.share() ahí puede matar el proceso con
+            // RESULT_CODE_KILLED_BAD_MESSAGE.
+            if (navigator.share && window.isSecureContext) {
+                navigator.share({ title: titulo, text: titulo, url: url }).catch(() => {});
+                return;
+            }
+            if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(() => {
+                    mostrarToast('Enlace copiado al portapapeles');
+                }).catch(() => {
+                    window.prompt('Copia el enlace para compartir esta entrada:', url);
+                });
+                return;
+            }
+            window.prompt('Copia el enlace para compartir esta entrada:', url);
+        }
+
+        let toastTimeout;
+        function mostrarToast(mensaje) {
+            let toast = document.getElementById('toast-compartir');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'toast-compartir';
+                toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-800 border border-teal-500/40 text-white text-sm font-semibold px-5 py-3 rounded-full shadow-2xl z-[300] opacity-0 pointer-events-none transition-opacity duration-300';
+                document.body.appendChild(toast);
+            }
+            toast.textContent = mensaje;
+            toast.classList.remove('opacity-0');
+            toast.classList.add('opacity-100');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove('opacity-100');
+                toast.classList.add('opacity-0');
+            }, 2500);
         }
 
         function abrirStrengthCoach() {
@@ -3253,6 +3656,39 @@
         }
         function cerrarModalNoruego() {
             document.getElementById('modal-noruego').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalDolorLumbar() {
+            const modal = document.getElementById('modal-dolor-lumbar');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalDolorLumbar() {
+            document.getElementById('modal-dolor-lumbar').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalCreatinaMayores() {
+            const modal = document.getElementById('modal-creatina-mayores');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalCreatinaMayores() {
+            document.getElementById('modal-creatina-mayores').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalModuladoresMetabolicos() {
+            const modal = document.getElementById('modal-moduladores-metabolicos');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalModuladoresMetabolicos() {
+            document.getElementById('modal-moduladores-metabolicos').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
