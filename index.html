@@ -653,6 +653,26 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Cómo relajar un músculo con espasmo o contracción crónica dolorosa -->
+                    <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Contractura.png" alt="Cómo relajar un músculo con espasmo o contracción crónica dolorosa" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Cómo relajar un músculo con espasmo o contracción crónica dolorosa</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Espasmo, contractura y espasticidad requieren abordajes distintos. Una revisión de estiramiento, frío/calor, masaje y liberación miofascial, relajación y biofeedback, y las opciones farmacológicas y de infiltración disponibles.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'espasmo-muscular','Cómo relajar un músculo con espasmo o contracción crónica dolorosa')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-espasmo-muscular','Relajar-Musculo-Espasmo-Contraccion-Cronica')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalEspasmoMuscular()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Creatina como suplemento en personas mayores -->
                     <article data-categoria="nutricion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -1374,10 +1394,18 @@
         });
 
         // Navegación con botón atrás/adelante del navegador
-        // Abre la entrada de blog correspondiente a un slug (usado por los enlaces "#blog/<slug>" compartidos)
-        function abrirModalPorSlug(slug) {
+        // Abre la entrada de blog correspondiente a un slug (usado por los enlaces "#blog/<slug>" compartidos).
+        // Los modales se definen más abajo en el HTML, así que si aún no existen en el DOM
+        // (p. ej. justo durante la carga inicial de la página) se reintenta unos instantes
+        // en lugar de fallar silenciosamente.
+        function abrirModalPorSlug(slug, intentos = 20) {
             const modal = document.getElementById('modal-' + slug);
-            if (!modal) return;
+            if (!modal) {
+                if (intentos > 0) {
+                    setTimeout(() => abrirModalPorSlug(slug, intentos - 1), 50);
+                }
+                return;
+            }
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden';
             lucide.createIcons();
@@ -1389,7 +1417,7 @@
             const [page, slug] = raw.split('/');
             navigateTo(page || 'inicio', false);
             if (page === 'blog' && slug) {
-                setTimeout(() => abrirModalPorSlug(slug), 60);
+                abrirModalPorSlug(slug);
             }
         }
 
@@ -1397,15 +1425,24 @@
             navegarDesdeHash();
         });
 
-        // Cargar la sección correcta al abrir la página con un hash en la URL
-        (function () {
+        // Cargar la sección correcta al abrir la página con un hash en la URL.
+        // Se espera a que el documento esté completamente parseado (DOMContentLoaded) para
+        // garantizar que los modales de las entradas del blog ya existan en el DOM: este script
+        // se ejecuta antes de que el HTML de los modales (más abajo en el documento) se haya
+        // parseado, así que abrir el enlace compartido nada más cargar la página podía fallar.
+        function inicializarDesdeHash() {
             const hash = window.location.hash.slice(1);
             if (hash) {
                 navegarDesdeHash();
             }
             // Guardar el estado inicial en el historial
             history.replaceState({ page: hash.split('/')[0] || 'inicio' }, '', window.location.hash || '#inicio');
-        })();
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', inicializarDesdeHash);
+        } else {
+            inicializarDesdeHash();
+        }
 
         // Funcionalidad del Menú Móvil
         function toggleMobileMenu() {
@@ -3387,6 +3424,128 @@
         </div>
     </div>
 
+    <!-- Modal: Cómo relajar un músculo con espasmo o contracción crónica dolorosa -->
+    <div id="modal-espasmo-muscular" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalEspasmoMuscular()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Rehabilitación · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Cómo relajar un músculo con espasmo o contracción crónica dolorosa</h2>
+                </div>
+                <button onclick="cerrarModalEspasmoMuscular()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <div class="h-48 -mx-6 -mt-6 mb-2 overflow-hidden">
+                    <img src="Contractura.png" alt="Cómo relajar un músculo con espasmo o contracción crónica dolorosa" class="w-full h-full object-cover object-top">
+                </div>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Antes de tratar: entender qué tipo de "contracción" es</h3>
+                <p>En la práctica clínica conviene distinguir varios fenómenos que se confunden bajo el término genérico de "contractura", porque cada uno responde a tratamientos distintos [3].</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Espasmo muscular:</strong> contracción involuntaria con actividad eléctrica demostrable en el electromiograma (EMG), como los calambres nocturnos, el trismo o el espasmo de la espalda tras una lesión. Puede ser doloroso si la contracción sostenida comprime los vasos sanguíneos del propio músculo y lo deja isquémico [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Contractura fisiológica:</strong> acortamiento del aparato contráctil sin actividad eléctrica (p. ej., la banda tensa de los puntos gatillo miofasciales), que produce dolor referido y limita el movimiento [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Espasticidad:</strong> hipertonía dependiente de la velocidad, propia de lesiones de la motoneurona superior (ictus, esclerosis múltiple, lesión medular); suele requerir fármacos antiespásticos específicos [4-6].</span></li>
+                </ul>
+                <p>Un punto gatillo miofascial es una zona hiperirritable dentro de una banda tensa, que duele a la compresión y reproduce un patrón de dolor referido; suele asociarse a sobrecarga repetitiva, malas posturas y estrés [8]. Aclarar el diagnóstico (idealmente con un profesional de la salud) evita tratar "espasmo" lo que en realidad es una contractura miofascial o una espasticidad [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Medidas físicas y no farmacológicas</h3>
+                <h4 class="text-sm font-bold text-white pt-1">2.1. Estiramiento lento y sostenido</h4>
+                <p>El estiramiento es una de las herramientas centrales. Sin embargo, el estiramiento pasivo brusco puede ser contraproducente: activa el reflejo miotático (husos musculares), haciendo que el músculo se contraiga aún más, y además suele ser doloroso [2]. Por ello se recomienda:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Estiramiento lento, sostenido y mantenido en el punto de máxima tolerancia, que activa los órganos tendinosos de Golgi (inhibición autógena) y reduce la actividad eléctrica del músculo [2,10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Técnicas de facilitación neuromuscular propioceptiva (PNF) como contraer-relajar (hold-relax / contract-relax): tras una contracción isométrica breve, el músculo queda inhibido y tolera mejor el alargamiento; la contracción del músculo antagonista añade inhibición recíproca [2,3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En calambres agudos, estirar activamente el músculo contrayendo su antagonista (p. ej., dorsiflexión del pie para un calambre de gemelo) suele ser más eficaz que el estiramiento pasivo, por la inhibición recíproca [3].</span></li>
+                </ul>
+                <p>La evidencia experimental muestra que el estiramiento pasivo reduce la actividad EMG excesiva en músculos con calambre [12], y en adultos jóvenes con tensión del trapecio superior, tres semanas de estiramientos redujeron la tensión muscular (medida con EMG) y el dolor más que la técnica de relajación de Laura Mitchell [1]. Un ensayo clínico reciente con autoestiramiento (con y sin respiración consciente) en síndrome de dolor miofascial del trapecio superior mostró aumentos significativos del umbral de dolor a la presión en ambos grupos, con mejoría adicional del rango de movimiento cervical en el grupo con respiración consciente [14].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.2. Frío y calor como coadyuvantes</h4>
+                <p>Un estudio electromiográfico clásico comparó combinaciones de calor o frío con estiramiento estático o PNF en músculos con dolor muscular retardado: el frío seguido de estiramiento estático fue la combinación más eficaz para reducir la actividad eléctrica y el dolor, y en general los tratamientos con frío + estiramiento superaron a los de calor + estiramiento [10]. El frío eleva el umbral de disparo de los husos musculares y reduce la velocidad de conducción nerviosa [10]. El calor superficial, en cambio, puede usarse para aumentar el flujo sanguíneo y la distensibilidad tisular, y la aplicación de spray refrigerante (vapocoolant) seguida de estiramiento pasivo es una técnica clásica, descrita como una de las más efectivas para puntos gatillo miofasciales [8].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.3. Masaje y liberación miofascial</h4>
+                <p>El masaje de "stroking profundo" o stripping, la compresión isquémica y la liberación miofascial se emplean para desactivar puntos gatillo y reducir la tensión [8]. Un ensayo clínico reciente mostró que la liberación miofascial (aplicada sobre la zona lumbar o incluso a distancia, sobre la fascia crural e isquiotibial) redujo el dolor lumbar crónico inespecífico y disminuyó el módulo elástico de la fascia toracolumbar medido por elastografía [15]. Este efecto a distancia apoya la idea de cadenas miofasciales conectadas (línea superficial posterior) [15].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.4. Inhibición general: relajación, balanceo y biorretroalimentación</h4>
+                <p>Cuando la hipertonía es generalizada (p. ej., por estrés o espasticidad), conviene reducir el tono global: balanceo lento, rotaciones rítmicas, superficies móviles y la posición invertida producen inhibición general del sistema nervioso, lo que facilita después el alargamiento del músculo [2].</p>
+                <p>La relajación muscular progresiva de Jacobson, el entrenamiento autógeno, la imaginación guiada y el biofeedback EMG han mostrado efectos positivos en dolor musculoesquelético crónico: reducción de la intensidad del dolor, la ansiedad, la depresión y la fatiga, así como mayor movilidad y uso de estrategias de afrontamiento [13]. El entrenamiento autógeno también ha mostrado reducir la actividad EMG en puntos gatillo activos. La relajación no sustituye al estiramiento, pero puede complementarlo; en el estudio del trapecio superior, el estiramiento fue más eficaz que la relajación sola para aliviar la tensión [1]. En calambres nocturnos, medidas conductuales simples (levantarse y apoyar el pie, evitar la flexión plantar mantenida por el peso de las sábanas, caminar) son recursos útiles [16].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.5. Ejercicio terapéutico y corrección de factores perpetuantes</h4>
+                <p>Un principio clave de la fisioterapia es fortalecer el músculo agonista débil que se opone al músculo contracturado: al mejorar su función, se inhibe recíprocamente al músculo tenso y se previene la recurrencia [2]. También es esencial identificar y corregir factores perpetuantes: posturas, ergonomía del puesto de trabajo, sobrecargas repetitivas y estrés emocional [3,8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Tratamiento farmacológico</h3>
+                <h4 class="text-sm font-bold text-white pt-1">3.1. Relajantes musculares de acción central (antiespasmódicos)</h4>
+                <p>Para el espasmo musculoesquelético agudo (lumbalgia, dolor cervical) existen ciclobenzaprina, carisoprodol, metaxalona, metocarbamol, orfenadrina y clorzoxazona [4-6]. La evidencia de ensayos controlados apoya su eficacia a corto plazo frente a placebo: ciclobenzaprina (el más estudiado), carisoprodol, orfenadrina y tizanidina mejoran el dolor y el espasmo en condiciones musculoesqueléticas [5,6]. Sin embargo:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Están indicados solo para 2-3 semanas; no hay evidencia sólida de beneficio en dolor crónico, y su uso prolongado expone a sedación, mareo, sequedad bucal y riesgo de caídas [4-6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Ciclobenzaprina tiene efectos anticolinérgicos y debe evitarse en ancianos (criterios Beers) [4,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Carisoprodol se metaboliza a meprobamato y tiene potencial de dependencia; se desaconseja [4,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Su efecto analgésico percibido puede deberse en parte a la sedación [4].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Antiespásticos (para espasticidad)</h4>
+                <p>Baclofeno, tizanidina, dantroleno y diazepam se emplean para la espasticidad de origen central. Hay evidencia "fair" de que baclofeno, tizanidina y dantroleno son eficaces frente a placebo (sobre todo en esclerosis múltiple), con eficacia comparable entre ellos [5,6]. Particularidades:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Baclofeno</strong> (agonista GABA-B): eficaz, pero causa debilidad y requiere retirada gradual [4-6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Tizanidina</strong> (agonista α2): eficacia similar a baclofeno, con más sequedad bucal y somnolencia [5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Dantroleno:</strong> único de acción periférica directa (bloquea la liberación de calcio del retículo sarcoplasmático), útil cuando el problema es el propio músculo, pero con riesgo de hepatotoxicidad [4,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Diazepam:</strong> eficaz pero con sedación y potencial de dependencia; no suele ser de primera línea [4,6].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Toxina botulínica</h4>
+                <p>La inyección de toxina botulínica A en el punto gatillo produce una denervación química local (bloquea la liberación de acetilcolina) que relaja el músculo durante semanas o meses [7,9]. En un ensayo doble ciego clásico, cuatro de seis pacientes con dolor miofascial crónico cervical/hombro mejoraron al menos un 30% con toxina y no con suero salino [7]. Sin embargo, los resultados globales son contradictorios: las revisiones sistemáticas no permiten recomendarla ni rechazarla de forma general, aunque sí hay evidencia de utilidad en casos refractarios a otros tratamientos y en ciertos síndromes regionales como el piriforme [9]. Además, los comparadores habituales (solución salina, anestésicos locales, punción seca) no son placebos inertes, ya que la propia punción tiene efecto terapéutico [9]. Se reserva para casos seleccionados por un especialista [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4. Calambres musculares: quinina, magnesio y otros</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Quinina:</strong> es eficaz para reducir la frecuencia e intensidad de los calambres nocturnos, pero la FDA desaconseja su uso por riesgos graves (trombocitopenia, hipersensibilidad, prolongación del QT); en la práctica se evita [16].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Magnesio:</strong> los ensayos en adultos no embarazadas muestran resultados mayoritariamente negativos (no reduce la frecuencia de calambres); solo hay algún indicio de beneficio en el embarazo. No se recomienda de forma sistemática [16].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Otros fármacos</strong> (diltiazem, gabapentina, vitamina E) tienen evidencia débil [16].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.5. Inyecciones en puntos gatillo y punción seca</h4>
+                <p>La inyección en el punto gatillo (con anestésico local, suero salino o punción seca) es la técnica invasiva con más respaldo; la elicitación de la respuesta de espasmo local predice mejores resultados, y tras la punción se recomienda estirar activamente el músculo [8]. A menudo el alivio dura más que la acción del agente inyectado [8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Plan práctico recomendado</h3>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Fase aguda del espasmo:</strong> estiramiento lento y sostenido (o contracción del antagonista); aplicación de frío seguida de estiramiento si hay dolor e hiperactividad EMG [10,12]; masaje o compresión suave [12]; evitar el estiramiento brusco que activa el reflejo de estiramiento [2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Contractura crónica / punto gatillo:</strong> calor o spray refrigerante + estiramiento progresivo [8], masaje de fricción profunda/liberación miofascial [8,15], y si no responde, punción seca o infiltración por profesional [8]; considerar toxina botulínica en casos refractarios [7,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Manejo farmacológico a corto plazo:</strong> relajante muscular de acción central (p. ej., ciclobenzaprina o tizanidina) durante 1-3 semanas, idealmente junto a AINE y fisioterapia; en espasticidad real, baclofeno, tizanidina o dantroleno bajo supervisión médica [4-6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Abordaje integral y prevención:</strong> relajación muscular progresiva/biofeedback si hay estrés y tensión generalizada [13], corrección ergonómica y postural [3,8], fortalecimiento del músculo antagonista débil [2] y ejercicio regular; en calambres nocturnos, evitar la flexión plantar mantenida y mantener el pie en dorsiflexión [16].</span></li>
+                </ul>
+                <p><strong class="text-white">Advertencia importante:</strong> la evidencia sobre terapias no farmacológicas para los calambres musculares es limitada; por ejemplo, una revisión Cochrane halló un único ensayo (estiramiento de gemelos para calambres nocturnos en mayores de 60 años) que no demostró reducción de la frecuencia de calambres [11]. Por tanto, si la contractura o el espasmo es intenso, persistente, empeora o se acompaña de otros síntomas, debe valorarse por un médico para descartar causas secundarias (trastornos electrolíticos, tiroideos, neurológicos o fármacos) [3,16].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Chicharro M, Jorge M, Santinho M, Pereira ÂM, Paulo Sousa J, Vicente S. Relaxation to relieve muscle tension to the upper trapezius level in young adults. <em>Annals of Medicine.</em> 2019;51(sup1):215-215. <a href="https://doi.org/10.1080/07853890.2018.1560723" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1080/07853890.2018.1560723</a></p>
+                    <p>[2] Cherry DB. Review of Physical Therapy Alternatives for Reducing Muscle Contracture. <em>Physical Therapy.</em> 1980;60(7):877-881. <a href="https://doi.org/10.1093/ptj/60.7.877" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1093/ptj/60.7.877</a></p>
+                    <p>[3] Simons GD, Mense S. Understanding and measurement of muscle tone as related to clinical muscle pain. <em>Pain.</em> 1998;75(1):1-17. <a href="https://doi.org/10.1016/s0304-3959(97)00102-4" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/s0304-3959(97)00102-4</a></p>
+                    <p>[4] Chang WJ. Muscle Relaxants for Acute and Chronic Pain. <em>Physical Medicine and Rehabilitation Clinics of North America.</em> 2020;31(2):245-254. <a href="https://doi.org/10.1016/j.pmr.2020.01.005" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.pmr.2020.01.005</a></p>
+                    <p>[5] Chou R, Peterson K, Helfand M. Comparative efficacy and safety of skeletal muscle relaxants for spasticity and musculoskeletal conditions: a systematic review. <em>Journal of Pain and Symptom Management.</em> 2004;28(2):140-175. <a href="https://doi.org/10.1016/j.jpainsymman.2004.05.002" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jpainsymman.2004.05.002</a></p>
+                    <p>[6] See S, Ginzburg R. Skeletal Muscle Relaxants. <em>Pharmacotherapy: The Journal of Human Pharmacology and Drug Therapy.</em> 2008;28(2):207-213. <a href="https://doi.org/10.1592/phco.28.2.207" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1592/phco.28.2.207</a></p>
+                    <p>[7] Cheshire WP, Abashian SW, Mann DJ. Botulinum toxin in the treatment of myofascial pain syndrome. <em>Pain.</em> 1994;59(1):65-69. <a href="https://doi.org/10.1016/0304-3959(94)90048-5" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/0304-3959(94)90048-5</a></p>
+                    <p>[8] Lavelle ED, Lavelle W, Smith HS. Myofascial Trigger Points. <em>Medical Clinics of North America.</em> 2007;91(2):229-239. <a href="https://doi.org/10.1016/j.mcna.2006.12.004" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.mcna.2006.12.004</a></p>
+                    <p>[9] Climent JM, Kuan TS, Fenollosa P, Martin-del-Rosario F. Botulinum Toxin for the Treatment of Myofascial Pain Syndromes Involving the Neck and Back: A Review from a Clinical Perspective. <em>Evidence-Based Complementary and Alternative Medicine.</em> 2013;2013:1-10. <a href="https://doi.org/10.1155/2013/381459" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1155/2013/381459</a></p>
+                    <p>[10] Prentice WE Jr. An Electromyographic Analysis of the Effectiveness of Heat or Cold and Stretching for Inducing Relaxation in Injured Muscle. <em>Journal of Orthopaedic &amp; Sports Physical Therapy.</em> 1982;3(3):133-140. <a href="https://doi.org/10.2519/jospt.1982.3.3.133" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.2519/jospt.1982.3.3.133</a></p>
+                    <p>[11] Bidonde J, et al. Non-drug therapies for lower limb muscle cramps. <em>Cochrane Database of Systematic Reviews.</em> 2012. <a href="https://doi.org/10.1002/14651858.cd008496.pub2" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1002/14651858.cd008496.pub2</a></p>
+                    <p>[12] Helin P. Physiotherapy and electromyography in muscle cramp. <em>British Journal of Sports Medicine.</em> 1985;19(4):230-231. <a href="https://doi.org/10.1136/bjsm.19.4.230" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1136/bjsm.19.4.230</a></p>
+                    <p>[13] Persson AL, Veenhuizen H, Zachrison L, Gard G. Relaxation as treatment for chronic musculoskeletal pain – a systematic review of randomised controlled studies. <em>Physical Therapy Reviews.</em> 2008;13(5):355-365. <a href="https://doi.org/10.1179/174328808x356366" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1179/174328808x356366</a></p>
+                    <p>[14] Buranruk O. A randomized clinical trial of self-stretching with and without mindful breathing - immediate effect on pressure pain and range of motion in myofascial pain syndrome. <em>Journal of Bodywork and Movement Therapies.</em> 2022;32:29-35. <a href="https://doi.org/10.1016/j.jbmt.2022.05.016" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jbmt.2022.05.016</a></p>
+                    <p>[15] Tamartash H, Bahrpeyma F, Dizaji MM. Effect of Remote Myofascial Release on Lumbar Elasticity and Pain in Patients With Chronic Nonspecific Low Back Pain: A Randomized Clinical Trial. <em>Journal of Chiropractic Medicine.</em> 2023;22(1):52-59. <a href="https://doi.org/10.1016/j.jcm.2022.04.002" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jcm.2022.04.002</a></p>
+                    <p>[16] Brown TM. Sleep-Related Leg Cramps. <em>Sleep Medicine Clinics.</em> 2015;10(3):385-392. <a href="https://doi.org/10.1016/j.jsmc.2015.05.002" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jsmc.2015.05.002</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'espasmo-muscular','Cómo relajar un músculo con espasmo o contracción crónica dolorosa')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalEspasmoMuscular()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function descargarPDF(modalId, nombreArchivo) {
             var modal = document.getElementById(modalId);
@@ -3802,6 +3961,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalEspasmoMuscular() {
+            const modal = document.getElementById('modal-espasmo-muscular');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalEspasmoMuscular() {
+            document.getElementById('modal-espasmo-muscular').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 cerrarStrengthCoach();
@@ -3820,6 +3990,7 @@
                 cerrarModalFuerzaFutbolFemenino();
                 cerrarModalRCP();
                 cerrarModalRemo();
+                cerrarModalEspasmoMuscular();
             }
         });
     </script>
