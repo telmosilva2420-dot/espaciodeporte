@@ -653,6 +653,46 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Tratamiento del dolor en las patologías degenerativas del raquis lumbar -->
+                    <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="dolor raquis.png" alt="Tratamiento del dolor en las patologías degenerativas del raquis lumbar" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Tratamiento del dolor en las patologías degenerativas del raquis lumbar</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Un abordaje escalonado del dolor por hernia discal, estenosis lumbar, espondilolistesis y síndrome facetario: desde el tratamiento farmacológico y la rehabilitación hasta las infiltraciones, la radiofrecuencia y la cirugía.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'dolor-raquis-lumbar','Tratamiento del dolor en las patologías degenerativas del raquis lumbar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-dolor-raquis-lumbar','Tratamiento-Dolor-Patologias-Degenerativas-Raquis-Lumbar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalDolorRaquisLumbar()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Entrada: Periodización del entrenamiento en el deporte de competición -->
+                    <article data-categoria="rendimiento-fisico" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Periodizacion.png" alt="Periodización del entrenamiento en el deporte de competición" class="w-full h-full object-cover object-top">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rendimiento físico</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Periodización del entrenamiento en el deporte de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Del modelo clásico de Matveyev a la periodización por bloques e integrada: una revisión de la evidencia sobre qué modelos de planificación maximizan el rendimiento en fuerza, resistencia y deportes de equipo.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'periodizacion-entrenamiento','Periodización del entrenamiento en el deporte de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-periodizacion-entrenamiento','Periodizacion-Entrenamiento-Deporte-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalPeriodizacionEntrenamiento()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Cómo relajar un músculo con espasmo o contracción crónica dolorosa -->
                     <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -3424,6 +3464,240 @@
         </div>
     </div>
 
+    <!-- Modal: Tratamiento del dolor en las patologías degenerativas del raquis lumbar -->
+    <div id="modal-dolor-raquis-lumbar" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalDolorRaquisLumbar()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Rehabilitación · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Tratamiento del dolor en las patologías degenerativas del raquis lumbar</h2>
+                </div>
+                <button onclick="cerrarModalDolorRaquisLumbar()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <div class="h-48 -mx-6 -mt-6 mb-2 overflow-hidden">
+                    <img src="dolor raquis.png" alt="Tratamiento del dolor en las patologías degenerativas del raquis lumbar" class="w-full h-full object-cover object-top">
+                </div>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Introducción: el problema clínico</h3>
+                <p>Las patologías degenerativas del raquis lumbar —enfermedad degenerativa del disco intervertebral, hernia discal, estenosis del canal lumbar, espondilolistesis degenerativa, artrosis facetaria y dolor discogénico— constituyen una de las causas más frecuentes de dolor y discapacidad en la población adulta y anciana [1,3]. El dolor lumbar y radicular ocupa los primeros puestos mundiales en años vividos con discapacidad, con un enorme impacto sanitario y socioeconómico [1]. La degeneración discal es prácticamente universal: más del 85% de la población adulta presenta signos radiológicos de degeneración y alrededor del 90% de los voluntarios asintomáticos mayores de 60 años muestra al menos un disco degenerado en la resonancia magnética (RM) [3,8]. La estenosis lumbar degenerativa es la causa más frecuente de dolor lumbociático o lumbocrural en mayores de 60 años, y se detecta en más del 20% de las RM de este grupo etario [4,5].</p>
+                <p>El dolor de estas patologías tiene un origen multifactorial: compresión mecánica de las raíces nerviosas, inflamación mediada por citocinas, sensibilización central, factores psicosociales (catastrofismo, depresión, ansiedad) y comorbilidades [1,9]. Por ello, el manejo debe ser escalonado, multimodal y multidisciplinario, integrando tratamiento farmacológico, rehabilitación, técnicas intervencionistas y, en casos seleccionados, cirugía [1,4,9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Principios generales del manejo</h3>
+                <p>La mayoría de los episodios de dolor lumbar y radicular tienen un pronóstico favorable: entre el 60 y el 90% de los pacientes con radiculopatía por hernia discal mejora con tratamiento conservador, y las hernias tienden a regresar con el tiempo [1,3]. En la estenosis lumbar, en cambio, los síntomas tienden a estabilizarse o progresar lentamente; entre el 60 y el 70% de los pacientes permanece estable en el mediano plazo, y la claudicación neurogénica responde poco al tratamiento conservador [5]. En la espondilolistesis degenerativa, el hallazgo radiológico no implica necesariamente dolor, por lo que el diagnóstico debe basarse en la correlación clínico-radiológica y en la identificación de los generadores de dolor específicos (facetas, disco, raíz, articulación sacroilíaca) [9,10].</p>
+                <p>El tratamiento se estructura en cuatro escalones: (1) medidas conservadoras no farmacológicas y farmacológicas; (2) técnicas intervencionistas guiadas por imagen; (3) cirugía de descompresión; y (4) cirugía con estabilización/fusión en casos de inestabilidad o deformidad [4,5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Tratamiento farmacológico</h3>
+                <p>La evidencia sobre farmacoterapia en el dolor radicular y lumbar crónico es limitada; la mayoría de los fármacos se recomiendan en la fase aguda y como parte de un plan integral [1,11].</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Paracetamol:</strong> primera línea por su perfil de seguridad en dolor leve-moderado, especialmente en ancianos con comorbilidades [11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">AINEs:</strong> son los fármacos de primera línea en el dolor radicular agudo, con efecto analgésico y antiinflamatorio. No hay diferencias relevantes de eficacia entre AINEs clásicos y COX-2, pero los clásicos producen más efectos gastrointestinales; deben evitarse en ancianos y pacientes con riesgo cardiovascular, renal o gastrointestinal [1,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Opioides:</strong> se usan mucho pero con evidencia pobre a largo plazo; el alivio medio en dolor lumbar crónico es de solo ~30% y con importantes efectos adversos (estreñimiento, sedación, riesgo de caídas, dependencia, tolerancia). Deben reservarse para casos seleccionados, a la dosis mínima eficaz y por períodos cortos [1,8,9,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Corticoides sistémicos:</strong> no se ha demostrado eficacia clara en radiculopatía lumbar; los ensayos controlados no muestran beneficio significativo frente a placebo, por lo que no se recomiendan de forma sistemática [1,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Neuromoduladores</strong> (antiepilépticos y antidepresivos): gabapentina, pregabalina, duloxetina, venlafaxina y antidepresivos tricíclicos se emplean cuando predomina el componente neuropático. Gabapentina y pregabalina han mostrado beneficios en algunos estudios de radiculopatía lumbosacra, aunque un gran ensayo aleatorizado reciente no demostró superioridad de pregabalina frente a placebo en ciática [3,9,11]. Duloxetina está aprobada para dolor neuropático y ha mostrado utilidad en dolor lumbar crónico [9,11]. Los tricíclicos son eficaces en dolor neuropático pero con más efectos adversos (sedación, anticolinérgicos, cardiotoxicidad) [11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Relajantes musculares y benzodiacepinas:</strong> útiles como coadyuvantes en la fase aguda (primeros días) por el espasmo muscular, pero sin evidencia en radiculopatía crónica y con riesgo de sedación y dependencia [1,11].</span></li>
+                </ul>
+                <p>Es importante individualizar según comorbilidades, cronicidad, carácter del dolor y efectos adversos, evitando la polifarmacia sin evaluación [11].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Tratamiento conservador no farmacológico y rehabilitación</h3>
+                <p>La fisioterapia y el ejercicio supervisado son la base del tratamiento conservador y deben ofrecerse como primera línea [4,9]. Las intervenciones con mayor respaldo incluyen:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Ejercicio terapéutico:</strong> programas de fortalecimiento de la musculatura estabilizadora del tronco, ejercicios de flexión lumbar (deslordosantes), entrenamiento aeróbico (bicicleta, ergómetro) y reentrenamiento funcional. En la estenosis lumbar y la espondilolistesis se recomienda evitar la extensión lumbar durante el ejercicio porque puede exacerbar el dolor [4,5,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Terapia manual y manipulación espinal:</strong> la manipulación ha mostrado efecto analgésico a corto plazo en dolor lumbar crónico, superior a placebo en algunos metaanálisis, aunque el efecto clínico puede ser modesto [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Terapia cognitivo-conductual (TCC) y rehabilitación multidisciplinaria biopsicosocial:</strong> es una de las intervenciones con mejor evidencia en dolor lumbar crónico, con mejoría del dolor, la discapacidad y la reincorporación laboral. En los ensayos aleatorizados a largo plazo, la rehabilitación multidisciplinaria con componente cognitivo-conductual obtiene resultados comparables a la cirugía de fusión en dolor discogénico [1,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Educación del paciente:</strong> se recomienda mantener la actividad y evitar el reposo prolongado (&gt;1-2 días), que produce desacondicionamiento [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Otras modalidades</strong> (TENS, ultrasonido, tracción, láser, calor superficial, masaje): sin evidencia sólida de eficacia aislada; la tracción y el TENS no se recomiendan [1,8].</span></li>
+                </ul>
+                <p>En la espondilolistesis degenerativa, la fisioterapia está infrautilizada (solo ~37% de los pacientes Medicare la reciben) pese a mejorar la calidad de vida; los programas basados en flexión, estabilización lumbar y corrección del patrón de marcha con inclinación pélvica posterior han mostrado reducción del dolor y de la discapacidad [9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Técnicas intervencionistas</h3>
+                <h4 class="text-sm font-bold text-white pt-1">5.1. Infiltraciones epidurales de corticosteroides</h4>
+                <p>Son el intervencionismo de primera línea en el dolor radicular lumbar. Se realizan por tres vías: caudal, interlaminar y transforaminal, siempre idealmente guiadas por fluoroscopia [1,6].</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Hernia discal:</strong> existe evidencia de alta calidad (GRADE alto) de que la inyección transforaminal de esteroides es eficaz para el dolor radicular por hernia discal, con tasas de éxito (≥50% de alivio) del 63% al mes, 74% a los 3 meses y 64% al año [6]. También es coste-efectiva y puede evitar o retrasar la cirugía en pacientes seleccionados [1,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Estenosis lumbar:</strong> el beneficio es menor y la calidad de la evidencia baja; las tasas de éxito rondan el 43-59% a los 6-12 meses, con estudios controlados insuficientes [6]. Las guías aceptan su uso para aliviar el dolor radicular, aunque no mejoran la claudicación neurogénica ni el déficit neurológico [4,5]. Una buena respuesta (&gt;50% de alivio) a la infiltración predice &gt;90% de probabilidad de buena respuesta quirúrgica [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Controversia metodológica:</strong> la revisión de Chou y colaboradores (AHRQ) concluyó que las infiltraciones epidurales tienen un efecto pequeño y a corto plazo, generando un intenso debate porque convirtió los ensayos con anestésico local como control activo en "placebo"; autores como Manchikanti defienden que el anestésico local tiene efecto terapéutico propio y que la evidencia de estudios bien diseñados apoya su eficacia [1,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Seguridad:</strong> los esteroides no particulados (p. ej., dexametasona) son la primera opción por menor riesgo de infarto medular, asociado sobre todo a esteroides particulados en la vía transforaminal [6].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">5.2. Bloqueos facetarios y radiofrecuencia (síndrome facetario)</h4>
+                <p>El síndrome facetario lumbar es una causa frecuente de dolor lumbar axial en pacientes con degeneración. El diagnóstico exige bloqueos diagnósticos de la rama medial del ramo dorsal con ≥50-75% de alivio en uno o dos tests; la imagen (RM/TC) no se correlaciona bien con el dolor [2].</p>
+                <p>El tratamiento estándar es la denervación por radiofrecuencia (rizólisis) de la rama medial. La radiofrecuencia continua (80 °C, 90 s) tiene buena evidencia; la radiofrecuencia pulsada tiene evidencia limitada [2]. Es superior a las infiltraciones intraarticulares de esteroides y al tratamiento conservador aislado, y puede repetirse cuando reaparece el dolor por regeneración nerviosa. La técnica se realiza sobre las apófisis transversas de L4, L5 y S1 (denervando las facetas L4-L5 y L5-S1) con estimulación sensitiva (50 Hz) y motora (2 Hz) previa para evitar lesión radicular [2]. En la espondilolistesis degenerativa, la radiofrecuencia facetaria proporciona aproximadamente un año de alivio y puede repetirse, aunque denerva también el multífido, por lo que se recomienda fisioterapia de refuerzo tras el procedimiento [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">5.3. Otras técnicas intervencionistas</h4>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Adhesiolisis percutánea (neuroplastia epidural):</strong> útil en dolor radicular crónico y síndrome postcirugía lumbar fallida, con evidencia de ensayo aleatorizado doble ciego frente a placebo [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Procedimientos intradiscales</strong> (IDET, biacuplastia, radiofrecuencia intradiscal, inyección de azul de metileno): la evidencia es pobre o contradictoria; el IDET y las terapias térmicas intradiscales no tienen cobertura en CMS por falta de evidencia [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Estimulación de la médula espinal (SCS):</strong> opción en dolor lumbar y radicular refractario, incluidos pacientes con espondilolistesis degenerativa que han fracasado a la cirugía o no son candidatos; en pacientes seleccionados con estenosis y dolor radicular se han descrito tasas de éxito (≥50% de alivio) del 95% a dos años [9].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Tratamiento quirúrgico</h3>
+                <h4 class="text-sm font-bold text-white pt-1">6.1. Hernia discal con radiculopatía</h4>
+                <p>La microdiscectomía es la cirugía más frecuente. El ensayo SPORT mostró que la cirugía consigue un alivio más rápido y mayor del dolor radicular a corto y medio plazo (1-4 años), pero a largo plazo los resultados tienden a igualarse con el tratamiento conservador; la mayoría de los pacientes mejora con o sin cirugía [1,3]. La cirugía está indicada cuando hay dolor severo que no responde al tratamiento conservador, déficit motor progresivo o síndrome de cauda equina (urgencia quirúrgica: descompresión en &lt;24-48 h desde el inicio de la disfunción esfinteriana) [3]. El pie caído por radiculopatía aguda dolorosa se beneficia de cirugía precoz, idealmente dentro de las 4 semanas [3]. Las técnicas mínimamente invasivas (endoscópica, láser) muestran resultados similares a la microdiscectomía en pacientes seleccionados [1].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">6.2. Estenosis del canal lumbar</h4>
+                <p>La laminectomía descompresiva (o fenestración interlaminar con preservación de estructuras medias) es el estándar, con buenos/excelentes resultados en 75-90% de los pacientes seleccionados [4]. Los ensayos aleatorizados (Malmivaara; SPORT) demuestran superioridad de la cirugía frente al tratamiento conservador en dolor, función y discapacidad a 2 años, aunque con alta tasa de cruce entre grupos [5,10]. La indicación quirúrgica se establece tras ≥12 semanas de tratamiento conservador fallido con dolor radicular moderado-severo, claudicación neurogénica progresiva o déficit neurológico [4]. Las técnicas mínimamente invasivas (tubo, endoscopia) producen menor dolor postoperatorio y rehabilitación más precoz [4]. A 7-10 años, un tercio de los pacientes refiere recurrencia del dolor lumbar y la tasa de reoperación es del 10-23% [4].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">6.3. Espondilolistesis degenerativa</h4>
+                <p>En el ensayo SPORT de espondilolistesis degenerativa con estenosis, el análisis por intención de tratar no mostró diferencias significativas, pero los análisis as-treated (ajustados por confusores) mostraron una ventaja sustancial y mantenida a 2 años de la cirugía (laminectomía con o sin fusión) frente al tratamiento no quirúrgico: +18,1 puntos en dolor corporal SF-36, +18,3 en función física y −16,7 en Oswestry [10]. El tratamiento conservador también mejora moderadamente. La decisión debe individualizarse; la cirugía se recomienda cuando fracasa el tratamiento conservador bien implementado (fisioterapia, infiltraciones, manejo psicosocial) y persisten síntomas incapacitantes [9,10]. La fusión se añade a la descompresión en casos de inestabilidad segmentaria (desplazamiento &gt;4 mm o angulación &gt;10° en radiografías dinámicas), escoliosis degenerativa, desbalance sagital, estenosis recidivante o enfermedad del segmento adyacente [4,5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">6.4. Dolor discogénico y fusión lumbar</h4>
+                <p>La fusión lumbar instrumentada para dolor lumbar crónico discogénico sin radiculopatía es controvertida: los ensayos aleatorizados no demuestran superioridad clara frente a la rehabilitación multidisciplinaria con TCC, y el seguimiento a 11 años de tres ensayos no muestra diferencias entre fusión y rehabilitación cognitivo-conductual [8]. El reemplazo total de disco (artroplastia) muestra resultados comparables a la fusión a corto plazo [8]. Por ello, la indicación de fusión debe ser muy selectiva, considerando costes, complicaciones y la falta de beneficio a largo plazo frente a programas estructurados de rehabilitación [8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Algoritmo práctico resumido</h3>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Evaluación inicial:</strong> historia clínica, examen físico neurológico (dermatomas, miotomas, reflejos, maniobras de tensión radicular como Lasègue y Lasègue cruzado), cribado de factores psicosociales y "red flags" (fiebre, pérdida de peso, neoplasia, traumatismo, déficit esfinteriano) [1,3,4,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Imagen:</strong> RM como prueba de elección; radiografías simples y dinámicas (flexión-extensión) para valorar inestabilidad; TC para valoración ósea; mielo-TC si RM contraindicada [4,5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Primera línea (6-12 semanas):</strong> educación, mantenimiento de actividad, AINEs/paracetamol, fisioterapia y ejercicio, manejo de comorbilidades psicosociales [4,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Segunda línea:</strong> infiltraciones epidurales (transforaminal en radiculopatía por hernia; interlaminar o caudal en estenosis), bloqueos facetarios diagnósticos seguidos de radiofrecuencia si hay dolor facetario [2,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Tercera línea:</strong> valoración quirúrgica si fracaso del tratamiento conservador bien realizado (≥12 semanas), dolor severo que afecta la calidad de vida, déficit neurológico progresivo, claudicación neurogénica incapacitante o cauda equina (urgencia) [3,4,10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Casos refractarios sin opción quirúrgica:</strong> SCS, rehabilitación multidisciplinaria intensiva [9].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">8. Conclusiones</h3>
+                <p>El tratamiento del dolor por patologías degenerativas del raquis lumbar debe ser multimodal, escalonado y centrado en el paciente. El tratamiento conservador (farmacológico racional + ejercicio + TCC/rehabilitación multidisciplinaria) es eficaz en la mayoría de los casos y debe agotarse antes de plantear intervencionismo o cirugía [1,4,8]. Las infiltraciones epidurales son eficaces sobre todo en la radiculopatía por hernia discal [6], la radiofrecuencia es la técnica de elección en el síndrome facetario [2], y la cirugía de descompresión ofrece ventajas claras en pacientes seleccionados con estenosis, espondilolistesis sintomática y radiculopatía severa, especialmente cuando el tratamiento conservador falla [5,10]. La fusión debe reservarse para casos con inestabilidad o deformidad, dado que no ha demostrado superioridad sobre la rehabilitación estructurada en el dolor discogénico [8].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Manchikanti L, Hirsch JA. Clinical management of radicular pain. <em>Expert Review of Neurotherapeutics.</em> 2015;15(6):681-693. <a href="https://doi.org/10.1586/14737175.2015.1048226" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1586/14737175.2015.1048226</a></p>
+                    <p>[2] Martínez-Martínez A, García-Espinosa J, Ruiz-Santiago F, Guzmán-Álvarez L, Castellano-García M. Abordaje intervencionista del síndrome facetario lumbar: Denervación con radiofrecuencia. <em>Revista chilena de radiología.</em> 2017;23(1):07-14. <a href="https://doi.org/10.4067/s0717-93082017000100003" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.4067/s0717-93082017000100003</a></p>
+                    <p>[3] Rossdeutsch A, Copley P, Khan S. Degenerative spinal disc disease and its treatment. <em>Orthopaedics and Trauma.</em> 2017;31(6):378-387. <a href="https://doi.org/10.1016/j.mporth.2017.09.009" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.mporth.2017.09.009</a></p>
+                    <p>[4] Molina M. Estenosis lumbar degenerativa: conceptos básicos, evaluación clínica y manejo. <em>Revista Médica Clínica Las Condes.</em> 2020;31(5-6):441-447. <a href="https://doi.org/10.1016/j.rmclc.2020.08.002" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.rmclc.2020.08.002</a></p>
+                    <p>[5] Thomé C, Börm W, Meyer F. Degenerative Lumbar Spinal Stenosis – Current Strategies in Diagnosis and Treatment. <em>Deutsches Ärzteblatt international.</em> 2008. <a href="https://doi.org/10.3238/arztebl.2008.0373" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3238/arztebl.2008.0373</a></p>
+                    <p>[6] Smith CC, McCormick ZL, Mattie R, MacVicar J, Duszynski B, Stojanovic MP. The Effectiveness of Lumbar Transforaminal Injection of Steroid for the Treatment of Radicular Pain: A Comprehensive Review of the Published Data. <em>Pain Medicine.</em> 2019;21(3):472-487. <a href="https://doi.org/10.1093/pm/pnz160" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1093/pm/pnz160</a></p>
+                    <p>[7] Chou R, Hashimoto R, Friedly J. Epidural Corticosteroid Injections for Radiculopathy and Spinal Stenosis. <em>Annals of Internal Medicine.</em> 2016;164(9):635-636. <a href="https://doi.org/10.7326/l15-0563" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.7326/l15-0563</a></p>
+                    <p>[8] Manchikanti L, Hirsch JA. An Update on the Management of Chronic Lumbar Discogenic Pain. <em>Pain Management.</em> 2015;5(5):373-386. <a href="https://doi.org/10.2217/pmt.15.33" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.2217/pmt.15.33</a></p>
+                    <p>[9] Soriano E, Bellinger E. Adult degenerative lumbar spondylolisthesis: Nonoperative treatment. <em>Seminars in Spine Surgery.</em> 2020;32(3):100805. <a href="https://doi.org/10.1016/j.semss.2020.100805" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.semss.2020.100805</a></p>
+                    <p>[10] Weinstein JN, Lurie JD, Tosteson TD, et al. Surgical versus Nonsurgical Treatment for Lumbar Degenerative Spondylolisthesis. <em>New England Journal of Medicine.</em> 2007;356(22):2257-2270. <a href="https://doi.org/10.1056/nejmoa070302" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1056/nejmoa070302</a></p>
+                    <p>[11] Visco CJ, Cheng DS, Kennedy DJ. Pharmaceutical Therapy for Radiculopathy. <em>Physical Medicine and Rehabilitation Clinics of North America.</em> 2011;22(1):127-137. <a href="https://doi.org/10.1016/j.pmr.2010.11.003" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.pmr.2010.11.003</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'dolor-raquis-lumbar','Tratamiento del dolor en las patologías degenerativas del raquis lumbar')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalDolorRaquisLumbar()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Periodización del entrenamiento en el deporte de competición -->
+    <div id="modal-periodizacion-entrenamiento" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalPeriodizacionEntrenamiento()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Rendimiento físico · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Periodización del entrenamiento en el deporte de competición</h2>
+                </div>
+                <button onclick="cerrarModalPeriodizacionEntrenamiento()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <div class="h-48 -mx-6 -mt-6 mb-2 overflow-hidden">
+                    <img src="Periodizacion.png" alt="Periodización del entrenamiento en el deporte de competición" class="w-full h-full object-cover object-top">
+                </div>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Introducción: qué es la periodización</h3>
+                <p>La periodización del entrenamiento es el proceso de planificación sistemática de programas de entrenamiento a corto y largo plazo mediante la variación de las cargas y la incorporación de periodos de descanso y recuperación adecuados [1]. En esencia, consiste en subdividir el programa en periodos secuenciales y específicamente orientados, con el objetivo de maximizar el rendimiento en los momentos más importantes de la temporada competitiva y/o mejorar el desarrollo a largo plazo del deportista [10]. Más que un modelo rígido, debe entenderse como un concepto flexible: una herramienta de planificación que sirve de plantilla direccional para un deportista concreto, permitiendo combinar distintos métodos de entrenamiento para obtener mejores resultados que los que se lograrían con el uso exclusivo de un único método [1].</p>
+                <p>La justificación fisiológica de la periodización proviene del síndrome general de adaptación (SGA) propuesto por Hans Selye, que describía la respuesta genérica del organismo a un estresor en fases de alarma, supercompensación y agotamiento [2,10]. Este paradigma fue posteriormente refinado y superado por el modelo fitness-fatiga, que diferencia los efectos de cada estresor sobre los distintos sistemas neuromusculares y metabólicos, y describe una doble respuesta adaptativa: la condición física (fitness) y la fatiga se acumulan en oposición, siendo su efecto neto el que determina el estado de preparación del deportista en un momento dado [2,3]. La reducción del volumen de entrenamiento hace que la fatiga descienda más rápido que la condición física, de modo que la "preparación" (preparedness) alcanza su pico poco después de reducir el estímulo: esta es la base del taper y de la supercompensación [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Estructura temporal del plan de entrenamiento</h3>
+                <p>Los componentes estructurales clásicos de un plan periodizado, descritos originalmente por Matveyev, son [1]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Macrociclo:</strong> agrupación de mesociclos que abarca periodos largos (normalmente un semestre o un año).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mesociclo:</strong> agrupación de microciclos orientada a lograr uno o varios objetivos específicos (normalmente alrededor de un mes).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Microciclo:</strong> estructura de sesiones individuales o agrupaciones cortas de sesiones (normalmente una semana).</span></li>
+                </ul>
+                <p>La mayoría de los modelos comparten una distribución de fases comunes: preparación general, preparación específica, competición y transición [1]. DeWeese et al. describen además las fases de condición física dentro de este esquema: preparación general (alto volumen, baja intensidad), preparación especial, fase competitiva, fase de puesta a punto (peaking) y descanso activo [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Modelos de periodización</h3>
+                <h4 class="text-sm font-bold text-white pt-1">3.1. Periodización tradicional o clásica (lineal)</h4>
+                <p>El modelo tradicional, propuesto por Matveyev a finales de los años 50, se caracteriza por una progresión desde un alto volumen y baja intensidad hacia un bajo volumen y alta intensidad a lo largo del macrociclo, con una reducción de la variación y un aumento de la especificidad conforme se acerca la competición [1,6]. Suele estructurarse en mesociclos de 4-6 semanas con objetivos sucesivos de hipertrofia, fuerza máxima, potencia y puesta a punto [9]. Aunque se la denomina "lineal", varios autores señalan que este término es un error conceptual: por definición, cualquier esquema de periodización es no lineal, ya que implica variación tanto dentro como entre microciclos [2,3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Periodización no lineal u ondulante</h4>
+                <p>La periodización no lineal (especialmente la ondulante diaria, DUP) modifica el volumen y la intensidad con mucha mayor frecuencia, cambiando la zona de repeticiones de una sesión a la siguiente (p. ej., zonas de 4-6, 8-10 y 12-15 RM distribuidas en la semana) [9]. La investigación indica que los programas periodizados producen mayores ganancias de fuerza que los no periodizados, y que la DUP es al menos tan efectiva, y posiblemente más, que la lineal para la ganancia de fuerza máxima [9]. Una variante prometedora es la periodización no lineal flexible, que ajusta la zona de entrenamiento planificada según la disposición/readiness del deportista evaluada mediante pruebas sencillas previas a la sesión (p. ej., salto horizontal) [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Periodización por bloques</h4>
+                <p>La periodización por bloques (BP), formalizada por Verkhoshansky e Issurin, se basa en concentrar el estímulo en un número reducido de capacidades durante periodos cortos (1-4 semanas), denominados cargas concentradas, mientras las demás capacidades se mantienen con estímulos mínimos [1,3,5]. El modelo típico de Issurin comprende tres tipos de mesociclos de 2-4 semanas: acumulación (capacidades motoras básicas y resistencia aeróbica), transmutación (capacidades motoras específicas y resistencia anaeróbica) y realización (taper y preparación para la competición) [7]. La progresión de bloques se realiza en orden lógico de modo que las adaptaciones residuales de cada bloque potencien las del siguiente (secuenciación conjugada) [6].</p>
+                <p>La lógica del bloque se apoya en dos observaciones: el desarrollo de características fisiológicas específicas a alto nivel no puede sostenerse durante periodos prolongados, y el intento de desarrollar simultáneamente muchas cualidades suele ser contraproducente, especialmente en atletas bien entrenados [3]. Además, el sobreentrenamiento funcional planificado puede potenciar la adaptación adicional aprovechando el paradigma fitness-fatiga [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4. Periodización integrada y multifactorial</h4>
+                <p>Una evolución reciente es la periodización integrada, que coordina de forma planificada no solo el entrenamiento físico, sino también la recuperación, la nutrición, las habilidades psicológicas, la adquisición de destrezas técnicas, la adaptación al calor y a la altitud, la composición corporal e incluso la fisioterapia [1]. Por ejemplo, la ingesta de carbohidratos puede periodizarse ("train low, race high", restricción nocturna de carbohidratos, etc.), la recuperación puede retenerse o enfatizarse según la fase (retención en preparación general, aumento en fase competitiva), y las habilidades psicológicas pueden escalonarse en volumen e intensidad a lo largo de la temporada [1].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Evidencia empírica en deporte de competición</h3>
+                <h4 class="text-sm font-bold text-white pt-1">4.1. Fuerza y potencia</h4>
+                <p>Los estudios experimentales que comparan modelos en atletas entrenados son relativamente escasos, pero existen datos relevantes. Bartolomei et al. compararon 15 semanas de periodización tradicional frente a por bloques en atletas de fuerza/potencia con volumen igualado: el grupo de bloques mostró mayor probabilidad de mejorar el área bajo la curva de la relación fuerza-potencia en press de banca y un desplazamiento del óptimo de carga para potencia máxima hacia porcentajes más bajos del 1RM, lo que sugiere una mayor expresión de potencia [6]. El grupo de bloques, al dedicar un mesociclo completo de 5 semanas a la potencia, parece proporcionar un estímulo neurológico más concentrado que las breves semanas de potencia distribuidas dentro de cada mesociclo tradicional [6].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.2. Resistencia aeróbica</h4>
+                <p>En esquiadores de fondo de élite, Rønnestad et al. demostraron que 5 semanas de periodización por bloques (concentrando 5 sesiones de alta intensidad en la primera semana y 3 en la tercera) produjeron mayores aumentos en la potencia aeróbica máxima (Wmax), en el VO2máx y en la potencia a 4 mmol/L de lactato que la organización tradicional, a pesar de igualar el volumen total de entrenamiento de alta y baja intensidad [5]. Estos resultados sugieren que la reorganización del estímulo por sí sola puede superar el estancamiento del rendimiento en atletas de élite próximos a la competición [5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.3. Deportes de equipo</h4>
+                <p>Los deportes de equipo plantean retos específicos: temporadas largas (más de 35 semanas en fútbol y rugby europeos), múltiples objetivos de entrenamiento simultáneos (hipertrofia, fuerza máxima, potencia, condición metabólica, prevención de lesiones) y la interacción con el entrenamiento técnico-táctico [2]. El modelo clásico de periodización, diseñado para deportes individuales con uno o dos picos anuales, no es directamente aplicable; se recomiendan esquemas ondulantes no lineales en temporada y versiones condensadas del modelo clásico (p. ej., microciclos sumados de 2-4 semanas con una semana de descarga) en pretemporada [2].</p>
+                <p>La evidencia experimental en deportes de equipo respalda la BP: en jugadores de hockey hielo bien entrenados, 6 semanas de periodización por bloques (alternando semanas de fuerza/potencia con semanas de resistencia) produjeron mejoras superiores en el torque pico isocinético a 180°/s y en el VO2máx frente a la organización tradicional mixta, con igual volumen e intensidad total [4]. La concentración del estímulo parece minimizar el efecto de interferencia entre el entrenamiento concurrente de fuerza y resistencia [4]. En fútbol profesional, estudios observacionales longitudinales (cuatro temporadas) muestran que el equipo obtuvo su mayor éxito competitivo (59% de los puntos) durante los bloques de realización, lo que sugiere que la BP puede ser un diseño alternativo viable para equipos profesionales [1]. La periodización estratégica, que manipula las cargas semanales según la dificultad del próximo rival (índices de dificultad del partido), se perfila como una herramienta útil para gestionar viajes, fatiga y lesiones en deportes de equipo [1].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.4. Natación de élite: modelado de las 11 semanas previas</h4>
+                <p>Un estudio observacional de gran escala con 138 nadadores de élite a lo largo de 20 temporadas modeló la relación entre las cargas de las 11 semanas previas a una competición importante y el rendimiento final [7]. Los resultados mostraron patrones ondulatorios cíclicos: cargas más altas de entrenamiento total y de fuerza en los mesociclos de medio y largo plazo (6-11 semanas antes) se asociaron con mejores rendimientos, mientras que cargas altas durante el taper (1-2 semanas antes) fueron perjudiciales [7]. Además, el modelo óptimo difería según la especialidad: desde una periodización muy marcada por bloques en velocistas (prioridad a la fuerza máxima en el largo plazo) hasta un modelo más continuo en fondistas, y cambios de carga tan pequeños como un 10% se asociaron con diferencias relevantes en el rendimiento competitivo [7].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. La puesta a punto (tapering) y el pico de forma</h3>
+                <p>La puesta a punto consiste en la reducción del volumen de entrenamiento (manteniendo o aumentando ligeramente la intensidad) en los 8-14 días previos a la competición para disipar la fatiga acumulada y aprovechar el paradigma fitness-fatiga [1,3]. Los beneficios fisiológicos, psicológicos y de rendimiento de esta estrategia están bien establecidos en deportes de resistencia y de fuerza [1]. Los datos de nadadores de élite confirman que un taper excesivamente cargado empeora el rendimiento, mientras que cargas de alta intensidad mantenidas en rango moderado (30-60% del máximo) durante el taper pueden mejorar el rendimiento en velocistas [7]. En deportes de equipo, el taper de 2-3 semanas al final de la pretemporada es una estrategia bien respaldada para llegar al inicio de la liga en forma [1].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. ¿Funciona la periodización? Evidencia ecológica</h3>
+                <p>Una crítica frecuente es que muchos deportistas no logran su mejor marca en los campeonatos importantes. Un análisis retrospectivo de 7.087 resultados individuales de atletismo (finales y semifinales de campeonatos del mundo y Juegos Olímpicos, y reuniones de la Diamond League) redefinió el éxito como rendirse dentro del rango de variabilidad normal (1-3% según la prueba) respecto a la mejor marca de la temporada [8]. Bajo este criterio, la mayoría de los atletas rinde con éxito en los grandes campeonatos (67% en velocidad, 57,5% en concursos), y las finales de campeonato producen tasas de éxito más de un 70% superiores a las de las competiciones menores [8]. Además, finalizar entre los tres primeros en una final de campeonato requiere prácticamente siempre un rendimiento de pico [8]. Estos datos sugieren que, al menos en atletismo, la periodización en su forma actual sí logra elevar el rendimiento en los momentos clave, aunque los autores advierten que los datos genéricos no permiten establecer una relación causal definitiva [8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Críticas y limitaciones de la periodización</h3>
+                <p>Pese a su aceptación generalizada, el concepto no está exento de críticas [1,10]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Críticas teóricas:</strong> Verkhoshanskij cuestionó la validez de la teoría de Matveyev señalando cuatro "errores cardinales" (comprensión pobre de la tecnología de preparación de élite, evaluación metodológica primitiva, desconsideración del conocimiento biológico y limitada aceptación de las ciencias afines) [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Críticas epistemológicas:</strong> Kiely sostiene que muchos preceptos de la periodización son supuestos basados en la tradición más que constructos basados en evidencia, y aboga por sistemas de planificación adaptativos y sensibles a la información emergente [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Críticas metodológicas:</strong> una revisión exhaustiva identificó solo 42 ensayos aleatorizados que cumplieran criterios estrictos; entre los problemas destacan la confusión conceptual entre periodización y variación, la falta de estudios a largo plazo (ninguno superó los 9 meses), el carácter casi exclusivamente unidimensional (físico) de la investigación y el escaso control de factores de confusión como la nutrición [1].</span></li>
+                </ul>
+                <p>Por ello, se recomienda entender la periodización como un marco flexible y adaptativo, no como una estructura rígida [1,3]. La combinación estratégica de distintos modelos según la fase de la temporada (p. ej., enfoque clásico en pretemporada y ondulante en temporada) parece producir los mejores resultados a largo plazo [2].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">8. Aplicaciones prácticas</h3>
+                <p>A partir de la evidencia revisada pueden extraerse las siguientes recomendaciones:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Individualizar y flexibilizar:</strong> el grado de variación requerido depende de la experiencia del deportista; los atletas avanzados necesitan mayor variación y estímulos más concentrados [2,3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Concentrar estímulos compatibles:</strong> en deportistas bien entrenados, la periodización por bloques (concentración de fuerza o resistencia con mantenimiento mínimo de lo demás) parece superior al entrenamiento mixto simultáneo [4,5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Planificar la temporada de equipo por fases:</strong> pretemporada con sobrecarga progresiva que culmine en un taper de 2-3 semanas; temporada con esquemas ondulantes y microciclos de descarga adaptados al calendario de partidos; transición con "dosis mínima efectiva" de entrenamiento para atenuar el desentrenamiento [1,2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Integrar otros factores:</strong> nutrición, recuperación, psicología y habilidades técnicas deben periodizarse de forma coordinada con el entrenamiento físico [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Monitorizar y ajustar:</strong> el entrenamiento debe acompañarse de un programa estructurado de monitorización científica (p. ej., s-RPE, GPS) y de ajustes semanales según la respuesta del deportista [1,2].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">9. Conclusión</h3>
+                <p>La periodización del entrenamiento es un pilar central del deporte de competición: permite organizar la variación del estímulo, gestionar la fatiga, reducir el riesgo de sobreentrenamiento y lesiones, y maximizar la probabilidad de rendir al máximo en las competiciones prioritarias [2,10]. La evidencia experimental apoya la superioridad de los programas periodizados frente a los no periodizados [9], y sugiere ventajas de la periodización por bloques sobre la organización tradicional en atletas bien entrenados, tanto en fuerza/potencia [6] como en resistencia [5] y en deportes de equipo [4]. Los datos ecológicos indican que la mayoría de los atletas de élite sí rinden en los grandes campeonatos [8], y los modelos estadísticos en natación confirman la importancia de los patrones ondulatorios de carga en las semanas previas a la competición [7]. No obstante, la investigación presenta limitaciones metodológicas importantes (duración corta de los estudios, confusión conceptual, unidimensionalidad) [1], por lo que la periodización debe concebirse como un marco flexible, multifactorial y adaptativo, más que como un recetario rígido [1,3].</p>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Mujika I, Halson S, Burke LM, Balagué G, Farrow D. An Integrated, Multifactorial Approach to Periodization for Optimal Performance in Individual and Team Sports. <em>International Journal of Sports Physiology and Performance.</em> 2018;13(5):538-561. <a href="https://doi.org/10.1123/ijspp.2018-0093" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1123/ijspp.2018-0093</a></p>
+                    <p>[2] Gamble P. Periodization of Training for Team Sports Athletes. <em>Strength and Conditioning Journal.</em> 2006;28(5):56-66. <a href="https://doi.org/10.1519/00126548-200610000-00009" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/00126548-200610000-00009</a></p>
+                    <p>[3] DeWeese BH, Hornsby G, Stone M, Stone MH. The training process: Planning for strength–power training in track and field. Part 1: Theoretical aspects. <em>Journal of Sport and Health Science.</em> 2015;4(4):308-317. <a href="https://doi.org/10.1016/j.jshs.2015.07.003" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.jshs.2015.07.003</a></p>
+                    <p>[4] Rønnestad BR, Øfsteng SJ, Ellefsen S. Block periodization of strength and endurance training is superior to traditional periodization in ice hockey players. <em>Scandinavian Journal of Medicine &amp; Science in Sports.</em> 2018;29(2):180-188. <a href="https://doi.org/10.1111/sms.13326" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1111/sms.13326</a></p>
+                    <p>[5] Rønnestad BR, Hansen J, Thyli V, Bakken TA, Sandbakk Ø. 5-week block periodization increases aerobic power in elite cross-country skiers. <em>Scandinavian Journal of Medicine &amp; Science in Sports.</em> 2015;26(2):140-146. <a href="https://doi.org/10.1111/sms.12418" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1111/sms.12418</a></p>
+                    <p>[6] Bartolomei S, Hoffman JR, Merni F, Stout JR. A Comparison of Traditional and Block Periodized Strength Training Programs in Trained Athletes. <em>Journal of Strength and Conditioning Research.</em> 2014;28(4):990-997. <a href="https://doi.org/10.1519/jsc.0000000000000366" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1519/jsc.0000000000000366</a></p>
+                    <p>[7] Hellard P, Scordia C, Avalos M, Mujika I, Pyne DB. Modelling of optimal training load patterns during the 11 weeks preceding major competition in elite swimmers. <em>Applied Physiology, Nutrition, and Metabolism.</em> 2017;42(10):1106-1117. <a href="https://doi.org/10.1139/apnm-2017-0180" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1139/apnm-2017-0180</a></p>
+                    <p>[8] Matomäki P, Räntilä A. Does periodization work? Athletes perform better in major events than in minor competitions. <em>International Journal of Sports Science &amp; Coaching.</em> 2021;17(2):430-436. <a href="https://doi.org/10.1177/17479541211031817" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1177/17479541211031817</a></p>
+                    <p>[9] Fleck S. Non-Linear Periodization for General Fitness &amp; Athletes. <em>Journal of Human Kinetics.</em> 2011;29A(Special-Issue):41-45. <a href="https://doi.org/10.2478/v10078-011-0057-2" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.2478/v10078-011-0057-2</a></p>
+                    <p>[10] Fisher JP, Csapo R. Periodization and Programming in Sports. <em>Sports.</em> 2021;9(2):13. <a href="https://doi.org/10.3390/sports9020013" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/sports9020013</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'periodizacion-entrenamiento','Periodización del entrenamiento en el deporte de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalPeriodizacionEntrenamiento()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Cómo relajar un músculo con espasmo o contracción crónica dolorosa -->
     <div id="modal-espasmo-muscular" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalEspasmoMuscular()"></div>
@@ -3972,6 +4246,28 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalPeriodizacionEntrenamiento() {
+            const modal = document.getElementById('modal-periodizacion-entrenamiento');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalPeriodizacionEntrenamiento() {
+            document.getElementById('modal-periodizacion-entrenamiento').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalDolorRaquisLumbar() {
+            const modal = document.getElementById('modal-dolor-raquis-lumbar');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalDolorRaquisLumbar() {
+            document.getElementById('modal-dolor-raquis-lumbar').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 cerrarStrengthCoach();
@@ -3991,6 +4287,8 @@
                 cerrarModalRCP();
                 cerrarModalRemo();
                 cerrarModalEspasmoMuscular();
+                cerrarModalPeriodizacionEntrenamiento();
+                cerrarModalDolorRaquisLumbar();
             }
         });
     </script>
