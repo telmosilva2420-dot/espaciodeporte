@@ -653,6 +653,26 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Factores que impiden bajar de peso cuando uno lo necesita -->
+                    <article data-categoria="metabolismo" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Perder peso.png" alt="Factores que impiden bajar de peso cuando uno lo necesita" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Metabolismo</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Factores que impiden bajar de peso cuando uno lo necesita</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Por qué unas personas pierden hasta 30 kg con el mismo programa y otras no pierden nada: genética, adaptación metabólica, hormonas del apetito, sueño, adherencia, ejercicio, fármacos y entorno explican una variabilidad que va mucho más allá de "comer menos y moverse más".</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'factores-bajar-peso','Factores que impiden bajar de peso cuando uno lo necesita')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-factores-bajar-peso','Factores-Impiden-Bajar-Peso')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalFactoresBajarPeso()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Objetivos y métodos para el desarrollo de la fuerza en el deporte de competición -->
                     <article data-categoria="entrenamiento-fuerza" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -2983,6 +3003,99 @@
     </div>
 
     <!-- Modal: Ejercicio físico y cáncer -->
+    <div id="modal-factores-bajar-peso" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalFactoresBajarPeso()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Metabolismo · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Factores que impiden bajar de peso cuando uno lo necesita</h2>
+                </div>
+                <button onclick="cerrarModalFactoresBajarPeso()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <p>Perder peso es un proceso mucho más complejo que "comer menos y moverse más". Existe una variabilidad interindividual enorme: personas que siguen exactamente el mismo programa de adelgazamiento pueden perder hasta 30 kg en un año, mientras otras no pierden nada o incluso ganan peso [1]. Esta variabilidad no se explica solo por falta de voluntad: intervienen factores genéticos, fisiológicos, conductuales, psicológicos, médicos y ambientales que, con frecuencia, actúan de forma simultánea y se refuerzan entre sí [2,4]. A continuación se describen los principales factores documentados en la literatura científica.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Factores genéticos y biológicos</h3>
+                <p>La respuesta a una restricción calórica es, en parte, heredable. Los estudios con gemelos monocigóticos muestran que el aumento de peso ante la sobrealimentación y la pérdida de peso ante el déficit energético son muy similares dentro de cada par de gemelos, con una heredabilidad estimada del 40–70% [2]. En un análisis de más de 1.000 pacientes, los SNPs (variantes genéticas comunes) explicaron alrededor del 49% de la varianza en la pérdida de peso inducida por dieta [2]. Se han implicado genes como FTO, MC4R, PPARG, MTIF3 o SGCG, aunque cada uno tiene un efecto pequeño [2,4].</p>
+                <p>También existe un fenotipo metabólico "ahorrador" frente a "derrochador": las personas que reducen menos su gasto energético en ayunas y lo aumentan más al sobrealimentarse tienden a perder más peso con la restricción calórica, mientras que las de fenotipo "ahorrador" lo tienen más difícil [2,4]. A nivel celular, se ha observado que quienes responden bien a la dieta tienen más fibras musculares tipo I (oxidativas), mayor capacidad de oxidación de ácidos grasos y una menor eficiencia mitocondrial (más "fuga" de protones, es decir, más energía disipada en forma de calor) que quienes responden mal [2,5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Adaptaciones metabólicas y hormonales al déficit energético</h3>
+                <p>Cuando se reduce la ingesta, el cuerpo activa mecanismos compensatorios que dificultan seguir perdiendo peso y favorecen recuperarlo:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Termogénesis adaptativa:</strong> el gasto energético en reposo cae más de lo esperable por la pérdida de masa corporal; tras perder ~10% del peso, el gasto puede disminuir 300–400 kcal/día [2,3]. Las personas con mayor adaptación metabólica pierden menos peso [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cambios en las hormonas del apetito:</strong> tras la pérdida de peso disminuyen la leptina (saciedad) y hormonas anorexígenas como PYY, colecistoquinina y amilina, mientras aumenta la grelina (hambre); estos cambios pueden persistir incluso un año después [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Reducción de la lipólisis y de la oxidación de grasas:</strong> el tejido adiposo moviliza y quema menos grasa tras la pérdida de peso, y este deterioro se asocia con mayor recuperación ponderal [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">"Memoria de la obesidad":</strong> la obesidad deja una huella inflamatoria persistente en el tejido adiposo (macrófagos y otras células inmunes que no desaparecen al adelgazar). Esta memoria inmuno-inflamatoria facilitaría la rápida recuperación de peso ante cualquier exceso calórico [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Ciclos previos de peso (weight cycling):</strong> las personas con historia de pérdidas y recuperaciones repetidas tienden a tener más masa grasa, menos masa magra y más dificultad para volver a perder peso [4,5].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Adherencia y factores conductuales</h3>
+                <p>El predictor más potente del éxito es la adherencia, mucho más que el tipo de dieta: en un estudio de un año con cuatro dietas populares, la adherencia autoinformada correlacionó fuertemente con la pérdida de peso (r ≈ 0,60), mientras que el tipo de dieta casi no influyó [4]. Sin embargo, la adherencia es difícil de mantener: la tasa media en metaanálisis ronda el 60% [4]. Además, existe un sesgo sistemático: quienes no logran perder peso tienden a subestimar su ingesta y sobreestimar su actividad física, como demostró el estudio clásico de Lichtman [2].</p>
+                <p>Entre los factores conductuales y psicológicos que predicen peores resultados se incluyen [1,4]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Comer emocional (comer en respuesta al aburrimiento, estrés o emociones negativas) y desinhibición alimentaria (pérdida de control ante señales de comida).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Restricción rígida (reglas estrictas e inflexibles) frente a la restricción flexible, que se asocia con mayor pérdida de peso.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Estrés percibido elevado, que altera hormonas del apetito y favorece el consumo de alimentos ricos en azúcar y grasa.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Baja autoeficacia, motivación extrínseca y locus de control externo (atribuir los resultados a la suerte o a los demás).</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Expectativas poco realistas: la frustración por no alcanzar metas inalcanzables erosiona la motivación y aumenta el abandono.</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Eventos vitales (embarazo, duelo, problemas de pareja, estrés laboral, enfermedad) que interfieren con el esfuerzo de adelgazar.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Sueño insuficiente y desalineación circadiana</h3>
+                <p>Dormir poco es un factor de riesgo independiente para la obesidad y también frena la pérdida de peso. En un estudio cruzado con restricción calórica, los participantes que dormían 5,5 h perdieron menos grasa que los que dormían 8,5 h [7]. En una muestra de adultos con sobrepeso, cada hora adicional de sueño se asoció con ~0,7 kg más de pérdida de grasa, y una mejor calidad del sueño (menor puntuación PSQI) predijo mayor pérdida de masa grasa [8]. Los mecanismos incluyen aumento de grelina, descenso de leptina, más hambre, más picoteo nocturno de alimentos ricos en carbohidratos y grasa, peor sensibilidad a la insulina y mayor cociente respiratorio (menos oxidación de grasa) [7,8]. La desalineación circadiana (trabajo por turnos, horarios irregulares de comida y sueño) también reduce el gasto energético total y dificulta el déficit calórico [4,7].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Ejercicio físico: respuesta variable y compensación</h3>
+                <p>El ejercicio es esencial para la salud y para mantener el peso, pero como herramienta única de adelgazamiento produce en promedio solo 2–3 kg adicionales frente a no hacer ejercicio [6]. Parte del problema es que, al aumentar la actividad, muchas personas compensan comiendo más (a veces como "premio") o reduciendo la actividad espontánea del resto del día, lo que anula parte del gasto [5,6]. Además, existen "respondedores" y "no respondedores": incluso en programas supervisados, algunos individuos pierden ~11 kg y otros menos de 2 kg [5]. Las mujeres tienden a perder menos peso que los hombres con intervenciones de ejercicio, posiblemente por diferencias en lipólisis, actividad simpática y distribución de la grasa [5]. Para el mantenimiento a largo plazo se recomiendan volúmenes altos de ejercicio aeróbico (≥250 min/semana), aunque la evidencia de ensayos controlados sigue siendo limitada [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Factores médicos y farmacológicos</h3>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Hipotiroidismo:</strong> niveles elevados de TSH se asocian con menor gasto energético y menor pérdida de peso; mantener un estado eutiroideo favorece el adelgazamiento [2,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Medicamentos que engordan o dificultan perder peso:</strong> betabloqueantes, antipsicóticos, algunos antidepresivos, insulina y glucocorticoides [2,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Comorbilidades frecuentes:</strong> en poblaciones clínicas (p. ej., insuficiencia cardíaca con fracción de eyección preservada), los pacientes con obesidad presentan con gran frecuencia ansiedad (21%), depresión (50%), fragilidad (59%), alto riesgo de apnea obstructiva del sueño (96%) y sedentarismo (55% no realiza ejercicio alguno), todo lo cual constituye una barrera seria para adelgazar [9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Síndrome de ovario poliquístico:</strong> los estudios no muestran diferencias claras en la pérdida de peso frente a mujeres sin SOP; el obstáculo parece ser más psicológico (depresión, baja autoestima) que fisiológico [4].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Factores ambientales y sociales</h3>
+                <p>El entorno influye de forma poderosa: el estrés crónico (laboral o personal) dificulta la pérdida de peso y aumenta el abandono de los programas [4]; el apoyo social (familia, amigos, grupos) mejora la adherencia y el mantenimiento [1,4]; y la discriminación percibida por el peso en la consulta médica se asocia con peores resultados [4]. También se han señalado el consumo de alimentos ultraprocesados (que aumentan la ingesta ~500 kcal/día), la exposición a contaminantes y obesógenos ambientales (bisfenol A, etc.) y las condiciones climáticas extremas que reducen la actividad física [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Conclusión e implicaciones prácticas</h3>
+                <p>La dificultad para perder peso no es un fracaso personal ni moral: es el resultado de la interacción de mecanismos biológicos compensatorios (adaptación metabólica, cambios hormonales, memoria de la obesidad), factores genéticos, conductuales y psicológicos, sueño, medicación, comorbilidades y entorno [1–4]. Por ello:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El tratamiento debe ser individualizado y monitorizar composición corporal, no solo el peso en la báscula [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Conviene dormir 7–9 horas y cuidar la higiene del sueño como parte del programa [7,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La adherencia sostenida a un déficit calórico moderado (500–750 kcal/día) importa más que la "dieta perfecta" [2,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El ejercicio debe combinarse con dieta y con estrategias para evitar la compensación calórica [5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Abordar el estrés, la salud mental y las comorbilidades, y revisar la medicación, son pasos necesarios [4,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Las expectativas deben ser realistas: la pérdida de peso rara vez es lineal, y prevenir la recuperación del peso es tan importante como perderlo [3,6].</span></li>
+                </ul>
+
+                <div class="mt-4 pt-4 border-t border-slate-800 text-xs text-slate-500 space-y-2">
+                    <strong class="text-slate-400">Referencias:</strong>
+                    <p>[1] Pigsborg K, Kalea AZ, De Dominicis S, Magkos F. Behavioral and Psychological Factors Affecting Weight Loss Success. <em>Current Obesity Reports.</em> 2023;12(3):223-230. <a href="https://doi.org/10.1007/s13679-023-00511-6" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1007/s13679-023-00511-6</a></p>
+                    <p>[2] Dent R, McPherson R, Harper ME. Factors affecting weight loss variability in obesity. <em>Metabolism.</em> 2020;113:154388. <a href="https://doi.org/10.1016/j.metabol.2020.154388" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.metabol.2020.154388</a></p>
+                    <p>[3] van Baak MA, Mariman ECM. Obesity-induced and weight-loss-induced physiological factors affecting weight regain. <em>Nature Reviews Endocrinology.</em> 2023;19(11):655-670. <a href="https://doi.org/10.1038/s41574-023-00887-4" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1038/s41574-023-00887-4</a></p>
+                    <p>[4] Dabas J, Shunmukha Priya S, Alawani A, Budhrani P. What could be the reasons for not losing weight even after following a weight loss program? <em>Journal of Health, Population and Nutrition.</em> 2024;43(1). <a href="https://doi.org/10.1186/s41043-024-00516-4" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1186/s41043-024-00516-4</a></p>
+                    <p>[5] Boutcher SH, Dunn SL. Factors that may impede the weight loss response to exercise‐based interventions. <em>Obesity Reviews.</em> 2009;10(6):671-680. <a href="https://doi.org/10.1111/j.1467-789x.2009.00621.x" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1111/j.1467-789x.2009.00621.x</a></p>
+                    <p>[6] Oppert JM, Ciangura C, Bellicha A. Physical activity and exercise for weight loss and maintenance in people living with obesity. <em>Reviews in Endocrine and Metabolic Disorders.</em> 2023;24(5):937-949. <a href="https://doi.org/10.1007/s11154-023-09805-5" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1007/s11154-023-09805-5</a></p>
+                    <p>[7] Papatriantafyllou E, Efthymiou D, Zoumbaneas E, Popescu CA, Vassilopoulou E. Sleep Deprivation: Effects on Weight Loss and Weight Loss Maintenance. <em>Nutrients.</em> 2022;14(8):1549. <a href="https://doi.org/10.3390/nu14081549" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.3390/nu14081549</a></p>
+                    <p>[8] Chaput JP, Tremblay A. Sleeping Habits Predict the Magnitude of Fat Loss in Adults Exposed to Moderate Caloric Restriction. <em>Obesity Facts.</em> 2012;5(4):561-566. <a href="https://doi.org/10.1159/000342054" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1159/000342054</a></p>
+                    <p>[9] Chen W, Hummel S, Schuetz S, et al. Barriers to Weight Loss in a Heart Failure with Preserved Ejection Fraction Clinic. <em>Journal of Cardiac Failure.</em> 2019;25(8):S50. <a href="https://doi.org/10.1016/j.cardfail.2019.07.140" target="_blank" rel="noopener noreferrer" class="text-teal-400 hover:text-teal-300 underline">DOI: 10.1016/j.cardfail.2019.07.140</a></p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-end">
+                <button onclick="compartirEntrada(event,'factores-bajar-peso','Factores que impiden bajar de peso cuando uno lo necesita')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalFactoresBajarPeso()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <div id="modal-fuerza-deporte-competicion" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalFuerzaDeporteCompeticion()"></div>
         <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
@@ -4388,6 +4501,17 @@
         }
         function cerrarModalAtrofiaRodilla() {
             document.getElementById('modal-atrofia-rodilla').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalFactoresBajarPeso() {
+            const modal = document.getElementById('modal-factores-bajar-peso');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalFactoresBajarPeso() {
+            document.getElementById('modal-factores-bajar-peso').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
