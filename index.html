@@ -653,6 +653,46 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Entrenamiento para aproximar el VO2 de la potencia crítica al VO2 máximo -->
+                    <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="vo2 asociado a MSSL.png" alt="Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de resistencia aeróbica</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">El VO₂ sostenible en la potencia crítica queda naturalmente por debajo del VO₂máx. La combinación de intervalos en el dominio severo (cortos, alrededor de la vVO₂máx/P-VO₂máx, o sprints al máximo) con una base polarizada de baja intensidad es la estrategia más eficiente para estrechar esa brecha en deportistas entrenados.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'vo2-potencia-critica-vo2max','Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-vo2-potencia-critica-vo2max','Entrenamiento-VO2-Potencia-Critica-VO2-Maximo')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalVO2PotenciaCriticaVO2Max()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Entrada: Cómo mejorar el VO2 máx en deportistas de competición -->
+                    <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Mejorar VO2 max.png" alt="Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Entrenamiento de resistencia aeróbica</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">En atletas ya entrenados, el HIIT de intervalos largos cerca de la vVO₂máx, los bloques de altitud/hipoxia (LHTL), la fuerza explosiva concurrente y una periodización con control del volumen son las estrategias con mayor respaldo para seguir elevando o rentabilizar el VO₂máx.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'mejorar-vo2max-deportistas','Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-mejorar-vo2max-deportistas','Mejorar-VO2-Max-Deportistas-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalMejorarVO2MaxDeportistas()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Adaptaciones neuromusculares al ejercicio físico -->
                     <article data-categoria="entrenamiento-fuerza" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -1920,6 +1960,94 @@
                 <span class="text-slate-500 text-sm">Remo de competición · Fisiología del entrenamiento</span>
                 <button onclick="compartirEntrada(event,'volumen-remo-mujeres','Distribución del volumen de entrenamiento en remo de competición para mujeres')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalVolumenRemoMujeres()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Cómo mejorar el VO2 máx en deportistas de competición -->
+    <div id="modal-mejorar-vo2max-deportistas" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalMejorarVO2MaxDeportistas()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Entrenamiento de resistencia aeróbica · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición</h2>
+                </div>
+                <button onclick="cerrarModalMejorarVO2MaxDeportistas()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="Mejorar VO2 max.png" alt="Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición" class="w-full rounded-xl border border-slate-700">
+
+                <h3 class="text-base font-bold text-white pt-2">Introducción: el desafío del deportista ya entrenado</h3>
+                <p>El VO₂máx (consumo máximo de oxígeno) es el indicador clásico de la capacidad aeróbica y uno de los principales predictores del rendimiento en deportes de resistencia [1]. Sin embargo, mejorar esta variable en deportistas de competición es considerablemente más difícil que en población general o sedentaria: los deportistas ya entrenados parten de valores elevados (a menudo &gt;60–70 ml·kg⁻¹·min⁻¹) y su margen de mejora es menor [1,2]. De hecho, los metaanálisis muestran que los no deportistas obtienen mayores ganancias de VO₂máx que los atletas tras un mismo estímulo de entrenamiento [2]. Aun así, existen estrategias basadas en evidencia que permiten seguir mejorando (o al menos optimizar) el VO₂máx en atletas de competición. Las principales son: (1) el entrenamiento interválico de alta intensidad (HIIT), (2) el entrenamiento en altitud/hipoxia, (3) el entrenamiento de fuerza concurrente y (4) una adecuada periodización con control del volumen.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Entrenamiento interválico de alta intensidad (HIIT): la piedra angular</h3>
+                <p>La evidencia acumulada indica que el HIIT es la herramienta más eficaz para estimular el VO₂máx, incluso en atletas entrenados [1,2]. Un metaanálisis de ensayos controlados aleatorizados que incluyó a deportistas, sujetos sanos y con sobrepeso concluyó que, aunque casi cualquier protocolo de HIIT mejora el VO₂máx frente a no entrenar, los protocolos que maximizan las ganancias son los de intervalos largos (≥2 min de trabajo), volumen de sesión alto (≥15 min de trabajo efectivo) y duración del programa moderada-larga (≥4–12 semanas) [2]. En la subpoblación atlética, los intervalos moderados-largos con volumen moderado-alto y programas de corta a moderada duración mostraron efectos significativos (SMD = 0.50–1.01) [2].</p>
+                <p>El metaanálisis de Bacon y colaboradores respalda esta idea desde otra perspectiva: tras analizar 37 estudios de entrenamiento interválico (6–13 semanas), hallaron una mejora media de ~0.51 L·min⁻¹ en el VO₂máx, pero los estudios con intervalos más largos (3–5 min) y entrenamiento continuo de alta intensidad mostraron aumentos aún mayores (~0.8–0.9 L·min⁻¹), con respuesta marcada en casi todos los sujetos [1]. Esto sugiere que la "baja entrenabilidad" descrita en algunos individuos puede deberse, en parte, a estímulos de intensidad insuficiente, y que los protocolos con intervalos largos son los más adecuados para llevar el sistema cardiovascular a su máximo [1].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">¿A qué intensidad y duración de intervalo?</h4>
+                <p>El parámetro clave es el tiempo acumulado cerca o en el VO₂máx. En natación de competición, por ejemplo, se demostró que nadar al 95% de la velocidad asociada al VO₂máx (vVO₂máx) permite mantener más tiempo el VO₂ por encima del 90–100% del máximo, mientras que al 105% se alcanza el VO₂máx antes pero se permanece menos tiempo en esa zona; los autores recomiendan combinar ambas estrategias según la fase del macrociclo [3]. Este principio es transferible a otras modalidades: la prescripción basada en fracciones del tiempo hasta el agotamiento a la vVO₂máx es una estrategia validada para individualizar la carga [3].</p>
+                <p>En corredores bien entrenados, un programa de 4 semanas con 2 sesiones de HIIT a la semana mostró que entrenar al 100% de la vVO₂máx mejoró la vVO₂máx, la economía de carrera y el rendimiento en 1500 m, mientras que al 95% solo se mejoraron el umbral láctico y el rendimiento en 5000 m [4]. Esto indica que, en atletas ya entrenados, la intensidad del intervalo (no solo el volumen) determina qué variables fisiológicas mejoran [4].</p>
+                <p>Incluso protocolos muy cortos pueden ser útiles: el entrenamiento intermitente de 10 s de trabajo con 5 s de recuperación (manteniendo un VO₂ estable cerca del máximo) mejoró el VO₂pico, el umbral ventilatorio y el rendimiento en pruebas de 60 s y 3 min en atletas de diversos deportes, con efectos superiores al entrenamiento continuo de alta intensidad de igual duración y esfuerzo [5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">HIIT con reducción de volumen: aplicaciones prácticas</h4>
+                <p>Una ventaja importante del HIIT es su eficiencia temporal. En triatletas moderadamente entrenados, sustituir parte del volumen de entrenamiento (reducción media del 43% del tiempo semanal) por 2 sesiones semanales de HIIT en cicloergómetro (6×2 min al 95% de la potencia asociada al VO₂máx y 4×1 min al 115%) durante 4 semanas aumentó el VO₂máx un 6,7% y mejoró la potencia en los umbrales ventilatorios, manteniendo el rendimiento en un triatlón simulado [6]. Esto convierte al HIIT en una herramienta valiosa durante periodos de reducción de carga, transición de temporada o recuperación de lesiones, aunque para mejorar el rendimiento de competición en sí parece necesario mantener un umbral mínimo de volumen de entrenamiento [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Entrenamiento en altitud e hipoxia (Live High-Train Low)</h3>
+                <p>El entrenamiento "vivir alto, entrenar bajo" (LHTL) es una de las estrategias más utilizadas por atletas de élite para elevar el VO₂máx. Un metaanálisis de ensayos aleatorizados mostró que los atletas expuestos a hipoxia presentaron un VO₂máx significativamente mayor que los que entrenaron en normoxia (diferencia media ponderada de 1,51 ml·kg⁻¹·min⁻¹), junto con aumentos de hemoglobina y menor lactato máximo [7]. Los protocolos más eficaces fueron los que emplearon al menos 9,5 horas diarias de exposición hipóxica a altitudes de 2.500–3.500 m durante ≥2 semanas, con mejoras de hasta 3,45 ml·kg⁻¹·min⁻¹ [7].</p>
+                <p>La revisión de Fudge y colaboradores añade matices importantes [8]:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La estrategia combinada de LHTL + entrenar en altura aumentó el VO₂máx (~4,8%) y la masa de hemoglobina (~3,6%), con mejora inmediata en contrarreloj de 3 km; sin embargo, los beneficios tienden a disiparse a las 2 semanas de volver al nivel del mar [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Exposiciones repetidas (bloques de 3 semanas) producen mejoras reproducibles en VO₂máx y masa de hemoglobina [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Existe una gran variabilidad individual: algunos atletas responden muy bien y otros no, por lo que la monitorización individual (p. ej., masa de hemoglobina) es esencial [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Un hallazgo relevante es que pueden existir adaptaciones no hematológicas (musculares, metabólicas) que contribuyen al rendimiento incluso cuando no aumenta la masa de hemoglobina [8].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Entrenamiento de fuerza concurrente: mejora indirecta</h3>
+                <p>El entrenamiento de fuerza añadido al entrenamiento de resistencia no suele aumentar el VO₂máx en deportistas ya entrenados, pero puede mejorar el rendimiento aeróbico a través de la economía de movimiento y las características neuromusculares [9,10]. La revisión de Laursen y colaboradores concluye que el entrenamiento de fuerza mejora la economía de carrera (con reducciones del consumo de oxígeno submáximo), lo que permite correr más rápido al mismo VO₂, sin efectos negativos sobre el VO₂máx ni el umbral láctico [9].</p>
+                <p>En corredores de élite (VO₂máx &gt;65 ml·kg⁻¹·min⁻¹), 12 semanas de entrenamiento concurrente (fuerza explosiva con ejercicios pliométricos + resistencia) mejoraron la fuerza máxima, la economía de carrera, la velocidad pico y el tiempo en 3 km, sin cambios significativos en el VO₂máx [10]. Es decir, en atletas de alto nivel, donde la "entrenabilidad" del VO₂máx es limitada, la fuerza se convierte en una vía para mejorar el rendimiento sin alterar el consumo máximo de oxígeno, y las ganancias se mantienen durante el destrenamiento [10]. El entrenamiento pliométrico y explosivo parece ser el más eficaz para este fin [9,10].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Especificidad deportiva y transferencia al rendimiento</h3>
+                <p>Una revisión sistemática sobre HIIT y medidas de rendimiento atlético objetivo (contrarreloj, sprints, saltos) concluyó que el HIIT mejora el rendimiento en una amplia variedad de deportes: carrera (3000 y 5000 m, sprint 40 m), remo (2000 m), ciclismo, hockey, tenis y sóftbol [11]. Aunque las dosis de HIIT fueron muy variables entre estudios y no se pudo identificar un protocolo óptimo universal, el HIIT específico del deporte (que imita los patrones neuromusculares de la disciplina) parece especialmente efectivo, y también puede utilizarse como entrenamiento cruzado [11]. El hecho de que el HIIT mejore tanto variables fisiológicas (VO₂máx) como medidas de rendimiento real respalda su inclusión sistemática en los programas de deportistas de competición [11].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Consideraciones prácticas y recomendaciones finales</h3>
+                <p>Con base en la evidencia revisada, se pueden formular las siguientes recomendaciones para mejorar el VO₂máx en deportistas de competición:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Priorizar el HIIT de intervalos largos:</strong> 4–6 repeticiones de 2–5 min a intensidades del 90–100% de la vVO₂máx (o potencia asociada al VO₂máx), con recuperaciones activas o pasivas de 1:1 a 1:2, 2–3 veces por semana, durante al menos 4–12 semanas [1,2,4]. Esta es la estrategia con mayor respaldo para maximizar las ganancias en VO₂máx [1,2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Variar la intensidad de los intervalos según la fase:</strong> intensidades más altas (100–105% vVO₂máx) alcanzan el VO₂máx más rápido (útiles en fase general), mientras que intensidades más bajas (95%) permiten más tiempo acumulado en la zona de VO₂máx (útiles en fase específica) [3,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Incluir bloques de LHTL cuando sea logísticamente posible:</strong> altitudes de 2.500–3.500 m, ≥9,5 h/día durante ≥2 semanas, idealmente combinando vivir en altura con entrenar en altura de forma intermitente [7,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Añadir fuerza explosiva/pliometría:</strong> 2 sesiones semanales de fuerza (cargas 40–70% 1RM o pliométricos) para mejorar la economía y el rendimiento, aunque no aumente el VO₂máx directamente [9,10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Usar HIIT eficiente en fases de reducción de volumen</strong> (tapering, pretemporada): permite mantener o incluso aumentar el VO₂máx con menos horas de entrenamiento [6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Individualizar y monitorizar:</strong> la respuesta al entrenamiento (especialmente en altitud) presenta gran variabilidad individual; la medición periódica del VO₂máx, la masa de hemoglobina y el rendimiento permite ajustar la carga [1,8].</span></li>
+                </ul>
+
+                <p>En síntesis, aunque el margen de mejora del VO₂máx en deportistas de competición es menor que en principiantes, la combinación de HIIT con intervalos largos a intensidades próximas o iguales a la vVO₂máx, estancias periódicas en altitud, fuerza explosiva complementaria y una periodización adecuada constituye la estrategia con mayor respaldo científico para optimizar la capacidad aeróbica máxima en atletas entrenados [1–4,6–11].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Bacon AP, Carter RE, Ogle EA, Joyner MJ. VO2max Trainability and High Intensity Interval Training in Humans: A Meta-Analysis. <em>PLoS ONE</em>. 2013;8(9):e73182. DOI: 10.1371/journal.pone.0073182</p>
+                    <p>[2] Wen D, Utesch T, Wu J, et al. Effects of different protocols of high intensity interval training for VO2max improvements in adults: A meta-analysis of randomised controlled trials. <em>Journal of Science and Medicine in Sport</em>. 2019;22(8):941-947. DOI: 10.1016/j.jsams.2019.01.013</p>
+                    <p>[3] Sousa A, Vilas-Boas JP, Fernandes RJ, Figueiredo P. VO2 at Maximal and Supramaximal Intensities: Lessons to High-Intensity Interval Training in Swimming. <em>International Journal of Sports Physiology and Performance</em>. 2017;12(7):872-877. DOI: 10.1123/ijspp.2016-0475</p>
+                    <p>[4] Denadai BS, Ortiz MJ, Greco CC, de Mello MT. Interval training at 95% and 100% of the velocity at VO2 max: effects on aerobic physiological indexes and running performance. <em>Applied Physiology, Nutrition, and Metabolism</em>. 2006;31(6):737-743. DOI: 10.1139/h06-080</p>
+                    <p>[5] Belfry GR, Paterson DH, Thomas SG. High-Intensity 10-s Work: 5-s Recovery Intermittent Training Improves Anaerobic and Aerobic Performances. <em>Research Quarterly for Exercise and Sport</em>. 2020;91(4):640-651. DOI: 10.1080/02701367.2019.1696928</p>
+                    <p>[6] Mallol M, Bentley DJ, Norton L, Norton K, Mejuto G, Yanci J. Comparison of Reduced-Volume High-Intensity Interval Training and High-Volume Training on Endurance Performance in Triathletes. <em>International Journal of Sports Physiology and Performance</em>. 2019;14(2):239-245. DOI: 10.1123/ijspp.2018-0359</p>
+                    <p>[7] Lancaster K, Smart N. Live-High Train-Low Altitude Training on Maximal Oxygen Consumption in Athletes: A Systematic Review and Meta-Analysis. <em>International Journal of Sports Science &amp; Coaching</em>. 2012;7(1):1-13. DOI: 10.1260/1747-9541.7.1.1</p>
+                    <p>[8] Fudge BW, Pringle JSM, Maxwell NS, Turner G, Ingham SA, Jones AM. Altitude Training for Elite Endurance Performance. <em>Current Sports Medicine Reports</em>. 2012;11(3):148-154. DOI: 10.1249/jsr.0b013e31825640d5</p>
+                    <p>[9] Laursen PB, Chiswell SE, Callaghan JA. Should Endurance Athletes Supplement Their Training Program With Resistance Training to Improve Performance? <em>Strength and Conditioning Journal</em>. 2005;27(5):50-55. DOI: 10.1519/00126548-200510000-00008</p>
+                    <p>[10] Sedano S, Marín PJ, Cuadrado G, Redondo JC. Concurrent Training in Elite Male Runners. <em>Journal of Strength and Conditioning Research</em>. 2013;27(9):2433-2443. DOI: 10.1519/jsc.0b013e318280cc26</p>
+                    <p>[11] Girard J, Feng B, Chapman C. The effects of high-intensity interval training on athletic performance measures: a systematic review. <em>Physical Therapy Reviews</em>. 2018;23(2):151-160. DOI: 10.1080/10833196.2018.1462588</p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Fisiología del ejercicio · VO2 máx</span>
+                <button onclick="compartirEntrada(event,'mejorar-vo2max-deportistas','Cómo se puede mejorar el consumo máximo de oxígeno (VO2 max) en deportistas de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalMejorarVO2MaxDeportistas()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -4700,6 +4828,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalMejorarVO2MaxDeportistas() {
+            const modal = document.getElementById('modal-mejorar-vo2max-deportistas');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalMejorarVO2MaxDeportistas() {
+            document.getElementById('modal-mejorar-vo2max-deportistas').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalAdaptacionesNeuromuscularesEjercicio() {
             const modal = document.getElementById('modal-adaptaciones-neuromusculares-ejercicio');
             modal.classList.remove('hidden');
@@ -5015,6 +5154,7 @@
                 cerrarPerformanceLab();
                 cerrarJumpLab();
                 cerrarCoachProPeriodizacion();
+                cerrarModalMejorarVO2MaxDeportistas();
                 cerrarModalAdaptacionesNeuromuscularesEjercicio();
                 cerrarModalAdaptacionesCardiovascularesEjercicio();
                 cerrarModalCardiaco();
