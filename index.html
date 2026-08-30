@@ -1964,6 +1964,106 @@
         </div>
     </div>
 
+    <!-- Modal: Entrenamiento para aproximar el VO2 de la potencia crítica al VO2 máximo -->
+    <div id="modal-vo2-potencia-critica-vo2max" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalVO2PotenciaCriticaVO2Max()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Entrenamiento de resistencia aeróbica · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo</h2>
+                </div>
+                <button onclick="cerrarModalVO2PotenciaCriticaVO2Max()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="vo2 asociado a MSSL.png" alt="Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo" class="w-full rounded-xl border border-slate-700">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Marco conceptual: qué significa "aproximar el VO₂ de la PC al VO₂max"</h3>
+                <p>La potencia crítica (PC) se define como la asíntota de la relación hiperbólica entre potencia y tiempo hasta el agotamiento y constituye el límite inferior del dominio de intensidad severa [13]. En el dominio severo (potencias &gt; PC), el VO₂ no se estabiliza: asciende progresivamente, impulsado por el componente lento del VO₂, hasta alcanzar valores máximos al final del ejercicio [6,13]. Por ello, el VO₂ "asociado a la PC" representa la máxima demanda aeróbica sostenible en el límite pesado-severo, y suele quedar por debajo del VO₂max:</p>
+                <ul class="space-y-2 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En sujetos activos, el ejercicio a PC estabiliza el VO₂ en torno al 75 % del VO₂max [13].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En ciclistas entrenados, el VO₂ al agotamiento a PC alcanza ~91–94 % del VO₂max, y solo cuando la intensidad se eleva ~5 % por encima de la PC (PC+5 %) el VO₂ llega al VO₂max al final de la prueba [15].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La PC en atletas entrenados ocurre a un porcentaje más alto de la diferencia entre el umbral láctico y el VO₂max (≈75 %Δ) que en sedentarios (≈40–50 %Δ), lo que indica que el entrenamiento modifica esta relación [12].</span></li>
+                </ul>
+                <p>Además, existe un límite superior del dominio severo (~136 % de la potencia máxima en cicloergómetro, con una duración mínima de ~2 min) por encima del cual la fatiga aparece antes de que el VO₂ pueda ascender hasta su máximo [13]. Incluso hay evidencia de que, en algunas cargas apenas por encima de la PC, el VO₂ al agotamiento no alcanza un "verdadero" máximo [5], y persiste el debate sobre la existencia de una reserva funcional al agotamiento [2].</p>
+                <p>Por tanto, "aproximar el VO₂ de la PC al VO₂max" exige dos adaptaciones complementarias: (a) elevar el VO₂max (capacidad de transporte y extracción de O₂) y (b) elevar la PC y la fracción de VO₂max sostenible a altas intensidades (es decir, mejorar la cinética del VO₂, atenuar el componente lento y aumentar la capacidad oxidativa muscular) [6,9,15].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Adaptaciones clave que debe inducir el entrenamiento</h3>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cinética del VO₂ más rápida y menor componente lento:</strong> tanto el entrenamiento continuo moderado como el interválico de alta intensidad (HIIT) aceleran la fase II del VO₂ (reducción del τ en ~25–34 %) y reducen la amplitud del componente lento (~28 %) en personas previamente sedentarias, lo que disminuye el déficit de O₂ y la contribución anaeróbica en ejercicio severo [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mayor amplitud de la respuesta de VO₂ en ejercicio severo:</strong> el HIIT en el dominio severo (intervalos de 2 min a 130–180 % de la potencia en el umbral) aumenta el VO₂max, la potencia en el VO₂max y en el umbral, y eleva la amplitud de la fase primaria y el VO₂ final en la misma carga absoluta severa, reduciendo el déficit acumulado de oxígeno y la contribución anaeróbica (~19 % → ~7 %) [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Mantenimiento de la utilización fraccional del VO₂max:</strong> incluir sprints de 30 s dentro de una sesión semanal de baja intensidad durante un periodo de transición con volumen reducido mantiene la utilización fraccional del VO₂max y el rendimiento en una prueba de 20 min en ciclistas de élite, mientras que con solo entrenamiento de baja intensidad ambos disminuyen [16].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Evidencia sobre los métodos de entrenamiento más eficientes</h3>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.1. HIIT aeróbico de alta intensidad frente a entrenamiento moderado o en umbral</h4>
+                <p>Con el trabajo total y la frecuencia igualados, el entrenamiento interválico a alta intensidad aeróbica (90–95 % de la FCmax, en formato 4 × 4 min o 47 × 15 s/15 s) aumentó el VO₂max un 5,5–7,2 % en 8 semanas, mientras que el entrenamiento continuo al 70 % FCmax o en el umbral láctico no produjo cambios; las mejoras del VO₂max se asociaron a aumentos del volumen sistólico [10]. Esto indica que la intensidad es el factor determinante y que el trabajo en el umbral o a baja intensidad es poco eficiente para elevar el techo aeróbico.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Entrenar a la intensidad asociada al VO₂max (100 % vVO₂max / P-VO₂max)</h4>
+                <p>En corredores bien entrenados, 4 semanas con 2 sesiones semanales de intervalos al 100 % de la vVO₂max (60 % del tiempo límite por repetición) mejoraron la vVO₂max, la economía de carrera y el rendimiento en 1500 m, mientras que el mismo programa al 95 % de la vVO₂max solo mejoró la velocidad en el umbral (vOBLA) y el rendimiento en 5000 m [9]. Es decir, la intensidad del estímulo interválico determina qué parámetros se aproximan más al VO₂max (la vVO₂max refleja la mejor combinación de VO₂max y economía).</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Intervalos cortos frente a intervalos largos</h4>
+                <p>En ciclistas entrenados, 10 semanas de intervalos cortos (30 s de trabajo a ~P-VO₂max con 15 s de recuperación activa, en series de 9,5 min) produjeron mejoras superiores a los intervalos largos (4 × 5 min) en VO₂max (8,7 % vs. 2,6 %), potencia máxima aeróbica, potencia en 4 mmol·L⁻¹, Wingate de 30 s, y pruebas de 5 y 40 min, a igual esfuerzo percibido y lactato [3]. El mayor tiempo acumulado ≥ 90 % del VO₂max explica en gran parte esta superioridad [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4. Intervalos muy cortos alrededor de la velocidad crítica</h4>
+                <p>En corredores de edad media acostumbrados solo a rodaje, los intervalos de 15 s/15 s con velocidad media igual a la velocidad crítica y pequeña amplitud (90–80 % o 100–70 % de la vVO₂max) permitieron mantener el VO₂max durante ~14 min por sesión, con lactato más bajo que con amplitudes grandes (110–60 %) [1]. Este formato es muy eficiente para "tener" el sistema de transporte de O₂ a su máximo durante mucho tiempo y, además, correr a mayor velocidad en los tramos duros (estímulo neuromuscular) [1].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.5. Sprint interval training (SIT): máxima eficiencia de tiempo</h4>
+                <p>El meta-análisis de Vollaard et al. muestra que el SIT (sprints al máximo de 10–30 s en cicloergómetro) mejora el VO₂max ~7,8 % en promedio, y que reducir el número de sprints no atenúa —e incluso puede mejorar— la ganancia (≈ −1,2 % por cada dos sprints adicionales; el protocolo REHIT con 2 sprints de 20 s es suficiente) [4]. Esto convierte al SIT en la estrategia más eficiente en tiempo para elevar el VO₂max, aunque sus efectos sobre la PC/fracción sostenible dependen de combinarse con volumen de base.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.6. Meta-análisis de HIIT y entrenamiento combinado</h4>
+                <p>El meta-análisis de Bacon et al. (37 estudios, 334 sujetos) estimó un aumento medio del VO₂max de 0,51 L·min⁻¹ con programas de 6–13 semanas de intervalos o intervalos + continuo, y los mayores aumentos (0,8–0,9 L·min⁻¹) se observaron con intervalos largos de 3–5 min combinados con entrenamiento continuo de alta intensidad [14]. Esto sugiere que, para maximizar la adaptación central, los intervalos de 3–5 min cerca del VO₂max son especialmente potentes [14].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.7. Distribución polarizada: la combinación más eficaz en entrenados</h4>
+                <p>En atletas bien entrenados, 9 semanas de entrenamiento polarizado (≈68 % del volumen a baja intensidad, ≈26 % a alta intensidad y mínimo en el umbral) produjeron las mayores mejoras en VO₂peak (+11,7 %), tiempo hasta el agotamiento (+17,4 %), velocidad/potencia pico (+5,1 %) y potencia a 4 mmol·L⁻¹ (+8,1 %), superando al HIIT exclusivo, al entrenamiento en umbral y al de alto volumen [11]. El entrenamiento exclusivo en el umbral o de alto volumen no produjo mejoras adicionales en deportistas ya entrenados [11].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Síntesis práctica: el enfoque más eficiente</h3>
+                <p>Con base en la evidencia, el planteamiento más eficiente para elevar el VO₂ sostenible en la PC y acercarlo al VO₂max combina:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Distribución polarizada del volumen:</strong> ~75–80 % del tiempo a intensidad baja (por debajo del umbral) para sostener el volumen y las adaptaciones periféricas, y ~15–20 % a alta intensidad; minimizando el tiempo "muerto" en la zona del umbral, que en entrenados aporta poco [11,14].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">1–2 sesiones semanales de HIIT en el dominio severo</strong> con formatos que maximicen el tiempo ≥ 90–95 % del VO₂max: 4 × 4 min al 90–95 % FCmax con 3 min de recuperación activa [10]; series de intervalos cortos 30 s:15 s a la P-VO₂max [3]; intervalos muy cortos 15 s:15 s con media a la velocidad crítica y amplitud pequeña [1]; o, cuando el tiempo es limitado, SIT de 2–4 sprints al máximo de 20–30 s [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Combinar con intervalo de 3–5 min cerca del VO₂max</strong> si el objetivo es maximizar la adaptación central (volumen sistólico, VO₂max) [14].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">En periodos de volumen reducido o transición,</strong> añadir sprints cortos a sesiones de baja intensidad para mantener la utilización fraccional del VO₂max y el rendimiento tipo PC (20 min all-out) [16].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Conclusiones</h3>
+                <p>El VO₂ alcanzado en la PC queda naturalmente por debajo del VO₂max (≈75 % en activos; ~91–94 % en entrenados al agotamiento), y basta un pequeño incremento de potencia por encima de la PC para que el VO₂ ascienda hasta su máximo [13,15]. El entrenamiento más eficiente para estrechar esa brecha es el que combina alta intensidad (intervalos en el dominio severo, preferiblemente cortos y alrededor de la vVO₂max/P-VO₂max, o sprints al máximo) con un volumen de base a baja intensidad (distribución polarizada), ya que simultáneamente eleva el VO₂max, acelera la cinética del VO₂, reduce el componente lento y aumenta la PC y la fracción de VO₂max sostenible [3,7,8,10,11]. El entrenamiento exclusivo en el umbral o de alto volumen es claramente menos eficiente en deportistas entrenados [9,11], mientras que el SIT ofrece la mayor eficiencia de tiempo para elevar el VO₂max [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Billat V, Slawinksi J, Bocquet V, Chassaing P, Demarle A, Koralsztein J. Very Short (15 s - 15 s) Interval-Training Around the Critical Velocity Allows Middle-Aged Runners to Maintain V˙O2 max for 14 minutes. <em>International Journal of Sports Medicine</em>. 2001;22(03):201-208. DOI: 10.1055/s-2001-16389</p>
+                    <p>[2] Morales-Alamo D, Martin-Rincon M, Perez-Valera M, Marcora S, Calbet JAL. No functional reserve at exhaustion in endurance-trained men? <em>Journal of Applied Physiology</em>. 2016;120(4):476-476. DOI: 10.1152/japplphysiol.01006.2015</p>
+                    <p>[3] Rønnestad BR, Hansen J, Vegge G, Tønnessen E, Slettaløkken G. Short intervals induce superior training adaptations compared with long intervals in cyclists – An effort‐matched approach. <em>Scandinavian Journal of Medicine &amp; Science in Sports</em>. 2014;25(2):143-151. DOI: 10.1111/sms.12165</p>
+                    <p>[4] Vollaard NBJ, Metcalfe RS, Williams S. Effect of Number of Sprints in an SIT Session on Change in V˙O2max. <em>Medicine &amp; Science in Sports &amp; Exercise</em>. 2017;49(6):1147-1156. DOI: 10.1249/mss.0000000000001204</p>
+                    <p>[5] Sawyer B, Morton RH, Womack C, Gaesser GA. VO2max May Not be Reached During Constant-Load Exercise to Exhaustion Above Critical Power. <em>Medicine &amp; Science in Sports &amp; Exercise</em>. 2011;43(5):802. DOI: 10.1249/01.mss.0000402232.08163.ba</p>
+                    <p>[6] Greco CC, Caputo F, Denadai BS. Critical power and maximal oxygen uptake: Estimating the upper limit of the severe domain, a new challenge? <em>Science &amp; Sports</em>. 2008;23(5):216-222. DOI: 10.1016/j.scispo.2007.06.008</p>
+                    <p>[7] Duffield R, Edge J, Bishop D. Effects of high-intensity interval training on the response during severe exercise. <em>Journal of Science and Medicine in Sport</em>. 2006;9(3):249-255. DOI: 10.1016/j.jsams.2006.03.014</p>
+                    <p>[8] Berger NJA, Tolfrey K, Williams AG, Jones AM. Influence of Continuous and Interval Training on Oxygen Uptake On-Kinetics. <em>Medicine &amp; Science in Sports &amp; Exercise</em>. 2006;38(3):504-512. DOI: 10.1249/01.mss.0000191418.37709.81</p>
+                    <p>[9] Denadai BS, Ortiz MJ, Greco CC, de Mello MT. Interval training at 95% and 100% of the velocity at VO2 max: effects on aerobic physiological indexes and running performance. <em>Applied Physiology, Nutrition, and Metabolism</em>. 2006;31(6):737-743. DOI: 10.1139/h06-080</p>
+                    <p>[10] Helgerud J, Høydal K, Wang E, et al. Aerobic High-Intensity Intervals Improve V˙O2max More Than Moderate Training. <em>Medicine &amp; Science in Sports &amp; Exercise</em>. 2007;39(4):665-671. DOI: 10.1249/mss.0b013e3180304570</p>
+                    <p>[11] Stöggl T, Sperlich B. Polarized training has greater impact on key endurance variables than threshold, high intensity, or high volume training. <em>Frontiers in Physiology</em>. 2014;5. DOI: 10.3389/fphys.2014.00033</p>
+                    <p>[12] Caputo F, Denadai BS. Does 75% of the difference between VO2 at lactate threshold and VO2max lie at the severe-intensity domain in well-trained cyclists? <em>Science &amp; Sports</em>. 2009;24(5):257-261. DOI: 10.1016/j.scispo.2009.01.008</p>
+                    <p>[13] Hill DW, Poole DC, Smith JC. The relationship between power and the time to achieve VO2max. <em>Medicine &amp; Science in Sports &amp; Exercise</em>. 2002;34(4):709-714. DOI: 10.1097/00005768-200204000-00023</p>
+                    <p>[14] Bacon AP, Carter RE, Ogle EA, Joyner MJ. VO2max Trainability and High Intensity Interval Training in Humans: A Meta-Analysis. <em>PLoS ONE</em>. 2013;8(9):e73182. DOI: 10.1371/journal.pone.0073182</p>
+                    <p>[15] de Lucas RD, de Souza KM, Costa VP, Grossl T, Guglielmo LGA. Time to exhaustion at and above critical power in trained cyclists: The relationship between heavy and severe intensity domains. <em>Science &amp; Sports</em>. 2013;28(1):e9-e14. DOI: 10.1016/j.scispo.2012.04.004</p>
+                    <p>[16] Almquist NW, Løvlien I, Byrkjedal PT, et al. Effects of Including Sprints in One Weekly Low-Intensity Training Session During the Transition Period of Elite Cyclists. <em>Frontiers in Physiology</em>. 2020;11. DOI: 10.3389/fphys.2020.01000</p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Fisiología del ejercicio · Potencia crítica</span>
+                <button onclick="compartirEntrada(event,'vo2-potencia-critica-vo2max','Entrenamiento más eficiente para aproximar el VO₂ asociado a la potencia crítica al VO₂ máximo')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalVO2PotenciaCriticaVO2Max()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Cómo mejorar el VO2 máx en deportistas de competición -->
     <div id="modal-mejorar-vo2max-deportistas" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
         <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalMejorarVO2MaxDeportistas()"></div>
@@ -4828,6 +4928,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalVO2PotenciaCriticaVO2Max() {
+            const modal = document.getElementById('modal-vo2-potencia-critica-vo2max');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalVO2PotenciaCriticaVO2Max() {
+            document.getElementById('modal-vo2-potencia-critica-vo2max').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalMejorarVO2MaxDeportistas() {
             const modal = document.getElementById('modal-mejorar-vo2max-deportistas');
             modal.classList.remove('hidden');
@@ -5154,6 +5265,7 @@
                 cerrarPerformanceLab();
                 cerrarJumpLab();
                 cerrarCoachProPeriodizacion();
+                cerrarModalVO2PotenciaCriticaVO2Max();
                 cerrarModalMejorarVO2MaxDeportistas();
                 cerrarModalAdaptacionesNeuromuscularesEjercicio();
                 cerrarModalAdaptacionesCardiovascularesEjercicio();
