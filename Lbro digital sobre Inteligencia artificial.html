@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inteligencia artificial: fundamentos, tipos y aplicaciones en ciencias de la actividad física y el deporte</title>
+<meta name="description" content="Documento de referencia sobre inteligencia artificial: definición, funcionamiento, conceptos clave, tipos, campos de aplicación, tareas y usos en ciencias de la actividad física y del deporte.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..125,400..900&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --agua:#0D2A31; --agua2:#143A44; --papel:#ECEEE8; --tiza:#F8FAF6;
+  --calle:#17798C; --calle-cl:#57B0BF; --boya:#DE9526; --linea:#C7D0CA;
+  --tinta:#11262B; --suave:#5B6D70;
+  --display:'Archivo',system-ui,-apple-system,sans-serif;
+  --cuerpo:'Source Serif 4',Georgia,'Times New Roman',serif;
+  --dato:'IBM Plex Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px;
+  --sombra:0 1px 2px rgba(13,42,49,.05), 0 8px 24px -14px rgba(13,42,49,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:5.5rem; -webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--papel); color:var(--tinta);
+  font-family:var(--cuerpo); font-size:17px; line-height:1.72;
+  font-variant-numeric:oldstyle-nums;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:var(--display); font-weight:700; line-height:1.06; letter-spacing:-.015em; margin:0}
+p{margin:0 0 1.05em}
+a{color:var(--calle); text-decoration:underline; text-underline-offset:.18em; text-decoration-thickness:.06em}
+a:hover{color:var(--tinta)}
+:focus-visible{outline:2.5px solid var(--boya); outline-offset:3px; border-radius:4px}
+strong{font-weight:700}
+em{font-style:italic}
+abbr{text-decoration:none; border-bottom:1px dotted var(--linea); cursor:help}
+
+/* ---------- barra de progreso: la línea de calle ---------- */
+#progreso{position:fixed; inset:0 auto auto 0; height:3px; width:100%; background:transparent; z-index:60}
+#progreso span{display:block; height:100%; width:0; background:linear-gradient(90deg,var(--calle),var(--boya)); transition:width .1s linear}
+
+/* ---------- portada ---------- */
+.portada{background:var(--agua); color:#DCE6E4; padding:clamp(3.2rem,7vw,5.5rem) 0 0; position:relative; overflow:hidden}
+.portada::after{content:""; position:absolute; inset:auto 0 0 0; height:1px; background:linear-gradient(90deg,transparent,rgba(87,176,191,.55),transparent)}
+.centro{max-width:1240px; margin:0 auto; padding:0 clamp(1.1rem,4vw,3rem)}
+.marca{font-family:var(--dato); font-size:.7rem; letter-spacing:.22em; text-transform:uppercase; color:var(--calle-cl); display:flex; gap:.9rem; align-items:center; flex-wrap:wrap}
+.marca i{display:block; width:34px; height:1px; background:var(--calle-cl); font-style:normal}
+.portada h1{
+  font-size:clamp(2.35rem,6.4vw,4.5rem); font-weight:800; font-stretch:112%;
+  color:#F4F7F4; margin:1.5rem 0 0; max-width:17ch; letter-spacing:-.028em;
+}
+.portada h1 b{color:var(--boya); font-weight:800}
+.entradilla{max-width:56ch; margin:1.5rem 0 0; color:#B9C9C8; font-size:1.06rem}
+.ficha{display:flex; flex-wrap:wrap; gap:0 2.2rem; margin:2.2rem 0 0; font-family:var(--dato); font-size:.7rem; letter-spacing:.13em; text-transform:uppercase; color:#7F9A9B}
+.ficha b{color:#DCE6E4; font-weight:500}
+
+/* ---------- traza / índice gráfico ---------- */
+.traza{margin:2.6rem 0 0; padding-bottom:2.4rem}
+.traza svg{display:block; width:100%; height:auto; overflow:visible}
+.traza .rejilla-h{stroke:rgba(220,230,228,.10); stroke-width:1}
+.traza .senal{fill:none; stroke:rgba(87,176,191,.30); stroke-width:1.1; stroke-linejoin:round}
+.traza .filtrada{fill:none; stroke:var(--calle-cl); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round}
+.traza .boya circle{fill:var(--agua); stroke:var(--boya); stroke-width:2.2; transition:r .18s ease, fill .18s ease}
+.traza .boya text{font-family:var(--dato); font-size:11px; letter-spacing:.1em; fill:#8FA7A7; text-anchor:middle; transition:fill .18s ease}
+.traza .boya:hover circle,.traza .boya:focus-visible circle{r:9; fill:var(--boya)}
+.traza .boya:hover text,.traza .boya:focus-visible text{fill:#F4F7F4}
+.traza .leyenda{font-family:var(--dato); font-size:10.5px; letter-spacing:.14em; fill:#6C8687; text-transform:uppercase}
+@media (prefers-reduced-motion:no-preference){
+  .traza .senal,.traza .filtrada{animation:dibuja 2.6s cubic-bezier(.35,0,.15,1) forwards}
+  .traza .filtrada{stroke-dasharray:1106; stroke-dashoffset:1106}
+  .traza .senal{stroke-dasharray:3324; stroke-dashoffset:3324; animation-duration:3.2s}
+  .traza .boya{opacity:0; animation:asoma .5s ease forwards}
+  @keyframes dibuja{to{stroke-dashoffset:0}}
+  @keyframes asoma{to{opacity:1}}
+}
+
+/* ---------- estructura ---------- */
+.armazon{max-width:1240px; margin:0 auto; padding:0 clamp(1.1rem,4vw,3rem); display:grid; grid-template-columns:236px minmax(0,1fr); gap:clamp(2rem,4vw,3.6rem); align-items:start}
+.carril{position:sticky; top:2.6rem; padding:3.2rem 0 2rem; font-family:var(--dato)}
+.carril h2{font-family:var(--dato); font-size:.68rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--suave); margin:0 0 1.1rem}
+.carril ol{list-style:none; margin:0; padding:0; position:relative}
+.carril ol::before{content:""; position:absolute; left:9px; top:10px; bottom:12px; width:1px; background:var(--linea)}
+.carril li{position:relative; padding:0 0 .1rem 2rem; margin:0 0 .55rem}
+.carril li::before{content:""; position:absolute; left:5px; top:.36em; width:9px; height:9px; border-radius:50%; background:var(--papel); border:1.6px solid var(--linea); transition:background .2s,border-color .2s,transform .2s}
+.carril a{display:block; font-size:.775rem; line-height:1.4; color:var(--suave); text-decoration:none; letter-spacing:.005em}
+.carril a:hover{color:var(--tinta)}
+.carril li.activo::before{background:var(--boya); border-color:var(--boya); transform:scale(1.18)}
+.carril li.activo a{color:var(--tinta); font-weight:600}
+.carril .pie{margin:1.6rem 0 0; padding:.9rem 0 0; border-top:1px solid var(--linea); font-size:.66rem; letter-spacing:.06em; color:var(--suave); line-height:1.6}
+
+.lienzo{padding:3.2rem 0 1rem; max-width:790px; min-width:0}
+
+/* ---------- secciones ---------- */
+.seccion{padding:0 0 clamp(3rem,6vw,4.6rem); scroll-margin-top:5rem}
+.cabecera{display:grid; grid-template-columns:auto 1fr; gap:1.1rem; align-items:start; margin:0 0 1.7rem; padding:0 0 1.1rem; border-bottom:1px solid var(--linea)}
+.cifra{font-family:var(--display); font-weight:800; font-stretch:118%; font-size:clamp(2.6rem,7vw,3.7rem); line-height:.8; color:transparent; -webkit-text-stroke:1.4px var(--linea); letter-spacing:-.04em; font-variant-numeric:lining-nums}
+.cabecera h2{font-size:clamp(1.6rem,3.5vw,2.25rem); font-weight:700; font-stretch:104%; max-width:20ch}
+.epigrafe{font-family:var(--dato); font-size:.66rem; font-weight:600; letter-spacing:.2em; text-transform:uppercase; color:var(--calle); margin:0 0 .5rem; display:block}
+.seccion h3{font-size:1.22rem; font-weight:700; margin:2.3rem 0 .7rem; color:var(--agua)}
+.seccion h4{font-family:var(--dato); font-size:.72rem; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--suave); margin:1.6rem 0 .55rem}
+.seccion ul,.seccion ol.lista{margin:0 0 1.1em; padding-left:1.15rem}
+.seccion li{margin:0 0 .5em}
+.seccion ul{list-style:none; padding-left:1.25rem}
+.seccion ul>li{position:relative}
+.seccion ul>li::before{content:""; position:absolute; left:-1.1rem; top:.72em; width:5px; height:5px; background:var(--calle); border-radius:50%}
+
+/* ---------- componentes ---------- */
+.definicion{background:var(--agua); color:#DDE7E5; border-radius:var(--r); padding:1.5rem 1.7rem; margin:1.6rem 0 1.8rem; box-shadow:var(--sombra)}
+.definicion .epigrafe{color:var(--boya)}
+.definicion p{margin:0; font-size:1.02rem; line-height:1.68}
+.definicion p+p{margin-top:.8em}
+.definicion cite{display:block; margin-top:.9rem; font-family:var(--dato); font-style:normal; font-size:.7rem; letter-spacing:.1em; color:#88A2A3; text-transform:uppercase}
+
+.aviso{background:var(--tiza); border-left:3px solid var(--boya); border-radius:0 var(--r) var(--r) 0; padding:1.15rem 1.35rem; margin:1.5rem 0; font-size:.96rem}
+.aviso p:last-child{margin-bottom:0}
+.aviso .epigrafe{color:#A96D12}
+
+.nota{background:var(--tiza); border:1px solid var(--linea); border-radius:var(--r); padding:1.15rem 1.35rem; margin:1.5rem 0; font-size:.96rem}
+.nota p:last-child{margin-bottom:0}
+
+.rejilla{display:grid; gap:.85rem; grid-template-columns:repeat(auto-fit,minmax(215px,1fr)); margin:1.5rem 0}
+.tarjeta{background:var(--tiza); border:1px solid var(--linea); border-radius:var(--r); padding:1.05rem 1.15rem}
+.tarjeta h4{margin:0 0 .35rem; font-family:var(--display); font-size:.98rem; font-weight:700; letter-spacing:-.01em; text-transform:none; color:var(--agua)}
+.tarjeta p{margin:0; font-size:.9rem; line-height:1.6; color:#33484C}
+.tarjeta .clave{font-family:var(--dato); font-size:.62rem; letter-spacing:.16em; text-transform:uppercase; color:var(--calle); display:block; margin:0 0 .45rem}
+
+.glosario{display:grid; gap:.55rem .9rem; grid-template-columns:repeat(auto-fit,minmax(268px,1fr)); margin:1rem 0 1.7rem; padding:0; list-style:none}
+.glosario li{margin:0; padding:.7rem .85rem; background:var(--tiza); border:1px solid var(--linea); border-radius:10px; font-size:.9rem; line-height:1.58}
+.glosario li::before{display:none}
+.glosario b{display:block; font-family:var(--dato); font-size:.73rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--agua); margin:0 0 .18rem}
+
+.marco-tabla{overflow-x:auto; margin:1.5rem 0; border:1px solid var(--linea); border-radius:var(--r); background:var(--tiza)}
+table{border-collapse:collapse; width:100%; min-width:520px; font-size:.9rem}
+caption{caption-side:bottom; padding:.75rem 1rem; font-family:var(--dato); font-size:.66rem; letter-spacing:.1em; text-transform:uppercase; color:var(--suave); text-align:left}
+th,td{padding:.7rem .95rem; text-align:left; vertical-align:top; border-bottom:1px solid var(--linea)}
+thead th{font-family:var(--dato); font-size:.66rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--agua); background:rgba(23,121,140,.07); border-bottom:1.5px solid var(--linea)}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:none}
+tbody th{font-weight:700; font-family:var(--display); font-size:.92rem; color:var(--agua); width:26%}
+
+.flujo{list-style:none; counter-reset:paso; margin:1.6rem 0; padding:0; display:grid; gap:.5rem}
+.flujo li{counter-increment:paso; position:relative; padding:.75rem .95rem .75rem 3.1rem; background:var(--tiza); border:1px solid var(--linea); border-radius:10px; font-size:.92rem; line-height:1.6; margin:0}
+.flujo li::before{content:counter(paso,decimal-leading-zero); position:absolute; left:.95rem; top:.78rem; font-family:var(--dato); font-size:.72rem; font-weight:600; color:var(--boya); letter-spacing:.06em; background:none; width:auto; height:auto; border-radius:0}
+.flujo b{font-family:var(--display); font-weight:700; color:var(--agua)}
+
+.deporte{border-top:2px solid var(--agua); padding-top:.9rem; margin:2.4rem 0 0}
+.deporte>.epigrafe{color:var(--boya)}
+
+.fuentes{font-size:.86rem; line-height:1.62; color:#3A5054}
+.fuentes li{margin:0 0 .45em}
+.fuentes li::before{background:var(--linea)!important}
+
+footer{background:var(--agua); color:#9FB6B6; margin-top:2rem; padding:2.6rem 0 3rem; font-size:.86rem}
+footer .centro{display:grid; gap:1.2rem}
+footer b{color:#E7EFEC; font-family:var(--display); font-weight:700; font-size:1rem; letter-spacing:-.01em}
+footer .meta{font-family:var(--dato); font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:#6D8788}
+footer a{color:var(--calle-cl)}
+
+/* ---------- adaptación ---------- */
+@media (max-width:980px){
+  .armazon{grid-template-columns:minmax(0,1fr); gap:0}
+  .carril{position:sticky; top:0; z-index:50; padding:.55rem 0; background:rgba(236,238,232,.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--linea); margin:0 calc(-1*clamp(1.1rem,4vw,3rem))}
+  .carril h2,.carril .pie{display:none}
+  .carril ol{display:flex; gap:.4rem; overflow-x:auto; padding:.25rem clamp(1.1rem,4vw,3rem); scrollbar-width:none}
+  .carril ol::-webkit-scrollbar{display:none}
+  .carril ol::before{display:none}
+  .carril li{padding:0; margin:0; flex:0 0 auto}
+  .carril li::before{display:none}
+  .carril a{white-space:nowrap; font-size:.72rem; padding:.4rem .7rem; border:1px solid var(--linea); border-radius:999px; background:var(--tiza)}
+  .carril li.activo a{background:var(--agua); color:#F2F5F1; border-color:var(--agua)}
+  .lienzo{padding-top:2.4rem}
+  html{scroll-padding-top:4rem}
+}
+@media (max-width:560px){
+  body{font-size:16.5px}
+  .cabecera{grid-template-columns:1fr; gap:.35rem}
+  .cifra{font-size:2.1rem}
+  .glosario,.rejilla{grid-template-columns:1fr}
+}
+@media print{
+  body{background:#fff; font-size:11pt}
+  #progreso,.carril,.traza{display:none}
+  .portada{background:#fff; color:#000; padding:0 0 1.4rem; margin-bottom:1.6rem; border-bottom:1px solid #999}
+  .portada::after{display:none}
+  .portada h1{color:#000} .portada h1 b{color:#000} .entradilla,.ficha,.ficha b,.marca{color:#333}
+  .armazon{display:block} .lienzo{max-width:none; padding-top:1rem}
+  .seccion{page-break-inside:auto} .cabecera,.tarjeta,.definicion,.aviso,.nota{page-break-inside:avoid}
+  .definicion{background:#fff; color:#000; border:1.5px solid #000; box-shadow:none}
+  .definicion cite{color:#333}
+  footer{background:#fff; color:#333} footer b{color:#000}
+  a{color:#000}
+}
+</style>
+</head>
+<body>
+<div id="progreso" aria-hidden="true"><span></span></div>
+
+<header class="portada">
+  <div class="centro">
+    <p class="marca"><i></i> Documento de referencia · Ciencias de la actividad física y del deporte</p>
+    <h1>Inteligencia artificial: de la señal al <b>criterio profesional</b></h1>
+    <p class="entradilla">Qué es exactamente la IA, cómo funciona por dentro, qué tipos existen, qué tareas resuelve y —sobre todo— qué puede y qué no puede hacer hoy en el entrenamiento, el análisis del rendimiento, la salud y la docencia.</p>
+    <p class="ficha"><span>Actualizado · <b>agosto de 2026</b></span><span>Lectura · <b>45–60 min</b></span><span>Bloques · <b>8</b></span></p>
+  </div>
+  <div class="centro traza">
+    <svg viewBox="0 0 1000 250" role="img" aria-label="Índice gráfico del documento representado sobre una traza de datos con ocho marcas">
+      <line class="rejilla-h" x1="30" y1="60" x2="960" y2="60"></line>
+      <line class="rejilla-h" x1="30" y1="125" x2="960" y2="125"></line>
+      <line class="rejilla-h" x1="30" y1="190" x2="960" y2="190"></line>
+      <text class="leyenda" x="30" y="222">Señal en bruto</text>
+      <text class="leyenda" x="205" y="222">— Señal filtrada</text>
+      <text class="leyenda" x="960" y="222" text-anchor="end">Los 8 bloques del documento</text>
+      <polyline class="senal" points="30.0,139.0 33.9,127.5 37.8,132.8 41.7,131.3 45.6,135.9 49.5,126.2 53.3,110.2 57.2,116.5 61.1,108.8 65.0,116.8 68.9,114.8 72.8,116.9 76.7,137.2 80.6,109.6 84.5,113.6 88.4,113.9 92.3,138.1 96.2,138.9 100.0,129.6 103.9,124.9 107.8,116.2 111.7,119.7 115.6,112.9 119.5,124.8 123.4,113.3 127.3,111.0 131.2,121.1 135.1,93.1 139.0,103.8 142.8,94.6 146.7,112.1 150.6,110.9 154.5,103.9 158.4,98.6 162.3,87.8 166.2,89.4 170.1,94.4 174.0,97.6 177.9,90.6 181.8,69.6 185.6,90.2 189.5,77.3 193.4,74.4 197.3,95.0 201.2,78.1 205.1,64.8 209.0,102.2 212.9,85.1 216.8,84.7 220.7,94.9 224.6,83.5 228.5,93.0 232.3,112.2 236.2,91.3 240.1,97.6 244.0,99.4 247.9,99.0 251.8,116.1 255.7,124.1 259.6,145.0 263.5,129.3 267.4,148.0 271.3,151.3 275.1,165.1 279.0,166.4 282.9,165.8 286.8,149.6 290.7,189.4 294.6,186.0 298.5,169.7 302.4,158.3 306.3,169.1 310.2,197.0 314.1,204.0 317.9,172.1 321.8,183.2 325.7,186.1 329.6,161.2 333.5,157.6 337.4,165.4 341.3,161.5 345.2,156.2 349.1,140.0 353.0,147.2 356.9,144.6 360.8,140.6 364.6,160.1 368.5,125.2 372.4,125.3 376.3,126.7 380.2,151.0 384.1,133.4 388.0,114.6 391.9,141.4 395.8,121.4 399.7,106.5 403.6,130.6 407.4,97.4 411.3,108.1 415.2,115.1 419.1,109.5 423.0,105.7 426.9,111.4 430.8,100.2 434.7,120.2 438.6,117.6 442.5,101.7 446.4,112.9 450.3,122.9 454.1,102.7 458.0,96.6 461.9,117.1 465.8,126.6 469.7,111.9 473.6,110.8 477.5,110.9 481.4,90.4 485.3,115.1 489.2,87.7 493.1,113.0 496.9,105.0 500.8,86.6 504.7,78.2 508.6,78.2 512.5,80.8 516.4,80.1 520.3,77.1 524.2,69.7 528.1,75.4 532.0,68.1 535.9,62.8 539.7,67.5 543.6,57.8 547.5,59.2 551.4,43.0 555.3,61.6 559.2,70.5 563.1,71.1 567.0,68.8 570.9,60.7 574.8,77.3 578.7,72.5 582.6,60.2 586.4,112.6 590.3,101.2 594.2,90.9 598.1,94.2 602.0,101.1 605.9,113.8 609.8,107.3 613.7,116.7 617.6,130.9 621.5,103.7 625.4,131.4 629.2,146.2 633.1,145.6 637.0,151.0 640.9,152.9 644.8,185.3 648.7,163.4 652.6,149.1 656.5,174.6 660.4,163.6 664.3,153.0 668.2,154.1 672.1,146.6 675.9,180.7 679.8,164.5 683.7,162.5 687.6,149.6 691.5,141.9 695.4,180.5 699.3,136.1 703.2,160.7 707.1,133.9 711.0,154.4 714.9,132.7 718.7,118.2 722.6,129.7 726.5,122.9 730.4,113.3 734.3,117.8 738.2,117.8 742.1,97.9 746.0,101.3 749.9,114.4 753.8,79.6 757.7,121.3 761.5,97.8 765.4,110.2 769.3,105.4 773.2,98.9 777.1,104.2 781.0,99.6 784.9,123.5 788.8,123.4 792.7,100.2 796.6,117.5 800.5,118.1 804.4,122.7 808.2,92.3 812.1,97.3 816.0,88.5 819.9,113.8 823.8,102.1 827.7,112.9 831.6,90.0 835.5,78.7 839.4,103.5 843.3,73.9 847.2,77.2 851.0,86.9 854.9,103.4 858.8,63.0 862.7,76.2 866.6,78.5 870.5,64.2 874.4,61.0 878.3,46.2 882.2,71.2 886.1,45.1 890.0,39.2 893.8,38.0 897.7,54.7 901.6,60.2 905.5,40.6 909.4,50.8 913.3,51.6 917.2,38.6 921.1,59.1 925.0,83.8 928.9,65.8 932.8,85.2 936.7,59.7 940.5,69.5 944.4,84.2 948.3,82.5 952.2,78.3 956.1,91.9 960.0,83.5"></polyline>
+      <polyline class="filtrada" points="30.0,125.4 33.9,124.5 37.8,123.6 41.7,123.1 45.6,124.2 49.5,123.1 53.3,122.5 57.2,121.9 61.1,122.9 65.0,122.9 68.9,123.0 72.8,122.5 76.7,121.7 80.6,120.7 84.5,119.9 88.4,120.8 92.3,120.6 96.2,120.7 100.0,121.0 103.9,119.7 107.8,118.9 111.7,116.4 115.6,116.6 119.5,116.4 123.4,115.8 127.3,113.5 131.2,110.5 135.1,108.1 139.0,106.3 142.8,105.2 146.7,103.5 150.6,101.0 154.5,98.9 158.4,96.8 162.3,94.7 166.2,93.1 170.1,92.3 174.0,90.0 177.9,90.4 181.8,88.8 185.6,87.3 189.5,86.8 193.4,85.9 197.3,86.2 201.2,87.5 205.1,87.3 209.0,87.3 212.9,87.8 216.8,89.6 220.7,91.1 224.6,93.8 228.5,98.0 232.3,100.0 236.2,104.1 240.1,109.2 244.0,112.9 247.9,117.7 251.8,122.5 255.7,125.7 259.6,131.9 263.5,137.4 267.4,140.8 271.3,144.7 275.1,148.9 279.0,154.7 282.9,160.8 286.8,164.1 290.7,167.6 294.6,170.0 298.5,171.9 302.4,172.5 306.3,173.3 310.2,173.1 314.1,172.5 317.9,171.0 321.8,170.8 325.7,168.2 329.6,165.5 333.5,164.9 337.4,163.0 341.3,160.4 345.2,156.3 349.1,153.2 353.0,150.9 356.9,146.9 360.8,144.2 364.6,141.9 368.5,138.9 372.4,136.8 376.3,133.1 380.2,130.2 384.1,128.8 388.0,126.6 391.9,124.3 395.8,122.6 399.7,119.0 403.6,118.7 407.4,118.3 411.3,116.8 415.2,114.6 419.1,113.9 423.0,113.2 426.9,110.6 430.8,110.4 434.7,111.5 438.6,110.4 442.5,111.2 446.4,111.4 450.3,109.9 454.1,110.3 458.0,109.2 461.9,109.3 465.8,109.6 469.7,107.6 473.6,105.3 477.5,103.9 481.4,102.0 485.3,99.5 489.2,98.0 493.1,96.4 496.9,94.0 500.8,90.5 504.7,87.6 508.6,85.1 512.5,82.0 516.4,80.1 520.3,75.9 524.2,74.4 528.1,71.9 532.0,69.9 535.9,68.8 539.7,67.8 543.6,67.7 547.5,67.2 551.4,66.1 555.3,68.2 559.2,70.0 563.1,70.9 567.0,72.5 570.9,74.7 574.8,77.4 578.7,80.3 582.6,83.7 586.4,88.9 590.3,91.4 594.2,95.0 598.1,99.4 602.0,103.9 605.9,109.2 609.8,113.7 613.7,120.3 617.6,126.4 621.5,128.5 625.4,132.8 629.2,137.1 633.1,140.6 637.0,143.7 640.9,145.6 644.8,149.9 648.7,152.7 652.6,154.6 656.5,157.3 660.4,157.9 664.3,159.9 668.2,159.4 672.1,159.9 675.9,158.8 679.8,157.0 683.7,155.2 687.6,153.4 691.5,150.8 695.4,148.4 699.3,146.0 703.2,143.9 707.1,142.2 711.0,137.3 714.9,133.6 718.7,130.8 722.6,126.7 726.5,125.4 730.4,120.6 734.3,119.0 738.2,115.8 742.1,113.7 746.0,110.8 749.9,108.8 753.8,109.1 757.7,108.8 761.5,107.4 765.4,107.7 769.3,107.7 773.2,108.0 777.1,107.7 781.0,107.4 784.9,105.9 788.8,107.9 792.7,106.8 796.6,107.7 800.5,106.5 804.4,104.9 808.2,105.2 812.1,103.4 816.0,102.1 819.9,99.9 823.8,98.8 827.7,96.6 831.6,94.2 835.5,91.8 839.4,88.4 843.3,86.5 847.2,83.5 851.0,82.5 854.9,78.5 858.8,74.8 862.7,70.4 866.6,68.3 870.5,67.2 874.4,63.5 878.3,62.2 882.2,60.6 886.1,57.8 890.0,55.2 893.8,56.4 897.7,55.8 901.6,56.2 905.5,55.9 909.4,56.4 913.3,58.7 917.2,59.3 921.1,61.3 925.0,64.4 928.9,67.1 932.8,67.8 936.7,68.3 940.5,70.3 944.4,71.8 948.3,73.5 952.2,76.7 956.1,78.4 960.0,77.9"></polyline>
+      <a class="boya" href="#b1" style="animation-delay:0.16s"><title>Cómo se puede definir la IA</title><circle cx="30.0" cy="125.4" r="6.5"></circle><text x="30.0" y="110.4">01</text></a>
+      <a class="boya" href="#b2" style="animation-delay:0.24s"><title>Cómo funciona</title><circle cx="162.3" cy="94.7" r="6.5"></circle><text x="162.3" y="79.7">02</text></a>
+      <a class="boya" href="#b3" style="animation-delay:0.31s"><title>Conceptos clave</title><circle cx="294.6" cy="170.0" r="6.5"></circle><text x="294.6" y="155.0">03</text></a>
+      <a class="boya" href="#b4" style="animation-delay:0.39s"><title>Tipos de IA</title><circle cx="426.9" cy="110.6" r="6.5"></circle><text x="426.9" y="95.6">04</text></a>
+      <a class="boya" href="#b5" style="animation-delay:0.46s"><title>Campos de aplicación</title><circle cx="563.1" cy="70.9" r="6.5"></circle><text x="563.1" y="55.900000000000006">05</text></a>
+      <a class="boya" href="#b6" style="animation-delay:0.54s"><title>Qué tareas resuelve</title><circle cx="695.4" cy="148.4" r="6.5"></circle><text x="695.4" y="133.4">06</text></a>
+      <a class="boya" href="#b7" style="animation-delay:0.61s"><title>Aplicaciones en el deporte</title><circle cx="827.7" cy="96.6" r="6.5"></circle><text x="827.7" y="81.6">07</text></a>
+      <a class="boya" href="#b8" style="animation-delay:0.69s"><title>Hacia dónde evoluciona</title><circle cx="960.0" cy="77.9" r="6.5"></circle><text x="960.0" y="62.900000000000006">08</text></a>
+    </svg>
+  </div>
+</header>
+
+<div class="armazon">
+<nav class="carril" aria-label="Índice del documento">
+  <h2>Recorrido</h2>
+  <ol>
+    <li><a href="#b1">01 · Cómo se puede definir la IA</a></li>
+    <li><a href="#b2">02 · Cómo funciona</a></li>
+    <li><a href="#b3">03 · Conceptos clave</a></li>
+    <li><a href="#b4">04 · Tipos de IA</a></li>
+    <li><a href="#b5">05 · Campos de aplicación</a></li>
+    <li><a href="#b6">06 · Qué tareas resuelve</a></li>
+    <li><a href="#b7">07 · Aplicaciones en CCAFD</a></li>
+    <li><a href="#b8">08 · Hacia dónde evoluciona</a></li>
+  </ol>
+  <p class="pie">Documento de trabajo. Las referencias normativas están actualizadas a agosto de 2026.</p>
+</nav>
+
+<main class="lienzo">
+
+<!-- ============ 01 ============ -->
+<section class="seccion" id="b1">
+  <div class="cabecera">
+    <span class="cifra">01</span>
+    <div><span class="epigrafe">Definición</span><h2>Cómo se puede definir la inteligencia artificial</h2></div>
+  </div>
+
+  <p>No existe una única definición de inteligencia artificial, y conviene decirlo desde el principio: la disciplina nació con un nombre que era, en parte, una estrategia de financiación. El término se acuñó en la propuesta de la conferencia de verano del Dartmouth College (McCarthy, Minsky, Rochester y Shannon, 1955), que partía de una conjetura ambiciosa: que cualquier rasgo del aprendizaje o de la inteligencia puede describirse con suficiente precisión como para que una máquina lo simule. Cinco años antes, Alan Turing (1950) había desplazado la pregunta «¿pueden pensar las máquinas?» hacia una prueba operativa y observable: el juego de imitación.</p>
+
+  <p>Desde entonces, las definiciones se agrupan en cuatro familias, sistematizadas por Russell y Norvig en el manual de referencia de la disciplina:</p>
+
+  <div class="marco-tabla">
+    <table>
+      <caption>Cuatro maneras clásicas de definir la IA (marco de Russell y Norvig)</caption>
+      <thead><tr><th>Enfoque</th><th>Criterio de éxito</th><th>Disciplina de apoyo</th></tr></thead>
+      <tbody>
+        <tr><th>Pensar como humanos</th><td>Reproducir los procesos cognitivos reales de las personas</td><td>Ciencia cognitiva, psicología</td></tr>
+        <tr><th>Actuar como humanos</th><td>Comportarse de forma indistinguible de una persona (test de Turing)</td><td>Lingüística, robótica, visión</td></tr>
+        <tr><th>Pensar racionalmente</th><td>Razonar según leyes lógicas correctas</td><td>Lógica formal, matemática</td></tr>
+        <tr><th>Actuar racionalmente</th><td>Elegir la acción que maximiza el resultado esperado dado lo que se sabe</td><td>Teoría de la decisión, economía</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>El cuarto enfoque —el <strong>agente racional</strong>— es el que domina hoy, porque es el único medible: un sistema es «inteligente» si, ante un entorno y un objetivo, escoge acciones que lo acercan a ese objetivo. Es una definición funcional, no psicológica. No exige conciencia, comprensión ni intención; exige desempeño.</p>
+
+  <h3>La definición operativa vigente</h3>
+  <p>Para el uso profesional y académico, la definición más útil hoy es la de la OCDE, adoptada casi literalmente por el Reglamento Europeo de Inteligencia Artificial. Es la que determina qué obligaciones legales se aplican a un producto, de modo que conviene conocerla con precisión.</p>
+
+  <div class="definicion">
+    <span class="epigrafe">Definición de referencia</span>
+    <p>Un <strong>sistema de IA</strong> es un sistema basado en máquinas que, a partir de la información de entrada que recibe, y para objetivos explícitos o implícitos, <strong>infiere</strong> cómo generar resultados —predicciones, contenidos, recomendaciones o decisiones— capaces de influir en entornos físicos o virtuales, y que puede presentar distintos grados de <strong>autonomía</strong> y de <strong>adaptabilidad</strong> tras su despliegue.</p>
+    <cite>Formulación de la OCDE recogida en el Reglamento (UE) 2024/1689</cite>
+  </div>
+
+  <p>Las tres palabras que hacen todo el trabajo son <em>inferir</em>, <em>autonomía</em> y <em>adaptabilidad</em>. Una hoja de cálculo que aplica una fórmula fija no infiere: ejecuta. Un sistema que deriva una regla o un patrón a partir de datos —y que puede aplicarla a casos que nunca vio— sí infiere. Ese es el umbral. Por eso una regresión lineal ajustada sobre datos de campo puede ser un sistema de IA en sentido normativo, mientras que un cronómetro con memoria no lo es.</p>
+
+  <h3>Tres precisiones que evitan malentendidos</h3>
+  <ul>
+    <li><strong>IA no es sinónimo de ChatGPT.</strong> Los modelos de lenguaje son una rama —muy visible— de un campo mucho más amplio que incluye visión artificial, optimización, sistemas de recomendación, control y planificación.</li>
+    <li><strong>El «efecto IA».</strong> Cada vez que una técnica funciona de forma fiable deja de llamarse inteligencia artificial y pasa a llamarse por su nombre técnico: el reconocimiento óptico de caracteres, el corrector ortográfico o el GPS fueron IA hasta que se volvieron cotidianos. La frontera se desplaza siempre hacia lo no resuelto.</li>
+    <li><strong>Inteligencia no es comprensión.</strong> Un sistema puede superar a un experto humano en una tarea concreta sin poseer ningún modelo del mundo comparable al humano. Confundir competencia con comprensión es el error conceptual más frecuente y el que más malas decisiones genera en la práctica aplicada.</li>
+  </ul>
+
+  <div class="deporte">
+    <span class="epigrafe">Traducción al ámbito deportivo</span>
+    <p>Una definición operativa para nuestro campo: <strong>la IA es el conjunto de métodos que permiten extraer, de los datos de un contexto deportivo, reglas que no fueron programadas explícitamente y aplicarlas a situaciones nuevas.</strong> Detectar automáticamente el instante de la entrada de pala en cada ciclo de remada, estimar la carga interna a partir de la externa o proponer una progresión de tareas son, todas ellas, formas de inferencia. Lo que cambia entre ellas es el riesgo de equivocarse y quién asume la consecuencia.</p>
+  </div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section class="seccion" id="b2">
+  <div class="cabecera">
+    <span class="cifra">02</span>
+    <div><span class="epigrafe">Funcionamiento</span><h2>Cómo funciona la inteligencia artificial</h2></div>
+  </div>
+
+  <p>Históricamente conviven dos grandes maneras de construir un sistema inteligente. En la <strong>IA simbólica</strong> (dominante entre 1956 y finales de los ochenta) el conocimiento se escribe a mano: un experto formula reglas del tipo «si… entonces…» y el sistema encadena inferencias. Funciona bien en dominios cerrados y bien definidos, es totalmente transparente y falla estrepitosamente ante la ambigüedad y la excepción. En la <strong>IA basada en aprendizaje</strong> no se escriben las reglas: se muestran ejemplos y el sistema ajusta sus propios parámetros hasta reproducir la relación observada. Es la que domina desde 2012 y la que explica prácticamente todo lo que hoy llamamos IA.</p>
+
+  <h3>El ciclo de trabajo del aprendizaje automático</h3>
+  <p>Cualquier proyecto de IA aplicada, sea un modelo de riesgo lesional o un clasificador de acciones de juego, recorre las mismas nueve etapas. Saltarse cualquiera de ellas es la causa habitual de que un modelo brillante en el ordenador no funcione en el campo.</p>
+
+  <ol class="flujo">
+    <li><b>Definición del problema.</b> Traducir una pregunta profesional a una tarea computable: ¿es una clasificación, una predicción numérica, una agrupación, una detección de anomalías?</li>
+    <li><b>Obtención de datos.</b> Muestreo, frecuencia de registro, instrumentación, condiciones de recogida. Aquí se decide el techo de calidad de todo lo que venga después.</li>
+    <li><b>Preparación y limpieza.</b> Sincronización, filtrado de señal, tratamiento de valores ausentes y atípicos, normalización. Suele consumir la mayor parte del tiempo del proyecto.</li>
+    <li><b>Representación de las variables.</b> Ingeniería de características en los modelos clásicos; aprendizaje automático de la representación en las redes profundas.</li>
+    <li><b>Elección del modelo.</b> Desde una regresión regularizada hasta una red neuronal profunda. El modelo más complejo casi nunca es el mejor con muestras pequeñas.</li>
+    <li><b>Entrenamiento.</b> Una función de pérdida mide el error; un algoritmo de optimización —descenso de gradiente— modifica los parámetros para reducirlo, iteración tras iteración.</li>
+    <li><b>Validación.</b> Partición en conjuntos de entrenamiento, validación y prueba; validación cruzada; y, en datos de deportistas, partición por sujeto y por temporada para no engañarse.</li>
+    <li><b>Despliegue.</b> Integración en el flujo real de trabajo: dispositivo, aplicación, informe, panel de control.</li>
+    <li><b>Monitorización.</b> El mundo cambia y el modelo se degrada: cambia el material, la categoría, el estilo de juego, el sensor. Sin reevaluación periódica, todo modelo caduca.</li>
+  </ol>
+
+  <h3>Los cuatro paradigmas de aprendizaje</h3>
+  <div class="rejilla">
+    <div class="tarjeta"><span class="clave">Supervisado</span><h4>Aprender de ejemplos etiquetados</h4><p>Se dispone de entradas y de la respuesta correcta. El modelo aprende la relación entre ambas. Es el caso de estimar el VO₂máx a partir de variables de campo o de clasificar acciones técnicas previamente anotadas por un observador.</p></div>
+    <div class="tarjeta"><span class="clave">No supervisado</span><h4>Descubrir estructura sin respuestas</h4><p>Solo hay datos de entrada. El sistema busca agrupaciones, componentes o anomalías. Útil para perfilar tipologías de jugadores o detectar sesiones atípicas sin definir de antemano qué es atípico.</p></div>
+    <div class="tarjeta"><span class="clave">Por refuerzo</span><h4>Aprender de las consecuencias</h4><p>Un agente actúa, recibe recompensa o penalización y ajusta su política de decisión. Es la base de los sistemas que dominan juegos complejos y de buena parte del control robótico.</p></div>
+    <div class="tarjeta"><span class="clave">Autosupervisado</span><h4>Etiquetas extraídas del propio dato</h4><p>El sistema se plantea tareas a partir de los datos sin anotar —predecir la siguiente palabra, reconstruir una parte oculta de una imagen—. Es el motor del preentrenamiento de los grandes modelos actuales.</p></div>
+  </div>
+
+  <h3>Redes neuronales y aprendizaje profundo</h3>
+  <p>Una red neuronal artificial es una función matemática compuesta por capas de unidades. Cada unidad calcula una suma ponderada de sus entradas, le suma un término independiente y aplica una función no lineal. Apilando capas, la red puede aproximar relaciones muy complejas. El aprendizaje consiste en tres pasos que se repiten millones de veces: propagación hacia delante (calcular una predicción), cálculo del error mediante la función de pérdida y <strong>retropropagación</strong> (calcular cuánto contribuyó cada peso al error y corregirlo). El algoritmo de retropropagación se popularizó en 1986 (Rumelhart, Hinton y Williams), pero necesitó dos ingredientes que solo llegaron después: grandes conjuntos de datos etiquetados y potencia de cálculo paralelo en tarjetas gráficas. El punto de inflexión público fue 2012, con el salto de precisión de una red convolucional en el concurso de reconocimiento de imágenes ImageNet.</p>
+
+  <div class="marco-tabla">
+    <table>
+      <caption>Arquitecturas dominantes y para qué sirven</caption>
+      <thead><tr><th>Arquitectura</th><th>Qué explota</th><th>Uso característico</th></tr></thead>
+      <tbody>
+        <tr><th>Redes convolucionales</th><td>La estructura espacial local de una imagen</td><td>Visión: detección de jugadores, estimación de postura, clasificación de gestos</td></tr>
+        <tr><th>Redes recurrentes y LSTM</th><td>El orden y la dependencia temporal</td><td>Series temporales: señales de acelerometría, frecuencia cardíaca, secuencias de juego</td></tr>
+        <tr><th>Transformers</th><td>Relaciones entre todos los elementos a la vez, mediante atención</td><td>Lenguaje, vídeo, audio y, cada vez más, series largas de datos deportivos</td></tr>
+        <tr><th>Modelos de difusión</th><td>Aprender a revertir un proceso de ruido</td><td>Generación de imagen, vídeo y audio</td></tr>
+        <tr><th>Modelos de grafos</th><td>Relaciones entre entidades conectadas</td><td>Interacciones entre jugadores, redes de pase, estructuras moleculares</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Qué hay dentro de un modelo de lenguaje</h3>
+  <p>Los sistemas conversacionales actuales descansan en la arquitectura <em>transformer</em>, presentada en 2017, cuya idea central es el mecanismo de <strong>atención</strong>: al procesar cada fragmento de texto, el modelo pondera qué otros fragmentos del contexto son relevantes. El proceso completo tiene tres fases:</p>
+  <ol class="flujo">
+    <li><b>Preentrenamiento.</b> Sobre enormes volúmenes de texto, el modelo aprende una única tarea: predecir el siguiente fragmento. De ahí emergen gramática, hechos, estilos y capacidad de razonamiento aproximado.</li>
+    <li><b>Ajuste y alineamiento.</b> Ajuste supervisado con ejemplos de buenas respuestas y aprendizaje a partir de preferencias humanas, para que el modelo sea útil, veraz y seguro.</li>
+    <li><b>Inferencia.</b> El uso real. El texto se descompone en <em>tokens</em>; el modelo genera el siguiente token con cierta aleatoriedad controlada, y repite. Todo lo que «recuerda» cabe en su ventana de contexto: no hay memoria persistente salvo que se le añada explícitamente.</li>
+  </ol>
+
+  <div class="aviso">
+    <span class="epigrafe">Consecuencia práctica</span>
+    <p>Un modelo de lenguaje optimiza <strong>plausibilidad</strong>, no <strong>veracidad</strong>. Una cita bibliográfica inventada le resulta tan «probable» como una real, porque tiene la forma correcta. De ahí que toda referencia, cifra, norma o dosis proporcionada por un sistema generativo deba verificarse en la fuente primaria antes de usarse en un informe, un artículo o una programación de entrenamiento.</p>
+  </div>
+
+  <p>Dos técnicas mitigan ese límite sin eliminarlo. La <strong>recuperación aumentada</strong> (RAG) obliga al modelo a responder a partir de documentos concretos que se le suministran en el momento, lo que permite anclar las respuestas en la propia documentación de un club o de una asignatura. El <strong>ajuste fino</strong> reentrena parcialmente el modelo con ejemplos propios para fijar formato, terminología y estilo, pero no le añade fiabilidad factual por sí mismo.</p>
+</section>
+
+<!-- ============ 03 ============ -->
+<section class="seccion" id="b3">
+  <div class="cabecera">
+    <span class="cifra">03</span>
+    <div><span class="epigrafe">Vocabulario</span><h2>Conceptos clave relacionados</h2></div>
+  </div>
+  <p>El vocabulario técnico de la IA se solapa parcialmente con el de la estadística y el de la ciencia de datos, y esa ambigüedad genera confusión en las reuniones técnicas. Estos son los términos que un profesional necesita manejar con precisión, agrupados por bloques.</p>
+
+  <h4>Datos y aprendizaje</h4>
+  <ul class="glosario">
+    <li><b>Algoritmo</b>Secuencia finita de instrucciones para resolver un problema. No implica aprendizaje por sí mismo.</li>
+    <li><b>Conjunto de datos</b>Colección estructurada de observaciones. Su representatividad limita todo lo demás.</li>
+    <li><b>Característica (feature)</b>Variable de entrada del modelo. La ingeniería de características es el arte de construirlas.</li>
+    <li><b>Etiqueta</b>Respuesta correcta conocida en aprendizaje supervisado.</li>
+    <li><b>Parámetro</b>Valor interno que el modelo aprende durante el entrenamiento (los pesos).</li>
+    <li><b>Hiperparámetro</b>Valor que fija el analista antes de entrenar: profundidad, tasa de aprendizaje, regularización.</li>
+    <li><b>Entrenamiento e inferencia</b>Fase de ajuste de los parámetros frente a fase de uso del modelo ya ajustado.</li>
+    <li><b>Sobreajuste</b>El modelo memoriza el ruido de la muestra y falla en datos nuevos. El error más común con muestras deportivas pequeñas.</li>
+    <li><b>Subajuste</b>El modelo es demasiado simple para capturar la relación existente.</li>
+    <li><b>Compromiso sesgo–varianza</b>Tensión entre un modelo rígido y uno inestable; gobierna toda la elección de complejidad.</li>
+    <li><b>Validación cruzada</b>Rotación de particiones para estimar el desempeño real. En datos de deportistas debe hacerse por sujeto.</li>
+    <li><b>Fuga de información (leakage)</b>Información del futuro o del conjunto de prueba que se cuela en el entrenamiento e infla artificialmente los resultados.</li>
+    <li><b>Deriva de datos</b>Cambio en la distribución de los datos con el tiempo que degrada el modelo desplegado.</li>
+    <li><b>Aprendizaje por transferencia</b>Reutilizar un modelo entrenado en un dominio grande para una tarea pequeña relacionada.</li>
+  </ul>
+
+  <h4>Evaluación del desempeño</h4>
+  <ul class="glosario">
+    <li><b>Matriz de confusión</b>Tabla de aciertos y errores por clase; punto de partida de toda evaluación de clasificación.</li>
+    <li><b>Sensibilidad y especificidad</b>Capacidad de detectar los casos positivos y de descartar los negativos, respectivamente.</li>
+    <li><b>Precisión y valor predictivo</b>Proporción de aciertos entre los casos que el modelo señala. Depende críticamente de la prevalencia.</li>
+    <li><b>F1</b>Media armónica de precisión y sensibilidad; útil con clases desequilibradas.</li>
+    <li><b>AUC-ROC</b>Capacidad de discriminación global. Un valor alto no garantiza utilidad clínica si la prevalencia es baja.</li>
+    <li><b>Calibración</b>Que una probabilidad estimada del 20 % corresponda a un 20 % real de ocurrencia. Se ignora con demasiada frecuencia.</li>
+    <li><b>RMSE, MAE y R²</b>Métricas de error para predicciones numéricas: error cuadrático, error absoluto y varianza explicada.</li>
+    <li><b>Clases desequilibradas</b>Cuando el suceso de interés es raro —como una lesión— y el modelo aprende a no predecirlo nunca.</li>
+  </ul>
+
+  <h4>IA generativa y modelos de lenguaje</h4>
+  <ul class="glosario">
+    <li><b>Token</b>Unidad mínima en que se descompone el texto; el modelo predice tokens, no palabras.</li>
+    <li><b>Embedding</b>Representación numérica densa que sitúa conceptos similares en posiciones próximas de un espacio vectorial.</li>
+    <li><b>Ventana de contexto</b>Cantidad de información que el modelo puede tener presente a la vez.</li>
+    <li><b>Prompt</b>Instrucción de entrada. Su diseño —rol, contexto, formato, ejemplos, restricciones— cambia radicalmente el resultado.</li>
+    <li><b>Temperatura</b>Parámetro que regula la aleatoriedad de la generación: baja para tareas exactas, alta para exploración creativa.</li>
+    <li><b>Alucinación</b>Contenido falso generado con total apariencia de solidez.</li>
+    <li><b>RAG</b>Generación anclada en documentos recuperados en el momento de la consulta.</li>
+    <li><b>Ajuste fino</b>Reentrenamiento parcial con datos propios para especializar el comportamiento del modelo.</li>
+    <li><b>Multimodalidad</b>Capacidad de procesar y combinar texto, imagen, vídeo y audio en un mismo modelo.</li>
+    <li><b>Agente</b>Sistema que planifica, usa herramientas externas, ejecuta pasos y verifica resultados con supervisión mínima.</li>
+    <li><b>Razonamiento extendido</b>Dedicar cómputo adicional a deliberar antes de responder, explorando y comprobando alternativas.</li>
+  </ul>
+
+  <h4>Gobernanza, ética y despliegue</h4>
+  <ul class="glosario">
+    <li><b>Sesgo algorítmico</b>Error sistemático que perjudica a un grupo, heredado de los datos o del diseño.</li>
+    <li><b>Explicabilidad (XAI)</b>Métodos que atribuyen la decisión del modelo a variables concretas y la hacen auditable.</li>
+    <li><b>Caja negra</b>Modelo cuyo funcionamiento interno no es interpretable directamente por una persona.</li>
+    <li><b>Supervisión humana</b>Requisito de que una persona pueda entender, verificar y revertir la decisión automatizada.</li>
+    <li><b>Aprendizaje federado</b>Entrenar un modelo sin centralizar los datos: viajan los parámetros, no la información personal.</li>
+    <li><b>IA en el borde (edge)</b>Ejecución del modelo en el propio dispositivo, sin enviar datos a la nube.</li>
+    <li><b>Datos sintéticos</b>Datos generados artificialmente que imitan a los reales para ampliar muestras o proteger la privacidad.</li>
+    <li><b>Alfabetización en IA</b>Competencia mínima exigible a quien usa estos sistemas en un contexto profesional; en la UE es una obligación legal.</li>
+  </ul>
+</section>
+
+<!-- ============ 04 ============ -->
+<section class="seccion" id="b4">
+  <div class="cabecera">
+    <span class="cifra">04</span>
+    <div><span class="epigrafe">Taxonomía</span><h2>Tipos de inteligencia artificial</h2></div>
+  </div>
+  <p>«Tipos de IA» significa cosas distintas según el criterio de clasificación. Conviene manejar los cuatro criterios que realmente se usan, porque mezclarlos es fuente constante de confusión —especialmente en la divulgación, donde se salta de la técnica a la ciencia ficción sin avisar.</p>
+
+  <h3>Por capacidad: dónde estamos realmente</h3>
+  <div class="marco-tabla">
+    <table>
+      <caption>Clasificación por amplitud de capacidad</caption>
+      <thead><tr><th>Tipo</th><th>Alcance</th><th>Estado actual</th></tr></thead>
+      <tbody>
+        <tr><th>IA estrecha (ANI)</th><td>Resuelve tareas concretas dentro de un dominio delimitado, aunque lo haga mejor que cualquier humano</td><td>Es <strong>toda</strong> la IA que existe y se usa hoy, incluidos los modelos generalistas más avanzados</td></tr>
+        <tr><th>IA general (AGI)</th><td>Desempeño equivalente al humano en cualquier tarea intelectual, con transferencia flexible entre dominios</td><td>Hipotética. Ni siquiera hay acuerdo sobre cómo definirla o medirla; las previsiones de expertos varían en décadas</td></tr>
+        <tr><th>Superinteligencia (ASI)</th><td>Desempeño muy superior al humano en prácticamente todo</td><td>Especulativa. Objeto de debate filosófico y de política de seguridad, no de ingeniería aplicada</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="aviso">
+    <span class="epigrafe">Cautela terminológica</span>
+    <p>Cuando un titular anuncia que «la IA ya piensa como un humano», casi siempre describe un sistema estrecho muy competente en una tarea concreta. La distancia entre resolver problemas de nivel olímpico y sostener una conducta coherente y fiable en un entorno abierto sigue siendo enorme. En un aula o en un club, la única categoría operativa es la primera.</p>
+  </div>
+
+  <h3>Por funcionalidad</h3>
+  <div class="rejilla">
+    <div class="tarjeta"><span class="clave">Nivel 1</span><h4>Máquinas reactivas</h4><p>Responden al estímulo presente sin memoria del pasado. El sistema que derrotó a Kaspárov en 1997 evaluaba posiciones sin aprender de partidas anteriores.</p></div>
+    <div class="tarjeta"><span class="clave">Nivel 2</span><h4>Memoria limitada</h4><p>Usan información histórica reciente para decidir. Aquí está prácticamente toda la IA actual: vehículos autónomos, modelos de lenguaje, sistemas de recomendación.</p></div>
+    <div class="tarjeta"><span class="clave">Nivel 3</span><h4>Teoría de la mente</h4><p>Modelarían creencias, intenciones y emociones de otros agentes. Existen aproximaciones parciales en investigación; no es una capacidad consolidada.</p></div>
+    <div class="tarjeta"><span class="clave">Nivel 4</span><h4>Autoconciencia</h4><p>Sistemas con representación de sí mismos. Territorio puramente especulativo.</p></div>
+  </div>
+
+  <h3>Por técnica empleada</h3>
+  <ul>
+    <li><strong>IA simbólica o basada en conocimiento.</strong> Reglas, lógica y sistemas expertos. Transparente y auditable; frágil ante la excepción. Sigue viva en motores de reglas de arbitraje, normativa y validación de datos.</li>
+    <li><strong>Aprendizaje automático clásico.</strong> Regresiones regularizadas, árboles de decisión, bosques aleatorios, potenciación del gradiente, máquinas de vectores soporte, k-medias. <em>Con muestras pequeñas y tabulares —la situación habitual en ciencias del deporte— suelen superar a las redes profundas.</em></li>
+    <li><strong>Aprendizaje profundo.</strong> Redes de muchas capas que aprenden la representación de los datos. Imprescindible para imagen, vídeo, audio y lenguaje.</li>
+    <li><strong>IA neurosimbólica e híbrida.</strong> Combinación de aprendizaje estadístico con reglas explícitas y conocimiento del dominio. Línea prometedora precisamente donde hay teoría consolidada, como la biomecánica o la fisiología del ejercicio.</li>
+    <li><strong>Computación evolutiva y optimización.</strong> Algoritmos genéticos y metaheurísticas para problemas de diseño, calendarios, alineaciones o dosificación.</li>
+    <li><strong>Métodos bayesianos.</strong> Incorporan conocimiento previo y devuelven incertidumbre explícita en lugar de un número seco: muy adecuados cuando las muestras son reducidas y la decisión tiene consecuencias.</li>
+  </ul>
+
+  <h3>Por finalidad y por forma de despliegue</h3>
+  <div class="rejilla">
+    <div class="tarjeta"><span class="clave">Finalidad</span><h4>Predictiva o discriminativa</h4><p>Clasifica, estima y ordena. Responde a «¿qué es?» o «¿cuánto será?». Es la que sostiene el análisis del rendimiento.</p></div>
+    <div class="tarjeta"><span class="clave">Finalidad</span><h4>Generativa</h4><p>Produce contenido nuevo: texto, imagen, vídeo, audio, código, datos sintéticos.</p></div>
+    <div class="tarjeta"><span class="clave">Finalidad</span><h4>Agéntica</h4><p>Encadena decisiones y herramientas para completar tareas de varios pasos con supervisión mínima.</p></div>
+    <div class="tarjeta"><span class="clave">Despliegue</span><h4>Nube, borde o dispositivo</h4><p>Ejecución remota con más potencia, frente a ejecución local con menor latencia y mayor protección de los datos personales.</p></div>
+    <div class="tarjeta"><span class="clave">Acceso</span><h4>Pesos abiertos o cerrados</h4><p>Modelos descargables y ejecutables localmente frente a modelos accesibles solo como servicio. Afecta a coste, dependencia, trazabilidad y cumplimiento normativo.</p></div>
+    <div class="tarjeta"><span class="clave">Escala</span><h4>Modelos grandes o pequeños</h4><p>Frente a los modelos frontera, los modelos compactos especializados ofrecen calidad suficiente con una fracción del coste y funcionan sin conexión.</p></div>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section class="seccion" id="b5">
+  <div class="cabecera">
+    <span class="cifra">05</span>
+    <div><span class="epigrafe">Sectores</span><h2>Campos de aplicación</h2></div>
+  </div>
+  <p>La IA es una tecnología de propósito general: no resuelve un problema, sino una <em>clase</em> de problemas —los que consisten en encontrar patrones en grandes volúmenes de datos y decidir a partir de ellos—. Por eso aparece en sectores sin relación aparente entre sí. Este panorama sirve como referencia de contexto antes de descender al ámbito deportivo.</p>
+
+  <div class="rejilla">
+    <div class="tarjeta"><span class="clave">Salud</span><h4>Diagnóstico y gestión clínica</h4><p>Apoyo a la lectura de imagen radiológica, dermatológica y oftalmológica; cribado de arritmias; priorización de listas de espera; documentación clínica automatizada. Ámbito fuertemente regulado como producto sanitario.</p></div>
+    <div class="tarjeta"><span class="clave">Ciencia</span><h4>Descubrimiento acelerado</h4><p>La predicción de estructuras de proteínas transformó la biología estructural y fue reconocida con el Nobel de Química de 2024; el de Física del mismo año premió los fundamentos de las redes neuronales. También en materiales, clima y matemáticas.</p></div>
+    <div class="tarjeta"><span class="clave">Industria</span><h4>Mantenimiento y calidad</h4><p>Predicción de averías a partir de vibración y temperatura, inspección visual automática, gemelos digitales de líneas de producción, optimización energética.</p></div>
+    <div class="tarjeta"><span class="clave">Movilidad</span><h4>Conducción y logística</h4><p>Percepción del entorno, conducción asistida y autónoma, optimización de rutas y flotas, gestión del tráfico urbano.</p></div>
+    <div class="tarjeta"><span class="clave">Finanzas</span><h4>Riesgo y fraude</h4><p>Detección de operaciones anómalas en tiempo real, evaluación crediticia, cumplimiento normativo. Uno de los ámbitos calificados de alto riesgo por afectar al acceso a servicios esenciales.</p></div>
+    <div class="tarjeta"><span class="clave">Educación</span><h4>Personalización y evaluación</h4><p>Tutorización adaptativa, generación de materiales, retroalimentación formativa, accesibilidad y apoyo a la atención a la diversidad.</p></div>
+    <div class="tarjeta"><span class="clave">Agroalimentación</span><h4>Agricultura de precisión</h4><p>Teledetección de cultivos, dosificación de riego y fitosanitarios, predicción de cosecha, control sanitario del ganado.</p></div>
+    <div class="tarjeta"><span class="clave">Energía y clima</span><h4>Predicción y equilibrio</h4><p>Previsión de generación renovable, equilibrado de red, modelización meteorológica de alta resolución, alerta temprana de fenómenos extremos.</p></div>
+    <div class="tarjeta"><span class="clave">Cultura</span><h4>Creación y medios</h4><p>Producción audiovisual, doblaje y subtitulación, diseño, música, videojuegos. Foco del debate abierto sobre propiedad intelectual y autoría.</p></div>
+    <div class="tarjeta"><span class="clave">Sector público</span><h4>Servicios y administración</h4><p>Atención ciudadana, detección de fraude, planificación de servicios. Sujeto a exigencias reforzadas de transparencia y no discriminación.</p></div>
+    <div class="tarjeta"><span class="clave">Robótica</span><h4>Percepción y control</h4><p>Manipulación, navegación autónoma, exoesqueletos, rehabilitación asistida, asistencia a personas dependientes.</p></div>
+    <div class="tarjeta"><span class="clave">Deporte</span><h4>Rendimiento, salud y gestión</h4><p>Monitorización de la carga, análisis táctico, biomecánica sin marcadores, arbitraje tecnológico, detección de talento, gestión de instalaciones y experiencia del espectador. Se desarrolla en el bloque 07.</p></div>
+  </div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section class="seccion" id="b6">
+  <div class="cabecera">
+    <span class="cifra">06</span>
+    <div><span class="epigrafe">Capacidades</span><h2>Qué tareas se pueden realizar con IA</h2></div>
+  </div>
+  <p>Por debajo de la enorme variedad de productos comerciales hay un número sorprendentemente pequeño de tareas fundamentales. Reconocerlas permite algo muy útil en la práctica: <strong>traducir cualquier necesidad profesional a una de estas categorías</strong> y saber de inmediato qué datos hacen falta y qué métrica de evaluación corresponde.</p>
+
+  <div class="marco-tabla">
+    <table>
+      <caption>Tareas analíticas fundamentales y su traducción al ámbito de la actividad física</caption>
+      <thead><tr><th>Tarea</th><th>Pregunta que responde</th><th>Ejemplo en nuestro campo</th></tr></thead>
+      <tbody>
+        <tr><th>Clasificación</th><td>¿A qué categoría pertenece este caso?</td><td>Identificar automáticamente el tipo de acción técnica en un vídeo</td></tr>
+        <tr><th>Regresión</th><td>¿Qué valor numérico cabe esperar?</td><td>Estimar el consumo de oxígeno o la potencia crítica a partir de variables de campo</td></tr>
+        <tr><th>Agrupamiento</th><td>¿Qué grupos naturales hay en estos datos?</td><td>Perfilar tipologías de respuesta al entrenamiento dentro de un equipo</td></tr>
+        <tr><th>Detección de anomalías</th><td>¿Qué se sale de lo esperado?</td><td>Señalar una sesión, una señal o un patrón de marcha atípicos</td></tr>
+        <tr><th>Previsión temporal</th><td>¿Cómo evolucionará esta serie?</td><td>Proyectar la carga acumulada o la evolución de un indicador de forma</td></tr>
+        <tr><th>Recomendación y ordenación</th><td>¿Qué opción priorizar para este caso?</td><td>Sugerir tareas o ejercicios según objetivo, historial y disponibilidad</td></tr>
+        <tr><th>Optimización</th><td>¿Cuál es la mejor combinación bajo restricciones?</td><td>Diseñar calendarios, distribuir cargas semanales, componer alineaciones</td></tr>
+        <tr><th>Reducción de dimensionalidad</th><td>¿Cuáles son los ejes que resumen la información?</td><td>Sintetizar decenas de métricas de GPS en pocos indicadores interpretables</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Tareas de percepción</h3>
+  <ul>
+    <li><strong>Visión artificial.</strong> Detección y seguimiento de objetos y personas, segmentación, estimación de postura articular a partir de vídeo, reidentificación de individuos entre cámaras, lectura automática de dorsales y marcadores.</li>
+    <li><strong>Audio y voz.</strong> Transcripción automática, identificación de hablantes, síntesis de voz, traducción simultánea, análisis acústico de la respiración o del apoyo del pie.</li>
+    <li><strong>Documentos.</strong> Reconocimiento de texto en imágenes, extracción estructurada de datos de tablas, planillas o informes en papel.</li>
+    <li><strong>Señales.</strong> Interpretación de acelerometría, giroscopía, electrocardiografía, electromiografía y dinamometría: detección de eventos, conteo de repeticiones, clasificación de gestos.</li>
+  </ul>
+
+  <h3>Tareas de lenguaje</h3>
+  <ul>
+    <li>Resumen de documentos extensos y síntesis comparada de varias fuentes.</li>
+    <li>Traducción y adaptación de registro para distintos destinatarios.</li>
+    <li>Extracción de información estructurada de textos libres —informes médicos, entrevistas, actas—.</li>
+    <li>Clasificación temática y análisis de sentimiento de comentarios o encuestas.</li>
+    <li>Redacción asistida: informes, memorias, programaciones didácticas, correspondencia, solicitudes.</li>
+    <li>Respuesta a preguntas sobre un corpus documental propio mediante recuperación aumentada.</li>
+  </ul>
+
+  <h3>Tareas de generación</h3>
+  <ul>
+    <li>Texto, esquemas y materiales didácticos; imagen e ilustración; vídeo y animación; audio, voz y música.</li>
+    <li><strong>Código.</strong> Es uno de los usos con mayor rendimiento demostrado: guiones de análisis, automatizaciones, aplicaciones sencillas y depuración.</li>
+    <li>Datos sintéticos para ampliar muestras escasas o compartir información sin comprometer datos personales.</li>
+    <li>Simulación de escenarios: variantes tácticas, situaciones de riesgo, prototipos de intervención.</li>
+  </ul>
+
+  <h3>Tareas de agencia</h3>
+  <p>La capacidad más reciente y la que más está cambiando el trabajo diario: sistemas que descomponen un encargo en pasos, ejecutan herramientas —buscar, leer archivos, calcular, escribir documentos, llamar a servicios externos—, comprueban el resultado y corrigen. Sirven para automatizar flujos completos: recopilar datos de varias plataformas, cruzarlos, generar un informe y distribuirlo. Su límite actual no es la capacidad puntual, sino la fiabilidad sostenida a lo largo de muchos pasos encadenados.</p>
+
+  <div class="aviso">
+    <span class="epigrafe">Dónde la IA sigue siendo mala</span>
+    <p>Establecer causalidad a partir de datos observacionales; extrapolar fuera del rango de datos vistos; razonar con muestras muy pequeñas sin conocimiento previo; garantizar exactitud factual sin fuentes; y asumir responsabilidad. Ninguna de estas limitaciones se resuelve con más datos ni con un modelo mejor: son limitaciones de método, no de potencia.</p>
+  </div>
+</section>
+
+<!-- ============ 07 ============ -->
+<section class="seccion" id="b7">
+  <div class="cabecera">
+    <span class="cifra">07</span>
+    <div><span class="epigrafe">Núcleo del documento</span><h2>Aplicaciones de la IA en las ciencias de la actividad física y del deporte</h2></div>
+  </div>
+
+  <p>El deporte de rendimiento fue uno de los primeros entornos profesionales en generar datos densos, continuos y multidimensionales sobre un número reducido de sujetos: exactamente el escenario en que la analítica avanzada resulta más tentadora y, al mismo tiempo, más engañosa. Diez o veinte deportistas monitorizados durante una temporada producen millones de registros y, sin embargo, siguen siendo una muestra pequeña en términos estadísticos, porque las observaciones no son independientes entre sí. Toda la sección siguiente debe leerse con esa tensión presente.</p>
+
+  <h3>7.1 Monitorización de la carga y del rendimiento</h3>
+  <p>Es la aplicación más extendida y la más madura. Los sistemas de posicionamiento global y local, las unidades inerciales, los medidores de potencia, la frecuencia cardíaca y la percepción subjetiva del esfuerzo generan series temporales que la IA permite depurar, integrar e interpretar.</p>
+  <ul>
+    <li><strong>Procesamiento de señal.</strong> Filtrado, detección automática de eventos (zancadas, remadas, saltos, cambios de dirección), segmentación de sesiones y repeticiones, conteo automático de series. Es donde el aprendizaje automático aporta valor de forma más incuestionable, porque sustituye trabajo manual verificable.</li>
+    <li><strong>Relación entre carga externa e interna.</strong> Modelos que estiman la respuesta fisiológica esperable ante una carga mecánica dada y, sobre todo, que detectan desviaciones individuales respecto del patrón habitual del propio deportista.</li>
+    <li><strong>Modelos de respuesta al entrenamiento.</strong> Desde los modelos clásicos de dos componentes —forma y fatiga, en la línea de Banister— hasta enfoques bayesianos jerárquicos que estiman parámetros individuales compartiendo información entre sujetos, lo que permite trabajar con muestras reducidas sin caer en el sobreajuste.</li>
+    <li><strong>Disposición para entrenar.</strong> Integración de variabilidad de la frecuencia cardíaca, sueño, cuestionarios de bienestar y rendimiento en test breves para generar alertas. Su utilidad depende por completo de la calidad del registro diario y de la adherencia del deportista.</li>
+    <li><strong>Reducción del ruido informativo.</strong> Con decenas de variables por sesión, el problema deja de ser medir y pasa a ser decidir qué mirar: técnicas de reducción de dimensionalidad y priorización de alertas convierten un panel saturado en dos o tres indicaciones accionables.</li>
+  </ul>
+  <div class="aviso">
+    <span class="epigrafe">Advertencia metodológica</span>
+    <p>Los índices agregados de carga —muy en particular el cociente entre carga aguda y crónica— han sido objeto de críticas técnicas serias en la literatura por artefactos matemáticos, dependencia de la ventana elegida y correlación espuria con el propio volumen de entrenamiento. Un modelo de IA construido sobre un indicador mal especificado hereda todos sus defectos y les añade opacidad. Antes de modelizar, conviene revisar la validez de la variable de partida.</p>
+  </div>
+
+  <h3>7.2 Riesgo de lesión y retorno a la práctica</h3>
+  <p>Es la aplicación con más inversión, más titulares y más resultados decepcionantes. La promesa es evidente: anticipar la lesión antes de que ocurra. Los obstáculos son estructurales.</p>
+  <ul>
+    <li><strong>Baja prevalencia.</strong> Cuando el suceso es raro, incluso un modelo con excelente capacidad de discriminación produce una mayoría de falsas alarmas. Es un resultado matemático, no un defecto de implementación.</li>
+    <li><strong>Naturaleza multicausal.</strong> La lesión resulta de la interacción entre carga, historial, biomecánica, contexto competitivo, sueño, estrés y azar. Ningún conjunto de variables registradas la determina.</li>
+    <li><strong>Crítica establecida.</strong> La literatura ha argumentado de forma convincente que las pruebas de cribado no permiten predecir lesiones a nivel individual con la precisión necesaria para tomar decisiones sobre una persona concreta, aunque sí describan riesgo a nivel de grupo.</li>
+  </ul>
+  <p>Esto no invalida el enfoque: lo reubica. Los usos defendibles hoy son <strong>descriptivos y de vigilancia</strong>, no predictivos individuales: detectar desviaciones respecto de la línea base del propio deportista, cuantificar asimetrías en pruebas de fuerza y salto, seguir objetivamente criterios de progresión en el retorno a la práctica, y documentar la exposición acumulada. La decisión sigue siendo del equipo médico y técnico; el sistema aporta evidencia estructurada, no un veredicto.</p>
+
+  <h3>7.3 Biomecánica y análisis del movimiento</h3>
+  <p>Aquí se ha producido probablemente el cambio más profundo de la última década. La estimación de la postura articular a partir de vídeo convencional —captura de movimiento <em>sin marcadores</em>— ha sacado el análisis biomecánico del laboratorio y lo ha llevado al campo, a la piscina y al gimnasio, con una cámara y un ordenador.</p>
+  <ul>
+    <li>Extracción automática de puntos articulares en dos y tres dimensiones a partir de una o varias cámaras, con reconstrucción de ángulos, velocidades y trayectorias.</li>
+    <li>Análisis de la carrera: cadencia, tiempo de contacto, oscilación vertical, ángulos de apoyo, mecánica de la pisada.</li>
+    <li>Deportes cíclicos: en remo, sincronización de la tripulación, curvas de fuerza en la pala, longitud de palada y ángulos de entrada y salida; en natación, frecuencia y longitud de ciclo, tiempos de viraje.</li>
+    <li>Valoración funcional: sentadillas, aterrizajes, saltos y pruebas de movilidad evaluadas de forma automática y reproducible.</li>
+    <li>Retroalimentación técnica inmediata al deportista mediante superposición visual y comparación con un patrón de referencia.</li>
+  </ul>
+  <div class="nota">
+    <p><strong>Criterio de uso:</strong> antes de incorporar una herramienta de este tipo, exigir estudios de validez y fiabilidad frente a sistemas de referencia <em>en el gesto concreto y en las condiciones concretas</em> en que se va a emplear. La precisión de un estimador de postura cae de forma notable con oclusiones, planos oblicuos, ropa holgada, agua o iluminación deficiente. Un error de pocos grados es irrelevante para una impresión general y determinante para una decisión clínica.</p>
+  </div>
+
+  <h3>7.4 Análisis táctico y notacional</h3>
+  <p>El seguimiento automático de todos los jugadores y del móvil ha convertido el análisis del juego en un problema de datos espaciotemporales continuos. Sobre esa base se construye una capa de modelos que ya es estándar en el fútbol y el baloncesto profesionales y que se extiende rápidamente al resto de deportes de invasión.</p>
+  <ul>
+    <li><strong>Detección y seguimiento multiobjeto</strong> a partir de vídeo de retransmisión o de cámaras fijas, con reidentificación de jugadores y homografía al plano del campo.</li>
+    <li><strong>Codificación automática de eventos</strong>: pases, tiros, presiones, transiciones. Reduce drásticamente el tiempo de análisis manual, aunque exige revisión humana en las categorías ambiguas.</li>
+    <li><strong>Modelos de valor de la acción</strong>: probabilidad de gol o de canasta según el contexto, valor añadido de una posesión, contribución de acciones sin balón —el tipo de aportación que la estadística tradicional nunca capturó—.</li>
+    <li><strong>Modelos espaciales</strong>: control del espacio, presión, líneas de pase disponibles, ocupación y sincronía colectiva mediante análisis de series posicionales.</li>
+    <li><strong>Preparación del rival y simulación</strong>: patrones recurrentes del oponente, tendencias en situaciones concretas, generación automática de informes y cortes de vídeo asociados.</li>
+  </ul>
+
+  <h3>7.5 Detección y desarrollo de talento</h3>
+  <p>Modelos que combinan datos de rendimiento, antropometría, historial competitivo y contexto para estimar potencial y similitud entre perfiles. Es también donde el riesgo ético es más alto, porque las decisiones afectan a menores y son difícilmente reversibles.</p>
+  <div class="aviso">
+    <span class="epigrafe">Sesgo y equidad</span>
+    <p>Un modelo entrenado sobre quienes históricamente llegaron a la élite reproduce los sesgos de selección de ese proceso: el efecto de la edad relativa, la maduración temprana, el acceso desigual a recursos y estructuras. Sin corrección explícita —por ejemplo, mediante ajuste por edad biológica o por cohorte de nacimiento— el sistema no detecta talento: detecta ventaja acumulada, y la consolida con apariencia de objetividad.</p>
+  </div>
+
+  <h3>7.6 Arbitraje y tecnología de competición</h3>
+  <ul>
+    <li><strong>Trayectorias.</strong> Los sistemas de seguimiento óptico de la pelota se emplean desde hace más de una década en tenis, cricket y para la decisión de gol en fútbol, con márgenes de error milimétricos y aceptación generalizada.</li>
+    <li><strong>Fuera de juego semiautomático.</strong> Combinación de seguimiento de puntos anatómicos y de sensores en el balón para determinar el instante del pase y las posiciones relativas, con generación automática de la reconstrucción tridimensional que se muestra al espectador. Ya implantado en las principales competiciones europeas e internacionales.</li>
+    <li><strong>Deportes de valoración subjetiva.</strong> En gimnasia y disciplinas similares se emplean sistemas de escaneo tridimensional como apoyo al juicio, para verificar ángulos y amplitudes; la decisión final permanece en manos del jurado.</li>
+    <li><strong>Arbitraje electrónico de líneas</strong> en deportes de raqueta, que ha sustituido progresivamente a los jueces de línea en circuitos profesionales.</li>
+  </ul>
+
+  <h3>7.7 Salud, nutrición y poblaciones especiales</h3>
+  <ul>
+    <li>Estimación automática de la ingesta a partir de fotografías de los platos: útil como apoyo al registro y a la adherencia, con precisión insuficiente para sustituir la valoración de un profesional de la nutrición.</li>
+    <li>Análisis del sueño y de la recuperación mediante actigrafía y sensores fisiológicos, con las limitaciones de validación propias de los dispositivos de consumo.</li>
+    <li>Cribado cardiovascular asistido en reconocimientos médico-deportivos y detección de patrones anómalos en electrocardiografía.</li>
+    <li>Prescripción de ejercicio adaptada en poblaciones clínicas, personas mayores y personas con discapacidad, con supervisión profesional obligatoria.</li>
+    <li>Sistemas de visión para valorar el riesgo de caídas, la marcha y el equilibrio en programas de actividad física para mayores.</li>
+  </ul>
+  <div class="aviso">
+    <span class="epigrafe">Marco legal aplicable</span>
+    <p>Los datos de salud, incluidos los fisiológicos y biométricos de deportistas, son categoría especial en la normativa de protección de datos: exigen base jurídica reforzada, información clara, minimización y limitación de la finalidad. Un consentimiento firmado dentro de un contrato laboral deportivo rara vez cumple el requisito de ser libremente prestado, lo que obliga a buscar otra base jurídica. Y una cuestión que conviene resolver por escrito antes de instalar nada: <strong>qué ocurre con los datos del deportista cuando cambia de club</strong>.</p>
+  </div>
+
+  <h3>7.8 Docencia: Educación Física y formación universitaria</h3>
+  <p>En el aula, el uso de IA se ha desplazado de la curiosidad al trabajo cotidiano. Los usos con mejor relación entre esfuerzo y resultado son los siguientes:</p>
+  <ul>
+    <li><strong>Diseño y adaptación curricular.</strong> Borradores de programaciones, situaciones de aprendizaje y unidades didácticas alineadas con el currículo vigente; variantes de una misma tarea con distintos niveles de exigencia y para distintas necesidades de apoyo.</li>
+    <li><strong>Evaluación.</strong> Generación y depuración de rúbricas, listas de control y baterías de preguntas; apoyo en la redacción de retroalimentación formativa individualizada. La calificación final debe seguir siendo del docente, y no solo por razones pedagógicas: la evaluación automatizada de personas es precisamente uno de los usos que la normativa europea somete a exigencias reforzadas.</li>
+    <li><strong>Análisis del movimiento en el aula.</strong> Aplicaciones de estimación de postura en el móvil que permiten a los estudiantes ver su propio gesto analizado, con enorme potencial motivador y de aprendizaje de conceptos biomecánicos.</li>
+    <li><strong>Accesibilidad.</strong> Subtitulación automática, lectura en voz alta, traducción de materiales, simplificación de textos: apoyo directo al diseño universal para el aprendizaje.</li>
+    <li><strong>Alfabetización crítica.</strong> El objetivo formativo más importante no es que el alumnado sepa usar una herramienta, sino que sepa <em>cuándo desconfiar de ella</em>: identificar una cifra inventada, reconocer un sesgo, exigir la fuente.</li>
+  </ul>
+  <div class="nota">
+    <p><strong>Precauciones en centros educativos:</strong> no introducir datos personales de menores en servicios que no estén contratados por el centro con las garantías correspondientes; verificar la edad mínima de uso de cada herramienta; y declarar de forma explícita en qué medida se ha empleado IA en la elaboración de materiales, del mismo modo que se exige al alumnado.</p>
+  </div>
+
+  <h3>7.9 Investigación en ciencias del deporte</h3>
+  <ul>
+    <li>Búsqueda y cribado de literatura, apoyo en revisiones sistemáticas —con verificación humana obligatoria de cada registro—.</li>
+    <li>Escritura y depuración de código de análisis estadístico, una de las aplicaciones con mayor ganancia real de productividad.</li>
+    <li>Extracción estructurada de datos de artículos y automatización de tablas y figuras.</li>
+    <li>Análisis de vídeo y señal a gran escala que antes resultaba inabordable manualmente.</li>
+    <li>Redacción asistida, traducción y adaptación a normas de publicación.</li>
+  </ul>
+  <div class="nota">
+    <p><strong>Norma editorial consolidada:</strong> los sistemas de IA no pueden figurar como autores, porque no pueden asumir responsabilidad sobre el contenido. El uso de IA generativa debe declararse en el apartado correspondiente, y los autores responden íntegramente de la exactitud de todo el texto, incluidas las referencias. Verificar una a una las citas generadas no es una recomendación: es un requisito.</p>
+  </div>
+
+  <h3>7.10 Gestión deportiva y entidades</h3>
+  <ul>
+    <li>Previsión de asistencia y demanda, precios dinámicos, segmentación de abonados y prevención de bajas.</li>
+    <li>Optimización de horarios, espacios e instalaciones y planificación de recursos humanos.</li>
+    <li>Generación automática de contenidos para medios y redes, resúmenes de partido y personalización de la experiencia del espectador.</li>
+    <li>Vigilancia de la integridad de la competición: detección de patrones anómalos de apuestas y de comportamiento.</li>
+    <li>Atención automatizada a socios y usuarios de centros deportivos.</li>
+  </ul>
+
+  <div class="deporte">
+    <span class="epigrafe">Marco de decisión</span>
+    <p>Antes de incorporar cualquier sistema de IA a un proceso deportivo o docente, cinco preguntas ordenan la decisión: <strong>(1)</strong> ¿qué decisión concreta va a cambiar el sistema? <strong>(2)</strong> ¿de dónde salen los datos y son representativos de mi contexto? <strong>(3)</strong> ¿cómo se ha validado y en qué población? <strong>(4)</strong> ¿qué ocurre si se equivoca y quién asume la consecuencia? <strong>(5)</strong> ¿quién puede revisar, explicar y revertir el resultado? Si alguna no tiene respuesta, el sistema todavía no está listo para tomar decisiones sobre personas.</p>
+  </div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section class="seccion" id="b8">
+  <div class="cabecera">
+    <span class="cifra">08</span>
+    <div><span class="epigrafe">Prospectiva</span><h2>Hacia dónde evoluciona la inteligencia artificial</h2></div>
+  </div>
+  <p>Toda prospectiva tecnológica envejece mal, y la de la IA especialmente. Lo que sigue no son predicciones, sino <strong>tendencias ya observables</strong> a mediados de 2026, con indicación de su grado de consolidación.</p>
+
+  <h3>Seis direcciones en curso</h3>
+  <div class="rejilla">
+    <div class="tarjeta"><span class="clave">Consolidado</span><h4>Del asistente al agente</h4><p>El cambio cualitativo más relevante: sistemas que planifican, usan herramientas, ejecutan tareas de varios pasos y verifican su propio trabajo. La frontera se desplaza de «qué sabe responder» a «qué es capaz de completar sin supervisión».</p></div>
+    <div class="tarjeta"><span class="clave">Consolidado</span><h4>Razonamiento en el momento de uso</h4><p>Dedicar más cómputo a deliberar antes de responder mejora sustancialmente el desempeño en problemas complejos. El coste ya no está solo en entrenar el modelo, sino en cada consulta.</p></div>
+    <div class="tarjeta"><span class="clave">Consolidado</span><h4>Multimodalidad nativa</h4><p>Un mismo modelo procesa y relaciona texto, imagen, vídeo y audio. Para el análisis deportivo es determinante: permite interrogar directamente el vídeo de una sesión junto con sus datos numéricos.</p></div>
+    <div class="tarjeta"><span class="clave">En expansión</span><h4>Modelos pequeños y locales</h4><p>Modelos compactos que funcionan en un teléfono o en un portátil sin conexión, con calidad suficiente para tareas específicas. Implicaciones directas de coste, latencia y protección de datos en el trabajo de campo.</p></div>
+    <div class="tarjeta"><span class="clave">En expansión</span><h4>IA para la ciencia</h4><p>Modelos especializados que aceleran el descubrimiento en biología, materiales y clima, y sistemas que asisten el ciclo completo de investigación: hipótesis, diseño, análisis y redacción.</p></div>
+    <div class="tarjeta"><span class="clave">Abierto</span><h4>IA encarnada</h4><p>Robótica y modelos del mundo: sistemas que perciben y actúan en entornos físicos. Es la línea con mayor distancia entre la demostración impresionante y el uso fiable cotidiano.</p></div>
+  </div>
+
+  <h3>Las restricciones que marcarán el ritmo</h3>
+  <ul>
+    <li><strong>Energía, cómputo y coste.</strong> La demanda de infraestructura crece más deprisa que la capacidad de suministro eléctrico, y esto ya condiciona qué se entrena y dónde. La eficiencia ha pasado de ser una preocupación técnica secundaria a un factor competitivo central.</li>
+    <li><strong>Datos.</strong> El texto público de alta calidad se agota como recurso; el crecimiento se desplaza hacia datos propietarios, multimodales y sintéticos, con los problemas de calidad y de derechos que ello conlleva.</li>
+    <li><strong>Evaluación.</strong> Medir de verdad lo que estos sistemas saben hacer es un problema científico abierto. Muchas pruebas de referencia se saturan o se contaminan, y el desempeño anunciado no siempre se traslada al trabajo real.</li>
+    <li><strong>Fiabilidad.</strong> La alucinación no está resuelta. En cadenas largas de decisiones, pequeños errores se acumulan; ese es hoy el principal freno de los sistemas agénticos.</li>
+    <li><strong>Confianza social.</strong> Contenido sintético indistinguible del real, impacto sobre el empleo cualificado y concentración de la capacidad tecnológica en pocas manos: son cuestiones políticas, no técnicas, y determinarán buena parte del despliegue.</li>
+  </ul>
+
+  <h3>Gobernanza: qué está vigente en la Unión Europea</h3>
+  <p>Conviene tener el calendario claro, porque circulan versiones contradictorias. El Reglamento (UE) 2024/1689 entró en vigor el 1 de agosto de 2024 y despliega sus obligaciones de forma escalonada. En julio de 2026 fue modificado por el Reglamento (UE) 2026/1744, conocido como <em>Ómnibus Digital sobre IA</em>, que <strong>no supone una moratoria general</strong>: aplaza obligaciones concretas y mantiene el resto.</p>
+  <div class="marco-tabla">
+    <table>
+      <caption>Situación del Reglamento Europeo de IA a agosto de 2026</caption>
+      <thead><tr><th>Bloque de obligaciones</th><th>Situación</th></tr></thead>
+      <tbody>
+        <tr><th>Prácticas prohibidas</th><td>Aplicables desde febrero de 2025. El Ómnibus añade nuevas prohibiciones con efecto a partir de diciembre de 2026</td></tr>
+        <tr><th>Alfabetización en IA</th><td>Vigente: las organizaciones deben adoptar medidas para que su personal tenga formación suficiente sobre los sistemas que utiliza</td></tr>
+        <tr><th>Modelos de uso general</th><td>Obligaciones aplicables desde agosto de 2025</td></tr>
+        <tr><th>Transparencia (art. 50)</th><td>Aplicable desde el 2 de agosto de 2026: hay que informar de que se interactúa con un sistema de IA y marcar el contenido generado o manipulado artificialmente</td></tr>
+        <tr><th>Sistemas de alto riesgo</th><td>Aplazados: los del anexo III —entre ellos empleo, educación y evaluación de personas— a diciembre de 2027, y los integrados en productos regulados del anexo I a agosto de 2028</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Para un club, una federación o un centro educativo esto se traduce en tres deberes inmediatos: <strong>inventariar</strong> qué sistemas de IA se están usando y para qué; <strong>formar</strong> al personal que los emplea; y <strong>declarar</strong> con transparencia cuándo un contenido o una interacción proceden de un sistema automático.</p>
+
+  <h3>Qué significa todo esto para el profesional del deporte</h3>
+  <ol class="flujo">
+    <li><b>La ventaja se desplaza al planteamiento del problema.</b> Cuando ejecutar un análisis deja de ser costoso, el valor se concentra en saber qué preguntar, qué medir y cómo interpretar. Es decir, en el conocimiento del dominio.</li>
+    <li><b>Los datos propios son el activo.</b> Los modelos son cada vez más accesibles y parecidos entre sí; lo que no se puede replicar es una serie histórica bien recogida, bien anotada y bien documentada del propio contexto.</li>
+    <li><b>La competencia crítica pesa más que la técnica.</b> Detectar una cifra inventada, un sesgo de selección o una validación deficiente será más determinante que dominar una herramienta concreta, que además cambiará en meses.</li>
+    <li><b>La responsabilidad no se delega.</b> Ninguna normativa ni ningún sistema traslada al proveedor la responsabilidad profesional sobre una decisión que afecta a la salud, a la carrera o a la calificación de una persona.</li>
+    <li><b>Empezar por lo pequeño y verificable.</b> Automatizar una tarea repetitiva y comprobable produce más valor real —y más aprendizaje— que un proyecto ambicioso de modelización predictiva sin datos suficientes.</li>
+  </ol>
+
+  <div class="definicion">
+    <span class="epigrafe">Cierre</span>
+    <p>La inteligencia artificial no sustituye el criterio profesional: lo <strong>expone</strong>. Al automatizar la parte mecánica del trabajo —contar, medir, clasificar, redactar— deja al descubierto lo que siempre fue el núcleo de la profesión: decidir qué merece la pena medir, qué significa lo medido y qué hacer con ello en el caso concreto de una persona concreta.</p>
+    <p>Esa parte, por ahora, sigue siendo enteramente nuestra.</p>
+  </div>
+
+  <h3>Referencias y fuentes de contraste</h3>
+  <ul class="fuentes">
+    <li>Turing, A. M. (1950). <em>Computing Machinery and Intelligence</em>. Mind, 59(236).</li>
+    <li>McCarthy, J., Minsky, M., Rochester, N. y Shannon, C. (1955). Propuesta del proyecto de investigación de verano de Dartmouth sobre inteligencia artificial.</li>
+    <li>Russell, S. y Norvig, P. (2020). <em>Artificial Intelligence: A Modern Approach</em> (4.ª ed.). Pearson.</li>
+    <li>Rumelhart, D., Hinton, G. y Williams, R. (1986). Aprendizaje de representaciones mediante retropropagación del error. <em>Nature</em>, 323.</li>
+    <li>Vaswani, A. et al. (2017). <em>Attention Is All You Need</em>. NeurIPS.</li>
+    <li>Jumper, J. et al. (2021). Predicción de la estructura de proteínas con AlphaFold. <em>Nature</em>, 596.</li>
+    <li>Bahr, R. (2016). Por qué las pruebas de cribado no permiten predecir lesiones. <em>British Journal of Sports Medicine</em>, 50(13).</li>
+    <li>Impellizzeri, F. M., Marcora, S. y Coutts, A. (2019). Carga interna y externa: quince años después. <em>IJSPP</em>, 14(2).</li>
+    <li>Impellizzeri, F. M. et al. (2020). Problemas conceptuales del cociente de carga aguda-crónica. <em>IJSPP</em>, 15(6).</li>
+    <li>Reglamento (UE) 2024/1689, por el que se establecen normas armonizadas en materia de inteligencia artificial.</li>
+    <li>Reglamento (UE) 2026/1744, Ómnibus Digital sobre IA (en vigor desde el 27 de julio de 2026).</li>
+    <li>Recomendaciones del ICMJE y del COPE sobre el uso de IA generativa en publicaciones científicas.</li>
+  </ul>
+</section>
+</main>
+</div>
+
+<footer>
+  <div class="centro">
+    <b>Inteligencia artificial en ciencias de la actividad física y del deporte</b>
+    <p class="meta">Documento de referencia · Contenido actualizado a agosto de 2026 · Las referencias normativas deben verificarse en su fuente oficial antes de cualquier uso profesional</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var barra = document.querySelector('#progreso span');
+  var enlaces = Array.prototype.slice.call(document.querySelectorAll('.carril a'));
+  var items = enlaces.map(function(a){ return a.parentElement; });
+  var secciones = enlaces.map(function(a){ return document.querySelector(a.getAttribute('href')); });
+
+  function progreso(){
+    var h = document.documentElement;
+    var total = h.scrollHeight - h.clientHeight;
+    var p = total > 0 ? (h.scrollTop / total) * 100 : 0;
+    barra.style.width = Math.min(100, Math.max(0, p)) + '%';
+  }
+  window.addEventListener('scroll', progreso, {passive:true});
+  window.addEventListener('resize', progreso);
+  progreso();
+
+  function marca(i){
+    items.forEach(function(li, j){ li.classList.toggle('activo', i === j); });
+  }
+
+  function actualiza(){
+    var linea = window.innerHeight * 0.28;
+    var i = 0;
+    for (var j = 0; j < secciones.length; j++){
+      var s = secciones[j];
+      if (s && s.getBoundingClientRect().top <= linea) i = j;
+    }
+    var h = document.documentElement;
+    if (h.scrollTop + h.clientHeight >= h.scrollHeight - 4) i = secciones.length - 1;
+    marca(i);
+  }
+  window.addEventListener('scroll', actualiza, {passive:true});
+  window.addEventListener('resize', actualiza);
+  actualiza();
+
+  marca(0);
+})();
+</script>
+</body>
+</html>
