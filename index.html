@@ -653,6 +653,26 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Evidencia sobre la reabsorción de hernia discal en columna lumbar -->
+                    <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Hernia discal raquis.png" alt="Evidencia sobre la reabsorción de hernia discal en columna lumbar" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Evidencia sobre la reabsorción de hernia discal en columna lumbar</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">La hernia discal lumbar puede reabsorberse espontáneamente en torno al 63 % de los casos tratados de forma conservadora, y hasta en el 88 % de los secuestros. La respuesta inflamatoria con neovascularización y fagocitosis por macrófagos es el mecanismo clave, lo que sitúa al tratamiento conservador como primera opción.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'reabsorcion-hernia-discal-lumbar','Evidencia sobre la reabsorción de hernia discal en columna lumbar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-reabsorcion-hernia-discal-lumbar','Reabsorcion-Hernia-Discal-Lumbar')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalReabsorcionHerniaDiscal()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Entrenamiento para aproximar el VO2 de la potencia crítica al VO2 máximo -->
                     <article data-categoria="resistencia-aerobica" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -2002,6 +2022,101 @@
                 <span class="text-slate-500 text-sm">Remo de competición · Fisiología del entrenamiento</span>
                 <button onclick="compartirEntrada(event,'volumen-remo-mujeres','Distribución del volumen de entrenamiento en remo de competición para mujeres')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalVolumenRemoMujeres()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Evidencia sobre la reabsorción de hernia discal en columna lumbar -->
+    <div id="modal-reabsorcion-hernia-discal-lumbar" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalReabsorcionHerniaDiscal()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Rehabilitación · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Evidencia sobre la reabsorción de hernia discal en columna lumbar</h2>
+                </div>
+                <button onclick="cerrarModalReabsorcionHerniaDiscal()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="Hernia discal raquis.png" alt="Evidencia sobre la reabsorción de hernia discal en columna lumbar" class="w-full rounded-xl border border-slate-700">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Introducción</h3>
+                <p>La hernia de disco lumbar (HDL) es una patología musculoesquelética frecuente que afecta aproximadamente al 2-3 % de la población, con una prevalencia del 4,8 % en hombres y 2,5 % en mujeres mayores de 35 años [1]. El fenómeno de reabsorción espontánea de la hernia discal —también denominado regresión espontánea— fue documentado por primera vez por Key en 1945, aunque no fue hasta 1984 cuando Guinto et al. lograron observarlo mediante estudios de imagen [1,2]. Desde entonces, numerosas investigaciones han confirmado que el tejido del núcleo pulposo herniado puede desaparecer parcial o totalmente sin necesidad de intervención quirúrgica, lo cual tiene importantes implicaciones clínicas para el manejo conservador de estos pacientes.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Incidencia de la reabsorción discal</h3>
+                <p>La evidencia más robusta sobre la frecuencia de este fenómeno proviene de revisiones sistemáticas y metaanálisis. Wang et al. [3] realizaron un metaanálisis que incluyó 38 estudios con 2219 pacientes con HDL sintomática tratados de forma no quirúrgica, encontrando una incidencia global de regresión del 63 % (IC 95 %: 0,49-0,77). En el análisis por subgrupos según el tipo de hernia, las tasas de reabsorción fueron del 87,77 % para secuestros, 66,91 % para extrusiones, 37,53 % para protrusiones y solo 13,33 % para abombamientos discales [4]. Estos datos muestran que cuanto mayor es el contacto del material discal con el espacio epidural vascularizado, mayor es la probabilidad de reabsorción.</p>
+                <p>Un estudio prospectivo más reciente con 90 pacientes demostró una tasa de reabsorción del 100 % en el plazo de un año (media de 4,4 meses) cuando se empleó un protocolo de tratamiento «preservador de la inflamación» —es decir, sin antiinflamatorios no esteroideos (AINE) ni corticosteroides—, logrando que ningún paciente requiriera cirugía [5]. Esta tasa resulta significativamente superior al 66,7 % reportado en metaanálisis previos [5].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Mecanismos fisiopatológicos de la reabsorción</h3>
+                <p>La literatura describe tres mecanismos principales que explican la reabsorción de la hernia discal [1,2,6,7]:</p>
+                <h4 class="text-sm font-bold text-white pt-1">3.1. Deshidratación y retracción</h4>
+                <p>El núcleo pulposo herniado puede perder agua progresivamente, lo que lleva a su deshidratación, encogimiento y retracción mecánica hacia el interior del espacio intervertebral. Este mecanismo es más característico de protrusiones, donde el material mantiene continuidad con el disco [6,8].</p>
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Retracción mecánica</h4>
+                <p>En hernias en las que el material protruye a través del anillo fibroso sin separarse completamente de él, la posición en flexión (como en el reposo en cama) puede facilitar el retorno del material herniado al espacio discal [2,6].</p>
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Degradación enzimática y fagocitosis mediada por inflamación</h4>
+                <p>Este es el mecanismo más estudiado y relevante, especialmente para extrusiones y secuestros. Cuando el núcleo pulposo, que es un tejido inmunoprivilegiado, entra en contacto con el espacio epidural vascularizado, el sistema inmunológico lo reconoce como un cuerpo extraño y desencadena una respuesta inflamatoria [1,7]. Esta reacción incluye:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Neovascularización:</strong> se forman nuevos vasos sanguíneos en la periferia del fragmento herniado, visibles como «realce en anillo» en las resonancias magnéticas con gadolinio [6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Infiltración de macrófagos:</strong> los macrófagos son las células inflamatorias predominantes y se concentran en la periferia del fragmento extruido o secuestrado. Los secuestros presentan 2-3 veces más células inflamatorias que las extrusiones [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Producción de citocinas y metaloproteinasas:</strong> el factor de necrosis tumoral alfa (TNF-α) liberado por los macrófagos acelera la angiogénesis y la degradación de la matriz extracelular. La metaloproteinasa-3 (MMP-3) juega un papel esencial en la degradación del tejido discal [1,6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Fagocitosis:</strong> los macrófagos y otras células fagocíticas digieren y eliminan el material discal degradado [7].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Factores predictivos de reabsorción</h3>
+                <h4 class="text-sm font-bold text-white pt-1">4.1. Tipo de hernia</h4>
+                <p>Las hernias de tipo secuestro tienen la mayor probabilidad de regresión (87,77 %), seguidas de las extrusiones (66,91 %), mientras que las protrusiones y los abombamientos tienen menor potencial de reabsorción [4]. Esto se debe a que el material secuestrado está completamente expuesto al entorno vascular del espacio epidural, lo que maximiza la respuesta inflamatoria e inmunológica [6].</p>
+                <h4 class="text-sm font-bold text-white pt-1">4.2. Realce periférico en la resonancia magnética</h4>
+                <p>La presencia de «realce en anillo» (<em>rim enhancement</em>) en las imágenes de RM con gadolinio es un potente predictor de regresión. Cuando este signo está presente, existe una probabilidad del 75-100 % de reducción significativa o desaparición completa de la hernia [2,6,7]. Cuanto más extenso y grueso es el realce, mayor es la tendencia a la regresión [6].</p>
+                <h4 class="text-sm font-bold text-white pt-1">4.3. Señal hiperintensa en T2</h4>
+                <p>Las hernias que muestran señal hiperintensa en secuencias T2 de RM tienen una mayor capacidad de reabsorción, ya que el alto contenido de agua puede reflejar tejido bien hidratado o edema asociado a la neovascularización y la reacción inflamatoria [2,7].</p>
+                <h4 class="text-sm font-bold text-white pt-1">4.4. Tamaño de la hernia</h4>
+                <p>Aunque existe controversia, los estudios más recientes indican que el tamaño absoluto de la hernia no predice el fracaso del tratamiento conservador [9]. De hecho, las hernias de mayor tamaño —especialmente extrusiones y secuestros— tienden a tener un mayor porcentaje de regresión [1,9]. En un estudio con 368 pacientes, el tamaño de la hernia (medido como porcentaje del área del canal) no se correlacionó con la necesidad de cirugía (OR = 1,003) [9].</p>
+                <h4 class="text-sm font-bold text-white pt-1">4.5. Localización</h4>
+                <p>Las hernias paracentrales tienen mayor probabilidad de requerir tratamiento quirúrgico en comparación con las centrales (OR entre 3,39 y 5,46), posiblemente porque el ligamento longitudinal posterior proporciona una barrera mecánica contra las hernias centrales, mientras que las paracentrales comprimen directamente la raíz nerviosa [10].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Evolución temporal</h3>
+                <p>El tiempo promedio para la reabsorción de la hernia discal varía entre los estudios. En la revisión de Yang et al. [6], el tiempo medio desde el diagnóstico por RM hasta la resolución radiográfica fue de 5,54 meses. En el estudio prospectivo de Albert et al. [5], la reabsorción completa ocurrió en una media de 4,4 meses. Basándose en la evidencia disponible, Wang et al. [3] sugieren dos puntos temporales clave para la toma de decisiones: a los 4 meses y a los 10,5 meses desde el inicio de los síntomas. Si no se observa regresión significativa a los 4 meses, se puede considerar la cirugía; si no hay regresión a los 10,5 meses, se recomienda fuertemente la intervención quirúrgica [3].</p>
+                <p>Es importante destacar que el alivio del dolor radicular suele ocurrir antes que la reabsorción completa: el dolor generalmente se reduce en 3-6 semanas, mientras que la reabsorción completa puede tomar de 4 a 9 meses [1]. Esto se debe a que la mejoría sintomática inicial está mediada por la reducción de la inflamación y el edema de la raíz nerviosa, independientemente de la reducción del tamaño de la hernia.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Implicaciones clínicas</h3>
+                <p>La evidencia acumulada respalda firmemente que el manejo conservador debe ser la primera opción en pacientes con HDL que no presenten criterios de urgencia quirúrgica (síndrome de cauda equina, déficit neurológico progresivo o dolor intratable) [1,3,5,6,9]. Diversos estudios muestran que solo entre el 8,7 % y el 15 % de los pacientes tratados conservadoramente terminan requiriendo cirugía [9,10].</p>
+                <p>Un hallazgo particularmente relevante es que el uso de antiinflamatorios (AINE y corticosteroides) podría interferir con el proceso natural de reabsorción al suprimir la respuesta inflamatoria necesaria para la fagocitosis del material herniado [5]. El estudio de Albert et al. [5] demostró que un enfoque «preservador de la inflamación» (sin AINE ni esteroides, utilizando gabapentina y acupuntura) logró una tasa de reabsorción del 100 % en un año, frente al 63-66,7 % reportado en metaanálisis previos que incluían pacientes tratados con antiinflamatorios. Esto sugiere que la práctica clínica habitual de prescribir AINE y corticosteroides como primera línea podría estar limitando el potencial de reabsorción espontánea.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">7. Conclusiones</h3>
+                <p>La reabsorción espontánea de la hernia discal lumbar es un fenómeno bien documentado y frecuente, especialmente en hernias de tipo extrusión y secuestro. La evidencia científica actual indica que:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La tasa global de regresión es aproximadamente del 63-66 %, pero puede alcanzar el 100 % con un manejo conservador que evite antiinflamatorios [3,5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los mecanismos principales son la deshidratación, la retracción mecánica y, sobre todo, la degradación enzimática y fagocitosis mediada por una respuesta inflamatoria con neovascularización [1,6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los predictores más fiables de reabsorción son: tipo secuestro o extrusión, realce periférico en RM con gadolinio y señal hiperintensa en T2 [2,4,6,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El tamaño absoluto de la hernia no predice la necesidad de cirugía; incluso las hernias masivas pueden reabsorberse espontáneamente [1,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El tiempo medio de reabsorción es de 4 a 5,5 meses, con puntos de control recomendados a los 4 y 10,5 meses [3,5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El tratamiento conservador debe ser la primera opción en ausencia de criterios quirúrgicos de urgencia [1,5,9].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Freitas P, Fernandes M, Gomes M, et al. Extruded Lumbar Disc Herniation with Spontaneous Reabsorption: Case Report and Review. <em>Arquivos Brasileiros de Neurocirurgia: Brazilian Neurosurgery</em>. 2016;35(01):070-073. DOI: 10.1055/s-0035-1570496</p>
+                    <p>[2] Chiriac A, Ion G, Faiyad Z, Poeata I. Spontaneous regression of lumbar herniated disc. Case presentation. <em>Romanian Neurosurgery</em>. 2015;29(4):381-384. DOI: 10.1515/romneu-2015-0053</p>
+                    <p>[3] Wang Y, Dai G, Jiang L, Liao S. The incidence of regression after the non-surgical treatment of symptomatic lumbar disc herniation: a systematic review and meta-analysis. <em>BMC Musculoskeletal Disorders</em>. 2020;21(1). DOI: 10.1186/s12891-020-03548-z</p>
+                    <p>[4] Ni S, Song S, Liu X, Hu Y. Gasification and reabsorption of lumbar disc herniation: A case report and literature review with research frontiers. <em>Asian Journal of Surgery</em>. 2025;48(6):3569-3570. DOI: 10.1016/j.asjsur.2024.12.124</p>
+                    <p>[5] Albert HB, Sayari AJ, Barajas JN, et al. The impact of novel inflammation-preserving treatment towards lumbar disc herniation resorption in symptomatic patients: a prospective, multi-imaging and clinical outcomes study. <em>European Spine Journal</em>. 2023;33(3):964-973. DOI: 10.1007/s00586-023-08064-x</p>
+                    <p>[6] Yang X, Zhang Q, Hao X, Guo X, Wang L. Spontaneous regression of herniated lumbar discs: Report of one illustrative case and review of the literature. <em>Clinical Neurology and Neurosurgery</em>. 2016;143:86-89. DOI: 10.1016/j.clineuro.2016.02.020</p>
+                    <p>[7] Prasad PH, Deepak Kumar S, Rakesh Kumar S, Faran A. Spontaneous regression of extruded lumbar disc herniation: case report and its pathogenesis. <em>Romanian Neurosurgery</em>. 2017;31(3):399-403. DOI: 10.1515/romneu-2017-0065</p>
+                    <p>[8] Ağırman M. Resorption of extruded intervertebral disc herniation: Effect of physical therapy modalities. <em>Türkiye Fiziksel Tıp ve Rehabilitasyon Dergisi</em>. 2016;62(3):286-287. DOI: 10.5606/tftrd.2016.24483</p>
+                    <p>[9] Gupta A, Upadhyaya S, Yeung CM, et al. Does Size Matter? An Analysis of the Effect of Lumbar Disc Herniation Size on the Success of Nonoperative Treatment. <em>Global Spine Journal</em>. 2019;10(7):881-887. DOI: 10.1177/2192568219880822</p>
+                    <p>[10] Divi SN, Makanji HS, Kepler CK, et al. Does the Size or Location of Lumbar Disc Herniation Predict the Need for Operative Treatment? <em>Global Spine Journal</em>. 2020;12(2):237-243. DOI: 10.1177/2192568220948519</p>
+                </div>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Rehabilitación · Columna lumbar</span>
+                <button onclick="compartirEntrada(event,'reabsorcion-hernia-discal-lumbar','Evidencia sobre la reabsorción de hernia discal en columna lumbar')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalReabsorcionHerniaDiscal()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -4970,6 +5085,17 @@
             document.body.style.overflow = '';
         }
 
+        function abrirModalReabsorcionHerniaDiscal() {
+            const modal = document.getElementById('modal-reabsorcion-hernia-discal-lumbar');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalReabsorcionHerniaDiscal() {
+            document.getElementById('modal-reabsorcion-hernia-discal-lumbar').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
         function abrirModalVO2PotenciaCriticaVO2Max() {
             const modal = document.getElementById('modal-vo2-potencia-critica-vo2max');
             modal.classList.remove('hidden');
@@ -5307,6 +5433,7 @@
                 cerrarPerformanceLab();
                 cerrarJumpLab();
                 cerrarCoachProPeriodizacion();
+                cerrarModalReabsorcionHerniaDiscal();
                 cerrarModalVO2PotenciaCriticaVO2Max();
                 cerrarModalMejorarVO2MaxDeportistas();
                 cerrarModalAdaptacionesNeuromuscularesEjercicio();
