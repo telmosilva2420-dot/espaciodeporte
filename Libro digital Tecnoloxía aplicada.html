@@ -1,0 +1,1189 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Tecnología aplicada a las CAFD</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Questrial&display=swap">
+<style>
+/* Cuaderno de módulo: índice fijo de temas a la izquierda, columna de lectura a la derecha,
+   cada tema con dos pestañas (contenido y autoevaluación). Azul de calle de pista + amarillo de cronómetro. */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --ink:#172120; --muted:#56656a; --line:#d5dddb;
+  --accent:#1f4fa0; --accent-soft:#e8eef9; --mark:#e3ad12; --mark-ink:#1a1400;
+  --ok:#1b7443; --ok-bg:#e5f2e9; --bad:#a8261d; --bad-bg:#fbeae8;
+  --f-display:"Questrial","Century Gothic","Avenir Next",system-ui,sans-serif;
+  --f-body:"Questrial","Century Gothic","Avenir Next",system-ui,sans-serif;
+  --f-mono:"Questrial","Century Gothic","Avenir Next",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1413; --surface:#151d1c; --ink:#e3eae8; --muted:#9aa9a6; --line:#2a3634;
+    --accent:#8aacf0; --accent-soft:#1a2439; --mark:#e8b52a; --mark-ink:#1a1400;
+    --ok:#62c48c; --ok-bg:#132a1d; --bad:#f0897f; --bad-bg:#341a19; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1413; --surface:#151d1c; --ink:#e3eae8; --muted:#9aa9a6; --line:#2a3634;
+  --accent:#8aacf0; --accent-soft:#1a2439; --mark:#e8b52a; --mark-ink:#1a1400;
+  --ok:#62c48c; --ok-bg:#132a1d; --bad:#f0897f; --bad-bg:#341a19; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.6}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 64px}
+.masthead{display:grid;gap:6px;padding-block:8px 26px;border-bottom:3px solid var(--ink);margin-bottom:28px}
+.eyebrow{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.masthead h1{font-family:var(--f-display);font-weight:400;font-size:clamp(34px,5vw,56px);line-height:1;margin:0;text-wrap:balance;letter-spacing:.005em}
+.masthead p{margin:4px 0 0;color:var(--muted);max-width:62ch}
+
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);gap:40px;align-items:start}
+nav.index{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px)}
+nav.index h2{font-family:var(--f-mono);font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+nav.index ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+nav.index button{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:baseline;width:100%;padding:9px 10px;border-radius:6px;color:var(--ink);font-size:15px;line-height:1.3}
+nav.index button:hover{background:var(--accent-soft)}
+nav.index button:focus-visible{outline:2px solid var(--accent)}
+nav.index button[aria-current="true"]{background:var(--ink);color:var(--bg)}
+nav.index .n{font-family:var(--f-display);font-weight:400;font-size:20px;line-height:1}
+nav.index .sc{font-family:var(--f-mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+nav.index button[aria-current="true"] .sc{color:var(--bg);opacity:.8}
+
+.tema-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:end;margin-bottom:18px}
+.tema-num{font-family:var(--f-display);font-weight:400;font-size:88px;line-height:.8;color:var(--ink);position:relative;padding-bottom:6px}
+.tema-num::after{content:"";position:absolute;left:0;right:0;bottom:0;height:6px;background:var(--mark)}
+.tema-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(26px,3.4vw,36px);line-height:1.08;margin:0;text-wrap:balance}
+
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:26px;flex-wrap:wrap}
+.tabs button{all:unset;cursor:pointer;padding:10px 14px;font-weight:600;font-size:15px;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-1px}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.tabs button:focus-visible{outline:2px solid var(--accent)}
+.tabs .count{font-family:var(--f-mono);font-size:12px;margin-left:6px;color:var(--muted)}
+
+.content{max-width:72ch}
+.content h3{font-family:var(--f-display);font-weight:400;font-size:26px;line-height:1.15;margin:38px 0 10px;text-wrap:balance}
+.content h3:first-child{margin-top:0}
+.content h4{font-size:17px;margin:22px 0 6px}
+.content p{margin:0 0 12px}
+.content ul,.content ol{margin:0 0 14px;padding-left:22px}
+.content li{margin:4px 0}
+.content li>ul{margin:4px 0 4px}
+.content strong{font-weight:700}
+.tbl{overflow-x:auto;margin:6px 0 18px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.tbl table{border-collapse:collapse;width:100%;min-width:560px;font-size:15px;line-height:1.45}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--line)}
+.tbl th{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+.tbl tr:last-child td{border-bottom:0}
+.cierre{margin:34px 0 0;padding:16px 18px;border-left:6px solid var(--mark);background:var(--surface);font-size:17px}
+.cierre b{font-family:var(--f-mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:block;color:var(--muted);margin-bottom:4px}
+
+/* Autoevaluación */
+.quiz{max-width:76ch}
+.quiz-intro{color:var(--muted);margin:0 0 20px}
+.result{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:center;padding:16px 18px;border:1px solid var(--line);border-radius:8px;background:var(--surface);margin-bottom:24px}
+.result .big{font-family:var(--f-display);font-weight:400;font-size:54px;line-height:1;font-variant-numeric:tabular-nums}
+.result .big small{font-size:26px;color:var(--muted)}
+.result p{margin:0}
+.q{border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:16px 18px;margin:0 0 14px;min-width:0}
+.q legend{display:contents}
+.q .qt{display:grid;grid-template-columns:34px minmax(0,1fr);gap:6px;font-weight:600;margin-bottom:10px;line-height:1.45}
+.q .qn{font-family:var(--f-mono);font-weight:500;font-size:13px;color:var(--muted);padding-top:2px;font-variant-numeric:tabular-nums}
+.opts{display:grid;gap:6px;margin-left:40px}
+.opt{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:8px;align-items:start;padding:8px 10px;border:1px solid var(--line);border-radius:6px;cursor:pointer;line-height:1.4}
+.opt:hover{border-color:var(--accent)}
+.opt input{margin:3px 0 0;accent-color:var(--accent)}
+.opt .tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+.opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.q.done .opt{cursor:default}
+.q.done .opt:hover{border-color:var(--line)}
+.opt.is-right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.is-right .tag{color:var(--ok)}
+.opt.is-wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt.is-wrong .tag{color:var(--bad)}
+.q .expl{margin:10px 0 0 40px;font-size:15px;color:var(--muted)}
+.q .expl b{color:var(--ink)}
+.q.miss{border-left:5px solid var(--bad)}
+.q.hit{border-left:5px solid var(--ok)}
+.quiz-bar{position:sticky;bottom:0;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 0 calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg);border-top:1px solid var(--line);margin-top:8px}
+.quiz-bar .prog{font-family:var(--f-mono);font-size:13px;color:var(--muted);margin-right:auto;font-variant-numeric:tabular-nums}
+.btn{all:unset;cursor:pointer;padding:9px 16px;border-radius:6px;font-weight:700;font-size:15px}
+.btn.primary{background:var(--ink);color:var(--bg)}
+.btn.ghost{border:1px solid var(--line);color:var(--ink)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn[hidden]{display:none!important}
+
+.refs{list-style:none;padding:0;margin:0;display:grid;gap:16px}
+.refs li{padding-bottom:14px;border-bottom:1px solid var(--line)}
+.refs li p{margin:0 0 4px;padding-left:2em;text-indent:-2em;overflow-wrap:anywhere}
+.refs .rt{display:block;padding-left:2em;font-size:14px;color:var(--muted)}
+.act{padding:4px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px}
+.act:last-child{border-bottom:0}
+.act h3{margin-top:0}
+.meta{display:flex;flex-wrap:wrap;gap:8px 24px;margin:0 0 12px}
+.meta div{display:flex;gap:6px;align-items:baseline}
+.meta dt{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.meta dd{margin:0;font-size:15px}
+@media (max-width:860px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:18px}
+  nav.index{position:static}
+  nav.index ol{grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);overflow-x:auto;padding-bottom:6px}
+  nav.index button{grid-template-columns:24px 1fr;border:1px solid var(--line)}
+  nav.index .sc{grid-column:2}
+  .tema-num{font-size:64px}
+}
+@media (max-width:520px){
+  body{font-size:16px}
+  .wrap{padding-inline:16px}
+  .opts,.q .expl{margin-left:0}
+  .q .qt{grid-template-columns:28px minmax(0,1fr)}
+}
+@media (prefers-reduced-motion:no-preference){
+  .opt{transition:background-color .15s,border-color .15s}
+}
+
+/* Descarga en PDF de cada tema */
+.pdf-bar{display:flex;justify-content:flex-end;margin:-6px 0 18px}
+.btn.pdf{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);color:var(--ink);background:var(--surface);font-size:14px}
+.btn.pdf:hover{border-color:var(--accent);color:var(--accent)}
+@media print{
+  @page{margin:16mm 14mm}
+  :root{--bg:#fff;--surface:#fff;--ink:#000;--muted:#444;--line:#bbb;--accent:#1f4fa0;color-scheme:light}
+  body{background:#fff;color:#000;font-size:12pt}
+  .masthead,nav.index,.tabs,.quiz,.pdf-bar{display:none!important}
+  .wrap{max-width:none;padding:0}
+  .layout{display:block}
+  .content{max-width:none}
+  .tema-num{font-size:60px}
+  .tbl{overflow:visible}
+  .tbl table{min-width:0}
+  h2,h3,h4{break-after:avoid}
+  tr,.cierre,.act{break-inside:avoid}
+  a{color:#000;text-decoration:none}
+}
+</style>
+
+<div class="wrap">
+  <header class="masthead">
+    <span class="eyebrow">Módulo · Tecnología aplicada a actividades profesionales</span>
+    <h1>Tecnología aplicada a las ciencias de la actividad física y el deporte</h1>
+    <p>Siete temas con su autoevaluación de 20 preguntas, referencias fundamentales y propuestas de actividades prácticas. Las opciones de cada pregunta aparecen en orden aleatorio en cada intento.</p>
+  </header>
+
+  <div class="layout">
+    <nav class="index" aria-label="Temas">
+      <h2>Temas</h2>
+      <ol id="index"></ol>
+    </nav>
+
+    <main id="main">
+
+<!-- ===================== TEMA 1 ===================== -->
+<section class="tema" data-t="1" data-title="Conceptos básicos">
+<div class="tema-head"><div class="tema-num">1</div><h2>Conceptos básicos sobre tecnología aplicada a las actividades profesionales de las CAFD</h2></div>
+<div class="content">
+<h3>Conceptos de partida</h3>
+<ul>
+<li><strong>Tecnología aplicada</strong>: uso de herramientas, dispositivos y procedimientos técnicos para resolver problemas profesionales concretos: medir, registrar, analizar, comunicar o intervenir.</li>
+<li><strong>Digitalización y transformación digital</strong>: digitalizar es pasar procesos o datos a formato digital (una planilla de papel a una hoja de cálculo). La transformación digital supone rediseñar cómo trabaja una organización gracias a esa tecnología.</li>
+<li><strong>Dato → información → conocimiento → decisión</strong>: el dato bruto (por ejemplo, la frecuencia cardíaca latido a latido) solo tiene valor profesional cuando se procesa, se contextualiza y apoya una decisión: ajustar la carga, modificar una tarea o derivar a un especialista.</li>
+</ul>
+
+<h3>Medición: calidad del dato</h3>
+<p>Es la base de todo. Sin estos criterios la tecnología genera ruido y no conocimiento.</p>
+<ul>
+<li><strong>Validez</strong>: grado en que el instrumento mide lo que dice medir, comparado con un método de referencia o <em>gold standard</em>.</li>
+<li><strong>Fiabilidad o reproducibilidad</strong>: consistencia de la medida en condiciones repetidas. Se expresa con el ICC, el coeficiente de variación y el error típico de medida.</li>
+<li><strong>Sensibilidad</strong>: capacidad de detectar cambios reales. Se relaciona con el <strong>cambio mínimo relevante</strong> (<em>smallest worthwhile change</em>). Un dispositivo es útil si su error es menor que el cambio que interesa detectar.</li>
+<li><strong>Precisión y exactitud</strong>: la precisión es la dispersión entre medidas repetidas; la exactitud, la cercanía al valor real.</li>
+<li><strong>Frecuencia de muestreo (Hz)</strong>: número de registros por segundo. Condiciona qué fenómenos se pueden captar; las acciones explosivas requieren frecuencias altas.</li>
+</ul>
+
+<h3>Principales familias tecnológicas</h3>
+<div class="tbl"><table>
+<thead><tr><th>Familia</th><th>Qué mide / para qué</th><th>Ejemplos de uso</th></tr></thead>
+<tbody>
+<tr><td><strong>Sistemas de posicionamiento</strong> (GNSS/GPS en exterior, LPS en interior)</td><td>Distancia, velocidad, aceleraciones, zonas de intensidad</td><td>Carga externa en deportes de equipo</td></tr>
+<tr><td><strong>Sensores inerciales (IMU)</strong>: acelerómetro, giroscopio, magnetómetro</td><td>Movimiento, impactos, orientación</td><td><em>PlayerLoad</em>, saltos, cambios de dirección</td></tr>
+<tr><td><strong>Monitorización cardíaca</strong>: banda de pecho (ECG) y sensor óptico (PPG)</td><td>Frecuencia cardíaca y su variabilidad</td><td>Carga interna, recuperación. La banda suele ser más fiable en esfuerzo</td></tr>
+<tr><td><strong>Fuerza y potencia</strong>: encoders lineales, plataformas de fuerza y de contacto</td><td>Velocidad de ejecución, fuerzas, tiempos de vuelo</td><td>Entrenamiento basado en la velocidad (VBT), test de salto</td></tr>
+<tr><td><strong>Cronometraje</strong>: células fotoeléctricas</td><td>Tiempos en sprint y agilidad</td><td>Test de campo</td></tr>
+<tr><td><strong>Vídeo y análisis del movimiento</strong>: 2D, captura 3D, <em>tracking</em> óptico</td><td>Técnica, cinemática, análisis táctico</td><td>Biomecánica, <em>scouting</em></td></tr>
+<tr><td><strong>Ergómetros instrumentados</strong> (cicloergómetro, remoergómetro)</td><td>Potencia, ritmo, curva de fuerza</td><td>Test y control del entrenamiento</td></tr>
+<tr><td><strong>Software y plataformas</strong> (apps, nube, hojas de cálculo, paneles)</td><td>Almacenar, integrar, visualizar</td><td>Control de carga, comunicación con deportistas</td></tr>
+</tbody></table></div>
+
+<h3>Carga externa y carga interna</h3>
+<ul>
+<li><strong>Carga externa</strong>: el trabajo realizado, medible de forma objetiva (distancia, potencia, kilos, velocidad).</li>
+<li><strong>Carga interna</strong>: la respuesta del organismo a esa carga (frecuencia cardíaca, lactato, RPE).</li>
+</ul>
+<p>La tecnología no sustituye a los métodos sencillos y validados. La <strong>RPE de sesión</strong> (RPE × duración) sigue siendo una herramienta de coste cero bien respaldada por la investigación.</p>
+
+<h3>Gestión e integración de datos</h3>
+<ul>
+<li><strong>Interoperabilidad</strong>: capacidad de los sistemas para intercambiar datos. Formatos habituales: <strong>FIT, TCX, GPX y CSV</strong>. La conexión automática entre plataformas se hace mediante <strong>API</strong>.</li>
+<li><strong>Ecosistema cerrado o abierto</strong>: si los datos se pueden exportar o quedan atrapados en la plataforma del fabricante.</li>
+<li><strong>Visualización</strong>: paneles e informes que traducen datos en decisiones. Comunicar de forma clara al entrenador o al deportista es una competencia profesional en sí misma.</li>
+<li><strong>Big data y analítica</strong>: descriptiva (qué pasó), diagnóstica (por qué), predictiva (qué puede pasar) y prescriptiva (qué hacer).</li>
+</ul>
+
+<h3>Inteligencia artificial</h3>
+<ul>
+<li><strong>IA</strong>: sistemas que realizan tareas asociadas a la inteligencia humana.</li>
+<li><strong>Aprendizaje automático</strong>: modelos que aprenden patrones a partir de datos (supervisado, no supervisado o por refuerzo).</li>
+<li><strong>Visión por computador</strong>: estimación de la postura y seguimiento a partir de vídeo, sin sensores.</li>
+<li><strong>IA generativa</strong>: genera texto, imagen o código. Útil para preparar materiales, programar herramientas o analizar documentos, siempre con <strong>supervisión profesional</strong>, porque puede producir errores plausibles.</li>
+<li><strong>Riesgos</strong>: sesgos en los datos, falta de explicabilidad (efecto «caja negra») y exceso de confianza en predicciones como el riesgo de lesión, que la evidencia actual no respalda con precisión individual.</li>
+</ul>
+
+<h3>Marco ético y legal (España y UE)</h3>
+<ul>
+<li><strong>RGPD</strong> (Reglamento UE 2016/679) y <strong>LOPDGDD</strong> (Ley Orgánica 3/2018).</li>
+<li>Los <strong>datos de salud</strong> y los <strong>biométricos</strong> son <strong>categorías especiales</strong> (art. 9 RGPD): requieren una base legal reforzada, habitualmente el consentimiento explícito, además de medidas de seguridad y minimización.</li>
+<li><strong>Menores</strong>: en España, el consentimiento propio se sitúa en los 14 años (art. 7 LOPDGDD). Por debajo de esa edad lo dan los titulares de la patria potestad o tutela.</li>
+<li><strong>Reglamento Europeo de IA</strong> (Reglamento UE 2024/1689): clasifica los sistemas de IA según su nivel de riesgo.</li>
+<li>Principios transversales: <strong>transparencia</strong> (el deportista sabe qué se mide y para qué), <strong>propiedad y acceso</strong> a sus propios datos y <strong>proporcionalidad</strong> (no medir por medir).</li>
+</ul>
+
+<h3>Ámbitos profesionales de aplicación</h3>
+<ul>
+<li><strong>Rendimiento deportivo</strong>: control de carga, evaluación, análisis técnico-táctico, <em>scouting</em>.</li>
+<li><strong>Salud y readaptación</strong>: monitorización del retorno a la actividad, test funcionales, telemonitorización.</li>
+<li><strong>Educación física</strong>: apps de registro, videoanálisis como retroalimentación, gamificación, evaluación de la condición física.</li>
+<li><strong>Actividad física y ocio</strong>: wearables de consumo, entrenamiento en línea, comunidades digitales.</li>
+<li><strong>Gestión deportiva</strong>: reservas, control de accesos, CRM, comunicación y marketing digital.</li>
+</ul>
+
+<h3>Criterios para seleccionar una tecnología</h3>
+<ol>
+<li>¿Qué pregunta profesional quiero responder?</li>
+<li>¿Existe evidencia de validez y fiabilidad <strong>en mi población y contexto</strong>?</li>
+<li>¿El error de medida es menor que el cambio que me interesa detectar?</li>
+<li>¿Tengo tiempo y competencia para procesar e interpretar los datos?</li>
+<li>¿Los datos se pueden exportar e integrar?</li>
+<li>¿La relación coste/beneficio compensa frente a alternativas más simples?</li>
+<li>¿Cumple la normativa de protección de datos?</li>
+</ol>
+<p class="cierre"><b>Idea clave</b>La tecnología es un medio. Su valor depende de la calidad del dato, de la pregunta profesional y de la capacidad de convertir la información en decisiones.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 2 ===================== -->
+<section class="tema" data-t="2" data-title="Buscar y generar conocimiento">
+<div class="tema-head"><div class="tema-num">2</div><h2>La tecnología para buscar y generar conocimiento en CAFD</h2></div>
+<div class="content">
+<p>La tecnología interviene en todo el ciclo del conocimiento científico-profesional: <strong>buscar → evaluar → gestionar → generar → analizar → difundir</strong>.</p>
+
+<h3>Buscar información</h3>
+<h4>Bases de datos bibliográficas</h4>
+<ul>
+<li><strong>Multidisciplinares</strong>: Web of Science y Scopus. Búsquedas avanzadas, análisis de citas e indicadores de impacto.</li>
+<li><strong>Biomédica</strong>: <strong>PubMed/MEDLINE</strong>, con vocabulario controlado <strong>MeSH</strong>, imprescindible en fisiología, salud y readaptación.</li>
+<li><strong>Específica del deporte</strong>: <strong>SPORTDiscus</strong> (EBSCO).</li>
+<li><strong>Ámbito hispano</strong>: <strong>Dialnet</strong>, útil para educación física y literatura en español.</li>
+<li><strong>Buscadores académicos</strong>: Google Scholar, con gran cobertura pero menos control de calidad y sin filtros finos.</li>
+<li><strong>Fisioterapia y ejercicio terapéutico</strong>: <strong>PEDro</strong>, que además puntúa la calidad metodológica de los ensayos.</li>
+</ul>
+<h4>Técnicas de búsqueda</h4>
+<ul>
+<li>Operadores booleanos (AND, OR, NOT), truncamiento (<code>train*</code>), frases exactas y filtros por fecha, tipo de estudio o población.</li>
+<li>Estructurar la pregunta con <strong>PICO</strong> (Población, Intervención, Comparación, Outcome). Ejemplo: remeros juniors / entrenamiento de fuerza / entrenamiento convencional / rendimiento en 2000 m.</li>
+<li><strong>Alertas</strong> por palabras clave o autores para mantenerse al día sin repetir la búsqueda.</li>
+</ul>
+<h4>Acceso al texto completo</h4>
+<ul>
+<li>Repositorios institucionales (por ejemplo, Investigo en la UVigo), <strong>Unpaywall</strong> para localizar versiones en acceso abierto y <strong>preprints</strong> como SportRχiv, que no han pasado revisión por pares y deben leerse con cautela.</li>
+</ul>
+
+<h3>Evaluar la calidad de la información</h3>
+<ul>
+<li><strong>Jerarquía de la evidencia</strong>: revisiones sistemáticas y metaanálisis; ensayos controlados aleatorizados; estudios observacionales; opinión de expertos.</li>
+<li><strong>Guías de publicación y lectura crítica</strong>: <strong>PRISMA 2020</strong> (revisiones sistemáticas), <strong>CONSORT</strong> (ensayos), <strong>STROBE</strong> (observacionales), escala <strong>PEDro</strong>, herramientas <strong>JBI</strong> y <strong>GRADE</strong> para valorar la certeza de la evidencia.</li>
+<li><strong>Señales de alerta</strong>: muestras pequeñas sin cálculo del tamaño muestral, ausencia de grupo control, conflictos de interés (por ejemplo, estudios financiados por fabricantes de dispositivos) y revistas depredadoras.</li>
+</ul>
+
+<h3>Gestionar la información</h3>
+<ul>
+<li><strong>Gestores bibliográficos</strong>: <strong>Zotero</strong> (libre), <strong>Mendeley</strong> y <strong>EndNote</strong>. Organizan referencias, guardan PDF anotados y citan automáticamente con el estilo requerido (APA 7, Vancouver…).</li>
+<li><strong>Cribado de revisiones sistemáticas</strong>: <strong>Rayyan</strong> o <strong>Covidence</strong>, para filtrar títulos y resúmenes entre varios revisores de forma ciega y documentar el diagrama de flujo PRISMA.</li>
+<li><strong>Mapas de literatura</strong>: <strong>Connected Papers</strong> o <strong>ResearchRabbit</strong> muestran relaciones de citación y ayudan a encontrar trabajos clave que una búsqueda por palabras no detecta.</li>
+</ul>
+
+<h3>Generar conocimiento: recogida de datos</h3>
+<ul>
+<li><strong>Dispositivos de medición</strong>: GPS/LPS, IMU, pulsómetros, encoders, plataformas de fuerza, vídeo; siempre con validez y fiabilidad conocidas en la población estudiada.</li>
+<li><strong>Cuestionarios en línea</strong>: Google Forms, Microsoft Forms o LimeSurvey (este último permite alojamiento propio, interesante para la protección de datos). Para cuestionarios validados, RPE, bienestar o hábitos de actividad física.</li>
+<li><strong>Observación sistemática con vídeo</strong>: LINCE, desarrollado en el ámbito universitario español para metodología observacional, o Kinovea para análisis cinemático 2D gratuito.</li>
+<li><strong>Conocimiento desde la práctica</strong>: los datos que ya registra el entrenador o el docente pueden generar conocimiento si se recogen con <strong>protocolos estandarizados</strong>. Los diseños de <strong>caso único</strong> o de seguimiento longitudinal de un equipo son muy aplicables.</li>
+</ul>
+
+<h3>Analizar los datos</h3>
+<ul>
+<li><strong>Hojas de cálculo</strong> (Excel, Google Sheets): limpieza, estadística descriptiva, gráficos.</li>
+<li><strong>Software estadístico</strong>: con interfaz gráfica, <strong>SPSS</strong> (licencia), <strong>jamovi</strong> y <strong>JASP</strong> (libres; JASP incluye estadística bayesiana). Con programación, <strong>R</strong> y <strong>Python</strong>: más potencia, reproducibilidad (el análisis queda documentado en código) y capacidad para grandes volúmenes de datos de sensores.</li>
+<li><strong>Tamaño muestral</strong>: <strong>G*Power</strong>.</li>
+<li><strong>Enfoques frecuentes en CAFD</strong>: tamaño del efecto, cambio mínimo relevante, error típico, modelos mixtos para medidas repetidas y aprendizaje automático para datos masivos de sensores o <em>tracking</em>.</li>
+</ul>
+
+<h3>Difundir y compartir el conocimiento</h3>
+<ul>
+<li><strong>Publicación</strong> en revistas científicas y profesionales, preferiblemente con revisión por pares.</li>
+<li><strong>Ciencia abierta</strong>: preregistro de estudios y datos compartidos en <strong>OSF</strong> (Open Science Framework) o Zenodo.</li>
+<li><strong>Identidad investigadora</strong>: <strong>ORCID</strong> (identificador único), perfil de Google Scholar y ResearchGate.</li>
+<li><strong>Transferencia a la práctica</strong>: seminarios web, blogs, redes profesionales, infografías y aplicaciones que convierten la evidencia en herramientas para entrenadores y docentes.</li>
+</ul>
+
+<h3>El papel de la inteligencia artificial</h3>
+<div class="tbl"><table>
+<thead><tr><th>Fase</th><th>Uso posible</th><th>Precaución</th></tr></thead>
+<tbody>
+<tr><td>Búsqueda</td><td>Asistentes como Elicit, Consensus o Semantic Scholar para localizar y resumir artículos</td><td>No sustituyen una búsqueda sistemática en bases de datos</td></tr>
+<tr><td>Lectura</td><td>Resumir y extraer datos de artículos</td><td>Verificar siempre con el original</td></tr>
+<tr><td>Redacción</td><td>Mejorar el estilo, traducir, estructurar textos</td><td>Normas de cada revista sobre declarar el uso de IA</td></tr>
+<tr><td>Análisis</td><td>Ayuda para escribir código en R o Python</td><td>Revisar que el análisis es correcto y adecuado</td></tr>
+<tr><td>Generación de datos</td><td>Visión por computador, modelos predictivos</td><td>Validación, sesgos, explicabilidad</td></tr>
+</tbody></table></div>
+<p><strong>Riesgo crítico</strong>: los modelos de lenguaje pueden <strong>inventar referencias</strong> con autores, títulos y revistas plausibles pero inexistentes. Toda cita obtenida con IA debe comprobarse en la base de datos original o mediante su <strong>DOI</strong>.</p>
+
+<h3>Aspectos éticos y legales</h3>
+<ul>
+<li><strong>Comité de ética</strong> para estudios con personas y <strong>consentimiento informado</strong>.</li>
+<li><strong>Protección de datos</strong> (RGPD y LOPDGDD): anonimización o seudonimización, especial cuidado con datos de salud, biométricos y de menores.</li>
+<li><strong>Integridad científica</strong>: no fabricar ni manipular datos, no plagiar (herramientas como Turnitin), y declarar el uso de IA y los conflictos de interés.</li>
+</ul>
+<p class="cierre"><b>Idea clave</b>La tecnología multiplica el acceso a la información y la producción de datos, pero el conocimiento lo genera el método: una buena pregunta, un diseño riguroso, datos válidos y un análisis crítico.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 3 ===================== -->
+<section class="tema" data-t="3" data-title="Gestión de clubes y empresas">
+<div class="tema-head"><div class="tema-num">3</div><h2>Dispositivos, software e IA para la gestión técnica, administrativa y comercial de clubes y empresas del sector</h2></div>
+<div class="content">
+<p>Los nombres comerciales son orientativos: el mercado cambia rápido y conviene comprobar funciones y precios actuales antes de elegir.</p>
+
+<h3>Gestión técnica (deportiva)</h3>
+<div class="tbl"><table>
+<thead><tr><th>Necesidad</th><th>Tipo de herramienta</th><th>Ejemplos</th></tr></thead>
+<tbody>
+<tr><td>Planificación y control del entrenamiento</td><td>Software de planificación y control de carga, apps para deportistas</td><td>TrainingPeaks, plataformas de fabricantes (Polar Flow, Garmin Connect), soluciones propias</td></tr>
+<tr><td>Gestión de equipos y convocatorias</td><td>Apps de comunicación y organización de equipos</td><td>Spond, TeamSnap</td></tr>
+<tr><td>Evaluación y seguimiento</td><td>Dispositivos de medición y bases de datos de test</td><td>GPS/IMU, encoders, células fotoeléctricas, pulsómetros</td></tr>
+<tr><td>Análisis de partidos y <em>scouting</em></td><td>Videoanálisis y cámaras automáticas</td><td>Hudl, cámaras con IA (Veo, Pixellot), Kinovea, LINCE</td></tr>
+<tr><td>Salud y lesiones</td><td>Registro de lesiones, cuestionarios de bienestar</td><td>Formularios en línea, módulos de plataformas de rendimiento</td></tr>
+<tr><td>Formación de técnicos</td><td>Plataformas de aprendizaje en línea</td><td>Moodle, Google Classroom</td></tr>
+</tbody></table></div>
+
+<h3>Gestión administrativa</h3>
+<h4>Socios, abonados y deportistas</h4>
+<ul>
+<li><strong>Software de gestión integral</strong>: altas y bajas, fichas, cuotas, licencias, reservas y control de accesos. En fitness son habituales Trainingym, Virtuagym, Mindbody o Glofox; en deportes de raqueta, Playtomic para reservas.</li>
+<li><strong>Cobros</strong>: adeudos directos <strong>SEPA</strong>, pasarelas de pago (Redsys, Stripe), TPV y Bizum para empresas.</li>
+</ul>
+<h4>Contabilidad, facturación y fiscalidad</h4>
+<ul>
+<li>Software contable y de facturación (Holded, Sage, A3…) o gestoría con plataforma compartida.</li>
+<li><strong>Obligaciones en España</strong>: la Ley Antifraude (Ley 11/2021) y el reglamento de sistemas de facturación (RD 1007/2023, <strong>Veri*factu</strong>) exigen software de facturación que cumpla sus requisitos; sus plazos se han aplazado y hay que comprobar el calendario vigente. También está en desarrollo la factura electrónica obligatoria entre empresas (Ley Crea y Crece).</li>
+<li><strong>Certificado digital</strong> (FNMT) para trámites con Hacienda, Seguridad Social, federaciones y subvenciones.</li>
+</ul>
+<h4>Recursos humanos</h4>
+<ul>
+<li>Nóminas, contratos y <strong>registro horario</strong>, obligatorio para el personal asalariado desde el RDL 8/2019.</li>
+<li>Técnicos y voluntariado: turnos, titulaciones y <strong>certificado negativo del Registro Central de Delincuentes Sexuales</strong>, obligatorio para trabajar con menores.</li>
+</ul>
+<h4>Documentación y organización interna</h4>
+<ul>
+<li>Suites colaborativas (Google Workspace, Microsoft 365), gestión de tareas (Trello, Asana, Notion) y firma electrónica de documentos.</li>
+</ul>
+<h4>Instalaciones</h4>
+<ul>
+<li>Reservas en línea y control de aforo.</li>
+<li><strong>Control de accesos</strong>: tornos, tarjetas RFID, códigos QR o app. La biometría (huella, reconocimiento facial) exige especial cuidado: la AEPD la considera un tratamiento de alto riesgo y ha publicado criterios restrictivos, por lo que suelen preferirse alternativas no biométricas.</li>
+<li><strong>Mantenimiento</strong>: sistemas de incidencias y mantenimiento preventivo.</li>
+<li><strong>Eficiencia energética</strong>: sensores y sistemas de gestión de edificios (iluminación, climatización, piscinas), contadores inteligentes, monitorización de placas solares.</li>
+</ul>
+
+<h3>Gestión comercial y comunicación</h3>
+<div class="tbl"><table>
+<thead><tr><th>Área</th><th>Herramientas</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td>Web y comercio electrónico</td><td>WordPress (+ WooCommerce), Shopify, Wix</td><td>Información, inscripciones, tienda de equipaciones</td></tr>
+<tr><td>CRM</td><td>HubSpot (versión gratuita), Zoho, Salesforce</td><td>Clientes potenciales, patrocinadores, renovaciones</td></tr>
+<tr><td>Correo masivo</td><td>Mailchimp, Brevo</td><td>Boletines, captación y fidelización</td></tr>
+<tr><td>Redes sociales</td><td>Meta Business Suite, programadores de publicaciones, Canva</td><td>Comunicación, visibilidad de patrocinadores</td></tr>
+<tr><td>Mensajería</td><td>WhatsApp Business</td><td>Atención al cliente y comunicación con familias</td></tr>
+<tr><td>Eventos e inscripciones</td><td>Plataformas de inscripción y venta de entradas, cronometraje con chip RFID</td><td>Carreras, torneos, campus</td></tr>
+<tr><td>Analítica</td><td>Google Analytics 4, Looker Studio, Power BI</td><td>Conversión web, paneles de socios e ingresos</td></tr>
+<tr><td>Patrocinio</td><td>Dosieres digitales, informes de audiencia</td><td>Captar y rendir cuentas a patrocinadores</td></tr>
+</tbody></table></div>
+
+<h3>Inteligencia artificial en la gestión</h3>
+<h4>IA generativa</h4>
+<ul>
+<li>Redactar comunicados, publicaciones, boletines, dosieres de patrocinio y memorias.</li>
+<li>Preparar borradores de proyectos para subvenciones.</li>
+<li>Crear contenidos gráficos y vídeos cortos; traducir y adaptar textos (por ejemplo, castellano y gallego).</li>
+<li>Programar pequeñas herramientas propias (apps web, hojas de cálculo con fórmulas).</li>
+</ul>
+<h4>Automatización e IA aplicada a procesos</h4>
+<ul>
+<li><strong>Chatbots</strong> en la web o WhatsApp para horarios, precios y reservas. El Reglamento Europeo de IA obliga a informar al usuario de que interactúa con un sistema de IA.</li>
+<li><strong>Automatizaciones</strong> entre aplicaciones (Zapier, Make): formulario de inscripción → CRM → correo de bienvenida → factura.</li>
+<li><strong>Predicción de bajas</strong> (<em>churn</em>): detectar socios con riesgo de abandono para activar acciones de fidelización.</li>
+<li><strong>Precios dinámicos</strong> en reservas según la demanda.</li>
+<li><strong>Análisis de opiniones</strong> en encuestas y reseñas.</li>
+<li><strong>Cámaras con IA</strong> que graban y editan partidos, útiles en lo técnico y para generar contenido comercial.</li>
+</ul>
+<h4>Precauciones</h4>
+<ul>
+<li>Revisar siempre lo que genera: puede contener errores o datos inventados.</li>
+<li>No introducir datos personales de socios o deportistas sin garantías sobre su tratamiento.</li>
+<li>Respetar derechos de imagen y propiedad intelectual.</li>
+</ul>
+
+<h3>Dispositivos habituales</h3>
+<ul>
+<li>Ordenadores, tabletas para monitores y entrenadores, móviles de empresa.</li>
+<li>TPV, lectores QR o RFID, tornos, cerraduras inteligentes, taquillas electrónicas.</li>
+<li>Pantallas de cartelería digital, marcadores electrónicos y sistemas de cronometraje.</li>
+<li>Cámaras de vídeo, incluidas las automáticas con IA.</li>
+<li>Sensores de aforo, temperatura, calidad del aire y consumo de energía y agua.</li>
+<li>Wearables para servicios a clientes (entrenamiento personal, programas de salud).</li>
+</ul>
+
+<h3>Marco legal</h3>
+<ul>
+<li><strong>Protección de datos</strong> (RGPD y LOPDGDD): información a socios, contratos con los proveedores que tratan datos (encargados del tratamiento), especial cuidado con salud y <strong>menores</strong>, incluidas sus imágenes en redes.</li>
+<li><strong>LSSI</strong> (Ley 34/2002): aviso legal, cookies y consentimiento para comunicaciones comerciales por correo.</li>
+<li><strong>Obligaciones fiscales y laborales</strong>: facturación conforme a la normativa, registro horario.</li>
+<li><strong>Reglamento Europeo de IA</strong>: transparencia en el uso de IA de cara al público.</li>
+<li><strong>Ley del Deporte</strong> (Ley 39/2022) y normativa autonómica sobre entidades deportivas.</li>
+</ul>
+
+<h3>Criterios para elegir herramientas</h3>
+<ol>
+<li><strong>Necesidad real</strong>: qué proceso quiero mejorar y cuánto tiempo o dinero consume ahora.</li>
+<li><strong>Tamaño y recursos</strong>: un club pequeño puede funcionar bien con herramientas gratuitas o de bajo coste bien integradas.</li>
+<li><strong>Integración</strong>: evitar introducir el mismo dato varias veces.</li>
+<li><strong>Propiedad de los datos</strong>: que se puedan exportar si se cambia de proveedor.</li>
+<li><strong>Cumplimiento legal</strong> del proveedor: RGPD, servidores en la UE, facturación conforme.</li>
+<li><strong>Facilidad de uso</strong> y soporte técnico en español.</li>
+<li><strong>Coste total</strong>: licencias, formación, mantenimiento y tiempo de implantación.</li>
+</ol>
+<p class="cierre"><b>Idea clave</b>Digitalizar la gestión no consiste en acumular aplicaciones, sino en conectar procesos (socios → cobros → comunicación → análisis) para ahorrar tiempo, reducir errores y decidir mejor.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 4 ===================== -->
+<section class="tema" data-t="4" data-title="Preparación física y readaptación">
+<div class="tema-head"><div class="tema-num">4</div><h2>Dispositivos, software e IA para el diagnóstico, la planificación y el control en preparación física, ejercicio y readaptación</h2></div>
+<div class="content">
+<p>Antes de adquirir cualquier producto conviene comprobar su validación para la población y el contexto concretos.</p>
+
+<h3>Diagnóstico y evaluación</h3>
+<h4>Composición corporal</h4>
+<div class="tbl"><table>
+<thead><tr><th>Método</th><th>Características</th></tr></thead>
+<tbody>
+<tr><td><strong>DXA</strong> (absorciometría dual de rayos X)</td><td>Referencia de laboratorio; coste alto y uso de radiación</td></tr>
+<tr><td><strong>Bioimpedancia (BIA)</strong></td><td>Rápida y económica; muy sensible a la hidratación, requiere protocolo estandarizado</td></tr>
+<tr><td><strong>Antropometría</strong> (plicómetro, cinta, protocolo ISAK)</td><td>Barata y fiable si el evaluador está formado</td></tr>
+<tr><td><strong>Ecografía</strong></td><td>Grosor muscular y graso; exige formación específica</td></tr>
+</tbody></table></div>
+<h4>Capacidad cardiorrespiratoria y metabólica</h4>
+<ul>
+<li><strong>Analizador de gases</strong> (ergoespirometría): VO₂máx y umbrales ventilatorios.</li>
+<li><strong>Analizadores portátiles de lactato</strong>: umbrales y zonas en campo.</li>
+<li><strong>Ergómetros instrumentados</strong>: cicloergómetro, tapiz, remoergómetro.</li>
+<li><strong>NIRS</strong> (por ejemplo, Moxy): saturación muscular de oxígeno; útil, pero de interpretación compleja.</li>
+<li><strong>Test de campo</strong> con pulsómetro o GPS cuando no hay laboratorio.</li>
+</ul>
+<h4>Fuerza y potencia</h4>
+<ul>
+<li><strong>Dinamometría isocinética</strong> (por ejemplo, Biodex): referencia para la fuerza por grupo muscular y la simetría.</li>
+<li><strong>Dinamómetros portátiles</strong>: de prensión (Jamar) y de mano o tracción (Kinvent), muy útiles en readaptación.</li>
+<li><strong>Plataformas de fuerza</strong>: saltos, isometrías (IMTP) y asimetrías.</li>
+<li><strong>Encoders lineales</strong> (T-Force, Vitruve): perfil carga-velocidad y estimación del 1RM sin llegar al máximo.</li>
+<li><strong>Apps validadas con la cámara del móvil</strong>, como My Jump para el salto vertical.</li>
+</ul>
+<h4>Movimiento, movilidad y control motor</h4>
+<ul>
+<li>Goniómetros, inclinómetros y apps de goniometría.</li>
+<li><strong>Captura 3D con marcadores</strong> (Vicon): referencia en biomecánica.</li>
+<li><strong>Captura sin marcadores</strong> con vídeo e IA: más accesible, con precisión variable según el movimiento.</li>
+<li><strong>IMU</strong>: rangos articulares y patrones de movimiento fuera del laboratorio.</li>
+<li><strong>Plataformas de presiones y estabilometría</strong>: equilibrio y apoyo.</li>
+<li><strong>Electromiografía de superficie (sEMG)</strong>: activación muscular, con rigor en la colocación y la normalización.</li>
+</ul>
+<h4>Estado del deportista y hábitos</h4>
+<ul>
+<li><strong>Variabilidad de la frecuencia cardíaca</strong> con banda de pecho y apps (HRV4Training): estado de recuperación.</li>
+<li><strong>Actigrafía y wearables</strong>: sueño y actividad diaria; útiles para tendencias, menos precisos que la polisomnografía.</li>
+<li><strong>Cuestionarios digitales</strong>: PAR-Q+ (cribado previo al ejercicio), IPAQ (nivel de actividad física), escalas de bienestar.</li>
+</ul>
+
+<h3>Planificación y programación</h3>
+<div class="tbl"><table>
+<thead><tr><th>Tipo de herramienta</th><th>Uso</th><th>Ejemplos</th></tr></thead>
+<tbody>
+<tr><td>Plataformas de planificación</td><td>Periodización, sesiones, envío al deportista</td><td>TrainingPeaks (resistencia), TeamBuildr (fuerza)</td></tr>
+<tr><td>Gestión integral de deportistas</td><td>Centralizar test, carga, salud y planificación</td><td>Smartabase (Teamworks)</td></tr>
+<tr><td>Prescripción de ejercicio</td><td>Programas con vídeo, adherencia</td><td>Physitrack</td></tr>
+<tr><td>Hojas de cálculo y herramientas propias</td><td>Adaptación total al modelo de periodización propio</td><td>Excel, Google Sheets, apps web a medida</td></tr>
+<tr><td>Bibliotecas de ejercicios en vídeo</td><td>Unificar la técnica, facilitar el trabajo autónomo</td><td>Propias o integradas</td></tr>
+<tr><td>Telesupervisión</td><td>Sesiones en línea, seguimiento a distancia</td><td>Videollamada, apps con registro</td></tr>
+</tbody></table></div>
+<p>Estas herramientas no sustituyen el modelo de planificación: lo hacen operativo.</p>
+
+<h3>Control del proceso</h3>
+<ul>
+<li><strong>Carga externa</strong>: GPS/LPS e IMU; potenciómetros en ciclismo; ergómetros y sensores del barco en remo; encoders y VBT en fuerza, con la <strong>pérdida de velocidad en la serie</strong> como indicador de fatiga.</li>
+<li><strong>Carga interna</strong>: frecuencia cardíaca y TRIMP, <strong>RPE de sesión</strong>, lactato en sesiones clave.</li>
+<li><strong>Respuesta del deportista</strong>: VFC diaria, cuestionarios de bienestar y test rápidos como el <strong>salto con contramovimiento (CMJ)</strong> para la fatiga neuromuscular.</li>
+<li><strong>Indicadores derivados</strong>: carga semanal, <strong>monotonía</strong> (carga media semanal / desviación típica) y <strong>tensión</strong> (carga semanal × monotonía) según Foster; <strong>ACWR</strong> (carga aguda / crónica), muy difundida pero criticada metodológicamente, que conviene usar como indicador descriptivo y no como predictor de lesiones; cambio mínimo relevante y error típico.</li>
+<li><strong>Visualización</strong>: paneles (Power BI, Looker Studio o las propias plataformas) con semáforos individuales, tendencias y alertas.</li>
+</ul>
+
+<h3>Especificidades de la readaptación</h3>
+<ul>
+<li><strong>Simetría</strong>: dinamometría, plataformas y saltos unilaterales; el <strong>índice de simetría entre extremidades (LSI)</strong> es uno de los criterios de progresión y retorno.</li>
+<li><strong>Resultados informados por el paciente (PROMs)</strong>: escalas de dolor (EVA/EVN) y cuestionarios de articulación, como KOOS para la rodilla.</li>
+<li><strong>Criterios de progresión por fases</strong> documentados en la misma plataforma.</li>
+<li><strong>Biofeedback</strong>: sEMG, plataformas o vídeo en tiempo real para el control motor.</li>
+<li><strong>Reintroducción de la carga específica</strong> con GPS o IMU, comparada con los valores previos a la lesión o con las demandas de competición.</li>
+<li><strong>Telerehabilitación</strong> con registro de adherencia y dolor, y <strong>coordinación con el equipo sanitario</strong>.</li>
+</ul>
+
+<h3>Inteligencia artificial</h3>
+<div class="tbl"><table>
+<thead><tr><th>Aplicación</th><th>Ejemplos</th><th>Situación actual</th></tr></thead>
+<tbody>
+<tr><td>Análisis del movimiento por vídeo</td><td>Estimación de postura sin marcadores (MediaPipe, OpenPose), conteo de repeticiones</td><td>Útil para cribado y retroalimentación; menos precisa que la captura 3D con marcadores</td></tr>
+<tr><td>Procesamiento de datos de sensores</td><td>Reconocimiento de saltos, golpes o cambios de dirección</td><td>Consolidado en plataformas comerciales</td></tr>
+<tr><td>Modelos de fatiga y rendimiento</td><td>Relación carga, respuesta y rendimiento</td><td>Útil a nivel de grupo; más limitado a nivel individual</td></tr>
+<tr><td>Predicción de lesiones</td><td>Aprendizaje automático con datos de carga y estado</td><td>La evidencia <strong>no respalda</strong> predicciones fiables a nivel individual</td></tr>
+<tr><td>IA generativa</td><td>Borradores de programas, materiales, análisis de datos exportados</td><td>Útil como asistente, siempre con supervisión profesional</td></tr>
+<tr><td>Asistentes y chatbots</td><td>Recordatorios, adherencia, dudas frecuentes</td><td>No sustituyen la valoración profesional</td></tr>
+</tbody></table></div>
+<p>Un programa generado por IA puede ser coherente en apariencia e inadecuado para el caso concreto. Muchos productos con «IA» no publican su validación, y los datos de salud no deben introducirse en herramientas de IA sin garantías.</p>
+
+<h3>Marco profesional y legal</h3>
+<ul>
+<li><strong>Competencias</strong>: el diagnóstico clínico y el tratamiento de lesiones corresponden a los profesionales sanitarios; el profesional del ejercicio evalúa la condición física y diseña y controla el ejercicio, en coordinación con ellos.</li>
+<li><strong>Protección de datos</strong>: lesiones, salud y parámetros fisiológicos son categorías especiales.</li>
+<li><strong>Productos sanitarios</strong>: el software o dispositivo destinado a diagnóstico o tratamiento puede ser un producto sanitario (Reglamento UE 2017/745) y requerir marcado CE. Los wearables de consumo, en general, no están validados para uso clínico.</li>
+<li><strong>Reglamento Europeo de IA</strong>: los sistemas vinculados a productos sanitarios pueden clasificarse de alto riesgo.</li>
+</ul>
+
+<h3>Criterios de selección</h3>
+<ol>
+<li>Pregunta y fase: qué necesito diagnosticar, planificar o controlar, y con qué frecuencia.</li>
+<li>Validez y fiabilidad demostradas en población similar.</li>
+<li>Error de medida menor que el cambio relevante.</li>
+<li>Viabilidad: tiempo, formación, número de deportistas.</li>
+<li>Integración y exportación de datos.</li>
+<li>Coste frente a alternativas sencillas (RPE, test de campo, apps validadas).</li>
+<li>Cumplimiento legal y respeto de las competencias profesionales.</li>
+</ol>
+<p class="cierre"><b>Idea clave</b>La tecnología permite un ciclo continuo de evaluar → planificar → controlar → ajustar. Su valor está en cerrar ese ciclo con datos de calidad y en coordinarse con el resto de profesionales.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 5 ===================== -->
+<section class="tema" data-t="5" data-title="Rendimiento en competición">
+<div class="tema-head"><div class="tema-num">5</div><h2>Dispositivos, software e IA para el control del rendimiento en el deporte de competición</h2></div>
+<div class="content">
+<h3>Qué se controla en competición</h3>
+<ul>
+<li><strong>Resultado</strong>: marcas, tiempos, clasificaciones, marcador.</li>
+<li><strong>Técnico-táctica</strong>: acciones, eficacia, patrones colectivos, toma de decisiones.</li>
+<li><strong>Condicional</strong>: distancias, velocidades, aceleraciones, potencia.</li>
+<li><strong>Fisiológica</strong>: frecuencia cardíaca, respuesta a la carga de competición.</li>
+<li><strong>Perceptiva y psicológica</strong>: RPE del partido, estado de ánimo, confianza, ansiedad.</li>
+</ul>
+
+<h3>Deportes de equipo</h3>
+<h4>Vídeo y codificación de acciones</h4>
+<div class="tbl"><table>
+<thead><tr><th>Tipo</th><th>Ejemplos</th><th>Uso</th></tr></thead>
+<tbody>
+<tr><td>Software de videoanálisis y codificación</td><td>Hudl Sportscode, Nacsport, Metrica Play, LongoMatch</td><td>Etiquetar acciones, crear clips y montajes, estadísticas propias</td></tr>
+<tr><td>Cámaras automáticas con IA</td><td>Veo, Pixellot</td><td>Grabar sin operador, vista táctica completa</td></tr>
+<tr><td>Plataformas de vídeo y datos de rivales</td><td>Wyscout (fútbol), Synergy (baloncesto)</td><td><em>Scouting</em> y preparación del partido</td></tr>
+</tbody></table></div>
+<h4>Datos de eventos (<em>event data</em>)</h4>
+<ul>
+<li>Registro de cada acción (pase, tiro, rebote, pérdida) con su momento y su posición.</li>
+<li>Estadística oficial de competición, como FIBA LiveStats en baloncesto.</li>
+<li>Proveedores especializados en fútbol profesional: Opta (Stats Perform) o StatsBomb (Hudl).</li>
+</ul>
+<h4>Datos de seguimiento (<em>tracking data</em>)</h4>
+<ul>
+<li><strong>Seguimiento óptico</strong> multicámara: posición de todos los jugadores y del balón varias veces por segundo.</li>
+<li><strong>Wearables en partido</strong> (GPS/LPS e IMU). En fútbol, el IFAB permite los sistemas electrónicos de seguimiento del rendimiento (EPTS) y FIFA tiene un programa de calidad para certificarlos.</li>
+<li>Permiten analizar las demandas físicas y, sobre todo, los <strong>periodos de máxima exigencia</strong> (<em>peak demands</em>), referencia para diseñar tareas de entrenamiento.</li>
+</ul>
+
+<h3>Deportes individuales y cíclicos</h3>
+<div class="tbl"><table>
+<thead><tr><th>Deporte o situación</th><th>Tecnología</th><th>Qué aporta</th></tr></thead>
+<tbody>
+<tr><td>Pruebas con tiempo (atletismo, natación, remo, piragüismo)</td><td>Cronometraje electrónico, <em>photo finish</em>, parciales oficiales</td><td>Ritmo y distribución del esfuerzo (<em>pacing</em>)</td></tr>
+<tr><td>Remo</td><td>Velocidad y frecuencia de palada (NK SpeedCoach), fuerza en remo o chumacera (Peach PowerLine, NK Empower), datos GPS de regatas internacionales</td><td>Curva de fuerza, sincronización, velocidad por tramos</td></tr>
+<tr><td>Ciclismo</td><td>Potenciómetros, análisis con WKO o Golden Cheetah</td><td>Potencia en competición, perfil de esfuerzos</td></tr>
+<tr><td>Natación</td><td>Análisis de carrera por vídeo</td><td>Salidas, virajes, frecuencia y longitud de ciclo</td></tr>
+<tr><td>Deportes técnicos (gimnasia, saltos, lanzamientos)</td><td>Vídeo de alta velocidad, Dartfish, Kinovea</td><td>Técnica en competición real</td></tr>
+<tr><td>Deportes de raqueta</td><td>Seguimiento de bola y jugador (Hawk-Eye), sensores en raqueta</td><td>Patrones de juego, precisión, desplazamientos</td></tr>
+</tbody></table></div>
+
+<h3>Indicadores de rendimiento</h3>
+<ul>
+<li><strong>Baloncesto</strong>: posesiones, eficiencia ofensiva y defensiva, y los <strong>cuatro factores</strong> de Dean Oliver (acierto, pérdidas, rebote ofensivo y tiros libres).</li>
+<li><strong>Fútbol</strong>: <strong>goles esperados (xG)</strong>, probabilidad de gol de cada tiro según sus características.</li>
+<li><strong>+/-</strong>: diferencia en el marcador mientras un jugador está en pista.</li>
+<li><strong>Normalización</strong>: expresar los datos por minuto, posesión o acción para comparar contextos distintos.</li>
+<li><strong>Contexto</strong>: el mismo dato cambia según rival, marcador, localización y momento de la temporada.</li>
+<li><strong>Análisis longitudinal</strong>: evolución a lo largo de la temporada y la carrera, comparación con referencias y curvas de progresión, útiles en la detección de talentos.</li>
+</ul>
+
+<h3>Datos en tiempo real</h3>
+<ul>
+<li>Tabletas en el banquillo con estadísticas en directo, vídeo reciente o datos físicos para gestionar cambios y rotaciones.</li>
+<li>El <strong>reglamento de cada deporte y competición</strong> fija qué dispositivos y comunicaciones se permiten.</li>
+<li>El análisis en directo debe ser simple y rápido: pocos indicadores, decididos de antemano.</li>
+</ul>
+
+<h3>Inteligencia artificial</h3>
+<div class="tbl"><table>
+<thead><tr><th>Aplicación</th><th>Qué hace</th><th>Precauciones</th></tr></thead>
+<tbody>
+<tr><td>Detección automática de eventos</td><td>Identifica acciones en vídeo o datos de sensores</td><td>Ahorra tiempo de codificación; hay que revisar los errores</td></tr>
+<tr><td>Seguimiento desde vídeo de retransmisión</td><td>Posiciones sin cámaras dedicadas</td><td>Menos preciso que los sistemas de estadio</td></tr>
+<tr><td>Modelos de valor de las acciones</td><td>xG y modelos similares</td><td>Dependen de sus datos de entrenamiento</td></tr>
+<tr><td>Reconocimiento de patrones tácticos</td><td>Sistemas de juego, jugadas repetidas, tendencias del rival</td><td>Requiere validación del cuerpo técnico</td></tr>
+<tr><td>Estimación de postura</td><td>Técnica sin marcadores en competición</td><td>Precisión variable</td></tr>
+<tr><td>IA generativa</td><td>Informes de partido y de rival, herramientas de análisis</td><td>Verificar siempre los datos</td></tr>
+<tr><td>Predicción de resultados</td><td>Modelos probabilísticos</td><td>Incertidumbre individual alta</td></tr>
+</tbody></table></div>
+<p>Los modelos ofrecen probabilidades, no certezas. La interpretación técnica sigue siendo imprescindible, sobre todo con pocos datos.</p>
+
+<h3>Flujo de trabajo: antes, durante y después</h3>
+<ol>
+<li><strong>Antes</strong>: <em>scouting</em> del rival, plan de partido o de carrera, objetivos individuales.</li>
+<li><strong>Durante</strong>: registro en directo, indicadores clave para el banquillo, vídeo en los descansos.</li>
+<li><strong>Después</strong>: informe técnico-táctico con clips; informe físico con demandas y referencias; RPE del partido y recuperación (VFC, bienestar, CMJ); retroalimentación con vídeo.</li>
+<li><strong>Ajuste</strong>: las conclusiones pasan a la planificación del microciclo siguiente.</li>
+</ol>
+
+<h3>Aspectos éticos y legales</h3>
+<ul>
+<li>Protección de datos fisiológicos y de localización; algunos son de salud.</li>
+<li>Propiedad y acceso a los datos del deportista, a definir en los contratos.</li>
+<li>Derechos de imagen y derechos audiovisuales de la competición.</li>
+<li>Cuidado especial con la grabación y difusión de imágenes de menores.</li>
+<li>Uso responsable: mejorar rendimiento y salud, no solo evaluar o presionar.</li>
+</ul>
+
+<h3>Criterios de selección</h3>
+<ol>
+<li>Pregunta de rendimiento y decisión que debe apoyar.</li>
+<li>Indicadores relevantes para el deporte, el nivel y la categoría.</li>
+<li>Validez y fiabilidad de los datos, incluidos los de proveedores y de IA.</li>
+<li>Recursos humanos para interpretarlos.</li>
+<li>Tiempo de respuesta: el informe debe llegar a tiempo de influir.</li>
+<li>Reglamento de la competición.</li>
+<li>Coste frente a beneficio.</li>
+</ol>
+<p class="cierre"><b>Idea clave</b>Controlar el rendimiento en competición consiste en convertir lo que ocurre en la prueba en información útil para la próxima decisión: buenos indicadores, datos fiables y análisis a tiempo.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 6 ===================== -->
+<section class="tema" data-t="6" data-title="Reglas de juego y arbitraje">
+<div class="tema-head"><div class="tema-num">6</div><h2>Dispositivos, software e IA para el control de las reglas de juego y el arbitraje objetivo</h2></div>
+<div class="content">
+<h3>Objetivos de la tecnología arbitral</h3>
+<ul>
+<li><strong>Precisión</strong> en decisiones objetivas (si el balón entra, si hay fuera de juego, quién llega primero).</li>
+<li><strong>Apoyo al juez</strong>: en la mayoría de deportes la decisión final sigue siendo humana.</li>
+<li><strong>Transparencia</strong> ante participantes y público.</li>
+<li><strong>Integridad</strong>: control de material, dopaje y manipulación de resultados.</li>
+</ul>
+
+<h3>Tipos de tecnología según su principio</h3>
+<div class="tbl"><table>
+<thead><tr><th>Principio</th><th>Cómo funciona</th><th>Ejemplos</th></tr></thead>
+<tbody>
+<tr><td>Revisión por vídeo</td><td>El árbitro o un equipo externo revisa repeticiones</td><td>VAR, TMO, <em>instant replay</em>, <em>challenge</em></td></tr>
+<tr><td>Seguimiento óptico multicámara</td><td>Posición 3D de balón o jugadores</td><td>Hawk-Eye, línea de gol, fuera de juego semiautomático</td></tr>
+<tr><td>Sensores en el material</td><td>Balón, protectores o tacos registran contactos o movimientos</td><td>Balón con sensor, petos electrónicos, tacos de salida</td></tr>
+<tr><td>Contacto eléctrico</td><td>Un circuito se cierra al tocar</td><td>Esgrima, placas de natación</td></tr>
+<tr><td>Cronometraje y <em>photo finish</em></td><td>Cámara de meta sincronizada con la salida</td><td>Atletismo, natación, remo, ciclismo</td></tr>
+<tr><td>Medición electrónica</td><td>Distancias o condiciones con instrumentos</td><td>Saltos y lanzamientos, anemómetro</td></tr>
+<tr><td>Comunicación</td><td>Enlace de audio entre árbitros y sala de vídeo</td><td>Intercomunicadores, banderín electrónico</td></tr>
+</tbody></table></div>
+
+<h3>Aplicaciones por deporte</h3>
+<h4>Fútbol</h4>
+<ul>
+<li><strong>Tecnología de línea de gol</strong>: aprobada por el IFAB en 2012 y usada en el Mundial de 2014; avisa al árbitro en su reloj.</li>
+<li><strong>VAR</strong>: incorporado a las Reglas de Juego en 2018. Interviene en gol, penalti, roja directa y confusión de identidad ante un <strong>error claro y manifiesto</strong> o un incidente grave no visto.</li>
+<li><strong>Fuera de juego semiautomático</strong> (Qatar 2022): cámaras que siguen varios puntos del cuerpo y sensor en el balón; la decisión final la valida el árbitro.</li>
+<li>Intercomunicadores, banderín electrónico y espray para marcar distancias.</li>
+</ul>
+<h4>Baloncesto</h4>
+<ul>
+<li><strong>Sistema de revisión instantánea</strong> (FIBA) para situaciones previstas: tiros al final de periodo, valor del tiro, antideportivas, violencia.</li>
+<li>Relojes sincronizados y <strong>luz en el tablero</strong> al final del periodo.</li>
+<li>En la NBA, centro de revisión centralizado y <em>challenge</em> del entrenador.</li>
+</ul>
+<h4>Tenis</h4>
+<ul>
+<li><strong>Hawk-Eye</strong> con sistema de <em>challenge</em> desde 2006.</li>
+<li><strong>Cantado electrónico de líneas</strong>: la ATP lo generalizó en 2025 en sustitución de los jueces de línea; Wimbledon lo adoptó ese mismo año.</li>
+</ul>
+<h4>Rugby</h4>
+<ul>
+<li><strong>TMO</strong> para ensayos y juego sucio, y revisión externa (<em>bunker</em>) para decidir si una amarilla pasa a roja.</li>
+<li><strong>Protectores bucales instrumentados</strong> que detectan impactos en la cabeza y activan el protocolo de conmoción.</li>
+</ul>
+<h4>Deportes de combate y esgrima</h4>
+<ul>
+<li><strong>Esgrima</strong>: puntuación eléctrica desde hace décadas.</li>
+<li><strong>Taekwondo</strong>: petos y cascos electrónicos (PSS) que puntúan golpes válidos por encima de una intensidad mínima, más revisión de vídeo.</li>
+</ul>
+<h4>Atletismo</h4>
+<ul>
+<li><strong>Photo finish</strong> y cronometraje al centésimo.</li>
+<li><strong>Salida falsa</strong>: sensores en los tacos; es nula una reacción inferior a 0,100 s.</li>
+<li><strong>Anemómetro</strong>: el viento a favor no puede superar 2,0 m/s para homologar récords.</li>
+<li><strong>Medición electrónica o por vídeo</strong> en saltos y lanzamientos.</li>
+</ul>
+<h4>Natación, gimnasia, voleibol y ciclismo</h4>
+<ul>
+<li><strong>Natación</strong>: placas de contacto y plataformas de salida con sensores para detectar relevos adelantados.</li>
+<li><strong>Gimnasia</strong>: sistema de apoyo a los jueces (desarrollado con Fujitsu) con sensores 3D e IA, usado en campeonatos del mundo como apoyo.</li>
+<li><strong>Voleibol</strong>: <em>challenge</em> con revisión de vídeo.</li>
+<li><strong>Ciclismo</strong>: <em>photo finish</em>, transpondedores y controles contra motores ocultos con escáneres magnéticos y rayos X.</li>
+</ul>
+
+<h3>Tecnología accesible en deporte base</h3>
+<ul>
+<li>Actas digitales y estadística oficial en tabletas.</li>
+<li>Cámaras automáticas de bajo coste para revisar acciones después del partido o para formar árbitros.</li>
+<li>Apps de cronometraje y marcador, y sistemas de comunicación asequibles.</li>
+</ul>
+
+<h3>Formación y evaluación de árbitros</h3>
+<ul>
+<li>Videoanálisis de actuaciones con retroalimentación de un evaluador.</li>
+<li>Bancos de vídeo para entrenar la toma de decisiones y realidad virtual.</li>
+<li>GPS, IMU y pulsómetro para controlar la carga física del árbitro.</li>
+<li>Seguimiento ocular en investigación sobre la mirada de árbitros expertos y noveles.</li>
+</ul>
+
+<h3>Inteligencia artificial</h3>
+<div class="tbl"><table>
+<thead><tr><th>Aplicación</th><th>Situación actual</th></tr></thead>
+<tbody>
+<tr><td>Fuera de juego semiautomático</td><td>Consolidado en la élite, con validación humana</td></tr>
+<tr><td>Cantado automático de líneas</td><td>Consolidado en tenis sin jueces de línea</td></tr>
+<tr><td>Reconocimiento de elementos en gimnasia</td><td>En uso como apoyo a los jueces</td></tr>
+<tr><td>Detección automática de faltas, manos o contactos</td><td>En investigación y desarrollo</td></tr>
+<tr><td>Evaluación del rendimiento arbitral</td><td>Análisis del posicionamiento desde datos de <em>tracking</em></td></tr>
+<tr><td>Detección de amaños</td><td>Patrones anómalos en mercados de apuestas</td></tr>
+</tbody></table></div>
+<p>La IA funciona bien en decisiones <strong>objetivas y geométricas</strong> (posición, línea, tiempo). Las que dependen de la <strong>interpretación</strong> (intencionalidad, temeridad, ventaja, fuerza excesiva) siguen necesitando juicio humano.</p>
+
+<h3>Integridad de la competición</h3>
+<ul>
+<li><strong>Antidopaje</strong>: plataforma <strong>ADAMS</strong> de la AMA para controles y localización, y <strong>pasaporte biológico</strong>, que detecta alteraciones de los valores a lo largo del tiempo.</li>
+<li><strong>Control de material</strong> según el reglamento, por ejemplo el calzado de atletismo.</li>
+<li><strong>Vigilancia de apuestas</strong> para detectar movimientos sospechosos.</li>
+</ul>
+
+<h3>Limitaciones y debate</h3>
+<ul>
+<li>Interrupciones y pérdida de fluidez.</li>
+<li>Coste inalcanzable para la mayoría de competiciones.</li>
+<li>Falsa sensación de objetividad: calibración, ángulo de cámara y frecuencia de registro también introducen error.</li>
+<li>Equilibrio entre apoyo tecnológico y autoridad del árbitro.</li>
+<li>Comunicación de las decisiones al público.</li>
+</ul>
+
+<h3>Marco normativo y criterios</h3>
+<ul>
+<li>Cada tecnología debe estar autorizada por el <strong>organismo que regula las reglas</strong> del deporte (IFAB, FIBA, World Rugby, World Athletics…), y algunas requieren certificación de calidad.</li>
+<li>El reglamento de cada competición decide si se usa y cuándo.</li>
+<li>Grabaciones y datos de deportistas y árbitros se rigen por el RGPD.</li>
+<li>Criterios de implantación: tipo de decisión, precisión demostrada, rapidez, aprobación reglamentaria, coste y equidad, formación y comunicación.</li>
+</ul>
+<p class="cierre"><b>Idea clave</b>La tecnología ha hecho más precisas las decisiones objetivas, pero el arbitraje sigue necesitando juicio humano para interpretar el reglamento.</p>
+</div>
+</section>
+
+<!-- ===================== TEMA 7 ===================== -->
+<section class="tema" data-t="7" data-title="Dopaje tecnológico">
+<div class="tema-head"><div class="tema-num">7</div><h2>Dopaje tecnológico: equipamiento y materiales, sobredependencia y fraude o manipulación</h2></div>
+<div class="content">
+<h3>Concepto y criterios</h3>
+<ul>
+<li><strong>No toda innovación es dopaje tecnológico</strong>: la pértiga de fibra, los patines clap o los materiales ligeros se aceptaron e integraron en las reglas.</li>
+<li>La frontera la marca cada <strong>federación internacional</strong> en su reglamento de equipamiento, atendiendo a la equidad y el acceso, la esencia del deporte, la seguridad y la comparabilidad histórica de marcas y récords.</li>
+<li><strong>Referencia del antidopaje</strong>: la AMA incluye un método en su Lista de Prohibiciones cuando cumple dos de estos tres criterios: mejora el rendimiento, supone un riesgo para la salud o vulnera el espíritu del deporte.</li>
+</ul>
+
+<h3>Equipamiento y materiales</h3>
+<div class="tbl"><table>
+<thead><tr><th>Deporte</th><th>Caso</th><th>Respuesta reglamentaria</th></tr></thead>
+<tbody>
+<tr><td>Natación</td><td>Bañadores de poliuretano (2008-2009); 43 récords del mundo en el Mundial de Roma 2009</td><td>La FINA prohibió los bañadores no textiles desde el 1 de enero de 2010</td></tr>
+<tr><td>Atletismo</td><td>Zapatillas con placa rígida y espumas avanzadas, desde las Nike Vaporfly (2017)</td><td>Desde 2020: suela de hasta 40 mm en ruta (límites más estrictos en pista), una sola placa rígida y disponibilidad en el mercado</td></tr>
+<tr><td>Atletismo</td><td>Jabalina: récord de Uwe Hohn (104,80 m en 1984)</td><td>Rediseño en 1986 por seguridad, desplazando el centro de gravedad</td></tr>
+<tr><td>Remo</td><td><em>Rigger</em> deslizante a principios de los años 80</td><td>Prohibido en 1983</td></tr>
+<tr><td>Ciclismo</td><td>Posiciones y bicicletas de Graeme Obree en el récord de la hora</td><td>Prohibidas; en 2000 la UCI separó el récord con bicicleta tradicional del «mejor esfuerzo humano» y unificó normas en 2014</td></tr>
+<tr><td>Tenis</td><td>Cordaje «espagueti» de doble capa</td><td>Prohibido en 1977</td></tr>
+<tr><td>Golf</td><td>Ranuras de los palos, <em>putter</em> anclado, distancia de la bola</td><td>Reglas de ranuras (2010), prohibición del anclaje (2016) y reducción del alcance de la bola anunciada</td></tr>
+<tr><td>Salto de esquí</td><td>Trajes con costuras manipuladas por el equipo noruego (Mundial de Trondheim, 2025)</td><td>Descalificaciones y sanciones</td></tr>
+<tr><td>Deporte adaptado</td><td>Prótesis de carrera y salto (Pistorius, Rehm, Leeper)</td><td>Debate abierto sobre la ventaja y sobre quién debe demostrarla; intervención del TAS</td></tr>
+</tbody></table></div>
+<p>El intento de Eliud Kipchoge de bajar de dos horas en maratón (Viena, 2019) no se homologó: contó con liebres que se turnaban, un coche que marcaba el ritmo con un láser y zapatillas prototipo.</p>
+
+<h3>Fraude y manipulación tecnológica</h3>
+<h4>Dopaje mecánico</h4>
+<ul>
+<li>Mundial de ciclocrós de 2016: motor oculto en la bicicleta de la belga Femke Van den Driessche (sub-23), sancionada con seis años.</li>
+<li>La UCI controla con tabletas de resonancia magnética, cámaras térmicas y rayos X.</li>
+</ul>
+<h4>Manipulación de sistemas de puntuación</h4>
+<ul>
+<li><strong>Montreal 1976</strong>: el pentatleta soviético Boris Onishchenko modificó su espada para registrar tocados inexistentes; fue descalificado.</li>
+<li><strong>Taekwondo</strong>: algunos competidores adaptaron su técnica para puntuar en los petos electrónicos con golpes rápidos y poco potentes, en detrimento de la esencia del combate.</li>
+</ul>
+<h4>Espionaje tecnológico</h4>
+<ul>
+<li><strong>Houston Astros (2017)</strong>: cámaras para descifrar las señas del rival; sanciones de la MLB en 2020.</li>
+<li><strong>Selección femenina de Canadá (París 2024)</strong>: un dron para espiar un entrenamiento de Nueva Zelanda; seis puntos menos y un año de sanción a la seleccionadora.</li>
+</ul>
+<h4>Deportes virtuales y <em>esports</em></h4>
+<ul>
+<li><strong>Ciclismo virtual</strong>: manipulación de potencia, peso o altura. En 2019 British Cycling retiró su título nacional de e-racing a Cameron Jeffers por usar un programa automatizado para desbloquear una bicicleta virtual mejor. La UCI verifica peso y altura en sus campeonatos virtuales.</li>
+<li><strong><em>Esports</em></strong>: programas de trampas combatidos con software anti-trampas y supervisión.</li>
+</ul>
+<h4>Ataques a sistemas y datos</h4>
+<ul>
+<li>En 2016, el grupo Fancy Bears accedió a la base ADAMS de la AMA y publicó autorizaciones de uso terapéutico de deportistas.</li>
+</ul>
+
+<h3>Zona de frontera: tecnología que modifica al deportista</h3>
+<div class="tbl"><table>
+<thead><tr><th>Método</th><th>Situación</th></tr></thead>
+<tbody>
+<tr><td>Cámaras y tiendas de hipoxia</td><td>La AMA estudió prohibirlas en 2006 y decidió no hacerlo</td></tr>
+<tr><td>Estimulación cerebral transcraneal (tDCS)</td><td>No figura en la Lista de Prohibiciones según la información disponible; eficacia incierta y debate ético</td></tr>
+<tr><td>Dopaje genético y celular</td><td>Prohibido expresamente por la AMA</td></tr>
+<tr><td>Manipulación de la sangre</td><td>Prohibida; se controla con el pasaporte biológico</td></tr>
+</tbody></table></div>
+
+<h3>Sobredependencia tecnológica</h3>
+<h4>En el deportista</h4>
+<ul>
+<li>Pérdida de la percepción interna: dificultad para regular el ritmo sin reloj o potenciómetro.</li>
+<li>Ansiedad por los datos; en el sueño se ha descrito la <strong>ortosomnia</strong>, obsesión por «dormir bien» según el dispositivo que puede empeorar el sueño.</li>
+<li>Validación externa: el entrenamiento solo «cuenta» si queda registrado.</li>
+<li>Vulnerabilidad si el dispositivo falla en competición.</li>
+</ul>
+<h4>En el entrenador y el preparador físico</h4>
+<ul>
+<li>Exceso de datos y parálisis por análisis.</li>
+<li>Decisiones basadas en métricas poco válidas o algoritmos opacos de los fabricantes.</li>
+<li>Pérdida de habilidades de observación y comunicación directa.</li>
+<li>Delegar en la IA decisiones de planificación sin criterio propio.</li>
+</ul>
+<h4>En el árbitro</h4>
+<ul><li>Dependencia de la revisión de vídeo y menor confianza en la decisión propia.</li></ul>
+<h4>Estrategias preventivas</h4>
+<ul>
+<li>Combinar datos objetivos con <strong>percepción subjetiva</strong> (RPE, sensaciones) y educar en la autorregulación.</li>
+<li>Sesiones sin dispositivos.</li>
+<li>Usar solo métricas con pregunta profesional y validez conocidas.</li>
+<li>En formación, introducir la tecnología de forma gradual y con finalidad educativa.</li>
+</ul>
+
+<h3>Respuestas del sistema deportivo</h3>
+<ul>
+<li>Reglamentos de equipamiento con especificaciones técnicas y homologación previa.</li>
+<li>Controles técnicos en competición: escáneres, verificación de material, precintos.</li>
+<li>Sanciones disciplinarias por fraude tecnológico.</li>
+<li>Ciberseguridad y protección de datos en federaciones y plataformas.</li>
+<li>Educación en valores desde la base.</li>
+</ul>
+
+<h3>Preguntas para el debate</h3>
+<ol>
+<li>¿Por qué el bañador de poliuretano se prohibió y la zapatilla con placa se reguló?</li>
+<li>¿Una cámara de hipoxia es muy distinta de entrenar en altitud? ¿Y de un método prohibido?</li>
+<li>¿Debería existir un material homologado único en más deportes?</li>
+<li>¿Cuándo compite en igualdad un deportista con prótesis? ¿Quién debe demostrarlo?</li>
+<li>¿Dónde está la línea entre el análisis legítimo del rival y el espionaje?</li>
+<li>¿Es aceptable que la IA diseñe el entrenamiento sin supervisión humana?</li>
+</ol>
+<p class="cierre"><b>Idea clave</b>El dopaje tecnológico aparece cuando la tecnología rompe la igualdad de oportunidades, desplaza el protagonismo del deportista o se usa para engañar. La respuesta combina regulación, control y educación.</p>
+</div>
+</section>
+
+
+<!-- ===================== 8 REFERENCIAS ===================== -->
+<section class="tema" data-t="8" data-title="Referencias" data-noquiz="1">
+<div class="tema-head"><div class="tema-num">8</div><h2>Referencias fundamentales</h2></div>
+<div class="content">
+<p>Diez referencias clave para los siete temas, citadas en formato APA 7. Todas se han comprobado en las bases de datos de los editores (DOI incluido).</p>
+<ol class="refs">
+<li><p>Bourdon, P. C., Cardinale, M., Murray, A., Gastin, P., Kellmann, M., Varley, M. C., Gabbett, T. J., Coutts, A. J., Burgess, D. J., Gregson, W., &amp; Cable, N. T. (2017). Monitoring athlete training loads: Consensus statement. <em>International Journal of Sports Physiology and Performance, 12</em>(Suppl. 2), S2-161–S2-170. <a href="https://doi.org/10.1123/ijspp.2017-0208">https://doi.org/10.1123/ijspp.2017-0208</a></p><span class="rt">Temas 1 y 4 · Consenso internacional sobre la monitorización de la carga</span></li>
+<li><p>Claudino, J. G., Capanema, D. O., de Souza, T. V., Serrão, J. C., Pereira, A. C. M., &amp; Nassis, G. P. (2019). Current approaches to the use of artificial intelligence for injury risk assessment and performance prediction in team sports: A systematic review. <em>Sports Medicine – Open, 5</em>, Artículo 28. <a href="https://doi.org/10.1186/s40798-019-0202-3">https://doi.org/10.1186/s40798-019-0202-3</a></p><span class="rt">Temas 1, 4 y 5 · Revisión sistemática sobre IA en lesiones y rendimiento</span></li>
+<li><p>Dyer, B. (2015). The controversy of sports technology: A systematic review. <em>SpringerPlus, 4</em>, Artículo 524. <a href="https://doi.org/10.1186/s40064-015-1331-x">https://doi.org/10.1186/s40064-015-1331-x</a></p><span class="rt">Tema 7 · Revisión sobre la polémica del dopaje tecnológico</span></li>
+<li><p>Foster, C., Florhaug, J. A., Franklin, J., Gottschall, L., Hrovatin, L. A., Parker, S., Doleshal, P., &amp; Dodge, C. (2001). A new approach to monitoring exercise training. <em>Journal of Strength and Conditioning Research, 15</em>(1), 109–115. <a href="https://doi.org/10.1519/00124278-200102000-00019">https://doi.org/10.1519/00124278-200102000-00019</a></p><span class="rt">Temas 1 y 4 · RPE de sesión, monotonía y tensión</span></li>
+<li><p>González-Badillo, J. J., &amp; Sánchez-Medina, L. (2010). Movement velocity as a measure of loading intensity in resistance training. <em>International Journal of Sports Medicine, 31</em>(5), 347–352. <a href="https://doi.org/10.1055/s-0030-1248333">https://doi.org/10.1055/s-0030-1248333</a></p><span class="rt">Tema 4 · Base del entrenamiento basado en la velocidad</span></li>
+<li><p>Hopkins, W. G. (2000). Measures of reliability in sports medicine and science. <em>Sports Medicine, 30</em>(1), 1–15. <a href="https://doi.org/10.2165/00007256-200030010-00001">https://doi.org/10.2165/00007256-200030010-00001</a></p><span class="rt">Temas 1, 2 y 4 · Fiabilidad, error típico y cambio relevante</span></li>
+<li><p>Hughes, M. D., &amp; Bartlett, R. M. (2002). The use of performance indicators in performance analysis. <em>Journal of Sports Sciences, 20</em>(10), 739–754. <a href="https://doi.org/10.1080/026404102320675602">https://doi.org/10.1080/026404102320675602</a></p><span class="rt">Tema 5 · Indicadores de rendimiento y normalización</span></li>
+<li><p>Kolbinger, O., &amp; Lames, M. (2017). Scientific approaches to technological officiating aids in game sports. <em>Current Issues in Sport Science, 2</em>, Artículo 001. <a href="https://doi.org/10.15203/CISS_2017.001">https://doi.org/10.15203/CISS_2017.001</a></p><span class="rt">Tema 6 · Tecnología de apoyo al arbitraje</span></li>
+<li><p>Page, M. J., McKenzie, J. E., Bossuyt, P. M., Boutron, I., Hoffmann, T. C., Mulrow, C. D., Shamseer, L., Tetzlaff, J. M., Akl, E. A., Brennan, S. E., Chou, R., Glanville, J., Grimshaw, J. M., Hróbjartsson, A., Lalu, M. M., Li, T., Loder, E. W., Mayo-Wilson, E., McDonald, S., … Moher, D. (2021). The PRISMA 2020 statement: An updated guideline for reporting systematic reviews. <em>BMJ, 372</em>, n71. <a href="https://doi.org/10.1136/bmj.n71">https://doi.org/10.1136/bmj.n71</a></p><span class="rt">Tema 2 · Guía para revisiones sistemáticas</span></li>
+<li><p>Reglamento (UE) 2016/679 del Parlamento Europeo y del Consejo, de 27 de abril de 2016, relativo a la protección de las personas físicas en lo que respecta al tratamiento de datos personales y a la libre circulación de estos datos (Reglamento general de protección de datos). (2016). <em>Diario Oficial de la Unión Europea</em>, L 119, 1–88. <a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj">https://eur-lex.europa.eu/eli/reg/2016/679/oj</a></p><span class="rt">Temas 1, 3, 4 y 5 · Marco legal de los datos personales y de salud</span></li>
+</ol>
+</div>
+</section>
+
+<!-- ===================== 9 ACTIVIDADES ===================== -->
+<section class="tema" data-t="9" data-title="Actividades prácticas" data-noquiz="1">
+<div class="tema-head"><div class="tema-num">9</div><h2>Actividades prácticas</h2></div>
+<div class="content">
+<p>Diez propuestas para aplicar los contenidos. Cada una indica los temas que trabaja, el formato del producto final y los criterios con los que puede evaluarse. Las duraciones son orientativas.</p>
+
+<article class="act">
+<h3>Infografía: ¿mide bien mi dispositivo?</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>1</dd></div><div><dt>Formato</dt><dd>Infografía individual</dd></div><div><dt>Duración</dt><dd>2 sesiones</dd></div></dl>
+<p>Cada estudiante elige un dispositivo de uso real (reloj con GPS, banda de pecho, app de salto, encoder…) y busca al menos un estudio de validación. Elabora una infografía que explique su validez, fiabilidad y sensibilidad, con qué método de referencia se comparó y en qué población.</p>
+<p><strong>Herramientas</strong>: Canva, Genially o Piktochart; PubMed o SPORTDiscus.</p>
+<p><strong>Evaluación</strong>: uso correcto de los conceptos, fuente científica citada en APA, claridad visual y conclusión práctica sobre el uso del dispositivo.</p>
+</article>
+
+<article class="act">
+<h3>Laboratorio de fiabilidad: test-retest del salto</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>1 y 4</dd></div><div><dt>Formato</dt><dd>Práctica en grupo + hoja de cálculo</dd></div><div><dt>Duración</dt><dd>2 sesiones</dd></div></dl>
+<p>El grupo mide el salto con contramovimiento (CMJ) con una app de móvil validada y, si hay disponibilidad, con una plataforma de contacto, en dos días distintos. Calcula el error típico de medida, el coeficiente de variación y el cambio mínimo relevante, y decide si el sistema sirve para detectar la fatiga en su equipo.</p>
+<p><strong>Herramientas</strong>: My Jump o similar, plataforma de contacto, Excel o Google Sheets.</p>
+<p><strong>Evaluación</strong>: protocolo estandarizado, cálculos correctos e interpretación razonada del resultado.</p>
+</article>
+
+<article class="act">
+<h3>Búsqueda bibliográfica guiada con PICO</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>2</dd></div><div><dt>Formato</dt><dd>Informe breve en parejas</dd></div><div><dt>Duración</dt><dd>2 sesiones</dd></div></dl>
+<p>A partir de una pregunta profesional (por ejemplo, «¿mejora el entrenamiento de fuerza el rendimiento en 2000 m en remeros juniors?»), la pareja formula la pregunta PICO, diseña la estrategia de búsqueda con términos MeSH y operadores booleanos en PubMed y SPORTDiscus, gestiona los resultados en Zotero y dibuja un diagrama de flujo simplificado al estilo PRISMA.</p>
+<p><strong>Herramientas</strong>: PubMed, SPORTDiscus, Zotero, Rayyan (opcional).</p>
+<p><strong>Evaluación</strong>: pregunta bien formulada, estrategia reproducible, criterios de inclusión explícitos y bibliografía en APA 7.</p>
+</article>
+
+<article class="act">
+<h3>Cazadores de referencias inventadas</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>2 y 7</dd></div><div><dt>Formato</dt><dd>Ficha de verificación</dd></div><div><dt>Duración</dt><dd>1 sesión</dd></div></dl>
+<p>Se pide a una herramienta de IA generativa cinco referencias sobre un tema del módulo. El alumnado comprueba cada una en PubMed, Google Scholar y mediante su DOI, y clasifica las referencias en correctas, con errores o inexistentes. Cierra con una reflexión sobre la sobredependencia de la IA.</p>
+<p><strong>Herramientas</strong>: asistente de IA, PubMed, Google Scholar, doi.org.</p>
+<p><strong>Evaluación</strong>: verificación completa, registro de los errores detectados y calidad de la reflexión.</p>
+</article>
+
+<article class="act">
+<h3>Plan de digitalización de un club</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>3</dd></div><div><dt>Formato</dt><dd>Proyecto en grupo + presentación</dd></div><div><dt>Duración</dt><dd>4 sesiones</dd></div></dl>
+<p>El grupo analiza un club o empresa deportiva real de su entorno: mapa de procesos (socios, cobros, comunicación, instalaciones), herramientas actuales y problemas. Propone un plan de digitalización con herramientas concretas, integración entre ellas, presupuesto anual estimado y una lista de verificación de protección de datos.</p>
+<p><strong>Herramientas</strong>: Google Workspace o Microsoft 365, herramienta de diagramas, hoja de cálculo.</p>
+<p><strong>Evaluación</strong>: diagnóstico realista, coherencia de la propuesta con los recursos de la entidad, cumplimiento legal y calidad de la presentación.</p>
+</article>
+
+<article class="act">
+<h3>Mi aplicación de control de carga</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>4 y 1</dd></div><div><dt>Formato</dt><dd>Aplicación web sencilla</dd></div><div><dt>Duración</dt><dd>3 sesiones</dd></div></dl>
+<p>Con ayuda de un asistente de IA, cada grupo crea una pequeña aplicación en HTML que registre la RPE y la duración de cada sesión y calcule la carga diaria, la carga semanal, la monotonía y la tensión de Foster. Debe mostrar un gráfico semanal y avisos cuando la monotonía sea alta. El grupo comprueba los cálculos con una hoja de cálculo.</p>
+<p><strong>Herramientas</strong>: asistente de IA, editor de código o bloc de notas, navegador, hoja de cálculo para verificar.</p>
+<p><strong>Evaluación</strong>: cálculos correctos, facilidad de uso, verificación documentada y reflexión sobre qué hizo la IA y qué revisó el grupo.</p>
+</article>
+
+<article class="act">
+<h3>Panel semáforo de un microciclo</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>4 y 5</dd></div><div><dt>Formato</dt><dd>Panel de datos + informe</dd></div><div><dt>Duración</dt><dd>1 semana de registro + 2 sesiones</dd></div></dl>
+<p>Durante una semana, un grupo de compañeros o un equipo registra la RPE de sesión, un cuestionario de bienestar (sueño, fatiga, dolor, estrés, ánimo) y el CMJ antes del entrenamiento. Con los datos se construye un panel con indicadores de semáforo individuales y se redacta un breve informe para el entrenador.</p>
+<p><strong>Herramientas</strong>: Google Forms, Google Sheets, Looker Studio o Power BI.</p>
+<p><strong>Evaluación</strong>: recogida sistemática, criterios de semáforo justificados, claridad del panel y consentimiento informado de los participantes.</p>
+</article>
+
+<article class="act">
+<h3>Analista por un día: codificación de un partido</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>5</dd></div><div><dt>Formato</dt><dd>Informe de partido con clips</dd></div><div><dt>Duración</dt><dd>3 sesiones</dd></div></dl>
+<p>El grupo define cinco indicadores de rendimiento de un deporte, crea una plantilla de codificación y analiza un partido grabado (preferiblemente de su propio club, con autorización). Entrega un informe con estadísticas normalizadas por posesión o por minuto y tres clips que ilustren las conclusiones.</p>
+<p><strong>Herramientas</strong>: LINCE, LongoMatch o Kinovea; hoja de cálculo.</p>
+<p><strong>Evaluación</strong>: indicadores justificados, fiabilidad entre dos observadores, normalización correcta y utilidad del informe para el cuerpo técnico.</p>
+</article>
+
+<article class="act">
+<h3>Tribunal de la tecnología arbitral</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>6</dd></div><div><dt>Formato</dt><dd>Análisis de casos + debate</dd></div><div><dt>Duración</dt><dd>2 sesiones</dd></div></dl>
+<p>Cada grupo analiza cinco jugadas revisadas con tecnología (VAR, Hawk-Eye, TMO, revisión instantánea) a partir de vídeos públicos y del reglamento del deporte. Clasifica cada decisión como objetiva o interpretativa, valora si la tecnología resolvió la duda y propone cómo aplicar una versión de bajo coste en competiciones de base.</p>
+<p><strong>Herramientas</strong>: reglamentos oficiales, vídeos públicos de las competiciones, plantilla de análisis.</p>
+<p><strong>Evaluación</strong>: uso preciso del reglamento, argumentación en el debate y viabilidad de la propuesta para el deporte base.</p>
+</article>
+
+<article class="act">
+<h3>Línea del tiempo del dopaje tecnológico</h3>
+<dl class="meta"><div><dt>Temas</dt><dd>7</dd></div><div><dt>Formato</dt><dd>Infografía cronológica + debate estructurado</dd></div><div><dt>Duración</dt><dd>2 sesiones</dd></div></dl>
+<p>El grupo elabora una línea del tiempo interactiva con al menos ocho casos (material, fraude, espionaje, deportes virtuales), indicando la respuesta reglamentaria de cada uno. Después defiende una de las posturas en un debate a partir de las preguntas del tema 7.</p>
+<p><strong>Herramientas</strong>: Genially, Canva o Tiki-Toki; fuentes oficiales de las federaciones.</p>
+<p><strong>Evaluación</strong>: exactitud de fechas y hechos con fuentes citadas, calidad visual y solidez de los argumentos en el debate.</p>
+</article>
+</div>
+</section>
+    </main>
+  </div>
+</div>
+
+<script>
+const QUESTIONS = [[{"q": "¿Qué diferencia la transformación digital de la simple digitalización?", "o": ["La transformación rediseña el funcionamiento gracias a la tecnología", "La digitalización rediseña el funcionamiento gracias a la tecnología", "La transformación consiste en pasar datos en papel a formato digital", "La digitalización exige renovar el modelo de negocio de la entidad"], "e": "Digitalizar es pasar procesos o datos a formato digital; la transformación digital rediseña cómo trabaja la organización."}, {"q": "¿Qué criterio de calidad indica que un instrumento mide lo que dice medir?", "o": ["Validez", "Fiabilidad", "Sensibilidad", "Precisión"], "e": "La validez compara el instrumento con un método de referencia o gold standard."}, {"q": "Un dispositivo resulta útil para detectar cambios reales en un deportista cuando...", "o": ["su error de medida es menor que el cambio mínimo relevante", "su error de medida coincide con el cambio mínimo relevante", "su frecuencia de muestreo supera la de otros dispositivos", "su correlación con el método de referencia es positiva"], "e": "Si el error es igual o mayor que el cambio que interesa, no se puede distinguir un cambio real del ruido de medida."}, {"q": "La exactitud de una medida se refiere a...", "o": ["la cercanía del valor medido al valor real", "la dispersión entre medidas repetidas del valor", "la capacidad de registrar cambios pequeños del valor", "el número de registros por segundo del valor"], "e": "La exactitud es cercanía al valor real; la dispersión entre medidas repetidas describe la precisión."}, {"q": "La frecuencia de muestreo de un sensor expresa...", "o": ["el número de registros que realiza por segundo", "el porcentaje de registros válidos en la sesión", "el intervalo entre dos calibraciones del sensor", "la cantidad de variables que registra a la vez"], "e": "Se mide en hercios (Hz) y condiciona qué fenómenos rápidos pueden captarse."}, {"q": "¿Qué sistema es más adecuado para cuantificar la carga externa en un deporte de pista cubierta?", "o": ["Sistema de posicionamiento local (LPS)", "Sistema de navegación por satélite (GNSS)", "Espectroscopía de infrarrojo cercano (NIRS)", "Monitor cardíaco con banda de pecho (ECG)"], "e": "La señal de satélite se degrada en interior; los sistemas LPS usan antenas instaladas en el pabellón."}, {"q": "Una unidad de medida inercial (IMU) combina habitualmente...", "o": ["acelerómetro, giroscopio y magnetómetro", "acelerómetro, receptor GNSS y pulsómetro", "giroscopio, encoder lineal y barómetro", "magnetómetro, fotocélula y termómetro"], "e": "Esos tres sensores permiten registrar movimiento, impactos y orientación."}, {"q": "En esfuerzos intensos, ¿qué dispositivo suele ofrecer una frecuencia cardíaca más fiable?", "o": ["Banda de pecho basada en señal eléctrica (ECG)", "Sensor óptico de muñeca basado en luz (PPG)", "Sensor óptico de antebrazo con luz verde", "Reloj con acelerómetro y estimación algorítmica"], "e": "La banda de pecho registra la señal eléctrica del corazón; los sensores ópticos pierden precisión con el movimiento intenso."}, {"q": "¿Cuál de estas variables corresponde a la carga interna?", "o": ["Frecuencia cardíaca media de la sesión", "Distancia recorrida a alta velocidad", "Potencia media desarrollada en ergómetro", "Kilos totales movilizados en la sesión"], "e": "La carga interna es la respuesta del organismo; distancia, potencia y kilos describen el trabajo realizado (carga externa)."}, {"q": "La RPE de sesión se obtiene multiplicando...", "o": ["la percepción del esfuerzo por la duración en minutos", "la percepción del esfuerzo por la frecuencia cardíaca", "la frecuencia cardíaca media por la duración en minutos", "la percepción del esfuerzo por la distancia recorrida"], "e": "RPE × duración de la sesión: un método de coste cero y bien respaldado."}, {"q": "En plataformas de entrenamiento, una API permite...", "o": ["intercambiar datos entre plataformas de forma automática", "comprimir los archivos para reducir su tamaño final", "cifrar los datos de salud según la normativa europea", "visualizar los datos mediante paneles interactivos propios"], "e": "Las API son interfaces que permiten a dos sistemas comunicarse sin exportar e importar archivos a mano."}, {"q": "La analítica que intenta responder a «¿qué puede pasar?» se denomina...", "o": ["Predictiva", "Prescriptiva", "Diagnóstica", "Descriptiva"], "e": "Descriptiva: qué pasó. Diagnóstica: por qué. Predictiva: qué puede pasar. Prescriptiva: qué hacer."}, {"q": "¿Qué define al aprendizaje automático (machine learning)?", "o": ["Modelos que aprenden patrones a partir de los datos", "Programas que ejecutan reglas fijadas por el programador", "Sistemas que almacenan grandes volúmenes de datos", "Dispositivos que registran datos sin intervención humana"], "e": "El modelo extrae patrones de los datos en lugar de seguir reglas escritas de antemano."}, {"q": "Según el RGPD, los datos de salud de un deportista se consideran...", "o": ["una categoría especial de datos personales", "datos anónimos cuando los registra un sensor", "datos de interés legítimo del club deportivo", "datos de libre uso con fines de investigación"], "e": "El artículo 9 del RGPD los incluye entre las categorías especiales, con requisitos reforzados."}, {"q": "En España, ¿a partir de qué edad puede un menor consentir por sí mismo el tratamiento de sus datos?", "o": ["14 años", "12 años", "16 años", "18 años"], "e": "Lo fija el artículo 7 de la LOPDGDD; por debajo de esa edad consienten los titulares de la patria potestad o tutela."}, {"q": "¿Qué establece el Reglamento Europeo de IA (Reglamento UE 2024/1689)?", "o": ["Clasifica los sistemas de IA según su nivel de riesgo", "Prohíbe el uso de IA en el tratamiento de datos de salud", "Obliga a registrar todos los wearables deportivos en la UE", "Regula la protección de datos personales en toda la UE"], "e": "La protección de datos personales la regula el RGPD; el Reglamento de IA se organiza por niveles de riesgo."}, {"q": "Un club quiere detectar mejoras del 2 % en un sprint, pero el error de su sistema es del 4 %. ¿Qué conclusión es correcta?", "o": ["El sistema no permite detectar ese cambio con seguridad", "El sistema sirve porque su error es menor del 5 %", "El sistema detecta el cambio si se amplía la muestra", "El sistema es fiable porque su error es constante"], "e": "El error de medida duplica el cambio buscado, así que un 2 % puede ser simple ruido."}, {"q": "¿A qué ámbito profesional corresponden el control de accesos y la gestión de reservas?", "o": ["Gestión deportiva", "Rendimiento deportivo", "Salud y readaptación", "Educación física"], "e": "Son procesos de gestión de instalaciones y clientes."}, {"q": "Al seleccionar una tecnología, ¿qué conviene plantear en primer lugar?", "o": ["Qué pregunta profesional quiero responder", "Qué dispositivo usan los equipos de élite", "Qué presupuesto anual tiene la entidad", "Qué fabricante ofrece mejor soporte técnico"], "e": "La pregunta profesional orienta todo lo demás: qué medir, con qué validez y con qué recursos."}, {"q": "¿A qué se refiere el efecto «caja negra» de la inteligencia artificial?", "o": ["A la dificultad para explicar cómo llega a sus resultados", "A la pérdida de datos por fallos en el almacenamiento", "A la dependencia de conexión a internet para funcionar", "A la necesidad de muchísimos datos para entrenar un modelo"], "e": "Es un problema de explicabilidad: el resultado llega sin que se entienda su razonamiento."}], [{"q": "¿Qué base de datos bibliográfica está especializada en ciencias del deporte?", "o": ["SPORTDiscus", "PubMed", "Dialnet", "Scopus"], "e": "SPORTDiscus (EBSCO) es específica del deporte; PubMed es biomédica, Dialnet hispana y Scopus multidisciplinar."}, {"q": "En PubMed, el término MeSH designa...", "o": ["el vocabulario controlado para indexar artículos", "un índice de impacto de revistas biomédicas", "un gestor de referencias bibliográficas en línea", "un repositorio de artículos en acceso abierto"], "e": "Los descriptores MeSH unifican los términos y mejoran la precisión de la búsqueda."}, {"q": "¿Qué base de datos puntúa la calidad metodológica de los ensayos en fisioterapia?", "o": ["PEDro", "Dialnet", "Scopus", "Embase"], "e": "PEDro incluye su propia escala de calidad metodológica."}, {"q": "¿Qué operador booleano amplía una búsqueda para incluir sinónimos?", "o": ["OR", "AND", "NOT", "NEAR"], "e": "OR suma resultados que contengan cualquiera de los términos; AND y NOT restringen."}, {"q": "En el formato PICO, la letra C corresponde a...", "o": ["Comparación", "Contexto", "Criterio", "Cohorte"], "e": "Población, Intervención, Comparación y Outcome (resultado)."}, {"q": "¿Qué diseño ocupa el nivel más alto en la jerarquía de la evidencia?", "o": ["Revisión sistemática con metaanálisis", "Ensayo controlado aleatorizado", "Estudio de cohortes prospectivo amplio", "Opinión de expertos reconocidos"], "e": "La revisión sistemática con metaanálisis sintetiza varios estudios; la opinión de expertos ocupa el nivel más bajo."}, {"q": "¿Qué guía orienta la publicación de revisiones sistemáticas?", "o": ["PRISMA", "CONSORT", "STROBE", "GRADE"], "e": "CONSORT es para ensayos, STROBE para estudios observacionales y GRADE valora la certeza de la evidencia."}, {"q": "El sistema GRADE se utiliza para...", "o": ["valorar la certeza de un conjunto de evidencia", "redactar el informe final de un ensayo aleatorizado", "cribar títulos y resúmenes entre revisores", "calcular el tamaño muestral de un estudio"], "e": "GRADE gradúa la confianza en el conjunto de resultados sobre una pregunta."}, {"q": "Un preprint es...", "o": ["un trabajo difundido antes de la revisión por pares", "un resumen presentado en un congreso científico", "un artículo retirado de la revista tras detectarse errores", "una versión corregida tras la revisión por pares"], "e": "Por eso debe leerse con cautela: todavía no ha pasado el control de la revisión por pares."}, {"q": "La herramienta Unpaywall sirve para...", "o": ["localizar versiones en acceso abierto de artículos", "detectar revistas depredadoras entre los resultados", "comprobar el factor de impacto de las revistas", "eliminar referencias duplicadas en un gestor"], "e": "Busca copias legales y gratuitas del texto completo, por ejemplo en repositorios."}, {"q": "¿Qué herramienta facilita el cribado ciego de artículos entre varios revisores?", "o": ["Rayyan", "Zotero", "jamovi", "G*Power"], "e": "Rayyan (o Covidence) se usa en revisiones sistemáticas; Zotero gestiona referencias, jamovi analiza datos y G*Power calcula muestras."}, {"q": "Zotero es...", "o": ["un gestor bibliográfico libre", "un buscador académico libre", "un programa estadístico libre", "un repositorio de preprints libre"], "e": "Organiza referencias, guarda PDF anotados y cita automáticamente en el procesador de textos."}, {"q": "El programa G*Power se usa para...", "o": ["calcular el tamaño muestral necesario", "analizar datos con estadística bayesiana", "codificar acciones en vídeo deportivo", "gestionar las referencias de un trabajo"], "e": "Estima cuántos participantes hacen falta para detectar un efecto con una potencia dada."}, {"q": "¿Qué ventaja ofrece analizar datos con R o Python frente a un programa de menús?", "o": ["El análisis queda documentado en código reproducible", "El análisis no requiere conocimientos de estadística", "El análisis ofrece más significación con muestras pequeñas", "El análisis evita la limpieza previa de los datos"], "e": "El código permite repetir, revisar y compartir exactamente el mismo análisis."}, {"q": "El programa libre JASP destaca por incluir...", "o": ["análisis bayesianos con interfaz gráfica", "modelos predictivos con redes neuronales", "cálculo automático del tamaño muestral", "codificación de datos observacionales"], "e": "JASP ofrece estadística clásica y bayesiana mediante menús."}, {"q": "Open Science Framework (OSF) permite...", "o": ["preregistrar estudios y compartir sus datos", "publicar artículos con revisión por pares", "consultar indicadores de impacto de revistas", "detectar plagio en los trabajos académicos"], "e": "Es una plataforma de ciencia abierta que mejora la transparencia y la reproducibilidad."}, {"q": "ORCID es...", "o": ["un identificador único para cada investigador", "un índice de impacto para cada investigador", "un repositorio personal de cada investigador", "un registro de proyectos financiados en la UE"], "e": "Evita confusiones de autoría y vincula toda la producción de una persona."}, {"q": "¿Cuál es un riesgo crítico al usar modelos de lenguaje para buscar bibliografía?", "o": ["Pueden inventar referencias que parecen reales", "Omiten los artículos de revistas en acceso abierto", "Traducen de forma literal los términos MeSH", "Priorizan las revistas con menor factor de impacto"], "e": "Pueden generar autores, títulos y revistas plausibles pero inexistentes."}, {"q": "¿Cómo conviene verificar una cita obtenida con una herramienta de IA?", "o": ["Comprobándola en la base de datos original o por su DOI", "Pidiendo a la misma IA que confirme que la cita existe", "Comparándola con la respuesta de otra herramienta de IA", "Revisando que el formato siga el estilo APA 7 completo"], "e": "Solo la fuente original confirma que la referencia existe; otra IA puede repetir el mismo error."}, {"q": "¿Qué diseño es más aplicable para generar conocimiento con un único deportista?", "o": ["Diseño de caso único con seguimiento longitudinal", "Ensayo controlado aleatorizado y multicéntrico", "Revisión sistemática con metaanálisis de los efectos", "Estudio transversal con muestra representativa"], "e": "Los diseños de caso único permiten conclusiones con registros repetidos de una misma persona."}], [{"q": "¿Qué sistema permite cobrar cuotas mediante domiciliación bancaria en la zona euro?", "o": ["Adeudos directos SEPA", "Transferencias SWIFT", "Terminal punto de venta", "Pagos con código QR"], "e": "La domiciliación SEPA permite cargar las cuotas periódicas en la cuenta del socio."}, {"q": "El reglamento conocido como Veri*factu se refiere a...", "o": ["los requisitos del software de facturación", "la factura electrónica obligatoria entre empresas", "el registro digital de la jornada laboral", "la firma electrónica de contratos mercantiles"], "e": "Desarrolla la Ley Antifraude (RD 1007/2023); la factura electrónica entre empresas es otra obligación distinta."}, {"q": "¿Qué norma obliga al registro de la jornada del personal asalariado?", "o": ["Real Decreto-ley 8/2019", "Ley 39/2022 del Deporte", "Ley Orgánica 3/2018", "Ley 34/2002 (LSSI)"], "e": "El registro horario es obligatorio desde el RDL 8/2019."}, {"q": "¿Qué certificado se exige a quienes trabajan con menores en un club?", "o": ["Negativo de delitos sexuales", "Aptitud médico-deportiva", "Primeros auxilios vigente", "Titulación federativa oficial"], "e": "Lo expide el Registro Central de Delincuentes Sexuales."}, {"q": "Respecto al control de accesos mediante huella o reconocimiento facial...", "o": ["la AEPD lo considera un tratamiento de alto riesgo", "la AEPD lo recomienda como opción segura en gimnasios", "no requiere consentimiento si mejora la seguridad", "queda exento del RGPD al tratarse de un acceso"], "e": "Por eso suelen preferirse alternativas no biométricas como tarjetas RFID o códigos QR."}, {"q": "Un CRM se utiliza principalmente para...", "o": ["gestionar la relación con clientes y patrocinadores", "controlar el inventario del material deportivo del club", "planificar el mantenimiento preventivo de las instalaciones", "calcular las nóminas del personal técnico y administrativo"], "e": "Permite el seguimiento de clientes potenciales, renovaciones y patrocinadores."}, {"q": "¿Qué regula la LSSI (Ley 34/2002) en la web de un club?", "o": ["Cookies, aviso legal y comunicaciones comerciales", "Contratos laborales del personal de la entidad", "Licencias federativas y seguros deportivos", "Obligaciones fiscales de la facturación"], "e": "Afecta al aviso legal, las cookies y el consentimiento para enviar publicidad por correo."}, {"q": "Si un club usa un chatbot de IA para atender al público, debe...", "o": ["informar de que se interactúa con un sistema de IA", "registrar el chatbot ante la agencia de datos", "garantizar que cada respuesta la revisa una persona", "limitar su uso a horarios sin atención presencial"], "e": "El Reglamento Europeo de IA exige esa transparencia."}, {"q": "Los modelos de predicción de bajas (churn) sirven para...", "o": ["detectar socios con riesgo de abandonar la entidad", "estimar el riesgo de lesión de los deportistas del club", "prever la demanda de reservas de las pistas", "calcular las cuotas impagadas al final del mes"], "e": "Analizan la asistencia y el uso para activar acciones de fidelización."}, {"q": "En la reserva de pistas, los precios dinámicos consisten en...", "o": ["ajustar el precio de la reserva según la demanda", "aplicar descuentos fijos a los socios más antiguos", "actualizar las cuotas según el índice de precios", "cobrar el precio según el uso real registrado"], "e": "El precio sube en horas de alta demanda y baja en las de poca ocupación."}, {"q": "Herramientas como Zapier o Make se emplean para...", "o": ["automatizar tareas conectando entre sí distintas aplicaciones", "diseñar contenidos gráficos originales para las redes sociales", "analizar el tráfico y la conversión de la web", "gestionar la contabilidad y la facturación del club"], "e": "Por ejemplo: formulario de inscripción → CRM → correo de bienvenida → factura."}, {"q": "¿Qué criterio evita introducir el mismo dato varias veces en programas distintos?", "o": ["La integración entre herramientas", "La facilidad de uso del software", "El soporte técnico en español", "El coste total de las licencias"], "e": "Si los programas intercambian datos, cada dato se introduce una sola vez."}, {"q": "En la elección de software, el criterio de propiedad de los datos exige que...", "o": ["los datos se puedan exportar al cambiar de proveedor", "los datos se alojen en servidores del propio club", "los datos se eliminen al terminar el contrato", "los datos se compartan con la federación deportiva autonómica"], "e": "Así la entidad no queda atrapada en una plataforma concreta."}, {"q": "El proveedor de software que trata los datos de los socios por cuenta del club actúa como...", "o": ["Encargado del tratamiento", "Responsable del tratamiento", "Delegado de protección de datos", "Titular de los datos personales"], "e": "El club es el responsable; el proveedor, encargado, y su relación debe regularse por contrato."}, {"q": "¿Qué utilidad comercial ofrecen las cámaras automáticas con IA?", "o": ["Generar vídeos para la comunicación del club", "Controlar el aforo de las instalaciones", "Verificar la identidad de los abonados", "Registrar el consumo energético del pabellón"], "e": "Además de su uso técnico, producen vídeo para redes, patrocinadores y familias."}, {"q": "El certificado digital de la FNMT permite a una entidad...", "o": ["realizar trámites con las administraciones públicas", "cifrar las fichas digitales de los socios", "firmar contratos en papel con validez notarial", "homologar el software de facturación propio"], "e": "Se usa ante Hacienda, Seguridad Social, federaciones y convocatorias de subvenciones."}, {"q": "¿Qué tecnología contribuye a la eficiencia energética de una instalación?", "o": ["Gestión de edificios con sensores", "Pasarelas de pago con cobro recurrente", "Reservas con precios dinámicos", "Mensajería con listas de difusión"], "e": "Controla iluminación, climatización y consumos a partir de datos de sensores."}, {"q": "¿Cuál de estas prácticas supone un riesgo legal al usar IA generativa en un club?", "o": ["Introducir datos de socios sin garantías de tratamiento", "Usarla para redactar borradores de proyectos de subvenciones", "Pedirle que traduzca comunicados del castellano al gallego", "Emplearla para generar ideas de publicaciones en redes"], "e": "Los datos personales no deben introducirse sin garantías; el resto son usos adecuados con revisión."}, {"q": "¿Cuál es la ley estatal del deporte vigente en España?", "o": ["Ley 39/2022", "Ley 10/1990", "Ley 3/2018", "Ley 11/2021"], "e": "La Ley 39/2022 sustituyó a la Ley 10/1990."}, {"q": "Para un club pequeño con pocos recursos, la opción más razonable suele ser...", "o": ["herramientas asequibles bien integradas entre sí", "una plataforma profesional usada en la élite", "un programa distinto para cada área de gestión", "un desarrollo de software a medida desde cero"], "e": "Digitalizar no es acumular aplicaciones: importa conectar procesos con un coste sostenible."}], [{"q": "¿Qué método es la referencia de laboratorio para la composición corporal?", "o": ["DXA", "BIA", "NIRS", "sEMG"], "e": "La absorciometría dual de rayos X es la referencia, aunque tiene coste alto y usa radiación."}, {"q": "¿Cuál es la principal limitación de la bioimpedancia (BIA)?", "o": ["Es muy sensible al estado de hidratación", "Expone a la persona a radiación ionizante", "Requiere un evaluador con acreditación ISAK", "Necesita un ecógrafo de alta resolución"], "e": "Por eso exige un protocolo estandarizado de hidratación, comida y ejercicio previo."}, {"q": "¿Qué equipo determina el VO₂máx y los umbrales ventilatorios?", "o": ["Analizador de gases", "Analizador de lactato", "Plataforma de fuerza", "Pulsioxímetro de dedo"], "e": "La ergoespirometría con analizador de gases es la referencia de laboratorio."}, {"q": "La espectroscopía de infrarrojo cercano (NIRS) mide...", "o": ["la saturación muscular de oxígeno", "la concentración de lactato en sangre", "la activación eléctrica del músculo", "el grosor de la capa de grasa"], "e": "Estima la oxigenación del músculo durante el ejercicio."}, {"q": "Un encoder lineal permite...", "o": ["estimar el 1RM mediante la velocidad", "medir la fuerza isométrica de prensión", "registrar la actividad eléctrica muscular", "valorar el equilibrio en apoyo monopodal"], "e": "El perfil carga-velocidad estima el 1RM sin llegar a la carga máxima."}, {"q": "¿Qué método es la referencia para evaluar la fuerza por grupo muscular y la simetría?", "o": ["Dinamometría isocinética", "Dinamometría de prensión", "Electromiografía de superficie", "Plataforma de presiones plantares"], "e": "Controla la velocidad angular del movimiento y aísla cada grupo muscular."}, {"q": "¿Qué cuestionario se emplea para el cribado previo al ejercicio?", "o": ["PAR-Q+", "IPAQ", "KOOS", "Hooper"], "e": "IPAQ mide el nivel de actividad física, KOOS valora la rodilla y el índice de Hooper el bienestar."}, {"q": "Respecto al registro del sueño con wearables, es correcto afirmar que...", "o": ["son útiles para tendencias pero menos precisos que la polisomnografía", "igualan la precisión de la polisomnografía en deportistas sanos", "resultan válidos para diagnosticar trastornos del sueño en deportistas", "estiman las fases del sueño a partir de la actividad cerebral"], "e": "La polisomnografía sigue siendo la referencia; el wearable orienta sobre tendencias."}, {"q": "En el entrenamiento basado en la velocidad, la pérdida de velocidad dentro de la serie indica...", "o": ["aumento de la fatiga", "mejora de la técnica", "aumento de la potencia", "adaptación al estímulo"], "e": "Cuanto mayor es la pérdida de velocidad, mayor es la fatiga generada en la serie."}, {"q": "¿Cómo se calcula la monotonía del entrenamiento según Foster?", "o": ["Carga media semanal dividida entre su desviación típica", "Carga semanal total multiplicada por su monotonía diaria", "Carga aguda dividida entre la carga crónica", "Carga diaria multiplicada por la duración total"], "e": "La segunda opción describe la tensión (strain) y la tercera el ACWR."}, {"q": "¿Cómo conviene interpretar la ratio de carga aguda:crónica (ACWR)?", "o": ["Como indicador descriptivo, no como predictor de lesiones", "Como predictor ya validado del riesgo individual de lesión", "Como medida directa de la fatiga neuromuscular aguda", "Como cociente entre la carga interna y la carga externa"], "e": "Tiene críticas metodológicas y no predice lesiones de forma fiable."}, {"q": "El salto con contramovimiento (CMJ) se utiliza en el control del entrenamiento para...", "o": ["monitorizar la fatiga neuromuscular", "estimar el consumo máximo de oxígeno", "evaluar la movilidad de la cadera", "medir la composición corporal"], "e": "Es un test rápido que refleja el estado neuromuscular."}, {"q": "En readaptación, el índice de simetría entre extremidades (LSI) sirve para...", "o": ["comparar el rendimiento entre ambas extremidades", "estimar la fuerza máxima relativa al peso corporal", "cuantificar el dolor percibido tras el ejercicio", "medir la estabilidad en apoyo sobre ambos pies"], "e": "Es uno de los criterios de progresión y retorno a la práctica."}, {"q": "¿Qué son los PROMs en readaptación?", "o": ["Resultados informados por el propio paciente", "Protocolos de retorno a la competición", "Pruebas objetivas de rendimiento en campo", "Registros de lesiones del servicio médico"], "e": "Patient-reported outcome measures: escalas de dolor, función o calidad de vida."}, {"q": "El cuestionario KOOS valora la función de...", "o": ["la rodilla", "el hombro", "el tobillo", "la cadera"], "e": "Knee injury and Osteoarthritis Outcome Score; la cadera tiene su equivalente, el HOOS."}, {"q": "Un software destinado al diagnóstico o tratamiento de lesiones puede considerarse...", "o": ["un producto sanitario según el Reglamento (UE) 2017/745", "una IA prohibida por el Reglamento (UE) 2024/1689", "un tratamiento exento del RGPD por su finalidad clínica", "un equipamiento deportivo homologado por la federación"], "e": "En ese caso necesita el marcado CE correspondiente."}, {"q": "¿Qué dice la evidencia actual sobre la predicción de lesiones con IA?", "o": ["No respalda predicciones fiables a nivel individual", "Muestra aciertos altos en todos los deportes de equipo", "Respalda predicciones fiables si se usa GPS y VFC", "Confirma su fiabilidad al incluir sueño y nutrición"], "e": "Los modelos pueden describir tendencias de grupo, pero no anticipar bien la lesión de una persona."}, {"q": "En un proceso de readaptación, ¿a quién corresponde el diagnóstico clínico de la lesión?", "o": ["Al profesional sanitario", "Al readaptador físico", "Al preparador físico", "Al entrenador principal"], "e": "El profesional del ejercicio evalúa la condición física y trabaja coordinado con el equipo sanitario."}, {"q": "Frente a la captura 3D con marcadores, la estimación de postura sin marcadores es...", "o": ["más accesible pero generalmente menos precisa", "más precisa pero de coste mucho más elevado", "igual de precisa en cualquier tipo de movimiento", "menos accesible pero más fiable en el campo"], "e": "Su precisión varía según el movimiento y las condiciones de grabación."}, {"q": "La variabilidad de la frecuencia cardíaca en reposo se usa principalmente para valorar...", "o": ["el estado de recuperación del deportista", "la capacidad aeróbica máxima del deportista", "el umbral de lactato en el esfuerzo máximo", "el nivel de hidratación antes del ejercicio"], "e": "Refleja la regulación autonómica y se interpreta como tendencia diaria."}], [{"q": "Los datos de eventos (event data) de un partido registran...", "o": ["cada acción con su momento y su posición", "la posición de todos los jugadores cada segundo", "la carga física de cada jugador en el partido", "el resumen estadístico oficial al final del partido"], "e": "La posición continua de todos los jugadores corresponde a los datos de seguimiento (tracking)."}, {"q": "Los datos de seguimiento (tracking data) proporcionan principalmente...", "o": ["la posición de jugadores y balón varias veces por segundo", "el registro manual de cada acción técnica durante el partido", "la frecuencia cardíaca de los jugadores en competición", "los clips de vídeo etiquetados por el analista del club"], "e": "Se obtienen con cámaras en el estadio o con wearables."}, {"q": "¿Qué organismo permite en las Reglas de Juego del fútbol el uso de sistemas electrónicos de seguimiento (EPTS)?", "o": ["IFAB", "UEFA", "FIFPRO", "CONMEBOL"], "e": "El IFAB establece las Reglas de Juego; FIFA dispone además de un programa de calidad para certificar estos sistemas."}, {"q": "El análisis de los periodos de máxima exigencia (peak demands) sirve para...", "o": ["diseñar tareas que reproduzcan los momentos más exigentes", "calcular la carga media de la competición completa", "sustituir el control de la carga interna del partido", "determinar la alineación inicial para el próximo partido oficial"], "e": "Las medias del partido ocultan los tramos más intensos, que son los que hay que preparar."}, {"q": "Los cuatro factores de Dean Oliver en baloncesto son...", "o": ["acierto, pérdidas, rebote ofensivo y tiros libres", "acierto, asistencias, tapones y robos de balón", "posesiones, faltas, rebote defensivo y triples", "pérdidas, faltas, asistencias y tiros libres"], "e": "Resumen los aspectos que más se relacionan con ganar posesiones y convertirlas en puntos."}, {"q": "El indicador de goles esperados (xG) estima...", "o": ["la probabilidad de que un tiro acabe en gol", "el número de ocasiones claras de un equipo", "la proporción de tiros entre los tres palos", "la diferencia entre goles marcados y encajados"], "e": "Valora cada tiro según sus características (distancia, ángulo, tipo de asistencia…)."}, {"q": "Expresar los datos por posesión o por minuto permite...", "o": ["comparar contextos con distinto número de acciones", "eliminar el efecto del rival sobre el rendimiento", "aumentar la fiabilidad de los datos de tracking", "reducir el tiempo de codificación del analista"], "e": "Es la normalización: un partido con más posesiones no se compara en bruto con otro con menos."}, {"q": "En remo, la curva de fuerza de cada palada en competición se obtiene con...", "o": ["sensores de fuerza en el remo o la chumacera", "medidores de velocidad y frecuencia de palada", "datos GPS publicados por la organización de la regata", "cámaras de alta velocidad en la línea de meta"], "e": "Sistemas como Peach PowerLine o NK Empower instrumentan el remo o la chumacera."}, {"q": "¿Qué dispositivo registra directamente la potencia mecánica de un ciclista en competición?", "o": ["Potenciómetro", "Anemómetro", "Acelerómetro", "Pulsioxímetro"], "e": "Mide la potencia en vatios en bielas, pedales o buje."}, {"q": "En pruebas de tiempo, el análisis del pacing estudia...", "o": ["la distribución del esfuerzo a lo largo de la prueba", "el ritmo medio que se necesita para batir un récord", "la frecuencia de ciclo en la fase final de la prueba", "el tiempo de reacción del deportista en la salida"], "e": "Se analiza con los parciales y el cronometraje electrónico."}, {"q": "¿Qué función principal cumple un software como Hudl Sportscode o Nacsport?", "o": ["Etiquetar acciones en vídeo y generar clips", "Registrar la posición GPS de cada jugador", "Calcular la carga interna tras el partido", "Emitir la estadística oficial del encuentro"], "e": "Son programas de videoanálisis y codificación de acciones."}, {"q": "Las cámaras automáticas con IA, como Veo o Pixellot, permiten...", "o": ["grabar el partido siguiendo el juego sin operador", "arbitrar el fuera de juego en tiempo real", "medir a distancia la frecuencia cardíaca del jugador", "elaborar la estadística oficial de la liga en directo"], "e": "Siguen el juego de forma automática y ofrecen una vista táctica completa."}, {"q": "La valoración +/- de un jugador de baloncesto expresa...", "o": ["la diferencia en el marcador con él en pista", "la diferencia entre puntos anotados y fallados", "la diferencia entre acciones positivas y negativas", "la diferencia de su valoración respecto a su media"], "e": "Suma lo que el equipo gana o pierde en el marcador mientras el jugador está en pista."}, {"q": "¿Quién determina qué dispositivos pueden usarse en el banquillo durante un partido?", "o": ["El reglamento de cada deporte y competición", "El cuerpo técnico de cada equipo participante", "La normativa estatal de protección de datos", "El fabricante del dispositivo que se utiliza"], "e": "Hay que comprobarlo antes de usar datos o vídeo en directo."}, {"q": "¿Qué tarea corresponde a la fase posterior a la competición?", "o": ["Registrar la RPE del partido y valorar la recuperación", "Preparar el plan de partido a partir del scouting", "Seleccionar los indicadores clave que usará el banquillo", "Definir los objetivos individuales de la prueba"], "e": "El resto son tareas de preparación o de la propia competición."}, {"q": "¿Qué afirmación describe mejor los modelos de IA aplicados al rendimiento en competición?", "o": ["Aportan probabilidades que exigen interpretación", "Sustituyen el análisis del cuerpo técnico", "Garantizan predicciones exactas en categorías de base", "Eliminan la necesidad de codificar partidos"], "e": "Dan probabilidades, no certezas; la interpretación sigue siendo del cuerpo técnico."}, {"q": "El seguimiento de jugadores a partir del vídeo de retransmisión es...", "o": ["menos preciso que los sistemas instalados en el estadio", "más preciso que los sistemas instalados en el estadio", "igual de preciso que los sistemas basados en GPS", "exclusivo de los deportes individuales de raqueta"], "e": "Evita instalar cámaras dedicadas, pero con menor precisión."}, {"q": "¿Qué información es más útil para la detección de talentos?", "o": ["Curvas de progresión y comparación con referencias", "Datos de tracking de un único partido de élite", "Estimación de la postura en un gesto aislado", "Registro de la RPE en las sesiones de verano"], "e": "El análisis longitudinal muestra la evolución, no una foto aislada."}, {"q": "¿Qué aspecto limita el uso y la difusión del vídeo de una competición?", "o": ["Los derechos audiovisuales de la competición", "La frecuencia de grabación de las cámaras", "El formato de archivo del vídeo grabado", "La resolución máxima de la retransmisión"], "e": "Junto con los derechos de imagen de los deportistas, especialmente si son menores."}, {"q": "Según el criterio de tiempo de respuesta, un informe de rendimiento es útil cuando...", "o": ["llega a tiempo de influir en la siguiente decisión", "incluye el mayor número posible de variables", "se elabora con el software que usa la élite", "se entrega impreso y encuadernado a toda la plantilla"], "e": "Un informe excelente que llega tarde no cambia nada."}], [{"q": "¿En qué año aprobó el IFAB la tecnología de línea de gol?", "o": ["2012", "2006", "2018", "2022"], "e": "Se usó por primera vez en un Mundial en Brasil 2014."}, {"q": "¿En qué año incorporó el IFAB el VAR a las Reglas de Juego?", "o": ["2018", "2012", "2014", "2022"], "e": "Ese mismo año se utilizó en el Mundial de Rusia."}, {"q": "¿En qué situaciones puede intervenir el VAR en fútbol?", "o": ["Gol, penalti, roja directa y confusión de identidad", "Gol, córner, fuera de banda y tarjeta amarilla", "Penalti, falta directa, amarilla y saque de meta", "Gol, saque inicial, córner y confusión de identidad"], "e": "Solo en esas cuatro situaciones que pueden cambiar el partido."}, {"q": "¿Qué criterio justifica la intervención del VAR?", "o": ["Error claro y manifiesto", "Duda razonable del árbitro", "Petición del entrenador", "Protesta del capitán"], "e": "O un incidente grave que el árbitro no haya visto."}, {"q": "El fuera de juego semiautomático de Qatar 2022 combinaba...", "o": ["cámaras de seguimiento y un sensor en el balón", "chips en las botas y receptores GPS en jugadores", "sensores en los banderines y en la red de la portería", "un radar en la línea y las cámaras de televisión"], "e": "Las cámaras siguen varios puntos del cuerpo y el sensor del balón detecta el momento del pase."}, {"q": "¿Desde qué año existe el sistema de challenge con Hawk-Eye en el tenis?", "o": ["2006", "1998", "2012", "2018"], "e": "El jugador puede pedir la revisión de una decisión de línea."}, {"q": "Desde 2025, en el circuito ATP, el cantado electrónico de líneas...", "o": ["sustituye a los jueces de línea en todos los torneos", "complementa a los jueces de línea en los torneos", "se limita a las finales de los torneos del circuito", "se aplica en las pistas de tierra batida del circuito"], "e": "La ATP lo generalizó en 2025, y Wimbledon lo adoptó ese mismo año."}, {"q": "En rugby, el TMO es...", "o": ["un árbitro de vídeo que revisa ensayos y juego sucio", "un juez de línea que controla los fueras de juego", "un oficial médico que mide los impactos en la cabeza", "un árbitro auxiliar que cronometra el tiempo de juego"], "e": "Television Match Official."}, {"q": "Los protectores bucales instrumentados en rugby sirven para...", "o": ["detectar impactos en la cabeza", "medir la frecuencia respiratoria", "registrar la fuerza del placaje", "controlar la hidratación del jugador"], "e": "Activan el protocolo de evaluación de una posible conmoción."}, {"q": "Los petos electrónicos (PSS) del taekwondo...", "o": ["puntúan los golpes válidos que superan una intensidad mínima", "detectan la distancia entre los dos competidores en cada acción", "miden la velocidad de la patada con una cámara externa", "cuentan los golpes recibidos sin considerar su intensidad"], "e": "Se complementan con la revisión de vídeo solicitada por el entrenador."}, {"q": "En atletismo, una salida se considera nula si el tiempo de reacción es inferior a...", "o": ["0,100 s", "0,150 s", "0,050 s", "0,200 s"], "e": "Lo detectan los sensores de presión de los tacos."}, {"q": "¿Cuál es el viento máximo a favor para que una marca sea válida como récord en atletismo?", "o": ["2,0 m/s", "1,5 m/s", "2,5 m/s", "3,0 m/s"], "e": "Se mide con anemómetro en velocidad, vallas y saltos horizontales."}, {"q": "¿Qué tecnología detecta en natación un relevo adelantado?", "o": ["Plataformas de salida con sensores", "Placas de contacto en la pared", "Cámaras subacuáticas de llegada", "Transpondedores en el bañador"], "e": "Comparan el momento en que el relevista abandona la plataforma con la llegada del compañero."}, {"q": "El sistema de apoyo a los jueces de gimnasia desarrollado con Fujitsu utiliza...", "o": ["sensores 3D e IA que reconstruyen el ejercicio", "plataformas de fuerza bajo cada uno de los aparatos", "cámaras de alta velocidad con cronometraje integrado", "acelerómetros colocados sobre el cuerpo del gimnasta"], "e": "Ayuda a identificar los elementos ejecutados, sobre todo en revisiones."}, {"q": "¿Qué controles aplica la UCI para detectar motores ocultos?", "o": ["Escáneres magnéticos, cámaras térmicas y rayos X", "Pesaje de bicicletas y precintos en las ruedas", "Análisis de la potencia y cadencia de pedaleo", "Revisión de vídeo y sensores de velocidad"], "e": "Se aplican en carrera y en los controles técnicos de las bicicletas."}, {"q": "¿En qué tipo de decisiones arbitrales son más fiables la tecnología y la IA?", "o": ["En las objetivas de tipo geométrico", "En las que valoran la intencionalidad", "En las que valoran la fuerza excesiva", "En las que valoran conceder ventaja"], "e": "Posición, línea y tiempo; la interpretación del reglamento sigue exigiendo juicio humano."}, {"q": "ADAMS es...", "o": ["la plataforma de la AMA para controles y localización", "el pasaporte biológico que sigue valores sanguíneos", "un sistema de vigilancia de apuestas deportivas", "un registro oficial de homologaciones de material deportivo"], "e": "Gestiona controles antidopaje y la localización (whereabouts) de deportistas."}, {"q": "El pasaporte biológico del deportista...", "o": ["detecta alteraciones biológicas a lo largo del tiempo", "identifica la sustancia exacta consumida en cada control", "registra la localización diaria de cada deportista", "certifica la aptitud médica para competir en la temporada"], "e": "Compara los valores de la persona consigo misma, sin necesidad de encontrar la sustancia."}, {"q": "¿Quién debe autorizar una nueva tecnología arbitral?", "o": ["El organismo que regula las reglas del deporte", "El comité olímpico de cada país participante", "La agencia estatal de protección de datos", "La asociación de árbitros de la competición"], "e": "IFAB en fútbol, FIBA en baloncesto, World Rugby, World Athletics, etc."}, {"q": "La crítica de la «falsa sensación de objetividad» se basa en que...", "o": ["los sistemas también tienen margen de error e interpretación", "los árbitros rechazan las decisiones tomadas con vídeo", "los aficionados no entienden bien las repeticiones en directo", "las federaciones no publican los datos de sus sistemas"], "e": "Calibración, ángulo de cámara o frecuencia de registro también introducen error."}], [{"q": "¿Qué condición debe cumplir un método para entrar en la Lista de Prohibiciones de la AMA?", "o": ["Cumplir dos de tres criterios: rendimiento, salud y espíritu", "Cumplir los tres criterios: rendimiento, salud y espíritu", "Cumplir un criterio: que mejore el rendimiento deportivo", "Cumplir dos criterios: mejorar el rendimiento y ser artificial"], "e": "Mejora del rendimiento, riesgo para la salud y vulneración del espíritu del deporte: bastan dos."}, {"q": "¿Desde cuándo prohibió la FINA los bañadores no textiles?", "o": ["1 de enero de 2010", "1 de enero de 2009", "Juegos de Londres 2012", "Juegos de Pekín 2008"], "e": "Tras la avalancha de récords de 2008 y 2009."}, {"q": "¿Cuántos récords del mundo se batieron en el Mundial de natación de Roma 2009?", "o": ["43", "18", "27", "61"], "e": "Fue el punto culminante de la era de los bañadores de poliuretano."}, {"q": "En carreras en ruta, World Athletics limita desde 2020 el grosor de la suela a...", "o": ["40 mm", "30 mm", "50 mm", "20 mm"], "e": "Además permite una sola placa rígida y exige que el modelo esté disponible en el mercado."}, {"q": "¿Por qué se rediseñó la jabalina masculina en 1986?", "o": ["Por seguridad tras superarse los 100 metros", "Para igualar marcas masculinas y femeninas", "Para reducir el coste de fabricación", "Para facilitar la medición electrónica"], "e": "Uwe Hohn había lanzado 104,80 m en 1984; se adelantó el centro de gravedad."}, {"q": "¿En qué año prohibió la federación internacional de remo el rigger deslizante?", "o": ["1983", "1976", "1992", "2000"], "e": "Se había extendido a principios de los años 80."}, {"q": "En el año 2000, respecto al récord de la hora, la UCI...", "o": ["separó el récord con bicicleta tradicional del mejor esfuerzo humano", "prohibió de forma definitiva cualquier intento del récord de la hora", "autorizó el uso de bicicletas carenadas en el récord de la hora", "unificó todas las marcas anteriores bajo un único récord oficial"], "e": "La unificación de normas llegó más tarde, en 2014."}, {"q": "En el Mundial de ciclocrós de 2016 se descubrió un caso de...", "o": ["motor oculto en la bicicleta", "potenciómetro con lectura alterada", "bicicleta por debajo del peso", "chip de cronometraje alterado"], "e": "La ciclista belga Femke Van den Driessche fue sancionada con seis años."}, {"q": "¿Qué hizo el pentatleta Boris Onishchenko en Montreal 1976?", "o": ["Manipular su espada para registrar tocados falsos", "Usar un peto que anulaba los tocados del rival", "Alterar el cronómetro del combate de esgrima", "Emplear una careta con comunicación por radio"], "e": "Fue descalificado."}, {"q": "El debate sobre los petos electrónicos del taekwondo se relaciona con...", "o": ["adaptar la técnica para puntuar con golpes rápidos", "manipular los sensores para anular los golpes rivales", "usar calcetines sin sensores para no ser puntuado", "engrosar el peto para absorber mejor los impactos"], "e": "Los competidores ajustaron su técnica al sensor, en detrimento de la esencia del combate."}, {"q": "¿En qué consistió el caso de los Houston Astros (2017)?", "o": ["Usar cámaras para descifrar las señas del rival", "Colocar sensores en los bates para mejorar el golpeo", "Utilizar drones para espiar los entrenamientos rivales", "Emplear datos de apuestas para alterar resultados"], "e": "La MLB lo sancionó en 2020."}, {"q": "¿Qué hizo la selección femenina de fútbol de Canadá en París 2024?", "o": ["Usar un dron para espiar un entrenamiento rival", "Colocar cámaras ocultas en el vestuario rival", "Acceder a los datos GPS del equipo contrario", "Manipular el balón oficial antes del partido"], "e": "La FIFA le restó seis puntos y sancionó a la seleccionadora con un año."}, {"q": "¿Por qué perdió Cameron Jeffers su título británico de ciclismo virtual en 2019?", "o": ["Usó un programa automatizado para desbloquear una bicicleta", "Declaró un peso inferior al real en la plataforma", "Manipuló el rodillo inteligente para aumentar la potencia registrada", "Compitió usando la cuenta de otro ciclista del club"], "e": "Un bot acumuló experiencia en la plataforma para obtener una bicicleta virtual mejor."}, {"q": "En 2006, ante las cámaras y tiendas de hipoxia, la AMA...", "o": ["decidió no incluirlas en la Lista de Prohibiciones", "las incluyó como método prohibido en competición", "las prohibió para los deportistas menores de edad", "las restringió a centros de alto rendimiento"], "e": "Siguen siendo legales; es un ejemplo de frontera difusa entre entrenamiento y dopaje."}, {"q": "¿Cuál es la situación del dopaje genético y celular?", "o": ["Está prohibido expresamente por la AMA", "Está en estudio sin decisión de la AMA", "Está permitido fuera de la competición", "Está permitido con fines de investigación"], "e": "Figura en la Lista de Prohibiciones de la AMA."}, {"q": "La ortosomnia se define como...", "o": ["una preocupación excesiva por los datos de sueño del dispositivo", "un trastorno del sueño causado por la luz de pantallas", "una alteración del ritmo circadiano por viajes de larga distancia", "una somnolencia diurna por exceso de carga de entrenamiento"], "e": "La obsesión por dormir bien según el dispositivo puede empeorar el propio sueño."}, {"q": "¿Qué estrategia ayuda a prevenir la sobredependencia tecnológica?", "o": ["Combinar los datos con la percepción subjetiva del esfuerzo", "Aumentar la cantidad de métricas registradas por sesión", "Sustituir la RPE por los índices de preparación del reloj", "Registrar todas las sesiones para no perder ninguna información"], "e": "Educar la autorregulación evita que el deportista dependa del dispositivo."}, {"q": "¿Por qué no se homologó como récord la maratón de Kipchoge en Viena (2019)?", "o": ["Contó con liebres rotatorias y un coche guía", "El recorrido superaba el desnivel máximo permitido", "No se realizó control antidopaje tras la prueba", "El cronometraje fue manual y sin chip electrónico"], "e": "Eran condiciones fuera del reglamento de competición."}, {"q": "¿Qué hizo el grupo Fancy Bears en 2016?", "o": ["Robó y publicó autorizaciones de uso terapéutico", "Manipuló los resultados de controles antidopaje", "Alteró los datos de localización de deportistas", "Inutilizó los servidores informáticos de la AMA"], "e": "Accedió a la base de datos ADAMS y difundió datos de salud de deportistas."}, {"q": "¿Cuál de estas innovaciones fue aceptada e integrada en el reglamento?", "o": ["La pértiga de fibra", "El bañador de poliuretano", "El rigger deslizante", "El cordaje de doble capa"], "e": "Las otras tres se prohibieron por considerarse una ventaja injusta o ajena a la esencia del deporte."}]];
+const STORE = "tecnocafd-mejores";
+let best = {};
+try { best = JSON.parse(localStorage.getItem(STORE) || "{}") || {}; } catch (e) { best = {}; }
+function saveBest(){ try { localStorage.setItem(STORE, JSON.stringify(best)); } catch (e) {} }
+
+const sections = [...document.querySelectorAll("section.tema")];
+const indexEl = document.getElementById("index");
+const state = {}; // t -> {order:[...], done:false}
+
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+
+function scoreLabel(t){ return best[t]!=null ? best[t]+"/20" : "—/20"; }
+
+sections.forEach(sec=>{
+  const t = sec.dataset.t;
+  // índice
+  const li = document.createElement("li");
+  const noquiz = !!sec.dataset.noquiz;
+  li.innerHTML = `<button type="button" id="nav-${t}"><span class="n">${t}</span><span>${sec.dataset.title}</span><span class="sc" id="sc-${t}">${noquiz ? "" : scoreLabel(t)}</span></button>`;
+  li.querySelector("button").addEventListener("click",()=>show(t,"c",true));
+  indexEl.appendChild(li);
+  const content = sec.querySelector(".content");
+  content.id = `t${t}-c`;
+  // descarga en PDF
+  const pdfBar = document.createElement("div");
+  pdfBar.className = "pdf-bar";
+  pdfBar.innerHTML = `<button type="button" class="btn pdf" title="Guarda este tema como PDF desde el diálogo de impresión"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Descargar PDF</button>`;
+  pdfBar.querySelector("button").addEventListener("click",()=>downloadPdf(t));
+  sec.querySelector(".tema-head").after(pdfBar);
+  if(noquiz) return;
+  // pestañas
+  const tabs = document.createElement("div");
+  tabs.className = "tabs"; tabs.setAttribute("role","tablist");
+  tabs.innerHTML = `<button type="button" role="tab" id="tab-${t}-c" aria-controls="t${t}-c">Contenido</button><button type="button" role="tab" id="tab-${t}-q" aria-controls="t${t}-q">Autoevaluación<span class="count">20 preguntas</span></button>`;
+  sec.querySelector(".tema-head").after(tabs);
+  const quiz = document.createElement("div");
+  quiz.className = "quiz"; quiz.id = `t${t}-q`;
+  sec.appendChild(quiz);
+  tabs.children[0].addEventListener("click",()=>show(t,"c",false));
+  tabs.children[1].addEventListener("click",()=>show(t,"q",false));
+  buildQuiz(t);
+});
+
+function buildQuiz(t){
+  const quiz = document.getElementById(`t${t}-q`);
+  const data = QUESTIONS[t-1];
+  state[t] = { done:false, keys:[] };
+  let html = `<p class="quiz-intro">Elige una respuesta en cada pregunta y pulsa <strong>Corregir</strong>. Las preguntas sin responder cuentan como fallos. En cada intento cambia el orden de las opciones.</p><div class="result" id="res-${t}" hidden></div>`;
+  data.forEach((item,qi)=>{
+    const order = shuffle([0,1,2,3]);
+    const tokens = order.map(()=>Math.random().toString(36).slice(2,8));
+    state[t].keys[qi] = tokens[order.indexOf(0)];
+    html += `<fieldset class="q" id="q-${t}-${qi}"><legend><span class="qt"><span class="qn">${String(qi+1).padStart(2,"0")}</span><span>${item.q}</span></span></legend><div class="opts">`;
+    order.forEach((oi,pos)=>{
+      const id = `r-${t}-${qi}-${pos}`;
+      html += `<label class="opt" for="${id}" data-k="${tokens[pos]}"><input type="radio" id="${id}" name="p-${t}-${qi}" value="${tokens[pos]}"><span>${item.o[oi]}</span><span class="tag"></span></label>`;
+    });
+    html += `</div><p class="expl" hidden></p></fieldset>`;
+  });
+  html += `<div class="quiz-bar"><span class="prog" id="prog-${t}">Respondidas 0/20</span><button type="button" class="btn primary" id="check-${t}">Corregir</button><button type="button" class="btn ghost" id="retry-${t}" hidden>Nuevo intento</button></div>`;
+  quiz.innerHTML = html;
+  quiz.addEventListener("change",()=>updateProgress(t));
+  document.getElementById(`check-${t}`).addEventListener("click",()=>check(t));
+  document.getElementById(`retry-${t}`).addEventListener("click",()=>{ buildQuiz(t); show(t,"q",true); });
+}
+
+function updateProgress(t){
+  const n = document.querySelectorAll(`#t${t}-q input:checked`).length;
+  document.getElementById(`prog-${t}`).textContent = `Respondidas ${n}/20`;
+}
+
+function check(t){
+  if(state[t].done) return;
+  state[t].done = true;
+  const data = QUESTIONS[t-1];
+  let hits = 0;
+  data.forEach((item,qi)=>{
+    const fs = document.getElementById(`q-${t}-${qi}`);
+    const chosen = fs.querySelector("input:checked");
+    const key = state[t].keys[qi];
+    const ok = !!chosen && chosen.value === key;
+    if(ok) hits++;
+    fs.classList.add("done", ok ? "hit" : "miss");
+    fs.querySelectorAll("input").forEach(i=>i.disabled=true);
+    fs.querySelectorAll(".opt").forEach(l=>{
+      if(l.dataset.k===key){ l.classList.add("is-right"); l.querySelector(".tag").textContent="Correcta"; }
+      else if(chosen && l.dataset.k===chosen.value){ l.classList.add("is-wrong"); l.querySelector(".tag").textContent="Tu respuesta"; }
+    });
+    const ex = fs.querySelector(".expl");
+    ex.innerHTML = `<b>${ok ? "Acierto." : (chosen ? "Fallo." : "Sin responder.")}</b> ${item.e}`;
+    ex.hidden = false;
+  });
+  const pct = Math.round(hits/20*100);
+  let msg = hits>=18 ? "Dominas el tema." : hits>=14 ? "Buen nivel. Repasa las preguntas marcadas en rojo." : hits>=10 ? "Aprobado justo. Conviene repasar el contenido del tema." : "Vuelve al contenido del tema antes de repetir la prueba.";
+  const res = document.getElementById(`res-${t}`);
+  res.innerHTML = `<div class="big">${hits}<small>/20</small></div><div><p><strong>${pct} % de aciertos.</strong> ${msg}</p><p style="color:var(--muted)">Mejor resultado en este navegador: ${Math.max(hits, best[t] ?? 0)}/20</p></div>`;
+  res.hidden = false;
+  if(best[t]==null || hits>best[t]){ best[t]=hits; saveBest(); }
+  document.getElementById(`sc-${t}`).textContent = scoreLabel(t);
+  document.getElementById(`check-${t}`).hidden = true;
+  document.getElementById(`retry-${t}`).hidden = false;
+  res.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block:"start"});
+}
+
+function show(t, view, scroll){
+  sections.forEach(sec=>{
+    const on = sec.dataset.t === String(t);
+    sec.hidden = !on;
+    document.getElementById(`nav-${sec.dataset.t}`).setAttribute("aria-current", on ? "true" : "false");
+  });
+  const content = document.getElementById(`t${t}-c`), quiz = document.getElementById(`t${t}-q`);
+  if(!quiz) view = "c";
+  content.hidden = view!=="c";
+  if(quiz){
+    quiz.hidden = view!=="q";
+    document.getElementById(`tab-${t}-c`).setAttribute("aria-selected", view==="c");
+    document.getElementById(`tab-${t}-q`).setAttribute("aria-selected", view==="q");
+  }
+  const h = view==="q" ? `t${t}-test` : `t${t}`;
+  if(location.hash !== "#"+h){ try{ history.replaceState(null,"","#"+h); }catch(e){} }
+  if(scroll){ document.getElementById("main").scrollIntoView({block:"start"}); }
+}
+
+function downloadPdf(t){
+  const sec = sections.find(x=>x.dataset.t===String(t));
+  const quiz = document.getElementById(`t${t}-q`);
+  const prevView = quiz && !quiz.hidden ? "q" : "c";
+  show(t,"c",false);
+  const prevTitle = document.title;
+  document.title = `Tecnología aplicada CAFD - Tema ${t} - ${sec.dataset.title}`;
+  const restore = ()=>{ document.title = prevTitle; if(prevView==="q") show(t,"q",false); window.removeEventListener("afterprint",restore); };
+  window.addEventListener("afterprint",restore);
+  window.print();
+}
+
+(function init(){
+  const m = /^#t([1-9])(-test)?$/.exec(location.hash||"");
+  if(m) show(m[1], m[2] ? "q" : "c", false); else show("1","c",false);
+})();
+</script>
+
+</body></html>
