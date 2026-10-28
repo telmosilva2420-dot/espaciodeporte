@@ -653,6 +653,26 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición -->
+                    <article data-categoria="remo" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="LIT remo.png" alt="Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Remo</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">La LIT, el trabajo por debajo del primer umbral de lactato (&lt;2 mmol·L⁻¹), es el componente estructural del entrenamiento en remo: en remeros júnior de nivel mundial el 95 % del tiempo de remo se realizó a esa intensidad, complementado con pequeñas dosis de alta intensidad.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'lit-remo-competicion','Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-lit-remo-competicion','Entrenamiento-Baja-Intensidad-LIT-Remo')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalLITRemo()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Evidencia sobre la reabsorción de hernia discal en columna lumbar -->
                     <article data-categoria="rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -1919,6 +1939,91 @@
                 <span class="text-slate-500 text-sm">Remo de competición · Biomecánica</span>
                 <button onclick="compartirEntrada(event,'remo','Análisis de los estilos Adams, Rosenberg, DDR y contemporáneo en remo de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición -->
+    <div id="modal-lit-remo-competicion" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalLITRemo()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <!-- Cabecera -->
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Remo · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición</h2>
+                </div>
+                <button onclick="cerrarModalLITRemo()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <!-- Cuerpo -->
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="LIT remo.png" alt="Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición" class="w-full rounded-xl border border-slate-700">
+
+                <h3 class="text-base font-bold text-white pt-2">1. ¿En qué consiste?</h3>
+                <p>En el modelo de tres zonas que se usa en remo, la LIT (low-intensity training) designa todo el trabajo realizado por debajo del primer umbral de lactato (LT₁/VT₁), es decir, con una lactacidemia estable inferior a ≈2 mmol·L⁻¹. Por encima quedan la zona de umbral (2–4 mmol·L⁻¹) y la alta intensidad (≥4 mmol·L⁻¹, por encima del máximo estado estable de lactato) [1]. En términos relativos equivale, en remeros bien entrenados, a ≈60–75 % del VO₂máx [1,2].</p>
+                <p>En la práctica federativa (escala alemana, muy extendida) la LIT engloba dos categorías bien diferenciadas [3]:</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-white">
+                                <th class="py-2 pr-3 font-semibold">Categoría</th>
+                                <th class="py-2 pr-3 font-semibold">FC</th>
+                                <th class="py-2 pr-3 font-semibold">Cadencia</th>
+                                <th class="py-2 pr-3 font-semibold">Lactato</th>
+                                <th class="py-2 font-semibold">Formato típico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800">
+                                <td class="py-2 pr-3 text-white font-medium">Compensación (recuperación)</td>
+                                <td class="py-2 pr-3">&lt;140 lat·min⁻¹</td>
+                                <td class="py-2 pr-3">&lt;20 paladas·min⁻¹</td>
+                                <td class="py-2 pr-3">&lt;2 mmol·L⁻¹</td>
+                                <td class="py-2">15–60 min continuos</td>
+                            </tr>
+                            <tr>
+                                <td class="py-2 pr-3 text-white font-medium">Resistencia extensiva (fondo)</td>
+                                <td class="py-2 pr-3">140–160 lat·min⁻¹</td>
+                                <td class="py-2 pr-3">≤22 paladas·min⁻¹</td>
+                                <td class="py-2 pr-3">&lt;2 mmol·L⁻¹</td>
+                                <td class="py-2">40–120 min (1–3 bloques de 30–60 min)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>El dato clave del remo es que la LIT no es un “complemento”, sino el componente estructural del entrenamiento: programas como el de los remeros alemanes de categoría olímpica describían sesiones de resistencia extensiva de 60–120 min a &lt;2 mmol·L⁻¹ como base dominante del volumen, con solo un 4–10 % del tiempo total remado a intensidades superiores, y prácticamente nada de entrenamiento estrictamente en el umbral (se entrenaba o muy suave o a 6–12 mmol·L⁻¹) [1]. La revisión clásica del seguimiento del remero lo resume igual: la resistencia es “el pilar” del remo, la intensidad intensa por encima del umbral debe ser &lt;10 % del volumen, y la fase preparatoria se cubre hasta en un 90 % con trabajo aeróbico extensivo [4].</p>
+                <p>La cadencia de palada es el principal mecanismo de control de la intensidad en el remo (la fuerza por palada es relativamente estable), de modo que la LIT se “dosifica” sobre todo con frecuencia de palada baja y duración larga [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. ¿Qué pretende? (objetivos y mecanismos)</h3>
+                <p><strong class="text-white">(a) Maximizar la relación señal adaptativa / coste de estrés.</strong> La duración y la intensidad estimulan la expresión génica por vías distintas; la señal de la alta intensidad alcanza un “techo” rápidamente cuando se repite, mientras que aumentar la frecuencia de sesiones a intensidad reducida amplía la señal total (amplitud × frecuencia) para la proliferación mitocondrial. Las adaptaciones periféricas (densidad capilar, volumen mitocondrial, capacidad de utilización fraccional) siguen respondiendo durante meses y son sensibles a grandes volúmenes de LIT [1].</p>
+                <p><strong class="text-white">(b) Preservar el equilibrio autonómico y permitir altos volúmenes y doble sesión.</strong> En remeros olímpicos monitorizados durante 26 semanas, los aumentos de tiempo por debajo de LT₁ se asociaron a incrementos de la variabilidad de la FC (Ln rMSSD) (r ≈ 0,43), mientras que los aumentos por encima de LT₂ se asociaron a descensos (r ≈ −0,22); la recuperación parasimpática es rápida tras esfuerzos de 60 % del VO₂máx de hasta 120 min, pero se retrasa marcadamente cuando se superan ≈3 mmol·L⁻¹ [1,5]. Esto es lo que permite acumular 10–14 sesiones semanales y sesiones dobles [1,3].</p>
+                <p><strong class="text-white">(c) Construir y “blindar” la técnica.</strong> En un gesto de skill como el remo, la LIT permite estabilizar el patrón motor y la eficiencia mientras se recluta una proporción importante de unidades motoras; de ahí la preferencia por entrenar por debajo del VT₁ [2,3].</p>
+                <p><strong class="text-white">(d) Efectos fisiológicos propios, no solo “relleno”.</strong> Un ensayo de 12 semanas en remeros nacionales comparó un programa 98 % LIT frente a uno mixto 70/30: ambos mejoraron 2000 m (≈2,0 % vs 1,4 %) y VO₂pico (+11 % vs +10 %), pero la LIT pura mejoró más la potencia a 2 y 4 mmol·L⁻¹ (+23,5 y +32,3 W vs 5,1 y 13,1 W) [2]. Es decir, la LIT es especialmente potente para desplazar la curva de lactato hacia la derecha (tolerancia y economía).</p>
+                <p><strong class="text-white">(e) No sustituye a la alta intensidad.</strong> La LIT debe combinarse con dosis pequeñas de HIT: en un ensayo de 9 semanas con 4 modelos, el polarizado (68 % bajo, 6 % umbral, 26 % alto) produjo las mayores ganancias de VO₂pico (+11,7 %), tiempo hasta la exhausción (+17,4 %) y potencia pico (+5,1 %), mientras que el alto volumen solo no añadió mejoras en deportistas ya entrenados con volumen [6]; el metaanálisis de ECA confirma un efecto moderado a favor de la distribución polarizada sobre la de umbral en el rendimiento contrarreloj [7].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Características clave</h3>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Dominancia cuantitativa extrema.</strong> No es el 80/20 de otros deportes: en remeros júnior de nivel mundial, el 95 % del tiempo específico de remo durante 37 semanas se realizó a &lt;2 mmol·L⁻¹ (2 % entre 2–4 y 3 % &gt;4 mmol·L⁻¹) [3]; en remeros olímpicos, el 77,3 % del tiempo semanal estuvo por debajo de LT₁, 16,9 % entre umbrales y 5,8 % por encima de LT₂, con ≈17 h 46 min semanales [5]. Incluso en programas de fuerza-resistencia concurrente en remeros, el 87 % de las sesiones de resistencia fueron &lt;2 mmol·L⁻¹ [8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Sesiones largas, continuas y de bajo coste neuromuscular,</strong> complementadas con entrenamiento alternativo y fuerza (en júnior: 52 % remo, 23 % fuerza, 17 % alternativo, 8 % calentamientos) [3,4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cuantificación individual.</strong> Zonas ancladas a umbrales ventilatorios/lactato del test incremental (rampa o escalonado) y control en pista con lactato capilar y FC [2,3,5]. El método de “tiempo en zona” por FC sobreestima la LIT y subestima la HIT; el enfoque “session goal” (asignar la sesión a la zona del bloque principal) concuerda mucho mejor con el lactato y con el RPE de sesión (92 % de acuerdo) [9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Evitar la “zona de acomodación de lactato” (2–4 mmol·L⁻¹):</strong> es la franja que menos se usa en el alto rendimiento (5–8 % de las sesiones) y la que más riesgo de estancamiento y de estrés simpático acumula [1,9,10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Disciplina de intensidad (“keep the easy easy”):</strong> el error más frecuente es la “fuga” hacia intensidades medias; en un estudio controlado, el 60 % de los sujetos no logró mantenerse lo bastante bajo como para cumplir el modelo polarizado [10].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Progresión por volumen antes que por intensidad,</strong> con 2 (excepcionalmente 3) sesiones de alta intensidad por semana como dosis suficiente para estimular adaptaciones sin sobrecarga [1,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Aplicable a ambos sexos,</strong> aunque la evidencia específica en remeras es menor: la serie de remeros olímpicos que sostiene el modelo incluía 4 mujeres y 5 hombres [5], las revisiones prácticas señalan que el modelo es válido para hombres y mujeres de cualquier nivel [10], y las remeras de élite toleran 2 h a 60 % del VO₂máx con alteraciones hormonales e inmunes menores [1]. La individualización debe hacerse con umbrales propios y, en mujeres, considerar el ciclo menstrual y el estado de hierro en la monitorización.</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">4. ¿Cómo se implementa durante el macrociclo?</h3>
+                <h4 class="text-sm font-bold text-white pt-1">4.1 Estructura general del año del remero</h4>
+                <p>El año se organiza en transición, preparación general (desde octubre), preparación específica, periodo competitivo (marzo–septiembre, con el Campeonato del Mundo como objetivo) y afinamiento; la resistencia aeróbica sigue siendo la base (≈70 % del entrenamiento) incluso en competición, donde el trabajo aeróbico-anaeróbico (4–8 mmol·L⁻¹) ocupa ≈25 % y el anaeróbico puro el resto [4]. Con la edad y la experiencia, el porcentaje de entrenamiento específico debe crecer (≈52–55 % a los 18 años, hasta ≈65 % en el adulto), y el volumen anual de los medallistas internacionales se sitúa en 1100–1200 h [4].</p>
+            </div>
+            <!-- Pie -->
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Remo de competición · Fisiología del entrenamiento</span>
+                <button onclick="compartirEntrada(event,'lit-remo-competicion','Entrenamiento de baja intensidad (LIT) en remeros y remeras de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalLITRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -5382,6 +5487,17 @@
         }
         function cerrarModalRemo() {
             document.getElementById('modal-remo').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalLITRemo() {
+            const modal = document.getElementById('modal-lit-remo-competicion');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalLITRemo() {
+            document.getElementById('modal-lit-remo-competicion').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
