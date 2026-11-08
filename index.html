@@ -653,6 +653,46 @@
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
 
+                    <!-- Entrada: Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención -->
+                    <article data-categoria="remo rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Lesiones remo competición.png" alt="Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Remo · Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">El remo no es un deporte «libre de lesiones»: ≈3,7 lesiones por 1000 h en remeros internacionales, con predominio de la columna lumbar. El volumen de ergómetro (sesiones &gt;30 min) y la lesión lumbar previa son los predictores más consistentes; técnica, gestión de la carga y acondicionamiento son los ejes de la prevención.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'lesiones-remo-competicion','Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-lesiones-remo-competicion','Lesiones-Remo-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalLesionesRemo()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Entrada: Demandas físicas y fisiológicas en baloncesto de competición -->
+                    <article data-categoria="baloncesto rendimiento-fisico" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <video src="Demandas baloncesto.mp4" aria-label="Demandas físicas y fisiológicas en baloncesto de competición" class="w-full h-full object-cover object-center" autoplay muted loop playsinline preload="metadata"></video>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Baloncesto · Rendimiento físico</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Demandas físicas y fisiológicas en baloncesto de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">El baloncesto de élite es un deporte intermitente de alta intensidad: ≈83 m·min⁻¹, un cambio de acción cada 2 s, FC media cercana al 90 % de la FCmáx y lactato de 3–7 mmol·L⁻¹. Análisis de la carga externa e interna, diferencias por posición y sexo, comparación entrenamiento-competición y fatiga durante el partido.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'demandas-baloncesto-competicion','Demandas físicas y fisiológicas en baloncesto de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-demandas-baloncesto-competicion','Demandas-Fisicas-Fisiologicas-Baloncesto')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalDemandasBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
                     <!-- Entrada: Evidencia científica sobre el «entrenamiento invisible» en remo de competición -->
                     <article data-categoria="remo nutricion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <div class="h-48 overflow-hidden">
@@ -2590,6 +2630,310 @@
                 <span class="text-slate-500 text-sm">Remo de competición · Entrenamiento de fuerza</span>
                 <button onclick="compartirEntrada(event,'fuerza-remo-competicion','Entrenamiento de fuerza en remeros y remeras de competición: síntesis de la evidencia científica actual')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalFuerzaRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención -->
+    <div id="modal-lesiones-remo-competicion" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalLesionesRemo()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Remo · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención</h2>
+                </div>
+                <button onclick="cerrarModalLesionesRemo()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="Lesiones remo competición.png" alt="Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención" class="w-full rounded-xl border border-slate-700">
+
+                <h3 class="text-base font-bold text-white pt-2">1. Magnitud del problema: el remo no es un deporte «libre de lesiones»</h3>
+                <p>El remo se percibe habitualmente como un deporte de bajo impacto, cíclico y sin contacto, pero los datos de vigilancia contradicen esa idea. En una cohorte prospectiva de 12 meses con 20 remeros internacionales (12 hombres y 8 mujeres, seguimiento telefónico mensual) se registró una tasa de 3,67 lesiones por 1000 h de exposición y una media de 2,2 lesiones por deportista y año, con 44 lesiones en total; los autores concluyeron que los remeros internacionales presentan un riesgo superior al de la mayoría de deportes sin contacto y de algunos deportes de contacto [1]. Un estudio retrospectivo portugués con 92 remeros medallistas nacionales encontró, en cambio, una mediana de 1 lesión por deportista a lo largo de toda la vida deportiva (media de ~12 años), con riesgo global de lesión del 67 % en mujeres y del 80 % en hombres y riesgo de recidiva del 61–67 % [2]. Estas diferencias reflejan sobre todo distintos niveles de exposición (remeros olímpicos a tiempo completo frente a remeros de nivel nacional), distintos periodos de recogida (12 meses frente a toda la carrera) y definiciones de lesión no homogéneas.</p>
+                <p>Una revisión sistemática de 10 estudios (2613 remeros, 1152 lesiones) confirmó que la evidencia epidemiológica es de nivel IV y metodológicamente muy heterogénea (definición de lesión, medida de ocurrencia y descripción del sitio anatómico), lo que impidió el metaanálisis [3]. Esta heterogeneidad es, en sí misma, un hallazgo relevante: explica por qué las cifras de prevalencia varían tanto entre publicaciones.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Perfil lesional: qué se lesiona y cuánto</h3>
+                <p>El raquis lumbar es, de forma consistente, la región más lesionada. Los datos más repetidos son:</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-white">
+                                <th class="py-2 pr-3 font-semibold">Localización</th>
+                                <th class="py-2 font-semibold">Datos representativos</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Columna lumbar</td><td class="py-2">31,8 % de todas las lesiones en remeros internacionales (50 % del total si se agrupa toda la columna) [1]; 33,3 % en mujeres y 31,8 % en hombres de nivel nacional [2]; 38 % de las atletas lesionadas en un equipo universitario femenino de élite, con 61 días medios de baja [3]; 80 % de los estudios de la revisión sistemática la señalan como la región más frecuente [3]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Rodilla</td><td class="py-2">15,9 % de las lesiones en remeros internacionales [1]; incidencia del 15,9–18,8 % a 12 meses en otras series [4]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Costillas / pared torácica</td><td class="py-2">23 % de las atletas lesionadas en remo universitario femenino [3]; incidencia estimada de lesión por estrés costal próxima al 9 % (hasta 1 de cada 8 remeros) [5,6]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Columna cervical</td><td class="py-2">11,4 % en remeros internacionales, exclusivamente en remeros de scull (dos remos) [1]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Cadera/ingle</td><td class="py-2">16 % de las atletas lesionadas en la serie universitaria femenina [3]</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium align-top">Muñeca/mano y codo</td><td class="py-2">Tenosinovitis de muñeca e «intersection syndrome» (muñeca del remero) como lesiones específicas del deporte; epicondilitis medial en el codo [6]</td></tr>
+                            <tr><td class="py-2 pr-3 text-white font-medium align-top">Hombro</td><td class="py-2">Poco frecuente (25,9 % de las lesiones en mujeres y 12,4 % en hombres en la serie portuguesa, pero raro como lesión primaria grave) [2,6]</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>En cuanto al tipo de lesión, predominan los cuadros por sobrecarga: en la serie portuguesa la contractura muscular fue el diagnóstico más frecuente (29,2 % en mujeres y 27,2 % en hombres) y las lesiones de instauración progresiva representaron el 68,4 % en mujeres y el 50 % en hombres [2]. En remeros internacionales, las lesiones facetarias (31,8 %), las tendinopatías (27,3 %) y las lesiones discales lumbares o distensiones musculares (11,4 %) fueron las categorías más habituales [1].</p>
+                <p>Dos matices importantes:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La pérdida de tiempo de entrenamiento no refleja bien la gravedad. Muchos remeros lesionados completan más horas de entrenamiento que los no lesionados, porque sustituyen el contenido de las sesiones en lugar de reducir volumen [1]. En la serie universitaria femenina, el dolor lumbar supuso una media de 61 días de baja y sólo el 86 % volvió al deporte [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Las lesiones costales son las que más tiempo de entrenamiento en agua hacen perder en el remo, con ~48 días de baja por reacción de estrés óseo y ~60 días por fractura completa [5,6].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Factores de riesgo</h3>
+                <h4 class="text-sm font-bold text-white pt-1">3.1 Volumen y tipo de entrenamiento (el factor modificable más importante)</h4>
+                <p>El volumen de entrenamiento en ergómetro es el predictor más robusto de lesión y, en particular, de dolor lumbar. En la cohorte prospectiva, el tiempo mensual en ergómetro correlacionó con el número de lesiones (r = 0,75, p = 0,01) y explicó el 51,2 % de la varianza en el modelo de regresión; el entrenamiento con cargas pesadas y el tiempo de «core stability» también se asociaron de forma significativa [1]. La revisión de seguimiento concluye que los dos predictores más consistentes de lumbalgia son la historia previa de lesión lumbar y el volumen de ergómetro, especialmente las sesiones de más de 30 minutos [7]. Los remeros de élite suelen acumular 14–18 sesiones y 17–23 h semanales, lo que multiplica la exposición a cargas repetitivas [4].</p>
+                <p>Los estudios alemanes y la revisión de prevención de lesión costal añaden dos elementos: la cinemática del gesto, el entrenamiento de fuerza (sobre todo cargas altas, sentadilla, peso muerto y errores técnicos) y el ergómetro son los factores que los propios remeros identifican como desencadenantes de dolor de espalda [8]; y las lesiones se concentran en los periodos de alto volumen y en la transición de entrenamiento en tierra a entrenamiento en agua y en los meses previos a la competición [5]. En la serie portuguesa, la mayoría de las lesiones ocurrió en entrenamiento y en invierno-primavera [2].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2 Historia previa de lesión y recidiva</h4>
+                <p>La lesión previa es un predictor transversal: quien ha tenido dolor lumbar tiene más riesgo de recurrencia y de nuevos episodios [7], y los remeros de categoría pesada mostraron un riesgo de recidiva del 90 % frente al 43 % de los ligeros en la serie portuguesa [2]. Los autores de esa serie subrayan además que la primera lesión aparece antes en mujeres (17 vs. 21 años), lo que sugiere patrones de riesgo diferentes y la necesidad de cribado precoz en mujeres jóvenes [2].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3 Biomecánica y técnica</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Durante el ciclo de remo, el raquis lumbar soporta cargas compresivas medias de 3919 N (hombres) y 3330 N (mujeres), con picos de 6066 N y 5031 N, y el remero permanece en flexión lumbar durante ~70 % del ciclo; a partir del 50 % de flexión las tensiones sobre el annulus aumentan de forma considerable [9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La clave técnica es el ritmo lumbopélvico: en las posiciones extremas (catch y finish) debe haber rotación anterior y posterior de la pelvis, no flexión/extensión lumbar extrema [7]. Los remeros noveles usan mucha flexión lumbar y poca rotación pélvica, y esta estrategia empeora con la intensidad; incluso en élite la técnica se deteriora con la fatiga, con aumento de la flexión lumbar y del movimiento en el plano frontal [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La fatiga reduce la capacidad de los extensores lumbares para controlar el movimiento, aumenta la flexión y el momento de flexión, y altera la propiocepción, de modo que el remero no percibe que está adoptando una postura más flexionada [9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En remo de punta (un remo), la rotación y flexión lateral del tronco añaden carga asimétrica sobre facetas y ligamentos; el riesgo de lumbalgia fue mayor en quienes reman sólo a punta (OR 3,32) o combinan punta y scull (OR 4,43) frente a quienes sólo hacen scull [10]. Sin embargo, los resultados sobre punta vs. scull no son unánimes: en 156 remeros alemanes la prevalencia de dolor fue mayor en scull que en punta [8], y la comparación prospectiva no encontró diferencias significativas en lesiones lumbares entre ambos estilos [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En la pared torácica, las fuerzas de la empuñadura (cerca de 900–1000 N en remeros de élite a ritmo de competición) y la co-contracción de retractores escapulares parecen ser el mecanismo más plausible de lesión por estrés costal, más que la teoría de las fuerzas opuestas entre serratus anterior y oblicuo externo [5]. Las costillas 5–9 (ángulo posterolateral, lado del brazo «externo» en punta) son las más afectadas [5,6].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4 Factores intrínsecos</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Movilidad/flexibilidad:</strong> isquiotibiales cortos obligan a compensar con hiperflexión lumbar para alcanzar la posición de catch; el 94 % de los remeros con lumbalgia mostraban hipermovilidad lumbar [9]. La falta de movilidad de cadera se considera factor predisponente y objetivo de intervención [4,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Fuerza y resistencia del tronco:</strong> la fatiga de los extensores lumbares se ha vinculado directamente al dolor lumbar; un tronco fuerte y con alta resistencia facilita la transferencia de fuerza y protege la columna [4,9]. Es llamativo que el tiempo dedicado a «core stability» se asociara también a más lesiones en la cohorte prospectiva, probablemente porque el término agrupa desde ejercicio de baja carga hasta trabajo de alta carga sin criterio homogéneo [1].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Asimetrías:</strong> en remeros de punta se han descrito asimetrías de activación EMG del 20–45 % entre pierna «interna» y «externa» y asimetrías de fuerza de reacción del 5,3–28,9 %; su relación causal con la lumbalgia no está demostrada, pero justifican trabajo unilateral [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Sexo y perfil hormonal:</strong> las mujeres presentan mayor riesgo de lesión por estrés costal, posiblemente por menor densidad mineral ósea y factores asociados a baja disponibilidad energética [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Disponibilidad energética y composición corporal:</strong> la baja disponibilidad energética y el RED-S (menor estrógeno/testosterona, aumento de cortisol y catecolaminas, peor salud ósea) son factores de riesgo de lesión por estrés, especialmente relevantes en remeros ligeros, que recurren a restricción calórica para dar el peso [5]. Los trastornos de la conducta alimentaria son más frecuentes en ligeros que en pesados [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Alteraciones estructurales:</strong> la espondilolisis parece sobrerrepresentada en remeros (17 % en una serie de deportistas españoles de alto nivel, frente a ~8 % en el conjunto de deportistas y ~5 % en población general) y la disfunción sacroilíaca se ha descrito hasta en el 54 % de un equipo nacional [6].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.5 Equipamiento</h4>
+                <p>El diseño del material modifica la carga por ciclo: la aparición de la pala «hatchet» y de palas más rígidas aumentó la fuerza transmitida en la fase inicial del ciclo, lo que llevó a modificar la técnica de catch (de «potente» a «ligera y progresiva») y, en algunos países, a limitar su uso en jóvenes [6]. En ergómetro, los sistemas estáticos generan mayores picos de fuerza que los dinámicos o sobre raíles (slides) a igual intensidad, por lo que el uso de ergómetros dinámicos se propone como medida potencialmente preventiva [5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.6 Factores «de contexto» que a menudo se olvidan</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Momento del día:</strong> el disco lumbar se hidrata durante la noche y las tensiones de flexión pueden ser ~3 veces mayores por la mañana; gran parte del entrenamiento de remo se hace al amanecer [9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Déficit de educación preventiva:</strong> en la serie portuguesa la mediana de sesiones educativas de prevención de lesiones en la última temporada fue 0 (rango 0–5), a pesar de que el 76–88 % de los remeros manifestaba preocupación por lesionarse [2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Sesgo metodológico:</strong> los estudios retrospectivos, las definiciones basadas sólo en tiempo perdido y la ausencia de estudios prospectivos de calidad limitan la comparabilidad y probablemente subestiman la incidencia y la gravedad (no se registran quienes abandonan el deporte por lesión) [2,3,5].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Estrategias de prevención</h3>
+                <p>La lógica recomendada es la del modelo cíclico de van Mechelen: (1) establecer la magnitud (incidencia y gravedad), (2) identificar etiología y mecanismos, (3) introducir la medida preventiva y (4) evaluar su efectividad [5]. En remo, el paso 1 está razonablemente cubierto para la columna lumbar, pero los pasos 2–4 siguen siendo débiles, especialmente en lesión costal [5].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.1 Cribado y valoración inicial (prevención secundaria)</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Valoración de historia de lesión:</strong> el antecedente de lumbalgia y de lesión lumbar es el mejor predictor disponible y puede detectarse en el cribado de pretemporada; debería incluirse también en remeros recreativos que se inician [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cribado de factores que alteran el ritmo lumbopélvico:</strong> flexibilidad de isquiotibiales y flexores de cadera, movilidad de cadera y función de la musculatura lumbopélvica [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cribado nutricional/energético:</strong> herramientas como el cuestionario LEAF permiten identificar remeros con baja disponibilidad energética y actuar precozmente [5]; valorar densidad mineral ósea y hormonas (estrógenos/testosterona) en casos seleccionados [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Vigilancia prospectiva de síntomas de sobrecarga</strong> (no sólo de lesiones con baja): cuestionarios tipo Oslo Sports Trauma Research Center adaptados a las regiones del remero (incluida la parrilla costal), combinados con monitorización de volumen/intensidad, son la vía recomendada para conocer la verdadera incidencia y los desencadenantes [5]. La heterogeneidad de definiciones es el principal obstáculo para comparar estudios y para diseñar intervenciones [3].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.2 Técnica y entrenamiento técnico</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Enseñar y monitorizar el ritmo lumbopélvico: rotación pélvica en catch y finish en lugar de flexión/extensión lumbar extrema, evitando el «slumping» al final del ciclo [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Catch «ligero y progresivo» en lugar de un tirón inicial máximo, especialmente con palas rígidas modernas, para reducir el pico de carga aguda sobre la columna [6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Para la pared torácica: reducir el exceso de «layback», disminuir el tirón con los brazos y favorecer una transferencia más sincrónica piernas-tronco; los remeros con historia de lesión costal mostraban mayor velocidad del carro en la fase inicial (patrón secuencial), mayor co-contracción serratus/trapecio y menor ratio fuerza pierna/brazo [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Supervisión por entrenadores expertos: dado que la técnica se deteriora con la fatiga y la intensidad, la corrección debe ser continua y no sólo en sesiones de técnica de baja intensidad [7,8]. El uso de tecnologías portátiles para monitorizar técnica en agua y ergómetro es prometedor, pero aún sin validación robusta [7].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.3 Gestión de la carga</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Limitar y dosificar el ergómetro:</strong> evitar sesiones &gt;30 min de forma repetida, introducir pausas (p. ej., 5 min cada 30 min) y controlar el ajuste de resistencia; considerar ergómetros dinámicos o slides para reducir el pico de fuerza por ciclo [5–7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Progresión escalonada del volumen, con atención especial a los picos estacionales (invierno, pretemporada, transición tierra-agua) y a los años de alta carga (año preolímpico) [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Control del trabajo con cargas:</strong> el entrenamiento con pesos pesados se asoció a lesiones en la cohorte prospectiva [1] y los propios remeros lo identifican como desencadenante de dolor [8]; conviene supervisar la técnica, evitar cargas excesivas y prestar atención a ejercicios con alta compresión torácica como el bench pull [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Precaución con programas de alta repetición (HRST):</strong> protocolos de 15–120 repeticiones por serie son fisiológicamente muy demandantes (lactato &gt;8,8 mmol/L, RPE &gt;17), generan fatiga que interfiere con la distribución de intensidad del entrenamiento y aumentan el riesgo técnico; se recomienda priorizar fuerza máxima/potencia con bajas repeticiones (3–5 × 1–5) y reservar el trabajo de resistencia muscular para el tronco con control técnico [4].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.4 Acondicionamiento físico («robustez»)</h4>
+                <p>Un programa bien diseñado puede aumentar la tolerancia del remero a volúmenes altos de entrenamiento [4]. Componentes recomendados:</p>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Fuerza y potencia:</strong> sentadilla (profunda, ya que el catch exige flexión máxima de cadera/rodilla/tobillo), peso muerto y peso muerto rumano, bench pull y pull-up, ejercicios olímpicos y sus derivados [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Resistencia de los extensores lumbares</strong> con ejercicios de bisagra de cadera en altas repeticiones (&gt;15) o isométricos específicos en ergómetro (&gt;30 s en posiciones de catch, drive y finish), porque la fatiga de estos músculos es un mecanismo directo de hiperflexión lumbar [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Estabilidad del core específica de remo:</strong> ejercicios de «tap down» en el barco, progresando desde la posición más estable (finish) a la menos estable (catch) [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Trabajo unilateral</strong> (remo con mancuerna, zancadas) para corregir asimetrías propias del remo de punta [4].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Movilidad y flexibilidad:</strong> movilidad de cadera y flexibilidad de isquiotibiales para permitir la rotación anterior de pelvis en el catch y la «rock over» en la recuperación; se recomienda valorar la posición de pelvis y columna en catch y finish de forma periódica (estática y dinámica) [4]. En la pared torácica, se postula que la hipomovilidad costovertebral/costotransversa aumenta la carga sobre las costillas, aunque la evidencia es indirecta [5].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.5 Calentamiento y preparación inmediata a la sesión</h4>
+                <p>Antes de remar, especialmente por la mañana, se propone realizar flexoextensiones lumbares sin carga, lentas, durante al menos 60 s en sedestación similar a la del barco (15–20 ciclos reducen el momento de flexión un 8–10 %), con progresión del rango; también puede hacerse en ergómetro con resistencia cero [9]. Esta recomendación deriva de estudios in vitro y de la cronobiología discal, no de ensayos clínicos, y debe presentarse como medida racional más que como evidencia de alta calidad.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.6 Nutrición y salud ósea</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Prevenir y tratar la baja disponibilidad energética/RED-S: evitar déficits calóricos prolongados para dar el peso en ligeros, garantizar aporte adecuado de hidratos y proteínas y derivar a nutricionista cuando haya signos de alarma [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Calcio y vitamina D: la suplementación redujo las fracturas por estrés en reclutas femeninas, evidencia considerada trasladable al contexto del remo [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En sospecha de lesión por estrés óseo, la RM con supresión grasa es la modalidad de imagen preferida para confirmar y gradar la lesión, y el manejo debe individualizarse identificando y corrigiendo factores de riesgo (energía, nutrición, sueño) antes de la progresión de carga y el retorno [11].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.7 Manejo precoz de la lesión y retorno al deporte (prevención terciaria)</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Lesión costal:</strong> el diagnóstico es fundamentalmente clínico; el dolor costal focal en remero debe manejarse como lesión por estrés hasta demostrar lo contrario, con reducción de carga, analgesia y fisioterapia, evitando la progresión a fractura completa y la seudoartrosis por diagnóstico tardío [5,6]. Cambiar de lado en el barco puede aliviar síntomas al trasladar la carga al otro brazo [6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Muñeca:</strong> la tenosinovitis y el intersection syndrome se benefician de ajustar el diámetro de la empuñadura, remar con la pala «cuadrada» en sesiones controladas y enseñar a girar el remo con los dedos en lugar de con la muñeca [6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Dolor lumbar:</strong> la vuelta al deporte debe basarse en la recuperación del control lumbopélvico y de la resistencia del tronco, no sólo en la ausencia de dolor; más de una semana de baja se asocia a mayor riesgo de recurrencia y de episodios posteriores [3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Codo:</strong> epicondilitis medial; ajustar el agarre y reducir el componente de remo, con progresión gradual [6].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.8 Educación, equipo multidisciplinar y evaluación de la intervención</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La formación de entrenadores y remeros en signos precoces de lesión por sobrecarga forma parte de las estrategias que redujeron fracturas por estrés en otros contextos (junto con la reducción de volumen y un régimen mínimo de sueño) [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La incorporación estable de fisioterapia/medicina deportiva en el lugar de entrenamiento se asocia, en observaciones del equipo nacional danés, a menores incidencias de lesión costal [5].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Cualquier programa preventivo debe evaluarse repitiendo la vigilancia (paso 4 del modelo), con definiciones de lesión armonizadas (localización anatómica estándar, medida de ocurrencia explícita y registro de síntomas por sobrecarga) para permitir comparaciones y metaanálisis [3,5].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Mensajes clave</h3>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>El remo de competición tiene una carga lesiva real (≈3,7 lesiones/1000 h en élite internacional), con un predominio claro de la columna lumbar y, en segundo plano, rodilla, costillas y cadera/ingle [1,3].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Los dos predictores más consistentes y modificables son el volumen de entrenamiento en ergómetro (sobre todo sesiones &gt;30 min) y la historia previa de lesión lumbar [7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>La técnica (ritmo lumbopélvico, catch progresivo, evitar exceso de layback) y la gestión de la carga son los ejes de la prevención; el acondicionamiento físico (fuerza, resistencia del tronco, movilidad de cadera, trabajo unilateral) construye «robustez» frente a esa carga [4,5,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>En las lesiones costales —las que más tiempo de agua hacen perder— la sospecha clínica precoz, el manejo de la disponibilidad energética, la valoración del ergómetro utilizado y el control de la técnica torácica son las claves preventivas [5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span>Existe un déficit importante de educación preventiva y de estudios prospectivos de calidad, por lo que las recomendaciones actuales combinan evidencia directa limitada con evidencia indirecta de otras poblaciones [2,3,5].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Wilson F, Gissane C, Gormley J, Simms C. A 12-month prospective cohort study of injury in international rowers. <em>British Journal of Sports Medicine</em>. 2008;44(3):207-214. DOI: 10.1136/bjsm.2008.048561</p>
+                    <p>[2] Bernardes F, Mendes-Castro A, Ramos J, Costa O. Lesões Músculo-Esqueléticas em Remadores de Competição. <em>Acta Médica Portuguesa</em>. 2015;28(4):427-434. DOI: 10.20344/amp.6364</p>
+                    <p>[3] Treloar J, Bolia IK, Anvari A, et al. Update on injury epidemiology in rowing: our experience with female NCAA Division I athletes and a systematic review of the literature. <em>The Physician and Sportsmedicine</em>. 2021;50(3):189-196. DOI: 10.1080/00913847.2021.1931526</p>
+                    <p>[4] Nugent FJ, Flanagan EP, Wilson F, Warrington GD. Strength and Conditioning for Competitive Rowers. <em>Strength &amp; Conditioning Journal</em>. 2020;42(3):6-21. DOI: 10.1519/ssc.0000000000000531</p>
+                    <p>[5] Thornton JS, Vinther A. Prevention of rib stress injury in rowers. What do we know and where do we need to go? <em>Sports Orthopaedics and Traumatology</em>. 2018;34(3):278-286. DOI: 10.1016/j.orthtr.2018.05.001</p>
+                    <p>[6] McNally E, Wilson D, Seiler S. Rowing Injuries. <em>Seminars in Musculoskeletal Radiology</em>. 2005;09(04):379-396. DOI: 10.1055/s-2005-923381</p>
+                    <p>[7] Wilson F, Gissane C, McGregor A. Ergometer training volume and previous injury predict back pain in rowing; strategies for injury prevention and rehabilitation. <em>British Journal of Sports Medicine</em>. 2014;48(21):1534-1537. DOI: 10.1136/bjsports-2014-093968</p>
+                    <p>[8] Trompeter K, Fett D, Platen P. Back Pain in Rowers: A Cross-sectional Study on Prevalence, Pain Characteristics and Risk Factors. <em>Sportverletzung · Sportschaden</em>. 2018;33(01):51-59. DOI: 10.1055/a-0648-8387</p>
+                    <p>[9] Reid DA, McNair PJ. Factors contributing to low back pain in rowers. <em>British Journal of Sports Medicine</em>. 2000;34(5):321-322. DOI: 10.1136/bjsm.34.5.321</p>
+                    <p>[10] Maselli F, Ciuro A, Mastrosimone R, et al. Low back pain among Italian rowers: A cross-sectional survey. <em>Journal of Back and Musculoskeletal Rehabilitation</em>. 2015;28(2):365-376. DOI: 10.3233/bmr-140529</p>
+                    <p>[11] Bone stress injuries. <em>Nature Reviews Disease Primers</em>. 2022;8(1). DOI: 10.1038/s41572-022-00361-x</p>
+                </div>
+            </div>
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Remo de competición · Prevención de lesiones</span>
+                <button onclick="compartirEntrada(event,'lesiones-remo-competicion','Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalLesionesRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Demandas físicas y fisiológicas en baloncesto de competición -->
+    <div id="modal-demandas-baloncesto-competicion" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalDemandasBaloncesto()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Baloncesto · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Demandas físicas y fisiológicas en baloncesto de competición</h2>
+                </div>
+                <button onclick="cerrarModalDemandasBaloncesto()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <video src="Demandas baloncesto.mp4" aria-label="Demandas físicas y fisiológicas en baloncesto de competición" class="w-full rounded-xl border border-slate-700" autoplay muted loop playsinline preload="metadata"></video>
+
+                <p>El baloncesto de élite es un deporte intermitente de alta intensidad que impone exigencias significativas tanto a nivel físico como fisiológico. La comprensión detallada de estas demandas es fundamental para el diseño de programas de entrenamiento óptimos y estrategias de recuperación. A continuación, se presenta un análisis exhaustivo basado en la literatura científica disponible.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Perfil de la carga de partido: carga externa</h3>
+                <h4 class="text-sm font-bold text-white pt-1">1.1 Distancia recorrida y ritmo de juego</h4>
+                <p>Los jugadores de baloncesto de alto nivel cubren distancias considerables durante un partido. Los estudios han reportado que jugadores varones experimentados recorren aproximadamente 82,6 ± 7,8 m·min⁻¹ durante la competición [1]. En términos absolutos, las distancias totales oscilan entre 1.991 y 6.310 m en competición de élite, mientras que en jugadores de nivel sub-élite se han registrado entre 3.722 y 6.208 m [2]. Un hallazgo destacable es que los jugadores de élite tienden a cubrir menos distancia total que los de niveles inferiores, lo que sugiere una mayor eficiencia técnica y táctica en lugar de un menor esfuerzo [2].</p>
+                <p>En jugadoras de baloncesto femenino de nivel estatal australiano, se reportó una distancia total recorrida de 5.214 ± 315 m durante el tiempo de juego vivo, con un ritmo de 127–136 m·min⁻¹ [3]. Estos valores son comparables a los observados en jugadores varones de nivel similar, lo que indica que las demandas de distancia total pueden ser similares independientemente del género cuando se equipara el nivel competitivo [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">1.2 Distribución de intensidades de movimiento</h4>
+                <p>El análisis de movimiento revela que la mayor parte del tiempo de juego se dedica a actividades de baja y moderada intensidad. En jugadores varones experimentados, el 44 ± 7 % de la distancia se recorre en zona 1 (de pie y caminando, ≤6 km·h⁻¹) y el 37 ± 5 % en zona 2 (trote, 6,1–12 km·h⁻¹) [1]. Solamente el 3 ± 3 % de la distancia total se cubre a alta velocidad (&gt;18 km·h⁻¹), con aproximadamente 0,17 ± 0,13 sprints por minuto [1].</p>
+                <p>En jugadores jóvenes de élite sub-19, se encontró que aproximadamente el 41 % del tiempo vivo se dedica a «movimientos específicos» (desplazamientos defensivos), el 5,3 % a esprintar, el 22 % a correr a intensidad baja-moderada, y el 29,9 % a estar de pie y caminar [4]. Los jugadores realizan una media de 1.050 ± 51 movimientos por partido, lo que se traduce en un cambio de acción cada 2 segundos, reflejando la naturaleza altamente intermitente del baloncesto moderno [4].</p>
+                <p>En jugadoras australianas de baloncesto, el 39 ± 3 % del tiempo vivo se dedicó a actividades de baja intensidad, el 52 ± 2 % a intensidad moderada, el 5 ± 1 % a alta intensidad y el 4 ± 1 % a driblar [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">1.3 Saltos y acciones de alta intensidad</h4>
+                <p>Los jugadores de baloncesto ejecutan un promedio de 44 ± 7 saltos por partido (rango 30–54) [4]. Aunque los pívots tienden a realizar más saltos que los bases y aleros, estas diferencias no siempre son estadísticamente significativas, probablemente debido a su rol protagónico en los rebotes ofensivos y defensivos [4].</p>
+                <p>En cuanto a aceleraciones y deceleraciones, los jugadores de élite experimentan aceleraciones corporales cada 14 ± 4 segundos y deceleraciones cada 29 ± 9 segundos, con una media de 8,2 ± 1,8 impactos corporales &gt;5 g por minuto [1]. Estos datos evidencian la elevada demanda de cambios de dirección y acciones explosivas durante el juego.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">1.4 Diferencias entre sexos en la carga externa</h4>
+                <p>Investigaciones recientes que comparan directamente jugadores y jugadoras jóvenes de élite muestran que los varones cubren significativamente más distancia a alta intensidad (14–21 km·h⁻¹) y en sprint (&gt;21 km·h⁻¹), y realizan más deceleraciones que las mujeres [5]. Por el contrario, las jugadoras presentan una mayor ratio de aceleraciones:deceleraciones [5]. En jugadores semiprofesionales, las mujeres mostraron mayores ritmos de carrera (45,7 ± 1,4 vs. 42,1 ± 1,7 m·min⁻¹), mientras que los varones dedicaron más tiempo al dribling (3,0 ± 0,2 vs. 2,5 ± 0,3 s·min⁻¹) [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Perfil fisiológico: carga interna</h3>
+                <h4 class="text-sm font-bold text-white pt-1">2.1 Frecuencia cardíaca</h4>
+                <p>La respuesta de frecuencia cardíaca (FC) durante la competición refleja la elevada exigencia cardiovascular del baloncesto. En jugadores varones experimentados, la FC media durante el partido fue de 169 ± 8 lpm, correspondiente al 89,8 ± 4,4 % de la FC máxima [1]. En jugadores jóvenes de élite sub-19, se registró una FC media de 171 ± 4 lpm (91 ± 2 % FCmáx) [4].</p>
+                <p>En jugadoras de baloncesto australianas de nivel estatal, la FC media durante tiempo vivo fue de 162 ± 3 lpm (82,4 ± 1,3 % FCmáx) [3]. Estudios en jugadoras semiprofesionales españolas reportaron valores de 163,0 ± 11,7 lpm (87,6 ± 4,5 % FCmáx), con el 82,7 % del tiempo por encima del 80 % de la FCmáx [2].</p>
+                <p>La revisión sistemática de Petway et al. [2] indica que los jugadores de élite presentan valores de FC máxima en competición entre 187–198 lpm (media ~190 lpm), mientras que en niveles sub-élite se registran valores entre 192–195 lpm (media ~194 lpm) y en jóvenes entre 197–201 lpm (media ~199 lpm). Esta tendencia sugiere que los jugadores de mayor nivel poseen una mejor condición física y eficiencia cardiovascular [2].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.2 Consumo de oxígeno (VO₂)</h4>
+                <p>Las demandas aeróbicas del baloncesto son sustanciales. Montgomery et al. [7] reportaron que el VO₂ estimado durante el juego vivo fue 30 % mayor que durante los partidos de entrenamiento 5vs5. El VO₂pico en jugadores de élite de la primera división belga fue de 53,4 ± 4,8 mL·kg⁻¹·min⁻¹, con valores superiores en los bases en comparación con los ala-pívots (~8,5 % más) y los pívots (~9,8 % más) [8].</p>
+                <p>En jugadoras de baloncesto de élite brasileñas, se observaron diferencias significativas por posición: las bases presentaron un VO₂máx de 21–26 % superior al de las pívots [9]. El VO₂ estimado en jugadoras de nivel internacional es de aproximadamente 50,3 ± 5,9 mL·kg⁻¹·min⁻¹, y durante el partido se alcanza alrededor del 67 % del VO₂máx [9].</p>
+                <p>Gocentas et al. [10] encontraron que los jugadores de perímetro (bases y aleros) presentan valores de VO₂máx y potencia relativa significativamente mayores que los jugadores de poste (ala-pívots y pívots), confirmando una base fisiológica para esta clasificación práctica en el baloncesto.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.3 Lactato sanguíneo</h4>
+                <p>La concentración de lactato sanguíneo refleja la contribución del metabolismo anaeróbico glucolítico. En jugadores varones experimentados, los valores medios de lactato reportados en la literatura oscilan entre 3,2 y 6,8 mmol·L⁻¹ [1]. En jugadores jóvenes sub-19 tunecinos, la concentración media fue de 5,49 ± 1,24 mmol·L⁻¹, siendo significativamente mayor al descanso (6,05 ± 1,27 mmol·L⁻¹) que al final del partido (4,94 ± 1,46 mmol·L⁻¹) [4].</p>
+                <p>En jugadoras australianas de baloncesto, se observó una concentración media de lactato de 3,7 ± 1,4 mmol·L⁻¹ durante la competición [3]. En jugadoras semiprofesionales españolas, los valores alcanzaron 6,02 ± 2,84 mmol·L⁻¹ [2].</p>
+                <p>Las diferencias posicionales también son notables: los bases presentan concentraciones de lactato significativamente más altas que los pívots (6,36 ± 1,24 vs. 4,92 ± 1,18 mmol·L⁻¹), lo que refleja su mayor implicación en acciones de alta intensidad [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Perfil físico y fisiológico según la posición de juego</h3>
+                <h4 class="text-sm font-bold text-white pt-1">3.1 Características antropométricas</h4>
+                <p>Las diferencias antropométricas entre posiciones son marcadas y consistentes en todos los niveles. Boone y Bourgois [8] documentaron en jugadores de élite belgas las siguientes medias:</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-xs text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-700 text-white">
+                                <th class="py-2 pr-3 font-semibold">Posición</th>
+                                <th class="py-2 pr-3 font-semibold">Altura (cm)</th>
+                                <th class="py-2 pr-3 font-semibold">Peso (kg)</th>
+                                <th class="py-2 font-semibold">Grasa corporal (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium">Base (PG)</td><td class="py-2 pr-3">187,9 ± 3,3</td><td class="py-2 pr-3">83,2 ± 5,3</td><td class="py-2">11,2 ± 2,8</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium">Escolta (SG)</td><td class="py-2 pr-3">193,5 ± 5,3</td><td class="py-2 pr-3">89,6 ± 6,6</td><td class="py-2">12,0 ± 4,9</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium">Alero (SF)</td><td class="py-2 pr-3">196,2 ± 3,3</td><td class="py-2 pr-3">96,6 ± 4,9</td><td class="py-2">13,1 ± 3,4</td></tr>
+                            <tr class="border-b border-slate-800"><td class="py-2 pr-3 text-white font-medium">Ala-pívot (PF)</td><td class="py-2 pr-3">200,4 ± 2,5</td><td class="py-2 pr-3">103,8 ± 9,1</td><td class="py-2">14,7 ± 3,7</td></tr>
+                            <tr><td class="py-2 pr-3 text-white font-medium">Pívot (C)</td><td class="py-2 pr-3">206,6 ± 3,3</td><td class="py-2 pr-3">111,2 ± 8,3</td><td class="py-2">15,2 ± 4,0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p>En jugadoras de élite brasileñas, las pívots pesaban entre un 17–25 % más y eran 6–12 % más altas que las bases y aleros, con un 22–28 % más de porcentaje de grasa corporal [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2 Capacidad aeróbica</h4>
+                <p>Los bases (jugadores de perímetro) presentan consistentemente la mejor capacidad aeróbica. En jugadores de élite belgas, los bases y escoltas mostraron un VO₂pico significativamente mayor que los ala-pívots y pívots [8]. La velocidad en el umbral anaeróbico también fue superior en bases y escoltas (~11–12 km·h⁻¹) frente a pívots (~10–11 km·h⁻¹) [8]. Gocentas et al. [10] confirmaron que los jugadores de perímetro tienen un VO₂máx y una potencia relativa significativamente mayores que los jugadores de poste.</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3 Potencia y fuerza muscular</h4>
+                <p>En las pruebas de salto, los pívots muestran alturas de salto inferiores a las de los bases y aleros, pero desarrollan mayor potencia pico debido a su mayor masa corporal [8]. En el test de 5 × 10 m (agilidad), los bases son significativamente más rápidos que los aleros y ala-pívots, mientras que estos últimos superan a los pívots [8].</p>
+                <p>En la fuerza isocinética de extensión de rodilla a 60°/s, los pívots desarrollan un torque absoluto mayor que los bases (~18,1 % más), aunque al normalizar por masa corporal las diferencias desaparecen [8]. En mujeres de élite, las bases presentaron los valores más altos de torque de extensión de rodilla en comparación con aleros y pívots [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4 Capacidad de sprints repetidos</h4>
+                <p>En jugadoras de élite brasileñas, las pívots requirieron más tiempo para completar un test de 10 × 30 m con recuperación de 30 s, mostraron menor velocidad de aceleración media y menor velocidad pico media que las bases y aleros [9]. Sin embargo, el índice de fatiga fue similar entre posiciones, lo que sugiere que la capacidad de recuperación entre sprints no difiere significativamente [9].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Demandas del entrenamiento vs. competición</h3>
+                <p>Montgomery et al. [7] demostraron que la carga física del juego vivo es moderadamente mayor (85 %; intervalo de confianza 90 %: 32–160 %) que la de los partidos de entrenamiento 5vs5. El VO₂ estimado fue un 30 % mayor en competición real, y la FC media fue un 12 % mayor [7]. Los drills ofensivos y defensivos durante la práctica presentan demandas físicas y fisiológicas similares, aunque la carga defensiva tiende a requerir un VO₂ ligeramente superior (~6 %) [7].</p>
+                <p>La revisión sistemática de Petway et al. [2] indica que el número de aceleraciones totales en competición (media de 81 por partido) es muy superior al registrado en entrenamiento (media de 38 por sesión), lo que sugiere que los entrenamientos no siempre replican las demandas específicas de la competición.</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Fatiga durante el partido</h3>
+                <p>Se observa una disminución significativa de la actividad de alta intensidad en el segundo y cuarto cuartos en todas las posiciones [4]. En jugadores jóvenes tunecinos, el tiempo vivo dedicado a actividades de alta intensidad se redujo progresivamente a lo largo del partido, con una correlación significativa (r = 0,55, p &lt; 0,05) entre el VO₂máx y el tiempo dedicado a actividades intensas [4].</p>
+                <p>La FC también tiende a disminuir en el último cuarto, mientras que el tiempo de detención aumenta, lo que permite cierta recuperación [4]. Las concentraciones de lactato al descanso son superiores a las del final del partido, lo que sugiere que la segunda mitad se juega a menor intensidad o que el mayor tiempo de detención facilita la eliminación del lactato [4].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">6. Implicaciones prácticas</h3>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Individualización por posición:</strong> los programas de entrenamiento deben adaptarse a las demandas específicas de cada posición. Los bases requieren mayor énfasis en agilidad, resistencia aeróbica y potencia explosiva, mientras que los pívots se benefician más del entrenamiento de fuerza máxima y saltos específicos [8,9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Especificidad de género:</strong> aunque las demandas generales son similares entre sexos, existen diferencias en los patrones de movimiento (más dribling en varones, más carrera en mujeres) que deben considerarse en la planificación [5,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Simulación de competición:</strong> dado que el juego vivo es sustancialmente más demandante que los drills reducidos (5vs5 en media cancha), los entrenadores deben incorporar ejercicios a cancha completa y situaciones de juego real para preparar adecuadamente a los jugadores [2,7].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Monitorización de la carga:</strong> la combinación de acelerometría, FC y percepción subjetiva del esfuerzo permite una cuantificación precisa de la carga interna y externa, facilitando la periodización y prevención de lesiones [2,7].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Puente C, Abián-Vicén J, Areces F, López R, Del Coso J. Physical and Physiological Demands of Experienced Male Basketball Players During a Competitive Game. <em>Journal of Strength and Conditioning Research</em>. 2017;31(4):956-962. DOI: 10.1519/jsc.0000000000001577</p>
+                    <p>[2] Petway AJ, Freitas TT, Calleja-González J, Medina Leal D, Alcaraz PE. Training load and match-play demands in basketball based on competition level: A systematic review. <em>PLOS ONE</em>. 2020;15(3):e0229212. DOI: 10.1371/journal.pone.0229212</p>
+                    <p>[3] Scanlan AT, Dascombe BJ, Reaburn P, Dalbo VJ. The physiological and activity demands experienced by Australian female basketball players during competition. <em>Journal of Science and Medicine in Sport</em>. 2012;15(4):341-347. DOI: 10.1016/j.jsams.2011.12.008</p>
+                    <p>[4] Ben Abdelkrim N, El Fazaa S, El Ati J. Time–motion analysis and physiological data of elite under-19-year-old basketball players during competition. <em>British Journal of Sports Medicine</em>. 2006;41(2):69-75. DOI: 10.1136/bjsm.2006.032318</p>
+                    <p>[5] Portes R, Jiménez SL, Navarro RM, Scanlan AT, Gómez MÁ. Comparing the External Loads Encountered during Competition between Elite, Junior Male and Female Basketball Players. <em>International Journal of Environmental Research and Public Health</em>. 2020;17(4):1456. DOI: 10.3390/ijerph17041456</p>
+                    <p>[6] Scanlan AT, Dascombe BJ, Kidcaff AP, Peucker JL, Dalbo VJ. Gender-Specific Activity Demands Experienced During Semiprofessional Basketball Game Play. <em>International Journal of Sports Physiology and Performance</em>. 2015;10(5):618-625. DOI: 10.1123/ijspp.2014-0407</p>
+                    <p>[7] Montgomery PG, Pyne DB, Minahan CL. The Physical and Physiological Demands of Basketball Training and Competition. <em>International Journal of Sports Physiology and Performance</em>. 2010;5(1):75-86. DOI: 10.1123/ijspp.5.1.75</p>
+                    <p>[8] Boone J, Bourgois J. Morphological and Physiological Profile of Elite Basketball Players in Belgium. <em>International Journal of Sports Physiology and Performance</em>. 2013;8(6):630-638. DOI: 10.1123/ijspp.8.6.630</p>
+                    <p>[9] Freire R, Hausen M, Sanders GJ, Itaborahy A. Anthropometric, Physiological, and Neuromuscular Profiles of Elite Female Basketball Players Across Court's Position. <em>Journal of Science in Sport and Exercise</em>. 2023;7(3):329-338. DOI: 10.1007/s42978-023-00249-6</p>
+                    <p>[10] Gocentas A, Jascaniniene N, Poprzęcki S, Jaszczanin J, Juozulynas A. Position-Related Differences in Cardiorespiratory Functional Capacity of Elite Basketball Players. <em>Journal of Human Kinetics</em>. 2011;30(2011):145-152. DOI: 10.2478/v10078-011-0082-1</p>
+                </div>
+            </div>
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Baloncesto · Rendimiento físico</span>
+                <button onclick="compartirEntrada(event,'demandas-baloncesto-competicion','Demandas físicas y fisiológicas en baloncesto de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalDemandasBaloncesto()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -6240,6 +6584,28 @@
         }
         function cerrarModalFuerzaRemo() {
             document.getElementById('modal-fuerza-remo-competicion').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalLesionesRemo() {
+            const modal = document.getElementById('modal-lesiones-remo-competicion');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalLesionesRemo() {
+            document.getElementById('modal-lesiones-remo-competicion').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalDemandasBaloncesto() {
+            const modal = document.getElementById('modal-demandas-baloncesto-competicion');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalDemandasBaloncesto() {
+            document.getElementById('modal-demandas-baloncesto-competicion').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
