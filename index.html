@@ -319,6 +319,34 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
+                    <!-- SSG Data 1.0 -->
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-36 bg-gradient-to-br from-emerald-900/50 to-slate-800 flex items-center justify-center gap-4">
+                            <i data-lucide="users" class="w-10 h-10 text-emerald-400 opacity-70"></i>
+                            <i data-lucide="database" class="w-12 h-12 text-emerald-300"></i>
+                            <i data-lucide="bar-chart-3" class="w-10 h-10 text-emerald-400 opacity-70"></i>
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow gap-4">
+                            <div>
+                                <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Análisis de juegos reducidos</span>
+                                <h3 class="text-xl font-extrabold text-white mt-1 mb-3">SSG Data 1.0</h3>
+                                <p class="text-slate-400 text-sm leading-relaxed">Aplicación para la construcción de una base de datos de juegos reducidos (SSG) para el entrenamiento y desarrollo de capacidades técnicas, tácticas y físicas en deportes de equipo con balón.</p>
+                            </div>
+                            <ul class="space-y-2 text-sm text-slate-400">
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Registro de SSG con posibilidad de representación gráfica de la tarea y link a vídeo</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Posibilidad de filtrar, importar y exportar datos</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Se ejecuta en cualquier navegador y no requiere conexión a internet</li>
+                                <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-emerald-400 shrink-0"></i>Sin instalación de software adicional</li>
+                            </ul>
+                            <div class="mt-auto pt-4 border-t border-slate-800 flex items-center justify-between gap-3">
+                                <span class="text-xs text-slate-500 flex items-center gap-1"><i data-lucide="globe" class="w-3.5 h-3.5"></i> Se ejecuta en el navegador de forma local.</span>
+                                <button onclick="abrirSSGData()" class="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors duration-200">
+                                    <i data-lucide="play" class="w-4 h-4"></i> Abrir aplicación
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Performance Lab -->
                     <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
                         <!-- Cabecera visual -->
@@ -652,6 +680,26 @@
             <!-- Entradas del blog -->
             <div class="py-10 md:py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+
+                    <!-- Entrada: Lesiones en baloncesto de competición -->
+                    <article data-categoria="baloncesto rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
+                        <div class="h-48 overflow-hidden">
+                            <img src="Lesiones baloncesto.png" alt="Lesiones en baloncesto de competición" class="w-full h-full object-cover object-center">
+                        </div>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider mb-3">Baloncesto · Rehabilitación</span>
+                            <h2 class="text-xl font-bold text-white mb-3 leading-snug">Lesiones en baloncesto de competición</h2>
+                            <p class="text-slate-400 text-sm leading-relaxed flex-grow">Revisión de prevalencia, factores de riesgo y prevención: el miembro inferior concentra ≈65 % de las lesiones, el esguince de tobillo es la más frecuente y la rodilla la que más baja genera. La lesión previa es el factor más consistente; los calentamientos neuromusculares y los soportes de tobillo reducen las lesiones (OR 0,45–0,69), pero no las roturas de LCA.</p>
+                            <div class="flex items-center justify-between mt-6 pt-4 border-t border-slate-800">
+                                <span class="text-xs text-slate-500">2026</span>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="compartirEntrada(event,'lesiones-baloncesto-competicion','Lesiones en baloncesto de competición')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Compartir"><i data-lucide="share-2" class="w-4 h-4"></i></button>
+                                    <button onclick="descargarPDF('modal-lesiones-baloncesto-competicion','Lesiones-Baloncesto-Competicion')" class="text-slate-400 hover:text-teal-300 transition-colors" title="Guardar como PDF"><i data-lucide="file-text" class="w-4 h-4"></i></button>
+                                    <button onclick="abrirModalLesionesBaloncesto()" class="text-teal-400 text-sm font-semibold hover:text-teal-300 transition-colors flex items-center gap-1">Leer más <i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
 
                     <!-- Entrada: Lesiones en remo de competición: prevalencia, factores de riesgo y estrategias de prevención -->
                     <article data-categoria="remo rehabilitacion" class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden flex flex-col hover:border-teal-500/50 transition-colors duration-300">
@@ -2630,6 +2678,108 @@
                 <span class="text-slate-500 text-sm">Remo de competición · Entrenamiento de fuerza</span>
                 <button onclick="compartirEntrada(event,'fuerza-remo-competicion','Entrenamiento de fuerza en remeros y remeras de competición: síntesis de la evidencia científica actual')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
                 <button onclick="cerrarModalFuerzaRemo()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Lesiones en baloncesto de competición -->
+    <div id="modal-lesiones-baloncesto-competicion" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden" role="dialog" aria-modal="true">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="cerrarModalLesionesBaloncesto()"></div>
+        <div class="relative bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-slate-900 border-b border-slate-800 px-6 py-4 flex items-start justify-between gap-4 z-10">
+                <div>
+                    <span class="text-xs font-semibold text-teal-400 uppercase tracking-wider">Baloncesto · 2026</span>
+                    <h2 class="text-xl font-extrabold text-white mt-1 leading-snug">Lesiones en baloncesto de competición</h2>
+                </div>
+                <button onclick="cerrarModalLesionesBaloncesto()" class="shrink-0 text-slate-400 hover:text-white transition-colors mt-1">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+            </div>
+            <div class="px-6 py-6 space-y-5 text-slate-300 text-sm leading-relaxed">
+
+                <img src="Lesiones baloncesto.png" alt="Lesiones en baloncesto de competición" class="w-full rounded-xl border border-slate-700">
+
+                <p class="text-white font-semibold">Revisión: prevalencia, factores de riesgo y prevención de lesiones en baloncesto de competición</p>
+
+                <h3 class="text-base font-bold text-white pt-2">1. Introducción</h3>
+                <p>El baloncesto es un deporte de contacto con demandas físicas muy específicas: saltos repetidos, cambios bruscos de dirección, aceleraciones y deceleraciones, desplazamientos laterales y aterrizajes, lo que lo sitúa entre los deportes de equipo con mayor riesgo de lesión [1]. En España es el segundo deporte con más licencias en hombres y el primero en mujeres, aunque los estudios epidemiológicos específicos son relativamente escasos [2]. El conocimiento de la epidemiología de las lesiones constituye el primer paso («paso 1» de la secuencia de prevención de van Mechelen) para diseñar estrategias preventivas basadas en la evidencia [3].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">2. Prevalencia e incidencia de lesiones</h3>
+                <h4 class="text-sm font-bold text-white pt-1">2.1. Tasas generales de incidencia</h4>
+                <p>Las tasas de incidencia varían considerablemente según la definición de lesión empleada (lesiones con baja médica, con tiempo de pérdida deportiva, que requieren atención médica, etc.) y la unidad de exposición (horas de actividad, exposiciones de atleta). En un estudio prospectivo español con 117 jugadores y jugadoras de equipos profesionales y amateurs durante una temporada (2014-2015), se registraron 11,6 lesiones por 1.000 horas de actividad deportiva: 9,6 por 1.000 horas de entrenamiento y 47,3 por 1.000 horas de competición; las lesiones con tiempo de baja fueron 4,1 por 1.000 horas de actividad total [2]. En baloncesto universitario estadounidense (NCAA), las tasas fueron de 7,97 lesiones por 1.000 exposiciones de atleta (AE) en hombres y 6,54/1.000 AE en mujeres [4]. En el baloncesto profesional (NBA y WNBA), la tasa de lesiones en partido fue de 19,3/1.000 AE en la NBA y 24,9/1.000 AE en la WNBA [5]. En jugadores recreativos, la incidencia descrita oscila entre 0,0047 lesiones/1.000 AE (lesiones dentales) y 10,1/1.000 AE (lesiones globales en partido) [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.2. Distribución anatómica</h4>
+                <p>Los datos son muy consistentes: el miembro inferior es la región más afectada, con alrededor del 63-65 % de todas las lesiones [1,5]. En la revisión sistemática integradora de Andreoli et al. (12.960 lesiones), el tobillo concentró el 21,9 % de las lesiones y la rodilla el 17,8 % [1]. El esguince de tobillo es, de forma reiterada, la lesión más frecuente en todos los niveles: 17,9 % en hombres y 16,6 % en mujeres en la NCAA [4]; el esguince lateral de tobillo fue el diagnóstico más común en NBA y WNBA (13,7 % del total) [5]; y en el estudio español el esguince de tobillo fue la lesión más prevalente (50 % de los jugadores), seguida de las lesiones musculares de muslo (12,2 %) y la tendinitis rotuliana (7,4 %) [2]. La rodilla, aunque menos frecuente que el tobillo en términos absolutos, es la región que genera mayor tiempo de baja: en el estudio canadiense universitario, la rodilla concentró el 46 % de todo el tiempo de pérdida deportiva, con una media de 18,25 días por lesión [6]; en el estudio español, el tobillo fue la principal localización de lesiones con ≥8 días de baja y la rodilla de las que causaron ≥29 días [2].</p>
+                <p>Otras regiones relevantes son la mano/muñeca y los dedos (que predominan sobre hombro-brazo en el miembro superior, 8,7 % frente a 4,5 %) [1], la cabeza/cuello (más frecuente en niños y adolescentes que en adultos) y el tronco/columna (más prevalente en profesionales) [1].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">2.3. Diferencias por sexo y nivel de competición</h4>
+                <p>Los resultados por sexo son matizados. En la NCAA la tasa global fue mayor en hombres que en mujeres (RR = 1,22), pero las mujeres presentaron una tasa de lesiones graves mayor (RR = 1,93) y una tasa de lesión del ligamento cruzado anterior (LCA) muy superior (RR = 2,84) [4]. En el ámbito profesional, las jugadoras de la WNBA tuvieron una tasa de lesión en partido significativamente mayor que los NBA (24,9 vs 19,3/1.000 AE), con tasas de lesión de rodilla y de LCA en partido superiores (la tasa de LCA en partido fue 4 veces mayor en la WNBA) [5]. En baloncesto de instituto, las chicas presentaron mayor riesgo de lesión que los chicos (RR = 1,64) [7]. En el estudio español no se hallaron diferencias significativas por sexo en la tasa de lesiones con ≥7 días de baja en el análisis multivariante, aunque los hombres tuvieron más lesiones por contacto de alta energía [2].</p>
+                <p>En cuanto al nivel competitivo, no se encontraron diferencias significativas de incidencia entre ligas profesionales y amateurs en el estudio español [2]; el mayor número absoluto de lesiones se produce en el entrenamiento (por el mayor volumen de exposición), pero la incidencia relativa y la gravedad son mayores en la competición [2,4,6]. En la NCAA, la tasa en competición fue el doble que en entrenamiento (RR = 2,12 en hombres; 1,96 en mujeres) [4], y en el estudio canadiense las lesiones graves (≥7 sesiones de baja) fueron 3,7 veces más frecuentes en partidos que en entrenamientos [6].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">3. Factores de riesgo</h3>
+                <h4 class="text-sm font-bold text-white pt-1">3.1. Lesión previa (el factor más consistente)</h4>
+                <p>La historia de lesión previa es el factor de riesgo intrínseco más sólidamente documentado. En jugadores españoles, la lesión recurrente potencial fue el único factor predictivo significativo de lesión grave (OR ajustado 1,93; IC 95 % 1,03-3,62), aunque explicó solo un pequeño porcentaje del total [2]. Para el tobillo, el factor es aún más potente: los jugadores con antecedente de esguince tuvieron casi 5 veces más probabilidad de sufrir un nuevo esguince (OR 4,94) [8]. En jugadores de instituto, la lesión previa de miembro inferior en el último año aumentó el riesgo de toda lesión (RR 1,64), de lesión de miembro inferior (RR 1,57) y de esguince de tobillo (RR 1,52) [7]. El estudio universitario canadiense demostró que el antecedente de lesión en codo, hombro, rodilla, mano, columna lumbar/pelvis o conmoción cerebral multiplicaba el riesgo de re-lesión en la misma región [6]. La evidencia indica que las lesiones de tobillo inician con frecuencia un ciclo de lesión repetida: el 73 % de los jugadores con esguince referían un esguince previo, y más de la mitad no buscó tratamiento profesional [8].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.2. Factores biomecánicos y antropométricos</h4>
+                <p>La revisión sistemática sobre jugadores recreativos identificó como factores de riesgo significativos: el balanceo postural (postural sway; OR 10,2 para esguince de tobillo), las altas fuerzas de reacción del suelo en el salto (HR 1,26 por cada incremento), el peso &gt;75 kg (OR 3,39) y la acción de defender frente a manejar el balón (RR 1,36 para todas las lesiones; RR 1,45 para tobillo) [3]. Un mayor ángulo de flexión de rodilla en el aterrizaje se asoció a menor riesgo (HR 0,55), lo que subraya la importancia de la técnica de aterrizaje [3]. El mecanismo más frecuente del esguince de tobillo es el aterrizaje (45 %), en la mitad de los casos sobre el pie de otro jugador [8].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.3. Postura del pie y posición de juego</h4>
+                <p>Un estudio transversal en 220 jugadores profesionales españoles (ACB y LEB) mostró que el esguince lateral de tobillo y la tendinopatía rotuliana eran las lesiones más comunes; la tendinopatía rotuliana fue más frecuente en pies supinados (30,1 %) que en pronados (20,7 %) o neutros (19,8 %). Además, los bases tendían a presentar pie más supinado (FPI medio −0,48) mientras que los pívots presentaban pie más pronado (FPI 5,15) [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.4. Posición de juego</h4>
+                <p>El puesto de pívot (center) se ha asociado a mayores tasas de lesión: en el estudio canadiense los pívots presentaron tasas 13 veces mayores de lesión de rodilla, 4,5 veces de tobillo y 10 veces de pie respecto a los aleros [6]. En el estudio español, el escolta (posición 2) mostró descriptivamente la mayor incidencia, aunque sin significación estadística [2]. En el estudio de postura del pie, el pívot fue la posición más afectada por lesiones de miembro inferior [9].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">3.5. Otros factores</h4>
+                <p>Edad, sexo, altura, peso, IMC, posición y nivel profesional/amateur no se asociaron significativamente con el número de lesiones en el análisis multivariante del estudio español [2]. En jugadores recreativos, el peso ≥75 kg sí fue factor de riesgo [3]. La edad no parece ser determinante por sí sola: un jugador de 30 años sin lesiones recurrentes no tuvo más riesgo que uno de 20 años [2]. El calzado con cámaras de aire en el talón se asoció a 4,3 veces más riesgo de esguince de tobillo (probablemente por menor estabilidad del retropié) y la ausencia de estiramientos en el calentamiento a 2,6 veces más riesgo [8].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">4. Prevención de lesiones</h3>
+                <h4 class="text-sm font-bold text-white pt-1">4.1. Programas de calentamiento neuromuscular y propiocepción</h4>
+                <p>La evidencia apoya claramente la eficacia de los programas preventivos. El metaanálisis de Taylor et al. (10 estudios, jugadores competitivos) mostró que los programas profilácticos redujeron significativamente las lesiones generales de miembro inferior (OR 0,69; IC 95 % 0,57-0,85) y los esguinces de tobillo (OR 0,45; IC 95 % 0,29-0,69), pero no las roturas de LCA (OR 1,09) [10]. Tanto el entrenamiento neuromuscular (OR 0,58) como los soportes externos de tobillo (OR 0,38) redujeron el riesgo de esguince [10].</p>
+                <p>La revisión sistemática de Davis et al. sobre calentamientos neuromusculares concluyó que son probablemente eficaces para prevenir lesiones de miembro inferior en baloncesto: 5 de 7 estudios mostraron reducción significativa de lesiones globales de miembro inferior (evidencia de calidad moderada para programas multicomponente), 4 de 9 estudios redujeron esguinces de tobillo (todos ellos intervenciones de equilibrio/estabilidad) y 2 de 4 redujeron lesiones de LCA; la calidad de la evidencia para tobillo, rodilla y LCA se calificó como baja debido al reducido número de eventos [11].</p>
+                <p>El ensayo clínico aleatorizado por conglomerados de Emery et al. en 920 jugadores de instituto demostró que un programa de entrenamiento de equilibrio con plataforma inestable (wobble board) redujo significativamente las lesiones de inicio agudo (RR 0,71; IC 95 % 0,50-0,99), con tendencias favorables no significativas para todas las lesiones, lesiones de miembro inferior y esguinces de tobillo; la baja adherencia (solo el 60,3 % realizó el programa domiciliario) limitó el efecto [7]. En jugadores recreativos, los cuatro estudios de intervención incluidos en la revisión de Kilic et al. mostraron efectos significativos: el programa FIFA 11+ redujo todas las lesiones (OR 0,32), las de partido (OR 0,48), las de entrenamiento (OR 0,18) y las de miembro inferior (OR 0,40); los programas propioceptivos multiestación redujeron la incidencia con OR 0,34 [3].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.2. Soporte externo (vendaje y tobilleras)</h4>
+                <p>Los soportes externos de tobillo (tobilleras) son eficaces para reducir el riesgo de esguince (OR 0,38) [10]. En jugadores con antecedente de esguince, el vendaje funcional mostró una tendencia protectora (p = 0,06) [8]. El estudio de McKay et al. destaca que, en población mayoritariamente recreativa, el uso de soportes era escaso y se adoptaba sobre todo después de la primera lesión, lo que apunta a la necesidad de educación sobre prevención secundaria [8].</p>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.3. Estrategias complementarias y consideraciones prácticas</h4>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Aplicación precoz y universal:</strong> dado que la lesión previa es el principal factor predictivo pero explica solo una pequeña parte de las lesiones, las medidas preventivas deberían aplicarse a todo el equipo y desde edades tempranas, no solo a los jugadores con antecedentes [2].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Entrenamiento de la técnica de aterrizaje:</strong> dado que el aterrizaje es el mecanismo más frecuente del esguince de tobillo (45 %) y que las fuerzas de reacción del suelo elevadas y el menor ángulo de flexión de rodilla aumentan el riesgo, deben incorporarse programas de técnica de salto-aterrizaje [3,8].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Estiramientos/calentamiento:</strong> la ausencia de estiramientos en el calentamiento se asoció a mayor riesgo de esguince de tobillo [8], y los calentamientos dinámicos/neuromusculares multicomponente son la estrategia con mejor evidencia global [11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Cumplimiento y adherencia:</strong> la baja adherencia es una barrera crítica; los programas deben ser sostenibles, integrados en la rutina del equipo y de bajo coste [7,11].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Vigilancia epidemiológica:</strong> se recomienda establecer sistemas de vigilancia estacional que cubran a todos los equipos y usar definiciones de lesión y exposición consensuadas, que hoy no existen para el baloncesto, para poder comparar estudios y evaluar intervenciones [2,3].</span></li>
+                </ul>
+
+                <h4 class="text-sm font-bold text-white pt-1">4.4. Limitaciones de la evidencia</h4>
+                <p>Existen limitaciones metodológicas importantes: heterogeneidad en las definiciones de lesión y en las unidades de exposición, escaso número de eventos (especialmente para LCA), intervenciones multicomponente que impiden identificar los componentes más eficaces, y falta de estudios específicos de baloncesto (muchos programas se aplican de forma uniforme a varios deportes) [3,10,11]. En particular, ningún programa ha demostrado hasta la fecha reducir las roturas de LCA en baloncesto [10], lo que sugiere que los programas actuales (centrados en planos sagitales y tareas bipodales) pueden no proporcionar el estímulo adecuado para los mecanismos de lesión específicos del baloncesto (movimientos en plano frontal, aterrizajes monopodales) [10].</p>
+
+                <h3 class="text-base font-bold text-white pt-2">5. Conclusiones</h3>
+                <ul class="space-y-3 pl-1">
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Prevalencia:</strong> el baloncesto de competición presenta tasas de incidencia de entre ~4 y ~48 lesiones por 1.000 horas según la definición y el contexto; la competición tiene mayor incidencia relativa y gravedad que el entrenamiento [2,4,6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Localización:</strong> el miembro inferior concentra ~65 % de las lesiones; el esguince de tobillo es la lesión más frecuente y la rodilla la que más tiempo de baja genera; el LCA es una preocupación especial en mujeres [1,2,4–6].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Factores de riesgo:</strong> la lesión previa es el factor más consistente; le siguen factores biomecánicos (balanceo postural, fuerzas de aterrizaje), el peso, la posición de pívot, la postura del pie, el sexo femenino (LCA) y la acción de defender [2,3,6–9].</span></li>
+                    <li class="flex gap-3"><span class="text-teal-400 mt-0.5 shrink-0"><i data-lucide="chevron-right" class="w-4 h-4"></i></span><span><strong class="text-white">Prevención:</strong> los calentamientos neuromusculares multicomponente, el entrenamiento propioceptivo/de equilibrio y los soportes externos reducen significativamente las lesiones de miembro inferior y los esguinces de tobillo (OR 0,45-0,69); la evidencia para la prevención del LCA sigue siendo insuficiente [3,7,10,11]. La adherencia y la implementación temprana y universal son claves para el éxito [2,7,11].</span></li>
+                </ul>
+
+                <h3 class="text-base font-bold text-white pt-2">Referencias</h3>
+                <div class="bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-xs space-y-2">
+                    <p>[1] Andreoli CV, Chiaramonti BC, Biruel E, Pochini A de C, Ejnisman B, Cohen M. Epidemiology of sports injuries in basketball: integrative systematic review. <em>BMJ Open Sport &amp; Exercise Medicine</em>. 2018;4(1):e000468. DOI: 10.1136/bmjsem-2018-000468</p>
+                    <p>[2] Mateos Conde J, Cabero Morán M, Moreno Pascual C. Prospective epidemiological study of basketball injuries during one competitive season in professional and amateur Spanish basketball. <em>The Physician and Sportsmedicine</em>. 2021;50(4):349-358. DOI: 10.1080/00913847.2021.1943721</p>
+                    <p>[3] Kilic Ö, Van Os V, Kemler E, Barendrecht M, Gouttebarge V. The 'Sequence of Prevention' for musculoskeletal injuries among recreational basketballers: a systematic review of the scientific literature. <em>The Physician and Sportsmedicine</em>. 2018;46(2):197-212. DOI: 10.1080/00913847.2018.1424496</p>
+                    <p>[4] Zuckerman SL, Wegner AM, Roos KG, Djoko A, Dompier TP, Kerr ZY. Injuries sustained in National Collegiate Athletic Association men's and women's basketball, 2009/2010–2014/2015. <em>British Journal of Sports Medicine</em>. 2016;52(4):261-268. DOI: 10.1136/bjsports-2016-096005</p>
+                    <p>[5] Deitch JR, Starkey C, Walters SL, Moseley JB. Injury Risk in Professional Basketball Players. <em>The American Journal of Sports Medicine</em>. 2006;34(7):1077-1083. DOI: 10.1177/0363546505285383</p>
+                    <p>[6] Meeuwisse WH, Sellmer R, Hagel BE. Rates and Risks of Injury during Intercollegiate Basketball. <em>The American Journal of Sports Medicine</em>. 2003;31(3):379-385. DOI: 10.1177/03635465030310030901</p>
+                    <p>[7] Emery CA, Rose MS, McAllister JR, Meeuwisse WH. A Prevention Strategy to Reduce the Incidence of Injury in High School Basketball: A Cluster Randomized Controlled Trial. <em>Clinical Journal of Sport Medicine</em>. 2007;17(1):17-24. DOI: 10.1097/jsm.0b013e31802e9c05</p>
+                    <p>[8] McKay GD, Goldie PA, Payne WR, Oakes BW. Ankle injuries in basketball: injury rate and risk factors. <em>British Journal of Sports Medicine</em>. 2001;35(2):103-108. DOI: 10.1136/bjsm.35.2.103</p>
+                    <p>[9] Lopezosa-Reca E, Gijon-Nogueron G, Morales-Asencio JM, Cervera-Marin JA, Luque-Suarez A. Is There Any Association Between Foot Posture and Lower Limb–Related Injuries in Professional Male Basketball Players? A Cross-Sectional Study. <em>Clinical Journal of Sport Medicine</em>. 2020;30(1):46-51. DOI: 10.1097/jsm.0000000000000563</p>
+                    <p>[10] Taylor JB, Ford KR, Nguyen AD, Terry LN, Hegedus EJ. Prevention of Lower Extremity Injuries in Basketball. <em>Sports Health: A Multidisciplinary Approach</em>. 2015;7(5):392-398. DOI: 10.1177/1941738115593441</p>
+                    <p>[11] Davis AC, Emptage NP, Pounds D, et al. The Effectiveness of Neuromuscular Warmups for Lower Extremity Injury Prevention in Basketball: A Systematic Review. <em>Sports Medicine - Open</em>. 2021;7(1). DOI: 10.1186/s40798-021-00355-1</p>
+                </div>
+            </div>
+            <div class="sticky bottom-0 bg-slate-900 border-t border-slate-800 px-6 py-4 flex items-center justify-between">
+                <span class="text-slate-500 text-sm">Baloncesto · Prevención de lesiones</span>
+                <button onclick="compartirEntrada(event,'lesiones-baloncesto-competicion','Lesiones en baloncesto de competición')" class="text-sm text-slate-400 hover:text-teal-300 transition-colors mr-auto flex items-center gap-1.5"><i data-lucide="share-2" class="w-4 h-4"></i>Compartir</button>
+                <button onclick="cerrarModalLesionesBaloncesto()" class="text-sm text-slate-400 hover:text-white transition-colors">Cerrar</button>
             </div>
         </div>
     </div>
@@ -6230,6 +6380,10 @@
             document.body.style.overflow = '';
         }
 
+        function abrirSSGData() {
+            window.open('SSG Data 1.0.html', '_blank');
+        }
+
         function abrirEndurancePro() {
             window.open('Endurance Pro.html', '_blank');
         }
@@ -6584,6 +6738,17 @@
         }
         function cerrarModalFuerzaRemo() {
             document.getElementById('modal-fuerza-remo-competicion').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function abrirModalLesionesBaloncesto() {
+            const modal = document.getElementById('modal-lesiones-baloncesto-competicion');
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            lucide.createIcons();
+        }
+        function cerrarModalLesionesBaloncesto() {
+            document.getElementById('modal-lesiones-baloncesto-competicion').classList.add('hidden');
             document.body.style.overflow = '';
         }
 
