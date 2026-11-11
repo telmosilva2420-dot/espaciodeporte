@@ -182,7 +182,7 @@ input[inputmode=decimal],input.time{font-family:var(--font-mono);font-variant-nu
 .cat-head h2{font-family:var(--font-display);font-size:26px;font-weight:600;line-height:1.1}
 .cat-head .count{font-family:var(--font-mono);font-size:12px;color:var(--muted)}
 .cat-head .btn{margin-left:auto}
-.tests{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;align-items:start}
+.tests{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:12px;align-items:start}
 .test{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s}
 .test.on{border-color:var(--accent);box-shadow:inset 3px 0 0 var(--accent)}
 .test.wide{grid-column:1 / -1}
@@ -208,7 +208,7 @@ input[inputmode=decimal],input.time{font-family:var(--font-mono);font-variant-nu
 .entry-head{display:flex;flex-direction:column;gap:2px}
 .entry-head h3{font-size:16px;font-weight:600}
 .entry-head p{margin:0;font-size:12.5px;color:var(--muted)}
-.entry-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 14px}
+.entry-fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(230px,100%),1fr));gap:12px 14px}
 .entry-fields .wide{grid-column:1 / -1}
 .entry-res{background:var(--surface-2);border-left:1px solid var(--line);padding:16px 18px;display:flex;flex-direction:column;gap:10px}
 .res-label{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
@@ -268,7 +268,7 @@ table.prof .err{color:var(--danger);font-size:12px}
 .index-cap{font-size:13px;color:var(--ink-2);max-width:24ch;display:flex;flex-direction:column;gap:6px}
 .dist{display:flex;height:10px;border-radius:5px;overflow:hidden;gap:2px;margin-top:4px}
 .dist i{display:block;height:100%}
-.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:12px}
 .tile{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow)}
 .tile h3{font-size:13px;font-weight:600;color:var(--ink-2)}
 .tile .big{font-family:var(--font-display);font-size:38px;font-weight:600;line-height:1}
@@ -280,7 +280,7 @@ table.prof .err{color:var(--danger);font-size:12px}
 .chip{border:1px solid var(--line-2);background:var(--surface);border-radius:999px;padding:5px 12px;font-size:13px;cursor:pointer;color:var(--ink-2)}
 .chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
 .chart-box{position:relative;width:100%}
-.curves{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.curves{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(270px,100%),1fr));gap:12px}
 .curve{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;background:var(--surface)}
 .curve-head{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
 .curve-head h4{margin:0;font-size:13px;font-weight:600;line-height:1.25}
@@ -356,6 +356,165 @@ table.rmt .tag{font-size:9px;padding:1px 5px;font-family:var(--font-body)}
 .entry.stack{grid-template-columns:1fr}
 .entry.stack .entry-res{border-left:none;border-top:1px solid var(--line)}
 
+/* ======================= Adaptación a pantallas ======================= */
+.sm{display:none}
+.topbar{min-width:0}
+.brand{min-width:0;overflow:hidden;flex:0 1 auto}
+.brand-text{display:flex;align-items:center;white-space:nowrap;min-width:0;overflow:hidden}
+.brand-name{overflow:hidden;text-overflow:ellipsis;min-width:0}
+.top-actions{flex:none;margin-left:auto}
+.top-actions .btn{gap:6px}
+.athlete-chip{flex:1 1 auto;justify-content:flex-end;overflow:hidden}
+.athlete-chip > *{white-space:nowrap}
+@media (min-width: 601px){ .brand{flex:0 0 auto} }
+@media (max-width: 1280px){ .athlete-chip .bit,.athlete-chip .sep{display:none} }
+/* Tabla del perfil: primera columna fija al desplazarse en horizontal */
+@media (min-width: 821px){
+  table.prof td.nm,table.prof th:first-child{position:sticky;left:0;z-index:1;background:var(--surface);box-shadow:1px 0 0 var(--line)}
+  table.prof th:first-child{background:var(--surface-2);z-index:2}
+}
+@media (max-width: 1280px) and (min-width: 821px){
+  table.prof{font-size:13px}
+  table.prof td,table.prof th{padding:7px 8px}
+}
+@media (max-width: 900px){
+  .topbar{position:static;padding:8px 14px;gap:10px}
+  .rail{top:0}
+  .main{padding:18px 16px 48px}
+  .view{gap:16px}
+  .card{padding:16px}
+  input[type=text],input[type=date],input:not([type]),select,textarea{font-size:16px;min-height:42px}
+  .tomas input{width:72px}
+  .btn{min-height:40px}
+  .btn-s{min-height:34px}
+  .rm-table td.n input{width:76px}
+}
+@media (max-width: 820px){
+  .table-wrap.resp{border:none;background:transparent;overflow:visible}
+  table.prof{min-width:0;font-size:14px}
+  table.prof thead{display:none}
+  table.prof,table.prof tbody{display:block}
+  table.prof tr{display:grid;grid-template-columns:1fr 1fr;gap:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow)}
+  table.prof tr.cat-row{display:block;background:transparent;border:none;box-shadow:none;padding:8px 2px 2px;margin:6px 0 4px}
+  table.prof tr.cat-row td{background:transparent;padding:0;font-size:22px;border:none}
+  table.prof td{border:none;padding:0;display:flex;flex-direction:column;gap:3px;text-align:left !important;min-width:0}
+  table.prof td[data-label]::before{content:attr(data-label);font-family:var(--font-body);font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+  table.prof td.nm{grid-column:1 / -1;font-weight:600;font-size:15.5px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+  table.prof td.num{font-size:15px}
+  table.prof input,table.prof select{width:100%}
+  table.prof td[data-c=gauge]{justify-content:flex-start}
+  .gauge{width:100%;max-width:240px;margin-top:4px}
+  .toolbar .field{min-width:0;flex:1 1 100%}
+  .toolbar .btn{flex:1 1 auto}
+}
+@media (max-width: 640px){
+  .rm-table thead{display:none}
+  .rm-table,.rm-table tbody{display:block}
+  .rm-table tr{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;padding:12px;border:1px solid var(--line);border-radius:8px;margin-bottom:10px;position:relative;background:var(--surface-2)}
+  .rm-table td{display:flex;flex-direction:column;gap:3px;padding:0 !important;min-width:0}
+  .rm-table td[data-label]::before{content:attr(data-label);font-size:11.5px;color:var(--muted)}
+  .rm-table td.ej{grid-column:1 / -1;padding-right:40px !important}
+  .rm-table td.n input{width:100%}
+  .rm-table td.est{grid-column:1 / -1;font-size:14px}
+  .rm-table td.act{position:absolute;top:8px;right:6px}
+  table.evals{min-width:0}
+  table.evals thead{display:none}
+  table.evals,table.evals tbody{display:block}
+  table.evals tr{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+  table.evals tr.open{background:var(--accent-soft);padding:12px 10px;border-radius:8px}
+  table.evals tr.open td{background:transparent}
+  table.evals td{border:none !important;padding:0;display:flex;flex-direction:column;gap:2px;text-align:left !important}
+  table.evals td[data-label]::before{content:attr(data-label);font-size:11px;color:var(--muted);font-family:var(--font-body)}
+  table.evals td.fe{grid-column:1 / -1;font-weight:600;font-size:15px;flex-direction:row;align-items:center;gap:8px}
+  table.evals td.fe::before{display:none}
+  table.evals td.actions{grid-column:1 / -1;flex-direction:row;justify-content:flex-start;gap:6px;margin-top:4px}
+  table.evals td.actions .btn{margin-left:0}
+  .ath-head .btn{width:100%}
+  .rm-curve{padding:10px}
+  .rm-chart{height:220px}
+  .rm-tables{gap:6px}
+  table.rmt{font-size:11.5px}
+  table.rmt .tag{display:none}
+  .radar-box{height:340px !important}
+  .index{flex-wrap:wrap;gap:12px}
+  .hero h2{font-size:28px}
+  .nav-foot .btn{flex:1 1 auto}
+  .export-btns .btn{min-height:44px}
+}
+@media (max-width: 600px){
+  .brand-name .lg,.top-actions .lg{display:none}
+  .brand-name .sm,.top-actions .sm{display:inline}
+  .brand-name{font-size:16px;letter-spacing:.04em}
+  .brand-mark{width:24px;height:24px}
+  .brand-ver{display:none}
+  .topbar{gap:8px;padding:8px 12px}
+  .top-actions{gap:6px}
+  .top-actions .btn{padding:6px 9px}
+  .step-n{font-size:18px;min-width:20px}
+  .step-name{font-size:13px}
+  .banner{padding:10px 12px}
+  .banner .btn{width:100%}
+  .cat-head h2{font-size:22px}
+  .cat-head .btn{margin-left:0}
+  .sel-summary .stat b{font-size:19px}
+  .dialog{padding:16px}
+  .dialog .actions .btn{flex:1 1 auto}
+}
+@media (max-width: 360px){
+  .brand-ver{display:none}
+  .series{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (hover: none){
+  .icon-btn{padding:8px 10px;font-size:17px}
+  .chip{padding:8px 14px}
+}
+.res-alert{margin:0;font-size:13px;font-weight:600;line-height:1.4;padding:8px 10px 8px 12px;border-radius:6px;background:color-mix(in srgb,var(--danger) 10%,var(--surface));color:var(--danger);border-left:3px solid var(--danger)}
+.health-banner{display:flex;flex-direction:column;gap:4px;padding:12px 16px 12px 18px;border-radius:var(--radius);background:color-mix(in srgb,var(--danger) 10%,var(--surface));color:var(--danger);border:1px solid color-mix(in srgb,var(--danger) 35%,transparent);border-left:4px solid var(--danger);font-size:14px}
+.health-banner b{font-size:13px;letter-spacing:.06em;text-transform:uppercase}
+.alert-inline{display:block;font-style:normal;font-size:11.5px;line-height:1.35;color:var(--danger);font-weight:600;margin-top:3px}
+table.prof tr.has-alert td.nm{box-shadow:inset 3px 0 0 var(--danger)}
+.curve.has-alert{border-color:color-mix(in srgb,var(--danger) 45%,var(--line))}
+.curve .res-alert{font-size:12px;padding:6px 8px 6px 10px}
+.fd-card{border-top:3px solid var(--b-vhigh)}
+.fd-card.deb{border-top-color:var(--b-vlow)}
+.fd-card .card-title{align-items:center}
+.fd-ico{display:inline-flex;color:var(--b-vhigh)}
+.fd-card.deb .fd-ico{color:var(--b-vlow)}
+.fd-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.fd-list li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--line)}
+.fd-list li:last-child{border-bottom:none}
+.fd-name{font-weight:600;font-size:14px;min-width:0}
+.fd-name small{display:block;font-weight:400;font-size:12px;color:var(--muted)}
+.fd-val{font-family:var(--font-mono);font-size:13px;color:var(--ink-2);white-space:nowrap}
+.fd-p{font-family:var(--font-display);font-size:22px;font-weight:600;min-width:58px;text-align:right;font-variant-numeric:tabular-nums}
+.fd.compact .card{box-shadow:none;padding:12px 14px}
+.fd.compact .fd-list li{padding:6px 0}
+.fd.compact .fd-p{font-size:18px}
+.fd-tag{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:600;padding:2px 8px 2px 6px;border-radius:999px;border:1px solid currentColor;color:var(--b-vhigh);white-space:nowrap}
+.fd-tag.deb{color:var(--b-vlow)}
+.fd + .ref{margin-top:-8px}
+@media (max-width: 640px){ .fd-list li{grid-template-columns:minmax(0,1fr) auto} .fd-val{grid-column:1;grid-row:2;font-size:12px} .fd-p{grid-row:1 / span 2;grid-column:2;align-self:center} }
+.crit-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:16px 24px;align-items:end}
+.crit-fields{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
+.crit-fields .field{flex:1 1 180px}
+.crit-input{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:7px;overflow:hidden;background:var(--surface)}
+.crit-input span{font-family:var(--font-display);font-weight:600;font-size:18px;padding:0 10px;align-self:stretch;display:flex;align-items:center;color:var(--on-accent);background:var(--b-vhigh)}
+.crit-input.deb span{background:var(--b-vlow)}
+.crit-input input{border:none;border-radius:0;font-family:var(--font-mono);font-size:16px;text-align:right}
+.crit-input:focus-within{outline:2px solid var(--accent);outline-offset:1px}
+.crit-input input:focus-visible{outline:none}
+.crit-scale{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:16px;gap:2px}
+.crit-scale i{display:block;height:100%}
+.crit-scale .deb{background:var(--b-vlow)}
+.crit-scale .mid{background:var(--surface-3)}
+.crit-scale .fort{background:var(--b-vhigh)}
+.crit-legend{position:relative;height:16px;margin-top:4px;font-family:var(--font-mono);font-size:11px;color:var(--muted)}
+.crit-legend span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.crit-legend span:first-child{transform:none;left:0}
+.crit-legend span:last-child{transform:translateX(-100%)}
+.crit-sum{margin:8px 0 0;font-size:13.5px;color:var(--ink-2)}
+@media (max-width: 900px){ .crit-grid{grid-template-columns:1fr} }
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
@@ -370,10 +529,10 @@ table.rmt .tag{font-size:9px;padding:1px 5px;font-family:var(--font-body)}
         <path d="M16 22l5.5-7.5" stroke="#eef1ea" stroke-width="2.2" stroke-linecap="round"/>
         <circle cx="16" cy="22" r="2.4" fill="#eef1ea"/>
       </svg>
-      <div class="brand-text"><span class="brand-name">Performance Assessment</span><span class="brand-ver">1.0</span></div>
+      <div class="brand-text"><span class="brand-name"><span class="lg">Performance Assessment</span><span class="sm" aria-hidden="true">Perf. Assessment</span></span><span class="brand-ver">1.0</span></div>
     </div>
     <div class="athlete-chip" id="athleteChip"></div>
-    <div class="top-actions"><button class="btn btn-ghost btn-s" type="button" data-act="save-eval" id="saveBtn">Guardar</button><button class="btn btn-ghost btn-s" type="button" data-act="new-eval">Nueva evaluación</button></div>
+    <div class="top-actions"><button class="btn btn-ghost btn-s" type="button" data-act="save-eval" id="saveBtn">Guardar</button><button class="btn btn-ghost btn-s" type="button" data-act="new-eval" aria-label="Nueva evaluación"><span class="lg">Nueva evaluación</span><span class="sm" aria-hidden="true">Nueva</span></button></div>
   </header>
   <nav class="rail" id="rail" aria-label="Pasos de la evaluación"></nav>
   <main class="main" id="main" tabindex="-1"></main>
@@ -598,6 +757,8 @@ function makeCtx(state) {
     get edad() { if (!isNum(age)) { this.missing.add('edad'); return null; } return Math.floor(age); },
     get sexo() { if (p.sexo !== 'H' && p.sexo !== 'M') { this.missing.add('sexo'); return null; } return p.sexo; },
     note(k, txt) { this.notes.set(k, txt); },
+    alerts: [], alertMap: {},
+    alert(txt, outId) { if (!this.alerts.includes(txt)) this.alerts.push(txt); if (outId) this.alertMap[outId] = txt; },
     w(txt) { if (!this.warn.includes(txt)) this.warn.push(txt); },
   };
 }
@@ -643,6 +804,9 @@ function fatPct(c, model) {
   }
   return null;
 }
+/* Umbrales de % de grasa con riesgo para la salud */
+const FAT_RISK = { M: 15, H: 6 };
+function fatRiskMsg(sx, g) { if (!isNum(g) || !FAT_RISK[sx] || Math.round(g * 10) / 10 >= FAT_RISK[sx]) return null; return `Riesgo para la salud: % de grasa corporal inferior al ${FAT_RISK[sx]} % en ${sx === 'M' ? 'mujeres' : 'hombres'} (${fmt(g, 1)} %).`; }
 const ETNIA = [{ id: 'bh', name: 'Blanca o hispana', l1: 0, l2: 0 }, { id: 'as', name: 'Asiática', l1: -2.0, l2: -1.2 }, { id: 'af', name: 'Afroamericana', l1: 1.1, l2: 1.4 }];
 const tvToH = ms => (isNum(ms) ? 9.81 * Math.pow(ms / 1000, 2) / 8 * 100 : null);
 
@@ -828,7 +992,7 @@ const TESTS = [
     params: [{ id: 'modelo', label: 'Ecuación', options: FAT_MODELS.map(m => ({ id: m.id, name: m.name, formula: m.formula, ref: m.ref })) }],
     outputs: [{ id: 'grasa', name: '% Grasa corporal', unit: '%', dec: 1, sentido: 'menor', short: '% Grasa' }],
     fields: (state, sel) => fatFields(sel.params.modelo),
-    calc: (c, sel) => ({ grasa: fatPct(c, sel.params.modelo) }),
+    calc: (c, sel) => { const g = fatPct(c, sel.params.modelo); const m = fatRiskMsg(c.p.sexo, g); if (m) c.alert(m, 'grasa'); return { grasa: g }; },
   },
   {
     id: 'mme', cat: 'antro', name: 'Masa muscular esquelética', unit: 'kg', desc: 'Masa muscular esquelética total estimada (validada frente a resonancia magnética en adultos no obesos).',
@@ -873,6 +1037,7 @@ const TESTS = [
       const P = c.v('peso'), g = fatPct(c, sel.params.grasa_modelo);
       if (P === null || g === null) return { magro: null };
       c.note('gr', `% grasa aplicado = ${fmt(g, 1)} % · masa grasa = ${fmt(P * g / 100, 1)} kg`);
+      { const m = fatRiskMsg(c.p.sexo, g); if (m) c.alert(m); }
       return { magro: P * (1 - g / 100) };
     },
   },
@@ -1185,12 +1350,12 @@ function compute(state) {
     const c = makeCtx(state); let out = {};
     try { out = t.calc(c, sel) || {}; } catch (e) { c.w('Error de cálculo: ' + e.message); }
     const outs = t.dynamic ? t.dynOutputs(state, sel) : t.outputs.filter(o => t.outputs.length === 1 || sel.outputs[o.id] !== false);
-    byTest[t.id] = { missing: [...c.missing], warn: c.warn, notes: [...c.notes.values()], sel };
+    byTest[t.id] = { missing: [...c.missing], warn: c.warn, notes: [...c.notes.values()], alerts: c.alerts, sel };
     for (const o of outs) {
       const id = o.fullId || (t.outputs.length === 1 ? t.id : t.id + '_' + o.id);
       const unit = typeof o.unit === 'function' ? o.unit(sel) : o.unit;
       const dec = typeof o.dec === 'function' ? o.dec(sel) : o.dec;
-      list.push({ id, testId: t.id, cat: t.cat, name: o.name, short: o.short || o.name, unit, dec, sentido: typeof o.sentido === 'function' ? o.sentido(sel) : o.sentido, value: isNum(out[o.id]) ? out[o.id] : null, model: modelSummary(t, sel), protocol: (t.protocols.find(p => p.id === sel.protocol) || {}).name || '' });
+      list.push({ id, testId: t.id, cat: t.cat, name: o.name, short: o.short || o.name, unit, dec, sentido: typeof o.sentido === 'function' ? o.sentido(sel) : o.sentido, value: isNum(out[o.id]) ? out[o.id] : null, alert: c.alertMap[o.id] || null, model: modelSummary(t, sel), protocol: (t.protocols.find(p => p.id === sel.protocol) || {}).name || '' });
     }
   }
   for (const ind of list) ind.prof = profileOf(ind, state.baremos[ind.id]);
@@ -1220,6 +1385,12 @@ function catSummary(list) {
     return { ...cat, n: items.length, mean, band: isNum(mean) ? bandOf(mean) : null, total: list.filter(i => i.cat === cat.id).length };
   });
 }
+/* Fortalezas y debilidades según el percentil de rendimiento (cortes configurables; por defecto > P80 y < P40) */
+const FD_DEF = { fort: 80, deb: 40 };
+function fdCheck(c) { const f = parseNum(c && c.fort), d = parseNum(c && c.deb); if (!isNum(f) || !isNum(d)) return { ok: false, msg: 'Introduce los dos percentiles de corte.' }; if (f <= 0 || f >= 100 || d <= 0 || d >= 100) return { ok: false, msg: 'Usa percentiles entre 1 y 99.' }; if (d >= f) return { ok: false, msg: 'El corte de debilidad debe ser menor que el de fortaleza.' }; return { ok: true, fort: f, deb: d }; }
+function fdCuts(s) { s = s || (typeof state !== 'undefined' ? state : null); const r = fdCheck(s && s.criterios); return r.ok ? { fort: r.fort, deb: r.deb } : { ...FD_DEF }; }
+function fdOf(i, cut) { const p = i.prof; if (!p || !p.ok || p.sentido === 'neutro' || i.alert) return null; cut = cut || fdCuts(); if (p.pr > cut.fort) return 'fort'; if (p.pr < cut.deb) return 'deb'; return null; }
+function fdLists(list) { return { f: list.filter(i => fdOf(i) === 'fort').sort((a, b) => b.prof.pr - a.prof.pr), d: list.filter(i => fdOf(i) === 'deb').sort((a, b) => a.prof.pr - b.prof.pr) }; }
 function globalIndex(list) { const it = list.filter(i => i.prof.ok && i.prof.sentido !== 'neutro'); return it.length ? it.reduce((a, i) => a + i.prof.pr, 0) / it.length : null; }
 
 /* =====================================================================
@@ -1240,7 +1411,7 @@ function blankState() {
   return {
     meta: { app: APP.name, version: APP.version, demo: false, id: null, creado: new Date().toISOString(), modificado: null, guardado: null },
     persona: { nombre: '', sexo: '', fechaNac: '', fechaEval: today(), edad: '', rangoEdad: '', lateralidad: 'D', modalidad: '', especialidad: '', nivel: '', club: '', fase: '', evaluador: '', observaciones: '' },
-    seleccion: {}, datos: { rm: [] }, baremos: {}, informe: { comentarios: '', anexo: true, radar: true },
+    seleccion: {}, datos: { rm: [] }, baremos: {}, criterios: { fort: '80', deb: '40' }, informe: { comentarios: '', anexo: true, radar: true },
   };
 }
 function normalizeState(s) {
@@ -1253,6 +1424,7 @@ function normalizeState(s) {
   if (!Array.isArray(o.datos.rm)) o.datos.rm = [];
   o.baremos = s.baremos && typeof s.baremos === 'object' ? s.baremos : {};
   o.informe = { ...b.informe, ...(s.informe || {}) };
+  o.criterios = { ...b.criterios, ...(s.criterios || {}) };
   return o;
 }
 function demoState() {
@@ -1345,7 +1517,7 @@ function renderChrome() {
   const a = ageLabel(); if (a) bits.push(a);
   if (p.rangoEdad) bits.push(esc(p.rangoEdad));
   if (p.modalidad) bits.push(esc(p.modalidad));
-  $('#athleteChip').innerHTML = `${state.meta.demo ? '<span class="tag">Ejemplo</span>' : ''}<b>${esc(p.nombre || 'Sin nombre')}</b>${bits.map(b => `<span class="sep">·</span><span>${b}</span>`).join('')}`;
+  $('#athleteChip').innerHTML = `${state.meta.demo ? '<span class="tag">Ejemplo</span>' : ''}<b>${esc(p.nombre || 'Sin nombre')}</b>${bits.map(b => `<span class="sep">·</span><span class="bit">${b}</span>`).join('')}`;
   const nInd = RES.list.length, withVal = RES.list.filter(i => isNum(i.value)).length, prof = RES.list.filter(i => i.prof.ok).length;
   const withBar = RES.list.filter(i => isNum(i.prof.mu)).length;
   const nTests = TESTS.filter(t => getSel(state, t.id).on).length;
@@ -1474,10 +1646,10 @@ function rmEstText(r) {
 }
 function rmHTML() {
   const sel = getSel(state, 'rm'); const rows = state.datos.rm || []; const dos = sel.protocol === 'dos';
-  const num = (i, k, lbl) => `<td class="n"><input inputmode="decimal" data-rm="${i}" data-k="${k}" value="${esc(rows[i][k] ?? '')}" aria-label="${lbl} del ejercicio ${i + 1}" autocomplete="off"></td>`;
+  const num = (i, k, lbl, dl) => `<td class="n" data-label="${dl}"><input inputmode="decimal" data-rm="${i}" data-k="${k}" value="${esc(rows[i][k] ?? '')}" aria-label="${lbl} del ejercicio ${i + 1}" autocomplete="off"></td>`;
   const head = dos ? '<th>Ejercicio</th><th>Carga 1 (kg)</th><th>RM 1</th><th>Carga 2 (kg)</th><th>RM 2</th><th>1RM estimado</th>' : `<th>Ejercicio</th><th>Carga (kg)</th><th>Repeticiones</th><th>${sel.params.est === 'carga' ? 'Valor' : '1RM estimado'}</th>`;
   return `<div class="field wide"><span class="flabel">Ejercicios evaluados</span><div style="overflow-x:auto"><table class="rm-table"><thead><tr>${head}<th><span class="sr-only">Acciones</span></th></tr></thead><tbody>
-  ${rows.map((r, i) => `<tr><td><input list="dl-ejercicios" data-rm="${i}" data-k="ejercicio" value="${esc(r.ejercicio)}" aria-label="Ejercicio ${i + 1}" autocomplete="off"></td>${dos ? num(i, 'carga', 'Carga de la serie 1') + num(i, 'reps', 'RM de la serie 1') + num(i, 'carga2', 'Carga de la serie 2') + num(i, 'reps2', 'RM de la serie 2') : num(i, 'carga', 'Carga') + num(i, 'reps', 'Repeticiones')}<td class="est" data-rm-est="${i}">${rmEstText(r)}</td><td><button class="icon-btn" type="button" data-act="rm-del" data-i="${i}" aria-label="Eliminar ${esc(r.ejercicio || 'ejercicio')}">✕</button></td></tr>`).join('')}
+  ${rows.map((r, i) => `<tr><td class="ej" data-label="Ejercicio"><input list="dl-ejercicios" data-rm="${i}" data-k="ejercicio" value="${esc(r.ejercicio)}" aria-label="Ejercicio ${i + 1}" autocomplete="off"></td>${dos ? num(i, 'carga', 'Carga de la serie 1', 'Carga 1 (kg)') + num(i, 'reps', 'RM de la serie 1', 'RM 1') + num(i, 'carga2', 'Carga de la serie 2', 'Carga 2 (kg)') + num(i, 'reps2', 'RM de la serie 2', 'RM 2') : num(i, 'carga', 'Carga', 'Carga (kg)') + num(i, 'reps', 'Repeticiones', 'Repeticiones')}<td class="est" data-label="${dos || getSel(state, 'rm').params.est !== 'carga' ? '1RM estimado' : 'Valor'}" data-rm-est="${i}">${rmEstText(r)}</td><td class="act"><button class="icon-btn" type="button" data-act="rm-del" data-i="${i}" aria-label="Eliminar ${esc(r.ejercicio || 'ejercicio')}">✕</button></td></tr>`).join('')}
   </tbody></table></div><div><button class="btn btn-s" type="button" data-act="rm-add">+ Añadir ejercicio</button></div><small>${dos ? 'Dos series hasta el fallo por ejercicio, cada una entre 6 y 15 RM (p. ej., 8 RM y 14 RM).' : 'Por defecto, 12 repeticiones (12 RM).'} El nombre del ejercicio identifica su baremo.</small></div>${dos ? `<div class="field wide"><span class="flabel">Estimación de 1 a 20 RM</span><div id="rmCurves" class="rm-curves">${rmCurvesHTML()}</div></div>` : ''}`;
 }
 function rmCurvesHTML() {
@@ -1493,8 +1665,9 @@ function rmCurvesHTML() {
 function resultHTML(ids) {
   const inds = RES.list.filter(i => ids.includes(i.testId));
   const notes = [], miss = new Set(), warns = new Set();
-  ids.forEach(id => { const r = RES.byTest[id]; if (!r) return; notes.push(...r.notes); r.missing.forEach(m => miss.add(m)); r.warn.forEach(w => warns.add(w)); });
-  return `<span class="res-label">Resultado</span><div class="res-vals">${inds.map(i => `<div class="res-item"><span class="res-name">${esc(i.short)}</span><span class="res-val ${isNum(i.value) ? '' : 'empty'}">${fmt(i.value, i.dec)}</span><span class="res-unit">${esc(i.unit)}</span></div>`).join('') || '<p class="muted">Añade ejercicios para generar indicadores.</p>'}</div>${notes.length ? `<ul class="res-notes">${notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}${miss.size ? `<p class="res-missing">Faltan datos: ${[...miss].map(fieldLabel).map(esc).join(', ')}</p>` : ''}${[...warns].map(w => `<p class="res-warn">${esc(w)}</p>`).join('')}`;
+  const alerts = new Set();
+  ids.forEach(id => { const r = RES.byTest[id]; if (!r) return; notes.push(...r.notes); r.missing.forEach(m => miss.add(m)); r.warn.forEach(w => warns.add(w)); (r.alerts || []).forEach(a => alerts.add(a)); });
+  return `<span class="res-label">Resultado</span><div class="res-vals">${inds.map(i => `<div class="res-item"><span class="res-name">${esc(i.short)}</span><span class="res-val ${isNum(i.value) ? '' : 'empty'}">${fmt(i.value, i.dec)}</span><span class="res-unit">${esc(i.unit)}</span></div>`).join('') || '<p class="muted">Añade ejercicios para generar indicadores.</p>'}</div>${notes.length ? `<ul class="res-notes">${notes.map(n => `<li>${esc(n)}</li>`).join('')}</ul>` : ''}${miss.size ? `<p class="res-missing">Faltan datos: ${[...miss].map(fieldLabel).map(esc).join(', ')}</p>` : ''}${[...alerts].map(a => `<p class="res-alert" role="alert">${esc(a)}</p>`).join('')}${[...warns].map(w => `<p class="res-warn">${esc(w)}</p>`).join('')}`;
 }
 function entryCard(tests, title, sub, rendered) {
   let html = '';
@@ -1523,7 +1696,23 @@ function renderRegistro() {
     } else ts.forEach(t => { const sel = getSel(state, t.id); cards += entryCard([t], t.name, [t.protocols.find(p => p.id === sel.protocol)?.name, modelSummary(t, sel)].filter(Boolean).join(' · '), rendered); });
     out += `<section class="cat-section"><div class="cat-head"><h2>${esc(cat.name)}</h2></div>${cards}</section>`;
   }
-  return `${demoBanner()}${head(3, 'Introducción de datos', 'Introduce los resultados de cada prueba. Admite coma o punto decimal. Los indicadores se calculan al momento con el protocolo y el modelo elegidos.')}${out}${navFoot(3)}`;
+  return `${demoBanner()}${head(3, 'Introducción de datos', 'Introduce los resultados de cada prueba. Admite coma o punto decimal. Los indicadores se calculan al momento con el protocolo y el modelo elegidos.')}${critCardHTML()}${out}${navFoot(3)}`;
+}
+function critScaleHTML() {
+  const c = fdCuts(), k = fdCheck(state.criterios);
+  const { f, d } = fdLists(RES.list);
+  return `<div class="crit-scale" aria-hidden="true"><i class="deb" style="width:${c.deb}%"></i><i class="mid" style="width:${c.fort - c.deb}%"></i><i class="fort" style="width:${100 - c.fort}%"></i></div>
+  <div class="crit-legend"><span>P0</span><span style="left:${c.deb}%">P${fmtTrim(c.deb, 1)}</span><span style="left:${c.fort}%">P${fmtTrim(c.fort, 1)}</span><span style="left:100%">P100</span></div>
+  <p class="crit-sum">${k.ok ? '' : `<span class="res-warn">${esc(k.msg)} Mientras tanto se aplican P80 y P40.</span> `}Con estos criterios: <b>${f.length}</b> ${f.length === 1 ? 'fortaleza' : 'fortalezas'} y <b>${d.length}</b> ${d.length === 1 ? 'debilidad' : 'debilidades'} entre los indicadores perfilados.</p>`;
+}
+function critCardHTML() {
+  const c = state.criterios || {};
+  return `<section class="card crit"><div class="crit-grid"><div><h2 class="card-title">Criterios de fortalezas y debilidades</h2><p class="ref">Percentiles de rendimiento que delimitan las fortalezas y las debilidades en el Dashboard y en los informes. Se guardan con la evaluación.</p></div>
+  <div class="crit-fields">
+    <div class="field"><label for="crit_fort">Fortaleza si el percentil es mayor que</label><div class="crit-input fort"><span>P</span><input id="crit_fort" inputmode="decimal" autocomplete="off" data-crit="fort" value="${esc(c.fort ?? '')}"></div></div>
+    <div class="field"><label for="crit_deb">Debilidad si el percentil es menor que</label><div class="crit-input deb"><span>P</span><input id="crit_deb" inputmode="decimal" autocomplete="off" data-crit="deb" value="${esc(c.deb ?? '')}"></div></div>
+    <button class="btn btn-s btn-ghost" type="button" data-act="crit-reset">Restablecer P80 / P40</button>
+  </div></div><div id="critBox">${critScaleHTML()}</div></section>`;
 }
 function liveUpdate() {
   recompute();
@@ -1532,6 +1721,7 @@ function liveUpdate() {
   $$('[data-linked]').forEach(el => { el.textContent = linkedVal(el.dataset.linked); });
   $$('[data-pw]').forEach(el => { el.textContent = pwText(+el.dataset.pw); });
   $$('[data-rm-est]').forEach(el => { const r = (state.datos.rm || [])[+el.dataset.rmEst]; el.textContent = r ? rmEstText(r) : ''; });
+  const cb = $('#critBox'); if (cb) cb.innerHTML = critScaleHTML();
   renderChrome();
 }
 
@@ -1549,11 +1739,12 @@ function profCells(i) {
 }
 function profRow(i) {
   const b = state.baremos[i.id] || {}, pr = i.prof, c = profCells(i);
-  return `<tr data-row="${i.id}"><td class="nm">${esc(i.name)}<small>${esc(i.model || i.protocol)}</small></td><td class="num r">${fmt(i.value, i.dec)} <span class="unit">${esc(i.unit)}</span></td>
-  <td><select data-bar="${i.id}" data-k="sentido" aria-label="Sentido de ${esc(i.name)}">${SENTIDOS.map(([v, l]) => `<option value="${v}" ${pr.sentido === v ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
-  <td><input inputmode="decimal" autocomplete="off" data-bar="${i.id}" data-k="p2" value="${esc(b.p2 ?? '')}" aria-label="P2 de ${esc(i.name)}"></td>
-  <td><input inputmode="decimal" autocomplete="off" data-bar="${i.id}" data-k="p98" value="${esc(b.p98 ?? '')}" aria-label="P98 de ${esc(i.name)}"></td>
-  ${['musd', 'z', 'pct', 'pr'].map(k => `<td class="num ${k === 'musd' ? '' : 'r'}" data-c="${k}">${c[k]}</td>`).join('')}<td data-c="band">${c.band}</td><td data-c="gauge">${c.gauge}</td></tr>`;
+  const LBL = { musd: 'μ · σ', z: 'z', pct: 'Percentil', pr: 'P. rendimiento' };
+  return `<tr data-row="${i.id}" class="${i.alert ? 'has-alert' : ''}"><td class="nm">${esc(i.name)}<small>${esc(i.model || i.protocol)}</small>${i.alert ? `<em class="alert-inline" role="alert">${esc(i.alert)}</em>` : ''}</td><td class="num r" data-label="Resultado">${fmt(i.value, i.dec)} <span class="unit">${esc(i.unit)}</span></td>
+  <td data-label="Sentido"><select data-bar="${i.id}" data-k="sentido" aria-label="Sentido de ${esc(i.name)}">${SENTIDOS.map(([v, l]) => `<option value="${v}" ${pr.sentido === v ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
+  <td data-label="P2"><input inputmode="decimal" autocomplete="off" data-bar="${i.id}" data-k="p2" value="${esc(b.p2 ?? '')}" aria-label="P2 de ${esc(i.name)}"></td>
+  <td data-label="P98"><input inputmode="decimal" autocomplete="off" data-bar="${i.id}" data-k="p98" value="${esc(b.p98 ?? '')}" aria-label="P98 de ${esc(i.name)}"></td>
+  ${['musd', 'z', 'pct', 'pr'].map(k => `<td class="num ${k === 'musd' ? '' : 'r'}" data-c="${k}" data-label="${LBL[k]}">${c[k]}</td>`).join('')}<td data-c="band" data-label="Valoración">${c.band}</td><td data-c="gauge" data-label="Posición">${c.gauge}</td></tr>`;
 }
 function libOptions() { const lib = barLib(); return lib.length ? lib.map((b, k) => `<option value="${k}">${esc(b.nombre)} (${Object.keys(b.valores || {}).length})</option>`).join('') : '<option value="">No hay baremos guardados</option>'; }
 function renderPerfil() {
@@ -1576,7 +1767,7 @@ Percentil de rendimiento = Percentil, o 100 − Percentil si «menor es mejor»<
     <button class="btn" type="button" data-act="bar-save">Guardar baremo</button>
     <button class="btn btn-ghost btn-danger" type="button" data-act="bar-clear">Vaciar P2/P98</button>
   </div></section>
-  <div class="table-wrap"><table class="prof"><thead><tr><th>Indicador</th><th class="r">Resultado</th><th>Sentido</th><th>P2</th><th>P98</th><th>μ · σ</th><th class="r">z</th><th class="r">Percentil</th><th class="r">P. rend.</th><th>Valoración</th><th>Posición (−3σ … +3σ)</th></tr></thead><tbody>
+  <div class="table-wrap resp"><table class="prof"><thead><tr><th>Indicador</th><th class="r">Resultado</th><th>Sentido</th><th>P2</th><th>P98</th><th>μ · σ</th><th class="r">z</th><th class="r">Percentil</th><th class="r">P. rend.</th><th>Valoración</th><th>Posición (−3σ … +3σ)</th></tr></thead><tbody>
   ${CATS.map(cat => { const it = list.filter(i => i.cat === cat.id); return it.length ? `<tr class="cat-row"><td colspan="11">${esc(cat.name)}</td></tr>` + it.map(profRow).join('') : ''; }).join('')}
   </tbody></table></div>${navFoot(4)}`;
 }
@@ -1600,23 +1791,35 @@ function renderDashboard() {
   const dist = BANDS.map(b => ({ ...b, n: perf.filter(i => i.prof.band === b.id).length }));
   const meta = [p.sexo === 'H' ? 'Hombre' : p.sexo === 'M' ? 'Mujer' : '', ageLabel(), p.rangoEdad, p.modalidad, p.especialidad, p.nivel, p.fechaEval ? 'Evaluación: ' + new Date(p.fechaEval + 'T12:00:00').toLocaleDateString('es-ES') : ''].filter(Boolean);
   const filtered = dashFilter === 'all' ? prof : prof.filter(i => i.cat === dashFilter);
+  const alerts = RES.list.filter(i => i.alert);
   return `${demoBanner()}${head(5, 'Dashboard')}
+  ${alerts.length ? `<div class="health-banner" role="alert"><b>Aviso de salud</b>${alerts.map(i => `<span>${esc(i.alert)}</span>`).join('')}</div>` : ''}
   <section class="card hero"><div><h2>${esc(p.nombre || 'Sin nombre')}</h2><div class="meta">${meta.map(m => `<span>${esc(m)}</span>`).join('')}</div></div>
     <div class="index"><div class="index-num" aria-label="Índice global">${isNum(gi) ? `<small>P</small>${fmt(gi, 0)}` : '—'}</div><div class="index-cap"><span><b>Índice global de rendimiento</b><br>media de los percentiles de rendimiento (${perf.length} indicadores)</span>${isNum(gi) ? pill({ ok: true, band: bandOf(gi), sentido: 'mayor' }) : ''}
       <div class="dist" aria-hidden="true">${dist.filter(d => d.n).map(d => `<i style="flex:${d.n};background:var(--b-${d.id})" title="${d.perf}: ${d.n}"></i>`).join('')}</div><span class="muted" style="font-size:12px">${dist.filter(d => d.n).map(d => `${d.perf} ${d.n}`).join(' · ')}</span></div></div></section>
   <div class="tiles">${cats.filter(c => c.total).map(c => `<div class="tile"><h3>${esc(c.short)}</h3><div class="big">${isNum(c.mean) ? `<small>P</small>${fmt(c.mean, 0)}` : '—'}</div><div class="bar"><i style="width:${isNum(c.mean) ? c.mean : 0}%;background:var(--b-${c.band || 'mid'})"></i></div><span class="sub">${c.n} de ${c.total} indicadores valorados${c.band ? ' · ' + BANDS.find(b => b.id === c.band).perf : ''}</span></div>`).join('')}</div>
   <div class="filters" role="group" aria-label="Filtrar por categoría"><button class="chip" type="button" data-act="dash-filter" data-cat="all" aria-pressed="${dashFilter === 'all'}">Todas</button>${CATS.filter(c => prof.some(i => i.cat === c.id)).map(c => `<button class="chip" type="button" data-act="dash-filter" data-cat="${c.id}" aria-pressed="${dashFilter === c.id}">${esc(c.short)}</button>`).join('')}</div>
+  ${fdCardsHTML(filtered)}
   <div class="grid-2">
-    <section class="card"><h2 class="card-title">Perfil radial <small>percentil de rendimiento · referencia P50</small></h2><div class="chart-box" style="height:${Math.min(560, Math.max(380, filtered.length * 26 + 60))}px"><canvas id="chRadar" role="img" aria-label="Gráfico radial de percentiles de rendimiento"></canvas></div><p class="ref" id="radarNote"></p></section>
+    <section class="card"><h2 class="card-title">Perfil radial <small>percentil de rendimiento · referencia P50</small></h2><div class="chart-box radar-box" style="height:${Math.min(560, Math.max(380, filtered.length * 26 + 60))}px"><canvas id="chRadar" role="img" aria-label="Gráfico radial de percentiles de rendimiento"></canvas></div><p class="ref" id="radarNote"></p></section>
     <section class="card"><h2 class="card-title">Percentil por indicador <small>bandas P2 · P16 · P84 · P98 · contorno = descriptivo</small></h2><div class="chart-box" style="height:${Math.max(220, filtered.length * 26 + 60)}px"><canvas id="chBars" role="img" aria-label="Barras de percentil por indicador"></canvas></div></section>
   </div>
   ${(dashFilter === 'all' || dashFilter === 'fue') && rmFitsAll().length ? `<section class="card"><h2 class="card-title">Perfil carga–repeticiones <small>estimación de 1 a 20 RM a partir de dos series · puntos grandes = valores medidos</small></h2><div class="chart-box" style="height:360px"><canvas id="chRm" role="img" aria-label="Carga frente a repeticiones máximas por ejercicio"></canvas></div></section>` : ''}
   <section class="card"><h2 class="card-title">Posición en la distribución de referencia <small>curva normal definida por P2 y P98</small></h2><div class="curves">${filtered.map(curveCard).join('')}</div></section>${navFoot(5)}`;
 }
+const FD_ICON = { fort: '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 3l5 8H3z" fill="currentColor"/></svg>', deb: '<svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path d="M8 13L3 5h10z" fill="currentColor"/></svg>' };
+function fdTag(i) { const k = fdOf(i); return k ? `<span class="fd-tag ${k}">${FD_ICON[k]}${k === 'fort' ? 'Fortaleza' : 'Debilidad'}</span>` : ''; }
+function fdCardsHTML(items, compact = false) {
+  const { f, d } = fdLists(items);
+  const row = i => `<li><span class="fd-name">${esc(i.name)}<small>${esc(catById(i.cat).short)} · ${esc(bandLabel(i.prof))}</small></span><span class="fd-val">${fmt(i.value, i.dec)} <span class="unit">${esc(i.unit)}</span></span><span class="fd-p">P${fmtPct(i.prof.pr)}</span></li>`;
+  const card = (k, title, crit, list, empty) => `<section class="card fd-card ${k}"><h2 class="card-title"><span class="fd-ico">${FD_ICON[k]}</span>${title} <small>${crit} · ${list.length}</small></h2>${list.length ? `<ul class="fd-list">${list.map(row).join('')}</ul>` : `<p class="muted">${empty}</p>`}</section>`;
+  const cut = fdCuts(), F = fmtTrim(cut.fort, 1), D = fmtTrim(cut.deb, 1);
+  return `<div class="grid-2 fd${compact ? ' compact' : ''}">${card('fort', 'Fortalezas', `percentil de rendimiento > P${F}`, f, `Ningún indicador supera el percentil ${F}.`)}${card('deb', 'Debilidades', `percentil de rendimiento < P${D}`, d, `Ningún indicador queda por debajo del percentil ${D}.`)}</div><p class="ref">No se clasifican los indicadores descriptivos ni los que tienen un aviso de salud. En los indicadores en los que «menor es mejor» se usa el percentil invertido. Los percentiles de corte se cambian en <a href="#registro">Introducción de datos</a>.</p>`;
+}
 function rmFitsAll(s = state) { const sel = getSel(s, 'rm'); if (!sel.on || sel.protocol !== 'dos') return []; return (s.datos.rm || []).map(r => ({ r, fit: rmRowFit(r, sel) })).filter(x => x.fit && !x.fit.err); }
 function curveCard(i) {
   const pr = i.prof;
-  return `<div class="curve"><div class="curve-head"><h4>${esc(i.name)}</h4><span class="v">${fmt(i.value, i.dec)} ${esc(i.unit)}</span></div>${curveSVG(i)}<div class="curve-foot">${pill(pr)}<span class="num">P${fmtPct(pr.sentido === 'neutro' ? pr.pct : pr.pr)}${pr.sentido === 'menor' ? ' <span class="muted">(invertido)</span>' : ''}</span></div></div>`;
+  return `<div class="curve${i.alert ? ' has-alert' : ''}"><div class="curve-head"><h4>${esc(i.name)}</h4><span class="v">${fmt(i.value, i.dec)} ${esc(i.unit)}</span></div>${curveSVG(i)}${i.alert ? `<p class="res-alert">${esc(i.alert)}</p>` : ''}<div class="curve-foot"><span class="row" style="gap:6px">${pill(pr)}${fdTag(i)}</span><span class="num">P${fmtPct(pr.sentido === 'neutro' ? pr.pct : pr.pr)}${pr.sentido === 'menor' ? ' <span class="muted">(invertido)</span>' : ''}</span></div></div>`;
 }
 function curveSVG(i) {
   const pr = i.prof, W = 280, H = 104, pad = 12, top = 8, base = 66;
@@ -1665,12 +1868,13 @@ function renderInformes() {
       ${lib.length ? `<ul class="list">${lib.map((b, k) => `<li><div class="grow">${esc(b.nombre)}<small>${Object.keys(b.valores || {}).length} indicadores · ${esc(new Date(b.creado).toLocaleDateString('es-ES'))}</small></div><button class="btn btn-s" type="button" data-act="lib-apply" data-i="${k}">Aplicar</button><button class="icon-btn" type="button" data-act="lib-del" data-i="${k}" aria-label="Eliminar ${esc(b.nombre)}">✕</button></li>`).join('')}</ul>` : '<p class="ref">Guarda baremos desde el paso 4 para reutilizarlos con otras personas del mismo grupo.</p>'}
       <div class="row" style="margin-top:10px"><button class="btn btn-s" type="button" data-act="lib-export" ${lib.length ? '' : 'disabled'}>Exportar biblioteca</button><label class="btn btn-s btn-ghost" for="fileBar">Importar baremos</label><input type="file" id="fileBar" accept=".json,application/json" class="sr-only"></div></section>
   </div>
+  ${nProf ? `<section class="card"><h2 class="card-title">Fortalezas y debilidades <small>se incluyen en el informe PDF y en la exportación CSV/JSON</small></h2>${fdCardsHTML(RES.list, true)}</section>` : ''}
   <section class="card"><h2 class="card-title">Contenido del informe PDF</h2><div class="grid-2">
     <div class="field"><label for="in_informe_comentarios">Valoración y recomendaciones del evaluador</label><textarea id="in_informe_comentarios" data-bind="informe.comentarios" style="min-height:140px">${esc(inf.comentarios)}</textarea></div>
     <div style="display:flex;flex-direction:column;gap:10px"><span class="flabel">Secciones opcionales</span>
       <label class="check"><input type="checkbox" data-bindcheck="informe.radar" ${inf.radar ? 'checked' : ''}> Perfil radial</label>
       <label class="check"><input type="checkbox" data-bindcheck="informe.anexo" ${inf.anexo ? 'checked' : ''}> Anexo de protocolos, ecuaciones y referencias</label>
-      <p class="ref">Siempre se incluyen: datos personales, resumen por categorías, tabla de resultados con P2, P98, z, percentiles y valoración.</p></div>
+      <p class="ref">Siempre se incluyen: datos personales, resumen por categorías, fortalezas y debilidades, y la tabla de resultados con P2, P98, z, percentiles y valoración.</p></div>
   </div></section>${navFoot(6)}`;
 }
 
@@ -1758,7 +1962,7 @@ function newForAthlete(id) {
   const rec = evalLib().find(r => r.id === id); if (!rec) return;
   const src = normalizeState(rec.state), ns = blankState();
   ns.persona = { ...clone(src.persona), fechaEval: today(), observaciones: '' };
-  ns.seleccion = clone(src.seleccion); ns.baremos = clone(src.baremos);
+  ns.seleccion = clone(src.seleccion); ns.baremos = clone(src.baremos); ns.criterios = clone(src.criterios || ns.criterios);
   ns.datos.rm = (src.datos.rm || []).map(r => ({ id: uid(), ejercicio: r.ejercicio, carga: '', reps: r.reps || '12', carga2: '', reps2: r.reps2 || '' }));
   ns.informe.anexo = src.informe.anexo; ns.informe.radar = src.informe.radar;
   loadState(ns, 'datos');
@@ -1808,7 +2012,7 @@ function libListHTML() {
     return `<section class="card ath"><div class="ath-head"><div><h2>${esc(x.nombre || 'Sin nombre')}${x.demo ? ' <span class="tag">Ejemplo</span>' : ''}</h2><p class="meta">${meta.map(esc).join(' · ')}${meta.length ? ' · ' : ''}${list.length} ${list.length === 1 ? 'evaluación' : 'evaluaciones'}</p></div><button class="btn btn-s" type="button" data-act="lib-new-for" data-id="${esc(list[0].id)}">Nueva evaluación de este deportista</button></div>
     <div style="overflow-x:auto"><table class="evals"><thead><tr><th>Fecha de evaluación</th><th>Edad · categoría</th><th class="r">Indicadores perfilados</th><th class="r">Índice global</th><th>Guardada</th><th><span class="sr-only">Acciones</span></th></tr></thead><tbody>
     ${list.map(r => { const s = r.resumen, open = r.id === state.meta.id, b = isNum(s.indice) ? bandOf(s.indice) : null;
-      return `<tr class="${open ? 'open' : ''}"><td>${esc(fechaES(s.fechaEval))}${open ? ' <span class="tag soft">Abierta</span>' : ''}</td><td>${esc([isNum(s.edad) ? fmt(s.edad, s.fechaNac ? 1 : 0) + ' años' : '', s.rango].filter(Boolean).join(' · ') || '—')}</td><td class="num r">${s.nPerf} / ${s.nInd}</td><td class="num r">${b ? `<span class="dot" style="background:var(--b-${b})"></span>P${fmt(s.indice, 0)}` : '—'}</td><td class="muted">${esc(new Date(r.guardado).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }))}</td><td class="actions"><button class="btn btn-s" type="button" data-act="lib-open" data-id="${esc(r.id)}">Abrir</button><button class="btn btn-s btn-ghost" type="button" data-act="lib-export-one" data-id="${esc(r.id)}">JSON</button><button class="icon-btn" type="button" data-act="lib-delete" data-id="${esc(r.id)}" aria-label="Eliminar la evaluación del ${esc(fechaES(s.fechaEval))}">✕</button></td></tr>`; }).join('')}
+      return `<tr class="${open ? 'open' : ''}"><td class="fe" data-label="Fecha de evaluación">${esc(fechaES(s.fechaEval))}${open ? ' <span class="tag soft">Abierta</span>' : ''}</td><td data-label="Edad · categoría">${esc([isNum(s.edad) ? fmt(s.edad, s.fechaNac ? 1 : 0) + ' años' : '', s.rango].filter(Boolean).join(' · ') || '—')}</td><td class="num r" data-label="Indicadores perfilados">${s.nPerf} / ${s.nInd}</td><td class="num r" data-label="Índice global"><span>${b ? `<span class="dot" style="background:var(--b-${b})"></span>P${fmt(s.indice, 0)}` : '—'}</span></td><td class="muted" data-label="Guardada">${esc(new Date(r.guardado).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' }))}</td><td class="actions"><button class="btn btn-s" type="button" data-act="lib-open" data-id="${esc(r.id)}">Abrir</button><button class="btn btn-s btn-ghost" type="button" data-act="lib-export-one" data-id="${esc(r.id)}">JSON</button><button class="icon-btn" type="button" data-act="lib-delete" data-id="${esc(r.id)}" aria-label="Eliminar la evaluación del ${esc(fechaES(s.fechaEval))}">✕</button></td></tr>`; }).join('')}
     </tbody></table></div></section>`;
   }).join('')}</div>`;
 }
@@ -1836,11 +2040,12 @@ function themeColors() {
 const LIGHT = { ink: '#141a22', ink2: '#4b525c', muted: '#6f757e', line: '#dcdfd8', line2: '#c5c9c1', accent: '#0d6b57', surface: '#ffffff', b: { vlow: '#d03b3b', low: '#ee9583', mid: '#b3b2aa', high: '#6da7ec', vhigh: '#1c5cab' }, neu: '#8e8d86', body: 'Helvetica, Arial, sans-serif', mono: '"Courier New", monospace' };
 function hexA(hex, a) { const h = String(hex).trim().replace('#', ''); if (h.length !== 6) return hex; const n = parseInt(h, 16); return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`; }
 const shortLabel = (s, n) => (s.length > n ? s.slice(0, n - 1) + '…' : s);
+const narrowUI = () => window.innerWidth < 640;
 
 function radarConfig(items, C, pdf) {
   return {
     type: 'radar',
-    data: { labels: items.map(i => shortLabel(i.short, 20)), datasets: [
+    data: { labels: items.map(i => shortLabel(i.short, !pdf && narrowUI() ? 12 : 20)), datasets: [
       { label: 'Percentil de rendimiento', data: items.map(i => +i.prof.pr.toFixed(1)), borderColor: C.accent, backgroundColor: hexA(C.accent, 0.16), borderWidth: 2, pointRadius: 4.5, pointHoverRadius: 7, pointHitRadius: 12, pointBackgroundColor: items.map(i => C.b[i.prof.band]), pointBorderColor: C.surface, pointBorderWidth: 1.5 },
       { label: 'Referencia (P50)', data: items.map(() => 50), borderColor: C.muted, borderDash: [4, 4], borderWidth: 1.25, pointRadius: 0, pointHitRadius: 0, fill: false },
     ] },
@@ -1850,7 +2055,7 @@ function radarConfig(items, C, pdf) {
         legend: { position: 'bottom', labels: { color: C.ink2, boxWidth: 16, boxHeight: 2, font: { family: C.body, size: pdf ? 14 : 12 } } },
         tooltip: { filter: ctx => ctx.datasetIndex === 0, callbacks: { title: c => items[c[0].dataIndex].name, label: ctx => { const i = items[ctx.dataIndex]; return [`${fmt(i.value, i.dec)} ${i.unit}`, `Percentil de rendimiento ${fmtPct(i.prof.pr)}`, bandLabel(i.prof)]; } } },
       },
-      scales: { r: { min: 0, max: 100, afterBuildTicks: ax => { ax.ticks = [0, 16, 50, 84, 98, 100].map(v => ({ value: v })); }, ticks: { backdropColor: 'transparent', color: C.muted, font: { size: pdf ? 12 : 10, family: C.mono }, callback: v => (v === 0 || v === 100 ? '' : 'P' + v) }, grid: { color: C.line }, angleLines: { color: C.line }, pointLabels: { color: C.ink2, font: { size: pdf ? 15 : 11.5, family: C.body } } } },
+      scales: { r: { min: 0, max: 100, afterBuildTicks: ax => { ax.ticks = [0, 16, 50, 84, 98, 100].map(v => ({ value: v })); }, ticks: { backdropColor: 'transparent', color: C.muted, font: { size: pdf ? 12 : 10, family: C.mono }, callback: v => (v === 0 || v === 100 ? '' : 'P' + v) }, grid: { color: C.line }, angleLines: { color: C.line }, pointLabels: { color: C.ink2, font: { size: pdf ? 15 : narrowUI() ? 9.5 : 11.5, family: C.body } } } },
     },
   };
 }
@@ -1863,13 +2068,13 @@ function barsConfig(items, C, pdf) {
   } };
   return {
     type: 'bar',
-    data: { labels: items.map(i => shortLabel(i.short, 24)), datasets: [{ label: 'Percentil', data: vals.map(v => +v.toFixed(1)), backgroundColor: items.map(i => (i.prof.sentido === 'neutro' ? hexA(C.neu, 0.22) : C.b[i.prof.band])), borderColor: items.map(i => (i.prof.sentido === 'neutro' ? C.neu : 'transparent')), borderWidth: items.map(i => (i.prof.sentido === 'neutro' ? 1.5 : 0)), borderRadius: 4, borderSkipped: 'start', barThickness: pdf ? 16 : 14, maxBarThickness: 18 }] },
+    data: { labels: items.map(i => shortLabel(i.short, !pdf && narrowUI() ? 16 : 24)), datasets: [{ label: 'Percentil', data: vals.map(v => +v.toFixed(1)), backgroundColor: items.map(i => (i.prof.sentido === 'neutro' ? hexA(C.neu, 0.22) : C.b[i.prof.band])), borderColor: items.map(i => (i.prof.sentido === 'neutro' ? C.neu : 'transparent')), borderWidth: items.map(i => (i.prof.sentido === 'neutro' ? 1.5 : 0)), borderRadius: 4, borderSkipped: 'start', barThickness: pdf ? 16 : 14, maxBarThickness: 18 }] },
     options: {
       indexAxis: 'y', responsive: !pdf, maintainAspectRatio: false, animation: pdf ? false : { duration: 350 }, devicePixelRatio: pdf ? 2 : undefined,
       plugins: { legend: { display: false }, tooltip: { callbacks: { title: c => items[c[0].dataIndex].name, label: ctx => { const i = items[ctx.dataIndex]; return [`${fmt(i.value, i.dec)} ${i.unit}`, `Percentil ${fmtPct(i.prof.pct)}${i.prof.sentido === 'menor' ? ` · rendimiento ${fmtPct(i.prof.pr)}` : ''}`, bandLabel(i.prof) + (i.prof.sentido === 'neutro' ? ' (descriptivo)' : '')]; } } } },
       scales: {
         x: { min: 0, max: 100, afterBuildTicks: ax => { ax.ticks = [2, 16, 50, 84, 98].map(v => ({ value: v })); }, ticks: { color: C.muted, font: { size: pdf ? 12 : 10, family: C.mono }, callback: v => 'P' + v, autoSkip: false, maxRotation: 0 }, grid: { color: C.line }, border: { color: C.line2 } },
-        y: { ticks: { color: C.ink2, font: { size: pdf ? 13 : 11.5, family: C.body } }, grid: { display: false }, border: { color: C.line2 } },
+        y: { ticks: { color: C.ink2, font: { size: pdf ? 13 : narrowUI() ? 10 : 11.5, family: C.body } }, grid: { display: false }, border: { color: C.line2 } },
       },
     },
     plugins: [bands],
@@ -1879,7 +2084,7 @@ const CAT = { light: ['#2a78d6', '#eb6834', '#1baf7a', '#eda100', '#e87ba4', '#0
 const isDarkUI = () => /dark/.test(getComputedStyle(document.documentElement).colorScheme || '');
 function rmAxes(C, pdf) {
   const t = { color: C.muted, font: { size: pdf ? 12 : 10.5, family: C.mono } };
-  return { x: { type: 'linear', min: 1, max: 20, ticks: { ...t, stepSize: 1, autoSkip: false, maxRotation: 0 }, title: { display: true, text: 'Repeticiones máximas (RM)', color: C.ink2, font: { size: pdf ? 13 : 12, family: C.body } }, grid: { color: C.line }, border: { color: C.line2 } },
+  return { x: { type: 'linear', min: 1, max: 20, ticks: { ...t, stepSize: !pdf && narrowUI() ? 2 : 1, autoSkip: false, maxRotation: 0 }, title: { display: true, text: 'Repeticiones máximas (RM)', color: C.ink2, font: { size: pdf ? 13 : 12, family: C.body } }, grid: { color: C.line }, border: { color: C.line2 } },
     y: { ticks: t, title: { display: true, text: 'Carga (kg)', color: C.ink2, font: { size: pdf ? 13 : 12, family: C.body } }, grid: { color: C.line }, border: { color: C.line2 } } };
 }
 function rmCurveConfig(fit, C, step) {
@@ -1955,7 +2160,7 @@ function fileBase(s = state) { const p = s.persona; return 'PA_' + (slug(p.nombr
 function exportPayload(s = state) {
   const R = s === state ? RES : compute(s);
   return { type: 'pa1-evaluacion', app: APP.name, version: APP.version, exportado: new Date().toISOString(), state: clone(s),
-    resultados: R.list.map(i => ({ id: i.id, categoria: catById(i.cat).name, indicador: i.name, valor: i.value, unidad: i.unit, protocolo: i.protocol, modelo: i.model, sentido: i.prof.sentido, p2: i.prof.p2, p98: i.prof.p98, media: i.prof.mu ?? null, de: i.prof.sd ?? null, z: i.prof.z ?? null, percentil: i.prof.pct ?? null, percentil_rendimiento: i.prof.ok && i.prof.sentido !== 'neutro' ? i.prof.pr : null, valoracion: i.prof.ok ? bandLabel(i.prof) : null })) };
+    resultados: R.list.map(i => ({ id: i.id, categoria: catById(i.cat).name, indicador: i.name, valor: i.value, unidad: i.unit, protocolo: i.protocol, modelo: i.model, sentido: i.prof.sentido, p2: i.prof.p2, p98: i.prof.p98, media: i.prof.mu ?? null, de: i.prof.sd ?? null, z: i.prof.z ?? null, percentil: i.prof.pct ?? null, percentil_rendimiento: i.prof.ok && i.prof.sentido !== 'neutro' ? i.prof.pr : null, valoracion: i.prof.ok ? bandLabel(i.prof) : null, perfil: ({ fort: 'fortaleza', deb: 'debilidad' })[fdOf(i, fdCuts(s))] || null })) };
 }
 
 /* ---------- CSV (punto y coma, coma decimal) ---------- */
@@ -1966,8 +2171,8 @@ function toCSV() {
   row('#Performance Assessment 1.0', 'exportado', new Date().toISOString());
   row('seccion', 'clave', 'valor');
   Object.entries(state.persona).forEach(([k, v]) => row('persona', k, v));
-  row('seccion', 'id', 'categoria', 'indicador', 'valor', 'unidad', 'protocolo', 'modelo', 'sentido', 'P2', 'P98', 'media', 'DE', 'z', 'percentil', 'percentil_rendimiento', 'valoracion');
-  RES.list.forEach(i => { const p = i.prof; row('indicador', i.id, catById(i.cat).short, i.name, csvN(i.value, i.dec), i.unit, i.protocol, i.model, p.sentido, csvN(p.p2), csvN(p.p98), csvN(p.mu, 4), csvN(p.sd, 4), csvN(p.z, 3), csvN(p.pct, 2), p.ok && p.sentido !== 'neutro' ? csvN(p.pr, 2) : '', p.ok ? bandLabel(p) : ''); });
+  row('seccion', 'id', 'categoria', 'indicador', 'valor', 'unidad', 'protocolo', 'modelo', 'sentido', 'P2', 'P98', 'media', 'DE', 'z', 'percentil', 'percentil_rendimiento', 'valoracion', 'fortaleza_debilidad');
+  RES.list.forEach(i => { const p = i.prof; row('indicador', i.id, catById(i.cat).short, i.name, csvN(i.value, i.dec), i.unit, i.protocol, i.model, p.sentido, csvN(p.p2), csvN(p.p98), csvN(p.mu, 4), csvN(p.sd, 4), csvN(p.z, 3), csvN(p.pct, 2), p.ok && p.sentido !== 'neutro' ? csvN(p.pr, 2) : '', p.ok ? bandLabel(p) : '', ({ fort: 'Fortaleza', deb: 'Debilidad' })[fdOf(i)] || ''); });
   row('seccion', 'prueba', 'configuracion_json');
   Object.entries(state.seleccion).forEach(([k, v]) => row('seleccion', k, JSON.stringify(v)));
   row('seccion', 'campo', 'valor_json');
@@ -1976,6 +2181,7 @@ function toCSV() {
   Object.entries(state.baremos).forEach(([k, v]) => row('baremo', k, JSON.stringify(v)));
   row('seccion', 'clave', 'valor');
   Object.entries(state.informe).forEach(([k, v]) => row('informe', k, JSON.stringify(v)));
+  Object.entries(state.criterios || {}).forEach(([k, v]) => row('criterio', k, v));
   return '﻿' + R.join('\r\n') + '\r\n';
 }
 function parseCSV(text) {
@@ -2000,6 +2206,7 @@ function stateFromCSV(text) {
       case 'dato': s.datos[r[1]] = J(r[2]); break;
       case 'baremo': s.baremos[r[1]] = J(r[2]); break;
       case 'informe': s.informe[r[1]] = J(r[2]); break;
+      case 'criterio': s.criterios[r[1]] = r[2] ?? ''; break;
       case 'indicador': if (!s.baremos[r[1]] && (r[9] || r[10])) s.baremos[r[1]] = { p2: r[9], p98: r[10], sentido: r[8], unit: r[5] }; break;
     }
   }
@@ -2065,6 +2272,37 @@ function buildPDF() {
   });
   y += boxH + 8;
 
+  // Avisos de salud
+  const hAlerts = list.filter(i => i.alert);
+  if (hAlerts.length) {
+    const lines = hAlerts.flatMap(i => doc.splitTextToSize(T(i.alert), CW - 10)); const bh = 8 + lines.length * 4.2;
+    ensure(bh + 4); fill([253, 236, 234]); draw([208, 59, 59]); doc.setLineWidth(0.4); doc.roundedRect(M, y, CW, bh, 1.5, 1.5, 'FD'); fill([208, 59, 59]); doc.rect(M, y, 1.4, bh, 'F');
+    font('bold', 9); color([160, 30, 30]); doc.text('AVISO DE SALUD', M + 5, y + 5);
+    font('normal', 8.8); color([120, 24, 24]); lines.forEach((l, k) => doc.text(l, M + 5, y + 9.5 + k * 4.2)); y += bh + 6;
+  }
+
+  // Fortalezas y debilidades
+  {
+    const { f, d } = fdLists(list), colW = (CW - 6) / 2, rowH = 5.4;
+    const n = Math.max(f.length, d.length, 1), bh = 8 + n * rowH + 2;
+    ensure(bh + 16); section('Fortalezas y debilidades');
+    const cut = fdCuts(), CF = fmtTrim(cut.fort, 1), CD = fmtTrim(cut.deb, 1);
+    [[f, `FORTALEZAS (> P${CF})`, K.b.vhigh, `Ningún indicador supera el P${CF}.`, M], [d, `DEBILIDADES (< P${CD})`, K.b.vlow, `Ningún indicador queda por debajo del P${CD}.`, M + colW + 6]].forEach(([arr, title, col, empty, x0]) => {
+      fill(col); doc.rect(x0, y, colW, 6.2, 'F'); font('bold', 8); color(K.white); doc.text(title, x0 + 2.5, y + 4.2);
+      let yy = y + 6.2;
+      if (!arr.length) { font('normal', 8); color(K.muted); doc.text(T(empty), x0 + 2.5, yy + 4.2); }
+      arr.forEach((i, k) => {
+        if (k % 2) { fill(K.soft); doc.rect(x0, yy, colW, rowH, 'F'); }
+        font('bold', 8); color(K.ink); doc.text(T(doc.splitTextToSize(T(i.name), colW - 36)[0]), x0 + 2.5, yy + 3.7);
+        font('normal', 7.6); color(K.ink2); doc.text(T(`${fmt(i.value, i.dec)} ${i.unit}`), x0 + colW - 16, yy + 3.7, { align: 'right' });
+        font('bold', 8); color(K.ink); doc.text(T('P' + fmtPct(i.prof.pr)), x0 + colW - 2.5, yy + 3.7, { align: 'right' }); yy += rowH;
+      });
+      draw(K.line); doc.setLineWidth(0.25); doc.rect(x0, y, colW, 6.2 + Math.max(arr.length, 1) * rowH);
+    });
+    y += bh + 2; font('normal', 7); color(K.muted);
+    doc.text(T(`Según el percentil de rendimiento (fortaleza > P${CF}; debilidad < P${CD}). No se clasifican los indicadores descriptivos ni los que tienen aviso de salud.`), M, y); y += 7;
+  }
+
   // Radar
   const rItems = prof.filter(i => i.prof.sentido !== 'neutro');
   if (state.informe.radar && rItems.length >= 3 && typeof Chart !== 'undefined') {
@@ -2090,7 +2328,10 @@ function buildPDF() {
       if (ensure(9)) header();
       const pr = i.prof, rh = 8.6, mid = y + 3.6;
       font('bold', 8); color(K.ink); doc.text(T(doc.splitTextToSize(T(i.name), 50)[0]), xs[0] + 1.5, y + 3.4);
-      font('normal', 6.3); color(K.muted); const ml = doc.splitTextToSize(T(i.model || i.protocol || ''), 50)[0] || ''; doc.text(ml, xs[0] + 1.5, y + 6.8);
+      const fdk = fdOf(i);
+      if (i.alert) { font('bold', 6.3); color([190, 40, 40]); doc.text(doc.splitTextToSize(T('Riesgo para la salud (ver aviso)'), 50)[0], xs[0] + 1.5, y + 6.8); }
+      else if (fdk) { const lab = fdk === 'fort' ? 'Fortaleza' : 'Debilidad'; font('bold', 6.3); color(fdk === 'fort' ? K.b.vhigh : [190, 40, 40]); doc.text(lab, xs[0] + 1.5, y + 6.8); const lw2 = doc.getTextWidth(lab + ' '); font('normal', 6.3); color(K.muted); doc.text(doc.splitTextToSize(T('· ' + (i.model || i.protocol || '')), 50 - lw2)[0] || '', xs[0] + 1.5 + lw2, y + 6.8); }
+      else { font('normal', 6.3); color(K.muted); const ml = doc.splitTextToSize(T(i.model || i.protocol || ''), 50)[0] || ''; doc.text(ml, xs[0] + 1.5, y + 6.8); }
       font('normal', 8); color(K.ink);
       const rr = (k, txt) => doc.text(T(txt), xs[k] + cols[k][1] - 1.5, mid + 0.9, { align: 'right' });
       rr(1, isNum(i.value) ? `${fmt(i.value, i.dec)} ${i.unit}` : '-');
@@ -2238,6 +2479,7 @@ document.addEventListener('input', e => {
     saveDraft(); liveUpdate(); return;
   }
   if (el.dataset.rm !== undefined) { const r = state.datos.rm[+el.dataset.rm]; if (r) r[el.dataset.k] = el.value; saveDraft(); liveUpdate(); refreshRmCurves(); return; }
+  if (el.dataset.crit) { state.criterios = { ...(state.criterios || {}), [el.dataset.crit]: el.value }; changed(); const cb = $('#critBox'); if (cb) cb.innerHTML = critScaleHTML(); renderChrome(); return; }
   if (el.dataset.bar && el.tagName === 'INPUT') { updateBaremo(el); return; }
   if (el.id === 'libSearch') { libQuery = el.value; $('#libList').innerHTML = libListHTML(); }
 });
@@ -2279,10 +2521,11 @@ document.addEventListener('click', async e => {
       const keep = $('#keepSel') && $('#keepSel').checked, saveFirst = $('#saveFirst') && $('#saveFirst').checked; closeDialog();
       if (saveFirst && !saveEvaluation()) break;
       const ns = blankState();
-      if (keep) { ns.seleccion = clone(state.seleccion); ns.baremos = clone(state.baremos); ns.datos.rm = (state.datos.rm || []).map(r => ({ id: uid(), ejercicio: r.ejercicio, carga: '', reps: r.reps || '12', carga2: '', reps2: r.reps2 || '' })); ns.informe.anexo = state.informe.anexo; ns.informe.radar = state.informe.radar; }
+      if (keep) { ns.seleccion = clone(state.seleccion); ns.baremos = clone(state.baremos); ns.criterios = clone(state.criterios || ns.criterios); ns.datos.rm = (state.datos.rm || []).map(r => ({ id: uid(), ejercicio: r.ejercicio, carga: '', reps: r.reps || '12', carga2: '', reps2: r.reps2 || '' })); ns.informe.anexo = state.informe.anexo; ns.informe.radar = state.informe.radar; }
       state = ns; recompute(); store.set(LS_DRAFT, state); location.hash = '#datos'; go('datos'); toast('Nueva evaluación preparada'); break;
     }
     case 'save-eval': saveEvaluation(); break;
+    case 'crit-reset': state.criterios = { fort: '80', deb: '40' }; changed(); $('#crit_fort').value = '80'; $('#crit_deb').value = '40'; $('#critBox').innerHTML = critScaleHTML(); toast('Criterios restablecidos: fortaleza > P80 y debilidad < P40'); break;
     case 'dlg-go': { const f = _pending; _pending = null; closeDialog(); f && f(); break; }
     case 'dlg-save-go': { const f = _pending; _pending = null; closeDialog(); if (saveEvaluation()) f && f(); break; }
     case 'lib-open': { const id = el.dataset.id; guard(() => openRecord(id)); break; }
@@ -2330,12 +2573,15 @@ $('#overlay').addEventListener('click', e => { if (e.target.id === 'overlay') cl
   if (ev === 'drop') importFile(e.dataTransfer.files[0]);
 }));
 window.addEventListener('hashchange', routeFromHash);
+let _wasNarrow = null;
+window.addEventListener('resize', debounce(() => { const n = narrowUI(); if (_wasNarrow === null) { _wasNarrow = n; return; } if (n !== _wasNarrow) { _wasNarrow = n; if (cur === 'dashboard') { destroyCharts(); drawDashboardCharts(); } if (cur === 'registro') drawRmCharts(); } }, 250));
 const reTheme = () => { if (cur === 'dashboard') { destroyCharts(); drawDashboardCharts(); } if (cur === 'registro') drawRmCharts(); };
 try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', reTheme); } catch (e) { /* noop */ }
 new MutationObserver(reTheme).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
 /* ---------- arranque ---------- */
 function start(data) {
+  _wasNarrow = narrowUI();
   if (typeof Chart !== 'undefined') { Chart.defaults.font.family = '"IBM Plex Sans", system-ui, sans-serif'; }
   const fromHot = data && data.persona ? data : null;
   state = normalizeState(fromHot || store.get(LS_DRAFT) || demoState());
