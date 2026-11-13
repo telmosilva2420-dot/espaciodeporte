@@ -600,11 +600,12 @@ function erfc(x) {
 }
 const Phi = z => 0.5 * erfc(-z / Math.SQRT2);
 
-/* Agregación de tomas: ISAK = media de 2 / mediana de 3; max = mejor intento */
+/* Agregación de tomas: ISAK = media de 2 / mediana de 3; max = mejor intento (mayor); min = mejor intento (menor, p. ej. tiempos) */
 function aggregate(arr, agg) {
   const v = (Array.isArray(arr) ? arr : []).map(parseNum).filter(isNum);
   if (!v.length) return null;
   if (agg === 'max') return Math.max(...v);
+  if (agg === 'min') return Math.min(...v);
   if (agg === 'isak') {
     if (v.length === 1) return v[0];
     if (v.length === 2) return (v[0] + v[1]) / 2;
@@ -628,6 +629,7 @@ const CATS = [
   { id: 'aer', name: 'Resistencia aeróbica', short: 'Aeróbica' },
   { id: 'ana', name: 'Resistencia anaeróbica', short: 'Anaeróbica' },
   { id: 'fue', name: 'Fuerza', short: 'Fuerza' },
+  { id: 'vel', name: 'Velocidad de desplazamiento – Agilidad', short: 'Velocidad – Agilidad' },
   { id: 'flex', name: 'Flexibilidad', short: 'Flexibilidad' },
 ];
 const catById = id => CATS.find(c => c.id === id);
@@ -679,10 +681,15 @@ const REFS = {
   mcardle72: 'McArdle, W. D., Katch, F. I., Pechar, G. S., Jacobson, L. y Ruck, S. (1972). Reliability and interrelationships between maximal oxygen intake, physical work capacity and step-test scores in college women. Medicine and Science in Sports, 4(4), 182-186.',
   kline87: 'Kline, G. M. et al. (1987). Estimation of VO2max from a one-mile track walk, gender, age, and body weight. Medicine and Science in Sports and Exercise, 19(3), 253-259.',
   billat96: 'Billat, L. V. y Koralsztein, J. P. (1996). Significance of the velocity at VO2max and time to exhaustion at this velocity. Sports Medicine, 22(2), 90-108.',
+  semenick90: 'Semenick, D. (1990). Tests and measurements: The T-test. NSCA Journal, 12(1), 36-37.',
+  pauole00: 'Pauole, K., Madole, K., Garhammer, J., Lacourse, M. y Rozenek, R. (2000). Reliability and validity of the T-test as a measure of agility, leg power, and leg speed in college-aged men and women. Journal of Strength and Conditioning Research, 14(4), 443-450.',
+  sassi09: 'Sassi, R. H., Dardouri, W., Yahmed, M. H., Gmada, N., Mahfoudhi, M. E. y Gharbi, Z. (2009). Relative and absolute reliability of a modified agility T-test and its relationship with vertical jump and straight sprint. Journal of Strength and Conditioning Research, 23(6), 1644-1651.',
+  getchell79: 'Getchell, B. (1979). Physical fitness: a way of life (2.ª ed.). John Wiley and Sons.',
+  hachana14: 'Hachana, Y., Chaabène, H., Ben Rajeb, G., Khlifa, R., Aouadi, R., Chamari, K. y Gabbett, T. J. (2014). Validity and reliability of new agility test among elite and subelite under 14-soccer players. PLoS ONE, 9(4), e95773.',
   wathan94: 'Wathan, D. (1994). Load assignment. En T. R. Baechle (Ed.), Essentials of strength training and conditioning (pp. 435-446). Human Kinetics.',
 };
 
-const REF_SHORT = { isak: 'ISAK (Stewart et al., 2011)', carter82: 'Carter (1982)', yuhasz74: 'Yuhasz (1974)', faulkner68: 'Faulkner (1968)', jp85: 'Jackson y Pollock (1985)', jpw80: 'Jackson, Pollock y Ward (1980)', siri61: 'Siri (1961)', slaughter88: 'Slaughter et al. (1988)', lee00: 'Lee et al. (2000)', leger88: 'Léger et al. (1988)', stclair98: 'St Clair Gibson et al. (1998)', cooper68: 'Cooper (1968)', bangsbo08: 'Bangsbo et al. (2008)', buchheit08: 'Buchheit (2008)', legermercier84: 'Léger y Mercier (1984)', cazorla93: 'Cazorla y Léger (1993)', legerboucher80: 'Léger y Boucher (1980)', berthon97: 'Berthon et al. (1997)', kuipers85: 'Kuipers et al. (1985)', draper97: 'Draper y Whyte (1997)', fitzsimons93: 'Fitzsimons et al. (1993)', bosco83: 'Bosco et al. (1983)', young95: 'Young (1995)', sayers99: 'Sayers et al. (1999)', harman91: 'Harman et al. (1991)', lewis74: 'Lewis, en Fox y Mathews (1974)', brzycki93: 'Brzycki (1993)', epley85: 'Epley (1985)', lander85: 'Lander (1985)', lombardi89: 'Lombardi (1989)', mayhew92: 'Mayhew et al. (1992)', oconner89: 'O’Conner et al. (1989)', wathan94: 'Wathan (1994)', george93: 'George et al. (1993)', mcardle72: 'McArdle et al. (1972)', kline87: 'Kline et al. (1987)', billat96: 'Billat y Koralsztein (1996)' };
+const REF_SHORT = { isak: 'ISAK (Stewart et al., 2011)', carter82: 'Carter (1982)', yuhasz74: 'Yuhasz (1974)', faulkner68: 'Faulkner (1968)', jp85: 'Jackson y Pollock (1985)', jpw80: 'Jackson, Pollock y Ward (1980)', siri61: 'Siri (1961)', slaughter88: 'Slaughter et al. (1988)', lee00: 'Lee et al. (2000)', leger88: 'Léger et al. (1988)', stclair98: 'St Clair Gibson et al. (1998)', cooper68: 'Cooper (1968)', bangsbo08: 'Bangsbo et al. (2008)', buchheit08: 'Buchheit (2008)', legermercier84: 'Léger y Mercier (1984)', cazorla93: 'Cazorla y Léger (1993)', legerboucher80: 'Léger y Boucher (1980)', berthon97: 'Berthon et al. (1997)', kuipers85: 'Kuipers et al. (1985)', draper97: 'Draper y Whyte (1997)', fitzsimons93: 'Fitzsimons et al. (1993)', bosco83: 'Bosco et al. (1983)', young95: 'Young (1995)', sayers99: 'Sayers et al. (1999)', harman91: 'Harman et al. (1991)', lewis74: 'Lewis, en Fox y Mathews (1974)', brzycki93: 'Brzycki (1993)', epley85: 'Epley (1985)', lander85: 'Lander (1985)', lombardi89: 'Lombardi (1989)', mayhew92: 'Mayhew et al. (1992)', oconner89: 'O’Conner et al. (1989)', wathan94: 'Wathan (1994)', george93: 'George et al. (1993)', mcardle72: 'McArdle et al. (1972)', kline87: 'Kline et al. (1987)', billat96: 'Billat y Koralsztein (1996)', semenick90: 'Semenick (1990)', pauole00: 'Pauole et al. (2000)', sassi09: 'Sassi et al. (2009)', getchell79: 'Getchell (1979)', hachana14: 'Hachana et al. (2014)' };
 
 /* ---------- campos de entrada ---------- */
 const F = (label, unit, o = {}) => ({ label, unit, ...o });
@@ -742,6 +749,10 @@ const FIELDS = {
   coxo_d: F('Lado derecho', '°', { tomas: 2, agg: 'max' }),
   coxo_i: F('Lado izquierdo', '°', { tomas: 2, agg: 'max' }),
   coxo_fv: F('Flexión ventral de pie', '°', { tomas: 3, agg: 'none' }),
+  s20_t: F('Tiempo en 20 m', 's', { tomas: 3, agg: 'min', dec: 2, hint: 'Centésimas de segundo · se toma el mejor (menor) tiempo' }),
+  s30_t: F('Tiempo en 30 m', 's', { tomas: 3, agg: 'min', dec: 2, hint: 'Centésimas de segundo · se toma el mejor (menor) tiempo' }),
+  tt_t: F('Tiempo del T-Test', 's', { tomas: 3, agg: 'min', dec: 2, hint: 'Solo intentos válidos · se toma el mejor (menor) tiempo' }),
+  ill_t: F('Tiempo del Illinois', 's', { tomas: 3, agg: 'min', dec: 2, hint: 'Solo intentos válidos · se toma el mejor (menor) tiempo' }),
   rm: F('Ejercicios', '', { rm: true }),
 };
 const PERSONA_LABELS = { edad: 'Edad (paso 1)', sexo: 'Sexo (paso 1)' };
@@ -1295,6 +1306,58 @@ const TESTS = [
     fields: state => [...jumpFields(state, 'sj'), ...jumpFields(state, 'cmj')],
     calc: c => { const sj = jumpHeight(c, 'sj'), cmj = jumpHeight(c, 'cmj'); return { elasticidad: sj && cmj !== null ? (cmj - sj) / sj * 100 : null }; },
   },
+  /* ----- velocidad de desplazamiento – agilidad ----- */
+  ...[20, 30].map(dist => ({
+    id: 's' + dist, cat: 'vel', name: `Sprint ${dist} m`, unit: 's', desc: `Carrera lineal máxima de ${dist} m. Se registra el mejor de 2–3 intentos con recuperación completa.`,
+    protocols: [
+      { id: 'foto', name: 'Fotocélulas · salida de pie', desc: 'Salida de pie con el pie adelantado a 0,5 m de la primera fotocélula, que inicia el cronómetro al cortar el haz; carrera máxima hasta rebasar la última. Registro en centésimas.' },
+      { id: 'manual', name: 'Cronometraje manual', desc: 'Cronómetro desde la señal de salida hasta que el tronco cruza la llegada. Menos preciso que las fotocélulas: usa baremos obtenidos con el mismo sistema de cronometraje.' },
+    ],
+    params: [{ id: 'expr', label: 'Resultado', options: [
+      { id: 'tiempo', name: 'Tiempo (s) · menor = mejor', formula: `Valor = mejor tiempo en ${dist} m (mínimo de los intentos)` },
+      { id: 'vel', name: 'Velocidad media (m/s) · mayor = mejor', formula: `v (m/s) = ${dist} / mejor tiempo (s)` }] }],
+    outputs: [{ id: 's' + dist, name: `Sprint ${dist} m`, unit: s => s.params.expr === 'vel' ? 'm/s' : 's', dec: 2, sentido: s => s.params.expr === 'vel' ? 'mayor' : 'menor', short: `Sprint ${dist} m` }],
+    fields: () => [`s${dist}_t`],
+    calc: (c, sel) => {
+      const t = c.v(`s${dist}_t`); if (t === null) return { ['s' + dist]: null };
+      if (t <= 0) { c.w('El tiempo debe ser mayor que 0.'); return { ['s' + dist]: null }; }
+      const v = dist / t;
+      if (sel.params.expr === 'vel') { c.note('t', `Mejor tiempo ${fmt(t, 2)} s · ${fmt(v * 3.6, 2)} km/h`); return { ['s' + dist]: v }; }
+      c.note('v', `Velocidad media ${fmt(v, 2)} m/s · ${fmt(v * 3.6, 2)} km/h`); return { ['s' + dist]: t };
+    },
+  })),
+  {
+    id: 'ttest', cat: 'vel', name: 'T-Test Agility', unit: 's', desc: 'Agilidad con cambios de dirección planificados: carrera hacia delante, desplazamientos laterales y carrera de espaldas en un recorrido en forma de T. Mejor de 2–3 intentos válidos.',
+    protocols: [
+      { id: 'semenick', name: 'Original · Semenick (1990)', desc: 'Conos en T: B a 9,14 m (10 yd) de la salida A; C y D a 4,57 m (5 yd) a izquierda y derecha de B. Sprint A→B y tocar B con la mano derecha; desplazamiento lateral a C (mano izquierda), lateral a D (mano derecha), lateral de vuelta a B (mano izquierda) y carrera de espaldas hasta A. Siempre de frente y sin cruzar los pies: el intento es nulo si cruza los pies, no toca un cono o deja de mirar al frente. Recorrido ≈ 36,6 m.', ref: 'semenick90' },
+      { id: 'mat', name: 'MAT · Sassi et al. (2009)', desc: 'Versión modificada (Modified Agility T-test). Mismo patrón de desplazamientos con distancias reducidas: B a 5 m de A; C y D a 2,5 m de B. Recorrido total 20 m. No es comparable con el T-Test original: usa baremos del MAT.', ref: 'sassi09' },
+    ],
+    params: [{ id: 'modelo', label: 'Resultado', options: [{ id: 't', name: 'Mejor tiempo (s) · menor = mejor', formula: 'Valor = mínimo de los intentos válidos (s)', ref: 'pauole00' }] }],
+    outputs: [{ id: 'ttest', name: 'T-Test Agility', unit: 's', dec: 2, sentido: 'menor', short: 'T-Test' }],
+    fields: () => ['tt_t'],
+    calc: (c, sel) => {
+      const t = c.v('tt_t'); if (t === null) return { ttest: null };
+      if (t <= 0) { c.w('El tiempo debe ser mayor que 0.'); return { ttest: null }; }
+      const d = sel.protocol === 'mat' ? 20 : 36.576;
+      c.note('vm', `Recorrido ${fmt(d, 1)} m · velocidad media ${fmt(d / t, 2)} m/s`);
+      return { ttest: t };
+    },
+  },
+  {
+    id: 'illinois', cat: 'vel', name: 'Illinois Agility Test', unit: 's', desc: 'Agilidad con giros de 180° y slalom entre conos. Mejor de 2–3 intentos válidos, tiempo en centésimas de segundo.',
+    protocols: [
+      { id: 'getchell', name: 'Original · Getchell (1979)', desc: 'Rectángulo de 10 × 5 m con un cono en cada esquina (salida, llegada y dos giros) y 4 conos centrales separados 3,3 m. Salida tumbado boca abajo, cabeza en la línea de salida y manos a la altura de los hombros. Carrera de 10 m, giro de 180° y regreso; slalom de ida y vuelta entre los conos centrales; 10 m de ida, giro y 10 m hasta la llegada. Recorrido ≈ 60 m (16–18 s).', ref: 'getchell79' },
+      { id: 'micodt', name: 'MICODT · Hachana et al. (2014)', desc: 'Versión modificada (Modified Illinois Change of Direction Test). Mismos cambios de dirección en la mitad de longitud: cuadrado de 5 × 5 m y 3 conos centrales separados 2,5 m. Salida de pie (permite fotocélulas). Recorrido ≈ 30 m. No es comparable con el Illinois original: usa baremos del MICODT.', ref: 'hachana14' },
+    ],
+    params: [{ id: 'modelo', label: 'Resultado', options: [{ id: 't', name: 'Mejor tiempo (s) · menor = mejor', formula: 'Valor = mínimo de los intentos válidos (s)' }] }],
+    outputs: [{ id: 'illinois', name: 'Illinois Agility Test', unit: 's', dec: 2, sentido: 'menor', short: 'Illinois' }],
+    fields: () => ['ill_t'],
+    calc: c => {
+      const t = c.v('ill_t'); if (t === null) return { illinois: null };
+      if (t <= 0) { c.w('El tiempo debe ser mayor que 0.'); return { illinois: null }; }
+      return { illinois: t };
+    },
+  },
   /* ----- flexibilidad ----- */
   {
     id: 'coxo', cat: 'flex', name: 'Ángulo coxofemoral', unit: '°', desc: 'Amplitud de flexión de la articulación de la cadera medida con goniómetro o inclinómetro.',
@@ -1619,9 +1682,9 @@ function aggText(key) {
   const f = FIELDS[key]; if (!f || f.agg === 'none') return '';
   const v = aggregate(state.datos[key], f.agg);
   if (!isNum(v)) return '';
-  return `${f.agg === 'max' ? 'Mejor' : 'Valor'}: <b>${fmt(v, f.unit === '°' ? 0 : 1)}</b>`;
+  return `${f.agg === 'max' || f.agg === 'min' ? 'Mejor' : 'Valor'}: <b>${fmt(v, f.dec ?? (f.unit === '°' ? 0 : 1))}</b>`;
 }
-function linkedVal(key) { const f = FIELDS[key]; if (f.time) return fmtTime(parseTime(state.datos[key])); if (f.tomas) { const v = aggregate(state.datos[key], f.agg); return isNum(v) ? fmt(v, 1) : '—'; } const v = parseNum(state.datos[key]); return isNum(v) ? fmt(v, 1) : '—'; }
+function linkedVal(key) { const f = FIELDS[key]; if (f.time) return fmtTime(parseTime(state.datos[key])); if (f.tomas) { const v = aggregate(state.datos[key], f.agg); return isNum(v) ? fmt(v, f.dec ?? 1) : '—'; } const v = parseNum(state.datos[key]); return isNum(v) ? fmt(v, 1) : '—'; }
 function fieldHTML(key) {
   const f = FIELDS[key]; const id = 'f_' + key; const v = state.datos[key];
   if (f.rm) return rmHTML();
@@ -1739,7 +1802,7 @@ function profCells(i) {
 }
 function profRow(i) {
   const b = state.baremos[i.id] || {}, pr = i.prof, c = profCells(i);
-  const LBL = { musd: 'μ · σ', z: 'z', pct: 'Percentil', pr: 'P. rendimiento' };
+  const LBL = { musd: 'Media · DE', z: 'z', pct: 'Percentil', pr: 'P. rendimiento' };
   return `<tr data-row="${i.id}" class="${i.alert ? 'has-alert' : ''}"><td class="nm">${esc(i.name)}<small>${esc(i.model || i.protocol)}</small>${i.alert ? `<em class="alert-inline" role="alert">${esc(i.alert)}</em>` : ''}</td><td class="num r" data-label="Resultado">${fmt(i.value, i.dec)} <span class="unit">${esc(i.unit)}</span></td>
   <td data-label="Sentido"><select data-bar="${i.id}" data-k="sentido" aria-label="Sentido de ${esc(i.name)}">${SENTIDOS.map(([v, l]) => `<option value="${v}" ${pr.sentido === v ? 'selected' : ''}>${l}</option>`).join('')}</select></td>
   <td data-label="P2"><input inputmode="decimal" autocomplete="off" data-bar="${i.id}" data-k="p2" value="${esc(b.p2 ?? '')}" aria-label="P2 de ${esc(i.name)}"></td>
