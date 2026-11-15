@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generador de planes de sostenibilidad</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+/* Layout: barra superior + índice lateral de pasos (numerados como los apartados del plan) + panel de formulario; el paso final muestra el prompt y las acciones. */
+:root{
+  --bg:#F1F4F2; --surface:#FFFFFF; --surface-2:#F6F9F7; --ink:#14231D; --muted:#55665E; --line:#D3DCD7;
+  --accent:#0D6B57; --accent-ink:#FFFFFF; --accent-soft:#DCEDE7;
+  --amb:#2C7A4B; --eco:#93600F; --soc:#2D57B0; --ges:#7B3D8C;
+  --warn:#8A5200; --warn-soft:#FFF1D6; --ok:#1F7A45; --ok-soft:#E2F3E8;
+  --display:'Fraunces', Georgia, 'Times New Roman', serif;
+  --body:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono:ui-monospace, 'SFMono-Regular', Menlo, Consolas, 'Liberation Mono', monospace;
+  --radius:10px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1613; --surface:#15201C; --surface-2:#1A2722; --ink:#E3ECE7; --muted:#9BAFA6; --line:#2B3B35;
+    --accent:#5CC6A6; --accent-ink:#08140F; --accent-soft:#1B3A31;
+    --amb:#6CC48F; --eco:#E2AA4D; --soc:#8BA9F0; --ges:#CC9DDA;
+    --warn:#F0B65A; --warn-soft:#3A2C12; --ok:#6CC48F; --ok-soft:#173527;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1613; --surface:#15201C; --surface-2:#1A2722; --ink:#E3ECE7; --muted:#9BAFA6; --line:#2B3B35;
+  --accent:#5CC6A6; --accent-ink:#08140F; --accent-soft:#1B3A31;
+  --amb:#6CC48F; --eco:#E2AA4D; --soc:#8BA9F0; --ges:#CC9DDA;
+  --warn:#F0B65A; --warn-soft:#3A2C12; --ok:#6CC48F; --ok-soft:#173527;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.2;text-wrap:balance;margin:0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+/* Barra superior */
+.topbar{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.topbar-in{max-width:1320px;margin:0 auto;padding:12px 20px;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.brand{display:flex;flex-direction:column;gap:2px;margin-right:auto;min-width:0}
+.brand h1{font-size:20px}
+.brand p{margin:0;color:var(--muted);font-size:13px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Botones */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 13px;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;color:var(--ink);line-height:1.2}
+.btn:hover{border-color:var(--accent)}
+.btn-primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:transparent}
+.btn-sm{padding:5px 10px;font-size:13px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-danger{color:#B3261E}
+:root[data-theme="dark"] .btn-danger{color:#FF8A80}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn-danger{color:#FF8A80}}
+
+/* Estructura */
+.layout{max-width:1320px;margin:0 auto;padding:20px;display:grid;grid-template-columns:270px minmax(0,1fr);gap:24px;align-items:start}
+.steps{position:sticky;top:84px;display:flex;flex-direction:column;gap:4px}
+.steps-title{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 6px 4px}
+.step-link{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:9px 10px;border-radius:9px;text-decoration:none;color:var(--ink);border:1px solid transparent}
+.step-link:hover{background:var(--surface)}
+.step-link[aria-current="step"]{background:var(--surface);border-color:var(--line);box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.step-mark{font-family:var(--display);font-weight:700;font-size:15px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--accent-soft);color:var(--accent);font-variant-numeric:tabular-nums}
+.step-link[aria-current="step"] .step-mark{background:var(--accent);color:var(--accent-ink)}
+.step-name{font-size:14px;font-weight:600;line-height:1.25}
+.pill{font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.pill.done{background:var(--ok-soft);border-color:transparent;color:var(--ok)}
+.steps-note{margin:14px 4px 0;font-size:12.5px;color:var(--muted)}
+
+.banner{grid-column:1 / -1;display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:var(--radius);padding:10px 14px;font-size:14px}
+.banner p{margin:0;flex:1 1 320px}
+.banner[hidden]{display:none}
+
+.step{display:none}
+#main{min-width:0}
+.step.active{display:block}
+.step-head{margin-bottom:16px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+.step-head h2{font-size:30px}
+.lead{color:var(--muted);margin:6px 0 0;max-width:72ch}
+
+.group{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 20px;margin-bottom:16px}
+.group > h3{font-size:18px;margin-bottom:4px}
+.group > .gdesc{color:var(--muted);font-size:13.5px;margin:0 0 12px;max-width:75ch}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px;margin-top:12px}
+.grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0}
+.field.wide{grid-column:1 / -1}
+.field > label,.legend{font-size:13.5px;font-weight:600}
+.req{color:var(--accent);font-size:10px;vertical-align:middle}
+.help{margin:0;color:var(--muted);font-size:12.5px}
+input[type=text],input[type=number],input[type=date],select,textarea{width:100%;border:1px solid var(--line);background:var(--surface-2);border-radius:8px;padding:8px 10px;font-size:14.5px;min-width:0}
+textarea{resize:vertical;line-height:1.5}
+input:focus,select:focus,textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px var(--accent-soft)}
+.check{display:flex;gap:9px;align-items:flex-start;font-size:14px;cursor:pointer}
+.check input{margin-top:3px;width:16px;height:16px;accent-color:var(--accent);flex:none}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.checks{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px 16px;margin-top:8px}
+
+/* Chips ODS */
+.ods{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:6px;margin-top:8px}
+.ods label{display:flex;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:6px 9px;font-size:13px;cursor:pointer;background:var(--surface-2)}
+.ods input{accent-color:var(--accent)}
+.ods b{font-variant-numeric:tabular-nums;min-width:20px}
+.ods label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+
+/* Prioridad de dimensiones */
+.dims{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:10px}
+.dim-card{border:1px solid var(--line);border-top:4px solid var(--dimc);border-radius:8px;padding:10px;background:var(--surface-2);display:flex;flex-direction:column;gap:6px}
+.dim-card label{font-weight:700;font-size:13.5px}
+
+/* Listas */
+.rows{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center}
+.row .n{font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;text-align:right}
+.add{margin-top:10px}
+.tablewrap{overflow-x:auto;margin-top:10px;border:1px solid var(--line);border-radius:8px}
+table.edit{border-collapse:collapse;width:100%;min-width:720px}
+table.edit th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);text-align:left;padding:8px;background:var(--surface-2);border-bottom:1px solid var(--line)}
+table.edit td{padding:5px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.edit tr:last-child td{border-bottom:0}
+table.edit input{padding:6px 8px;font-size:13.5px}
+
+/* Medidas */
+.measure{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--dimc,var(--accent));border-radius:var(--radius);padding:16px 16px 18px;margin-bottom:14px}
+.mhead{display:grid;grid-template-columns:auto 190px minmax(0,1fr) auto;gap:10px;align-items:center}
+.mnum{font-family:var(--display);font-weight:700;font-size:18px;color:var(--dimc,var(--accent));font-variant-numeric:tabular-nums}
+.mtitle{font-weight:600}
+.measure h4{font-size:15px;margin:16px 0 0;display:flex;gap:8px;align-items:baseline}
+.measure h4 span{font-family:var(--body);font-size:12.5px;font-weight:500;color:var(--muted)}
+.calc{margin:12px 0 0;font-size:13.5px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.calc .tag{font-weight:700;padding:3px 9px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font-variant-numeric:tabular-nums}
+.calc .tag.neutral{background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+table.sum{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+table.sum th,table.sum td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left}
+table.sum th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:var(--surface-2)}
+table.sum td.num,table.sum th.num{text-align:right;font-variant-numeric:tabular-nums}
+table.sum tr.total td{font-weight:700;border-bottom:0;background:var(--surface-2)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;background:var(--dimc)}
+
+/* Esquema de páginas */
+.pages{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.pg{display:flex;flex-direction:column;align-items:center;gap:4px;width:74px}
+.sheet{width:74px;height:104px;border:1px solid var(--line);border-radius:3px;background:var(--surface);position:relative;padding:7px 6px;font-size:9.5px;line-height:1.25;font-weight:600;overflow:hidden}
+.sheet.blank{background:repeating-linear-gradient(135deg,var(--surface-2) 0 6px,var(--surface) 6px 12px)}
+.sheet.sec{border-top:3px solid var(--accent)}
+.sheet .fn{position:absolute;bottom:5px;left:0;right:0;text-align:center;font-weight:700;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.pg small{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0;max-width:80ch}
+.callout{border-radius:8px;padding:10px 12px;background:var(--accent-soft);font-size:13.5px;margin-top:12px}
+.callout.warn{background:var(--warn-soft)}
+
+/* Navegación inferior */
+.nav-bottom{display:flex;justify-content:space-between;gap:10px;margin-top:6px}
+
+/* Paso final */
+.prompt-layout{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}
+.prompt-box{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.prompt-top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.prompt-top h3{font-size:18px}
+.stats{font-size:12.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+#prompt-out{font-family:var(--mono);font-size:12.5px;line-height:1.55;height:72vh;min-height:420px;background:var(--surface-2);white-space:pre-wrap}
+.side{display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.card h3{font-size:16px;margin-bottom:8px}
+.card ol,.card ul{margin:0;padding-left:20px;font-size:13.5px;display:flex;flex-direction:column;gap:6px}
+.card p{font-size:13.5px;margin:0}
+.actions{display:flex;flex-direction:column;gap:8px}
+.actions .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checklist{list-style:none;padding:0!important}
+.checklist li{display:grid;grid-template-columns:18px 1fr;gap:6px}
+.checklist li::before{content:"";width:10px;height:10px;border-radius:50%;margin-top:6px;background:var(--ok)}
+.checklist li.w::before{background:var(--warn)}
+.small{font-size:12.5px;color:var(--muted)}
+.kbd{font-family:var(--mono);font-size:12px;padding:1px 5px;border:1px solid var(--line);border-radius:4px;background:var(--surface-2)}
+
+/* Modal y avisos */
+.overlay{position:fixed;inset:0;background:rgba(10,20,16,.45);display:grid;place-items:center;padding:16px;z-index:50}
+.overlay[hidden]{display:none}
+.modal{background:var(--surface);border:1px solid var(--line);border-radius:12px;max-width:560px;width:100%;padding:18px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+.modal h3{font-size:19px;margin-bottom:8px}
+.modal .mbody{font-size:14px}
+.modal textarea{height:220px;font-family:var(--mono);font-size:12px;margin-top:8px}
+.modal .mact{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:9px;font-size:14px;max-width:min(560px,92vw);z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+.toast[hidden]{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+@media (max-width:1080px){
+  .prompt-layout{grid-template-columns:1fr}
+  #prompt-out{height:56vh}
+}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:14px;padding:14px}
+  .steps{position:static;flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .steps-title,.steps-note{display:none}
+  .step-link{grid-template-columns:30px auto;white-space:nowrap}
+  .step-link .pill{display:none}
+  .dims{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .topbar{position:static}
+}
+@media (max-width:560px){
+  .grid,.grid-3,.grid-4{grid-template-columns:1fr}
+  .dims{grid-template-columns:1fr}
+  .mhead{grid-template-columns:auto minmax(0,1fr)}
+  .mhead select,.mhead .mtitle{grid-column:1 / -1}
+  .step-head h2{font-size:25px}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand">
+      <h1>Generador de planes de sostenibilidad</h1>
+      <p>Organizaciones de servicios de actividad física y deporte · prompt para Claude o Gemini</p>
+    </div>
+    <div class="tools">
+      <button class="btn btn-sm" data-action="load-example" type="button">Cargar ejemplo</button>
+      <button class="btn btn-sm" data-action="open-json" type="button">Abrir proyecto</button>
+      <button class="btn btn-sm" data-action="save-json" type="button">Guardar proyecto</button>
+      <button class="btn btn-sm btn-ghost btn-danger" data-action="clear" type="button">Vaciar</button>
+      <input type="file" id="file-json" accept=".json,application/json" class="sr" tabindex="-1" aria-hidden="true">
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <div class="banner" id="banner" hidden>
+    <p><strong>Datos de ejemplo.</strong> El formulario está relleno con una organización ficticia para que veas cómo queda el prompt. Sustitúyelos por los tuyos o empieza de cero.</p>
+    <button class="btn btn-sm" data-action="clear" type="button">Empezar con el formulario vacío</button>
+    <button class="btn btn-sm btn-ghost" data-action="keep-example" type="button">Trabajar sobre el ejemplo</button>
+  </div>
+  <nav class="steps" id="steps" aria-label="Pasos"></nav>
+  <main id="main"></main>
+</div>
+
+<div class="overlay" id="overlay" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title"></h3>
+    <div class="mbody" id="modal-body"></div>
+    <div class="mact" id="modal-actions"></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+'use strict';
+/* ================= utilidades ================= */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
+const clone = o => JSON.parse(JSON.stringify(o));
+const esc = s => String(s == null ? '' : s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const tr = s => String(s == null ? '' : s).trim();
+const BT3 = String.fromCharCode(96).repeat(3);
+function getPath(o,p){ return p.split('.').reduce((a,k)=> a==null ? undefined : a[k], o); }
+function setPath(o,p,v){ const ks=p.split('.'); let a=o; for(let i=0;i<ks.length-1;i++){ if(a[ks[i]]==null || typeof a[ks[i]]!=='object') a[ks[i]]={}; a=a[ks[i]]; } a[ks[ks.length-1]]=v; }
+const BAD_KEYS = new Set(['__proto__','constructor','prototype']);
+function deepMerge(base, src){
+  if(!src || typeof src!=='object') return base;
+  for(const k of Object.keys(src)){
+    if(BAD_KEYS.has(k)) continue;
+    const sv=src[k], bv=base[k];
+    if(bv && typeof bv==='object' && !Array.isArray(bv) && sv && typeof sv==='object' && !Array.isArray(sv)) deepMerge(bv, sv);
+    else base[k]=sv;
+  }
+  return base;
+}
+function num(v){ if(v===null||v===undefined) return NaN; const s=String(v).trim(); if(!s) return NaN; return parseFloat(s.replace(/\s/g,'').replace(',', '.')); }
+function fmtNum(n, dec=0){
+  if(!isFinite(n)) return '—';
+  const s=Math.abs(n).toFixed(dec); let [i,d]=s.split('.');
+  i=i.replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+  return (n<0?'−':'')+i+(d?','+d:'');
+}
+const eur = n => fmtNum(n,0)+' €';
+function roman(n){ const m=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let r=''; for(const [v,s] of m){ while(n>=v){ r+=s; n-=v; } } return r; }
+function slug(s){ return (tr(s)||'organizacion').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'').slice(0,40) || 'organizacion'; }
+function fechaLarga(iso, loc){
+  if(!iso) return '';
+  const d=new Date(iso+'T12:00:00'); if(isNaN(d)) return iso;
+  try{ return new Intl.DateTimeFormat(loc||'es-ES',{day:'numeric',month:'long',year:'numeric'}).format(d); }catch(e){ return iso; }
+}
+function hoyISO(){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate()); }
+
+/* ================= catálogos ================= */
+const DIMS = {amb:'Medioambiental', eco:'Económica', soc:'Social', ges:'Gestión (gobernanza)'};
+const DIMVAR = {amb:'var(--amb)', eco:'var(--eco)', soc:'var(--soc)', ges:'var(--ges)'};
+const ODS = [[1,'Fin de la pobreza'],[2,'Hambre cero'],[3,'Salud y bienestar'],[4,'Educación de calidad'],[5,'Igualdad de género'],[6,'Agua limpia y saneamiento'],[7,'Energía asequible y no contaminante'],[8,'Trabajo decente y crecimiento económico'],[9,'Industria, innovación e infraestructura'],[10,'Reducción de las desigualdades'],[11,'Ciudades y comunidades sostenibles'],[12,'Producción y consumo responsables'],[13,'Acción por el clima'],[14,'Vida submarina'],[15,'Vida de ecosistemas terrestres'],[16,'Paz, justicia e instituciones sólidas'],[17,'Alianzas para lograr los objetivos']];
+const MARCOS = [
+  ['ods','Agenda 2030 y Objetivos de Desarrollo Sostenible (ODS)'],
+  ['esg','Criterios ESG (ambientales, sociales y de gobernanza)'],
+  ['triple','Triple balance (triple bottom line)'],
+  ['gri','Estándares GRI para memorias de sostenibilidad'],
+  ['iso14001','ISO 14001 (sistemas de gestión ambiental)'],
+  ['emas','Reglamento europeo EMAS'],
+  ['iso20121','ISO 20121 (gestión sostenible de eventos)'],
+  ['iso26000','ISO 26000 (responsabilidad social)'],
+  ['huella','Huella de carbono (GHG Protocol)'],
+  ['s4ca','Sports for Climate Action (ONU, CMNUCC)']
+];
+const FUENTES = [
+  ['ehde','Encuesta de Hábitos Deportivos en España (última edición)'],
+  ['anuario','Anuario de Estadísticas Deportivas (último disponible)'],
+  ['eurobarometro','Eurobarómetro especial sobre deporte y actividad física'],
+  ['europeactive','European Health & Fitness Market Report (EuropeActive y Deloitte)'],
+  ['censo','Censo Nacional de Instalaciones Deportivas'],
+  ['ine','INE (directorio de empresas y estadísticas sectoriales)'],
+  ['autonomico','Instituto de estadística autonómico (p. ej., IGE en Galicia)']
+];
+const AMBITOS = [['local','Local'],['provincial','Provincial'],['autonomico','Autonómico'],['estatal','Estatal'],['europeo','Europeo']];
+const SUBSECTORES = [['','Selecciona…'],['gimnasios','Gimnasios y centros de fitness'],['instalaciones','Gestión de instalaciones deportivas'],['clubes','Clubes y entidades deportivas'],['eventos','Organización de eventos deportivos'],['turismo','Turismo activo y deporte en la naturaleza'],['escuelas','Escuelas deportivas y actividades extraescolares'],['salud','Ejercicio físico para la salud y readaptación'],['entrenamiento','Entrenamiento personal y servicios a domicilio'],['otro','Otro (descríbelo en la actividad principal)']];
+const FORMAS = [['','Selecciona…'],['Persona trabajadora autónoma','Persona trabajadora autónoma'],['Sociedad limitada (S.L.)','Sociedad limitada (S.L.)'],['Sociedad anónima (S.A.)','Sociedad anónima (S.A.)'],['Sociedad anónima deportiva (S.A.D.)','Sociedad anónima deportiva (S.A.D.)'],['Cooperativa','Cooperativa'],['Asociación o club deportivo','Asociación o club deportivo'],['Fundación','Fundación'],['Entidad pública o administración local','Entidad pública o administración local'],['Otra','Otra']];
+const IDIOMAS = {es:'castellano', gl:'gallego normativo', en:'inglés'};
+const APARTADOS = ['1. Introducción','2. Revisión de conceptos clave y análisis del sector','3. Descripción de la empresa u organización objeto de estudio','4. Procedimientos para alcanzar los objetivos de mejora','5. Conclusiones','6. Referencias','7. Anexos'];
+
+/* ================= estado ================= */
+const NEW_MED = () => ({dim:'amb', titulo:'', objetivo:'', indicador:'', inicial:'', meta:'', plazo:'', solucion:'', inversion:'', mantenimiento:'', ahorro:'', iva:'sin', financiacion:'', responsable:'', estimarIA:false});
+const NEW_IND = () => ({ind:'', valor:'', unidad:'', anio:'', fuente:''});
+const NEW_ANX = () => ({titulo:'', desc:'', adjunto:true});
+const FORMATO_DEF = {fTitulo:'Fraunces', fTexto:'Plus Jakarta Sans', tTexto:'12', tPortada:'30', tH1:'22', tH2:'16', tH3:'13', tTabla:'10', interlineado:'1,5', margen:'2,5', numeracion:'fisica', indice:true};
+const DEFAULTS = {
+  __ejemplo:false,
+  meta:{titulo:'', subtitulo:'', autoria:'', fecha:'', contextoUso:'academico', centro:'', tutor:'', idioma:'es', registro:'tecnico', extension:'25-35', inclusivo:true, preguntas:false, ia:'claude', entrega:'docx', plantilla:false},
+  formato:clone(FORMATO_DEF),
+  intro:{contexto:'', horizonte:'', alcance:'', objetivoPrincipal:'', objetivosSec:[''], marcos:['ods','esg']},
+  sector:{prioridad:{amb:'alta', eco:'media', soc:'media', ges:'media'}, conceptosExtra:'', ods:[], subsector:'', ambito:['autonomico','estatal'], competencia:'', ofertaDatos:'', perfilDemanda:'', demandaDatos:'', tendencias:'', fuentes:['ehde','anuario','eurobarometro'], buscarWeb:true},
+  org:{nombre:'', forma:'', actividad:'', municipio:'', provincia:'', fundacion:'', empleados:'', usuarios:'', facturacion:'', instalaciones:'', servicios:'', mision:'', gobernanza:'', practicas:'',
+       indicadores:[{ind:'Consumo eléctrico', valor:'', unidad:'kWh/año', anio:'', fuente:''},{ind:'Coste eléctrico', valor:'', unidad:'€/año', anio:'', fuente:''},{ind:'Consumo de gas o gasóleo', valor:'', unidad:'kWh/año', anio:'', fuente:''},{ind:'Consumo de agua', valor:'', unidad:'m³/año', anio:'', fuente:''},{ind:'Residuos generados', valor:'', unidad:'t/año', anio:'', fuente:''},{ind:'Mujeres en la plantilla', valor:'', unidad:'%', anio:'', fuente:''}],
+       dafo:{f:'', d:'', o:'', a:''}},
+  medidas:{lista:[NEW_MED()], presupuestoMax:'', cronograma:'', iaPropone:true, nExtra:'2'},
+  concl:{ideas:'', porDimension:true, ods:true, limitaciones:true, seguimiento:true},
+  refs:{estilo:'APA 7.ª edición', lista:'', iaAnade:true, anexos:[]}
+};
+
+function exampleState(){
+  const s = clone(DEFAULTS);
+  s.__ejemplo = true;
+  Object.assign(s.meta, {
+    titulo:'Plan de sostenibilidad 2027-2029 del Centro Deportivo Ría Viva',
+    subtitulo:'Propuesta de mejora medioambiental, económica, social y de gestión',
+    autoria:'Equipo redactor (ejemplo)', fecha:hoyISO(), contextoUso:'academico',
+    centro:'Ciclo formativo de grado superior · Módulo de Sostenibilidad aplicada al sistema productivo', tutor:'Profesorado del módulo',
+    idioma:'es', registro:'tecnico', extension:'25-35', inclusivo:true, preguntas:false, ia:'claude', entrega:'docx', plantilla:false
+  });
+  Object.assign(s.intro, {
+    contexto:'El Centro Deportivo Ría Viva es un gimnasio de gestión privada situado en un barrio urbano. La subida del coste de la energía, la competencia de las cadenas de bajo coste y la demanda creciente de servicios saludables y responsables han llevado a la dirección a plantear un plan de sostenibilidad a tres años que reduzca costes y refuerce su posicionamiento.',
+    horizonte:'2027-2029 (tres años)',
+    alcance:'Instalación principal (sala de fitness, salas de actividades dirigidas y vestuarios) y servicios prestados a las personas socias.',
+    objetivoPrincipal:'Diseñar un plan de sostenibilidad que reduzca al menos un 25 % el consumo de electricidad de red y un 20 % el consumo de agua del centro entre 2027 y 2029, mejorando a la vez su viabilidad económica, su impacto social y su sistema de gestión.',
+    objetivosSec:['Cubrir con autoconsumo fotovoltaico al menos el 20 % de la demanda eléctrica.','Reducir el consumo de agua de los vestuarios mediante medidas de eficiencia.','Facilitar el acceso a la actividad física a personas derivadas por servicios sociales y centros de salud.','Implantar un sistema de indicadores y una memoria anual de sostenibilidad.'],
+    marcos:['ods','esg','triple','huella']
+  });
+  Object.assign(s.sector, {
+    prioridad:{amb:'alta', eco:'alta', soc:'media', ges:'media'},
+    conceptosExtra:'Economía circular aplicada al material deportivo, huella de carbono (alcances 1 y 2), accesibilidad universal e igualdad de género en la práctica deportiva.',
+    ods:['3','5','6','7','12','13'], subsector:'gimnasios', ambito:['local','autonomico','estatal'],
+    competencia:'En un radio de 3 km hay dos gimnasios de cadenas de bajo coste, un centro boutique de entrenamiento funcional y una instalación deportiva municipal con piscina.',
+    ofertaDatos:'',
+    perfilDemanda:'Personas adultas de 25 a 55 años (58 % mujeres) que buscan salud y bienestar; demanda creciente de programas para mayores de 60 años.',
+    demandaDatos:'1.180 personas socias activas (diciembre de 2026); abandono anual del 38 %; el 22 % llega a pie o en bicicleta (encuesta interna).',
+    tendencias:'Auge del entrenamiento de fuerza y de los programas de salud; preferencia por centros con compromiso social y ambiental; reservas y seguimiento mediante aplicación móvil.',
+    fuentes:['ehde','anuario','eurobarometro','europeactive','ine','autonomico'], buscarWeb:true
+  });
+  Object.assign(s.org, {
+    nombre:'Centro Deportivo Ría Viva (ejemplo ficticio)', forma:'Sociedad limitada (S.L.)',
+    actividad:'Gimnasio y centro de fitness con actividades dirigidas y entrenamiento personal',
+    municipio:'Vigo', provincia:'Pontevedra', fundacion:'2012', empleados:'14 (9 a jornada completa)', usuarios:'1.180 personas socias', facturacion:'640.000 €/año (2026)',
+    instalaciones:'Edificio de 1.850 m² en dos plantas: sala de fitness (650 m²), dos salas de actividades dirigidas, sala de ciclo indoor, zona de entrenamiento funcional, vestuarios con 24 duchas y recepción. Cubierta plana de 900 m² sin uso. Climatización con bomba de calor y caldera de gas natural para agua caliente sanitaria.',
+    servicios:'Abono mensual de acceso libre, más de 60 sesiones semanales de actividades dirigidas, entrenamiento personal, programa de salud para mayores y valoración de la condición física.',
+    mision:'Misión: mejorar la salud y la calidad de vida de las personas mediante ejercicio físico guiado por profesionales. Valores: profesionalidad, cercanía, inclusión y respeto por el entorno.',
+    gobernanza:'Dos socios fundadores (dirección general y dirección técnica); coordinación de sala y de actividades dirigidas. No hay comité ni persona responsable de sostenibilidad.',
+    practicas:'Recogida selectiva de papel y envases; iluminación LED solo en parte de la sala de fitness; sin certificaciones ambientales ni de calidad.',
+    indicadores:[
+      {ind:'Consumo eléctrico', valor:'214.000', unidad:'kWh/año', anio:'2026', fuente:'Facturas de la comercializadora'},
+      {ind:'Coste eléctrico', valor:'34.200', unidad:'€/año', anio:'2026', fuente:'Facturas de la comercializadora'},
+      {ind:'Consumo de gas natural (agua caliente)', valor:'96.000', unidad:'kWh/año', anio:'2026', fuente:'Facturas de la distribuidora'},
+      {ind:'Consumo de agua', valor:'3.400', unidad:'m³/año', anio:'2026', fuente:'Facturas del servicio municipal'},
+      {ind:'Residuos generados', valor:'9,5', unidad:'t/año', anio:'2026', fuente:'Estimación interna'},
+      {ind:'Energía de autoconsumo renovable', valor:'0', unidad:'%', anio:'2026', fuente:'—'},
+      {ind:'Mujeres en la plantilla / en la dirección', valor:'50 / 0', unidad:'%', anio:'2026', fuente:'Datos de personal'},
+      {ind:'Personas socias que llegan a pie o en bicicleta', valor:'22', unidad:'%', anio:'2026', fuente:'Encuesta interna'}
+    ],
+    dafo:{f:'Ubicación urbana céntrica; equipo técnico cualificado; cubierta plana disponible para fotovoltaica.', d:'Consumo alto de energía y agua; ninguna gestión específica de la sostenibilidad; tasa de abandono elevada.', o:'Ayudas públicas a la eficiencia energética y al autoconsumo; demanda creciente de programas de salud; colaboración con servicios sociales y centros de salud.', a:'Competencia de las cadenas de bajo coste; volatilidad del precio de la energía; episodios de sequía en verano.'}
+  });
+  s.medidas.lista = [
+    {dim:'amb', titulo:'Instalación fotovoltaica de autoconsumo', objetivo:'Cubrir con energía solar al menos el 20 % del consumo eléctrico anual.', indicador:'% del consumo eléctrico cubierto con autoconsumo', inicial:'0 %', meta:'≥ 20 %', plazo:'Diciembre de 2027', solucion:'Instalación de 40 kWp en la cubierta plana con inversor y sistema de monitorización, sin baterías en la primera fase.', inversion:'46000', mantenimiento:'600', ahorro:'7400', iva:'sin', financiacion:'Ayudas al autoconsumo vigentes en el momento de la convocatoria (por confirmar)', responsable:'Dirección general', estimarIA:false},
+    {dim:'eco', titulo:'Iluminación LED con detectores de presencia', objetivo:'Reducir un 10 % el consumo eléctrico total.', indicador:'kWh/año', inicial:'214.000 kWh', meta:'≤ 192.600 kWh', plazo:'Junio de 2027', solucion:'Sustitución de 180 luminarias por LED de alta eficiencia y detectores de presencia en vestuarios, pasillos y almacenes.', inversion:'12600', mantenimiento:'0', ahorro:'3400', iva:'sin', financiacion:'Recursos propios', responsable:'Dirección técnica', estimarIA:false},
+    {dim:'amb', titulo:'Eficiencia hídrica en vestuarios', objetivo:'Reducir un 20 % el consumo de agua.', indicador:'m³/año', inicial:'3.400 m³', meta:'≤ 2.720 m³', plazo:'Marzo de 2027', solucion:'Rociadores de bajo caudal, pulsadores temporizados en duchas y grifos y cisternas de doble descarga.', inversion:'4800', mantenimiento:'200', ahorro:'2700', iva:'sin', financiacion:'Recursos propios', responsable:'Coordinación de instalaciones', estimarIA:false},
+    {dim:'soc', titulo:'Programa de acceso social a la actividad física', objetivo:'Facilitar la práctica a personas derivadas por servicios sociales y centros de salud.', indicador:'Personas beneficiarias al año', inicial:'0', meta:'60 personas/año', plazo:'Septiembre de 2027', solucion:'Convenio con los servicios sociales municipales y los centros de salud del barrio: abonos bonificados y un grupo semanal de ejercicio guiado.', inversion:'0', mantenimiento:'7200', ahorro:'0', iva:'sin', financiacion:'Parte del ahorro energético y posible patrocinio local', responsable:'Dirección técnica', estimarIA:false},
+    {dim:'ges', titulo:'Sistema de gestión e indicadores de sostenibilidad', objetivo:'Medir y comunicar cada año el desempeño en sostenibilidad.', indicador:'Memoria anual publicada', inicial:'No', meta:'Memoria anual desde 2028', plazo:'Diciembre de 2027', solucion:'Designar una persona responsable, crear un cuadro de mando (energía, agua, residuos, indicadores sociales y económicos) y calcular la huella de carbono de alcances 1 y 2.', inversion:'3000', mantenimiento:'1200', ahorro:'0', iva:'sin', financiacion:'Recursos propios', responsable:'Dirección general', estimarIA:false}
+  ];
+  s.medidas.presupuestoMax = '70.000 € de inversión en tres años, sin contar ayudas';
+  s.medidas.cronograma = '2027: medidas 2, 3, 4 y 5. 2027-2028: medida 1. 2029: evaluación y revisión del plan.';
+  s.medidas.iaPropone = true; s.medidas.nExtra = '2';
+  s.concl.ideas = 'La sostenibilidad como factor de diferenciación frente a las cadenas de bajo coste; el ahorro energético financia parte de las medidas sociales; necesidad de seguimiento anual con indicadores.';
+  s.refs.lista = 'Elkington, J. (1997). Cannibals with forks: The triple bottom line of 21st century business. Capstone.\nNaciones Unidas. (2015). Transformar nuestro mundo: la Agenda 2030 para el Desarrollo Sostenible (A/RES/70/1).\nWorld Commission on Environment and Development. (1987). Our common future. Oxford University Press.';
+  s.refs.anexos = [
+    {titulo:'Resumen de facturas de electricidad, gas y agua de 2026', desc:'Tabla mensual de consumos y costes.', adjunto:true},
+    {titulo:'Plano de la cubierta y presupuesto de la instalación fotovoltaica', desc:'Presupuesto de una empresa instaladora.', adjunto:true},
+    {titulo:'Resultados de la encuesta de movilidad y satisfacción', desc:'Encuesta a personas socias.', adjunto:false}
+  ];
+  return s;
+}
+
+const LS_KEY = 'plan-sostenibilidad-afd-v1';
+function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
+function loadSaved(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw){ return deepMerge(clone(DEFAULTS), JSON.parse(raw)); } }catch(e){} return null; }
+let state = loadSaved() || exampleState();
+
+/* ================= definición de pasos ================= */
+const opts = arr => arr.map(([v,l]) => ({v,l}));
+const STEPS = [
+  {id:'proyecto', mark:'·', name:'Proyecto y formato', eyebrow:'Datos generales', title:'Proyecto, IA y normas de estilo', lead:'Identifica el documento, elige con qué IA lo vas a generar y revisa las normas de maquetación que el prompt exigirá.',
+   groups:[
+    {title:'Identificación del documento', desc:'Aparecerá en la portada (página 1).', fields:[
+      {k:'meta.titulo', label:'Título del plan', type:'text', wide:true, req:true, ph:'Plan de sostenibilidad 2027-2029 de …'},
+      {k:'meta.subtitulo', label:'Subtítulo', type:'text', wide:true},
+      {k:'meta.autoria', label:'Autoría', type:'text', req:true},
+      {k:'meta.fecha', label:'Fecha', type:'date'},
+      {k:'meta.contextoUso', label:'Uso del documento', type:'select', options:[{v:'academico',l:'Trabajo académico (FP o universidad)'},{v:'consultoria',l:'Informe de consultoría para un cliente'},{v:'interno',l:'Documento interno de la organización'}]},
+      {k:'meta.centro', label:'Centro, estudios o módulo', type:'text', ph:'Opcional'},
+      {k:'meta.tutor', label:'Tutor/a o destinatario', type:'text', ph:'Opcional'}
+    ]},
+    {title:'Redacción', fields:[
+      {k:'meta.idioma', label:'Idioma del documento', type:'select', options:[{v:'es',l:'Castellano'},{v:'gl',l:'Gallego'},{v:'en',l:'Inglés'}]},
+      {k:'meta.registro', label:'Registro', type:'select', options:[{v:'tecnico',l:'Técnico-académico'},{v:'profesional',l:'Profesional y divulgativo'}]},
+      {k:'meta.extension', label:'Extensión orientativa (sin anexos)', type:'select', options:[{v:'15-20',l:'15-20 páginas'},{v:'25-35',l:'25-35 páginas'},{v:'40-50',l:'40-50 páginas'}]},
+      {type:'blank'},
+      {k:'meta.inclusivo', label:'Usar lenguaje inclusivo y no sexista', type:'check'},
+      {k:'meta.preguntas', label:'Permitir que la IA haga hasta 5 preguntas antes de redactar', type:'check'}
+    ]},
+    {title:'IA y formato de entrega', desc:'El prompt cambia las instrucciones técnicas según la IA y el destino del documento.', fields:[
+      {k:'meta.ia', label:'IA que generará el plan', type:'select', options:[{v:'claude',l:'Claude (crea el .docx con todas las normas)'},{v:'gemini',l:'Gemini (Canvas → Exportar a Documentos)'},{v:'otra',l:'Otra IA'}]},
+      {k:'meta.entrega', label:'Formato editable final', type:'select', options:[{v:'docx',l:'Word (.docx): Word, LibreOffice u ONLYOFFICE'},{v:'gdocs',l:'Documento de Google Docs'}]},
+      {type:'custom', html:'<div class="field wide"><div class="callout" id="compat-note"></div></div>'},
+      {k:'meta.plantilla', label:'Adjuntaré al chat la plantilla .docx que genera esta aplicación (estilos, secciones y pies ya configurados)', type:'check', wide:true, id:'plantilla-field'}
+    ]},
+    {title:'Normas de estilo y maquetación', desc:'Valores fijados para el documento. Puedes ajustar los tamaños de los títulos y de las tablas, que no estaban especificados.', custom:'formato'}
+   ]},
+  {id:'introduccion', mark:'1', name:'Introducción', eyebrow:'Apartado 1 del plan', title:'Introducción', lead:'Contexto del proyecto y objetivos principal y secundarios.',
+   groups:[
+    {title:'Contexto del proyecto', fields:[
+      {k:'intro.contexto', label:'Contexto y motivos del plan', type:'textarea', rows:5, wide:true, req:true, ph:'Situación de partida, problemas detectados, por qué se plantea ahora…'},
+      {k:'intro.horizonte', label:'Horizonte temporal del plan', type:'text', ph:'p. ej., 2027-2029'},
+      {k:'intro.alcance', label:'Alcance', type:'text', ph:'Instalaciones, servicios o áreas que abarca'}
+    ]},
+    {title:'Objetivos', fields:[
+      {k:'intro.objetivoPrincipal', label:'Objetivo principal', type:'textarea', rows:3, wide:true, req:true, ph:'Verbo en infinitivo + qué + cuánto + cuándo'}
+    ], custom:'objetivos'},
+    {title:'Marco de referencia', desc:'Marcos y estándares que deben orientar el plan.', checks:{k:'intro.marcos', options:opts(MARCOS)}}
+   ]},
+  {id:'sector', mark:'2', name:'Conceptos y sector', eyebrow:'Apartado 2 del plan', title:'Revisión de conceptos clave y análisis del sector', lead:'Sostenibilidad, sus cuatro dimensiones (medioambiental, económica, social y de gestión) y la oferta y la demanda del sector.',
+   groups:[
+    {title:'Dimensiones de la sostenibilidad', desc:'Las cuatro se desarrollan siempre; la prioridad indica en cuáles profundizar más.', custom:'dims', fields:[
+      {k:'sector.conceptosExtra', label:'Conceptos adicionales que deben tratarse', type:'textarea', rows:2, wide:true, ph:'Economía circular, huella de carbono, accesibilidad universal…'}
+    ]},
+    {title:'ODS prioritarios', desc:'Objetivos de Desarrollo Sostenible con los que se vincularán los objetivos y las medidas.', custom:'ods'},
+    {title:'Sector de la actividad física y el deporte', fields:[
+      {k:'sector.subsector', label:'Subsector', type:'select', options:opts(SUBSECTORES)}
+    ], checks:{k:'sector.ambito', label:'Ámbito geográfico del análisis', options:opts(AMBITOS)}},
+    {title:'Oferta', fields:[
+      {k:'sector.competencia', label:'Competidores y alternativas en el entorno', type:'textarea', rows:3, wide:true, req:true},
+      {k:'sector.ofertaDatos', label:'Datos de oferta que aportas', type:'textarea', rows:2, wide:true, ph:'Nº de centros, precios medios, cuotas de mercado… (opcional)'}
+    ]},
+    {title:'Demanda', fields:[
+      {k:'sector.perfilDemanda', label:'Perfil de las personas usuarias', type:'textarea', rows:3, wide:true, req:true},
+      {k:'sector.demandaDatos', label:'Datos de demanda que aportas', type:'textarea', rows:2, wide:true},
+      {k:'sector.tendencias', label:'Tendencias detectadas', type:'textarea', rows:2, wide:true}
+    ]},
+    {title:'Fuentes de datos para el análisis', checks:{k:'sector.fuentes', options:opts(FUENTES)}, fields:[
+      {k:'sector.buscarWeb', label:'Pedir a la IA que busque en la web la última edición de esas fuentes y cite año y edición', type:'check', wide:true}
+    ]}
+   ]},
+  {id:'organizacion', mark:'3', name:'Organización', eyebrow:'Apartado 3 del plan', title:'Descripción de la empresa u organización', lead:'Datos de la organización objeto de estudio y su situación de partida en sostenibilidad.',
+   groups:[
+    {title:'Identificación', fields:[
+      {k:'org.nombre', label:'Nombre de la organización', type:'text', wide:true, req:true},
+      {k:'org.forma', label:'Forma jurídica', type:'select', options:opts(FORMAS)},
+      {k:'org.actividad', label:'Actividad principal', type:'text', req:true},
+      {k:'org.municipio', label:'Municipio', type:'text', req:true},
+      {k:'org.provincia', label:'Provincia', type:'text'},
+      {k:'org.fundacion', label:'Año de inicio de la actividad', type:'text'},
+      {k:'org.empleados', label:'Plantilla', type:'text', req:true, ph:'Nº de personas y tipo de jornada'},
+      {k:'org.usuarios', label:'Personas usuarias, socias o clientes', type:'text', req:true},
+      {k:'org.facturacion', label:'Facturación o presupuesto anual', type:'text', ph:'€/año y año de referencia'}
+    ]},
+    {title:'Instalaciones y servicios', fields:[
+      {k:'org.instalaciones', label:'Instalaciones y equipamiento', type:'textarea', rows:3, wide:true, req:true, ph:'Superficies, espacios, climatización, agua caliente, cubiertas…'},
+      {k:'org.servicios', label:'Servicios que ofrece', type:'textarea', rows:3, wide:true, req:true}
+    ]},
+    {title:'Identidad y gestión', fields:[
+      {k:'org.mision', label:'Misión, visión y valores', type:'textarea', rows:2, wide:true},
+      {k:'org.gobernanza', label:'Organización interna y toma de decisiones', type:'textarea', rows:2, wide:true},
+      {k:'org.practicas', label:'Prácticas y certificaciones de sostenibilidad actuales', type:'textarea', rows:2, wide:true}
+    ]},
+    {title:'Situación de partida: indicadores', desc:'Datos medidos de la organización. Indica siempre la unidad, el año y de dónde sale el dato. Las filas vacías no se incluyen en el prompt.', custom:'indicadores'},
+    {title:'DAFO de sostenibilidad (opcional)', fields:[
+      {k:'org.dafo.f', label:'Fortalezas', type:'textarea', rows:3},
+      {k:'org.dafo.d', label:'Debilidades', type:'textarea', rows:3},
+      {k:'org.dafo.o', label:'Oportunidades', type:'textarea', rows:3},
+      {k:'org.dafo.a', label:'Amenazas', type:'textarea', rows:3}
+    ]}
+   ]},
+  {id:'medidas', mark:'4', name:'Objetivos y procedimientos', eyebrow:'Apartado 4 del plan', title:'Procedimientos para alcanzar los objetivos de mejora', lead:'Cada objetivo de mejora se desarrolla con su procedimiento: la solución técnica y el coste económico de la solución propuesta.',
+   groups:[
+    {title:'Objetivos de mejora y medidas', desc:'Si dejas en blanco la solución técnica, la IA la propondrá. Si no tienes los costes, marca «Que la IA estime los costes».', custom:'medidas'},
+    {title:'Resumen económico', desc:'Calculado por la aplicación con los datos de cada medida; el prompt lo incluye para que la IA lo respete. Retorno simple = inversión ÷ (ahorro anual − mantenimiento anual).', custom:'totales'},
+    {title:'Planificación', fields:[
+      {k:'medidas.presupuestoMax', label:'Presupuesto máximo disponible', type:'text', ph:'Opcional'},
+      {k:'medidas.cronograma', label:'Cronograma previsto', type:'textarea', rows:2}
+    ]},
+    {title:'Propuestas de la IA', fields:[
+      {k:'medidas.iaPropone', label:'Permitir que la IA proponga medidas adicionales, identificadas como tales', type:'check', wide:true},
+      {k:'medidas.nExtra', label:'Número de medidas adicionales', type:'select', options:[{v:'1',l:'1'},{v:'2',l:'2'},{v:'3',l:'3'}]}
+    ]}
+   ]},
+  {id:'conclusiones', mark:'5', name:'Conclusiones', eyebrow:'Apartado 5 del plan', title:'Conclusiones', lead:'Conclusiones relacionadas con la sostenibilidad. No deben aportar datos nuevos.',
+   groups:[
+    {title:'Contenido de las conclusiones', fields:[
+      {k:'concl.ideas', label:'Ideas que deben aparecer', type:'textarea', rows:5, wide:true, ph:'Opcional: la IA las redactará a partir del plan'},
+      {k:'concl.porDimension', label:'Valorar el impacto esperado en cada dimensión', type:'check', wide:true},
+      {k:'concl.ods', label:'Relacionar los resultados esperados con los ODS prioritarios', type:'check', wide:true},
+      {k:'concl.limitaciones', label:'Señalar limitaciones y riesgos del plan', type:'check', wide:true},
+      {k:'concl.seguimiento', label:'Proponer el seguimiento y la evaluación (indicadores, periodicidad, responsables)', type:'check', wide:true}
+    ]}
+   ]},
+  {id:'referencias', mark:'6·7', name:'Referencias y anexos', eyebrow:'Apartados 6 y 7 del plan', title:'Referencias y anexos aportados', lead:'Bibliografía que debe citarse y documentos que acompañarán al plan.',
+   groups:[
+    {title:'Referencias', fields:[
+      {k:'refs.estilo', label:'Estilo de citas y referencias', type:'select', options:[{v:'APA 7.ª edición',l:'APA 7.ª edición'},{v:'ISO 690',l:'ISO 690'},{v:'Vancouver',l:'Vancouver'},{v:'Chicago (autor-fecha)',l:'Chicago (autor-fecha)'}]},
+      {type:'blank'},
+      {k:'refs.lista', label:'Referencias aportadas (una por línea)', type:'textarea', rows:6, wide:true},
+      {k:'refs.iaAnade', label:'Permitir que la IA añada referencias reales y verificables (con DOI o URL oficial)', type:'check', wide:true}
+    ]},
+    {title:'Anexos aportados', desc:'Marca «Se adjunta» si vas a subir el archivo al chat junto con el prompt.', custom:'anexos'}
+   ]},
+  {id:'prompt', mark:'→', name:'Prompt', eyebrow:'Resultado', title:'Prompt para generar el plan', lead:'Revísalo, cópialo y pégalo en Claude o Gemini junto con los archivos de los anexos.', custom:'prompt'}
+];
+
+/* ================= renderizado ================= */
+function fid(k){ return 'f-'+k.replace(/\./g,'-'); }
+function fieldHTML(f){
+  if(f.type==='blank') return '<div class="field" aria-hidden="true"></div>';
+  if(f.type==='custom') return f.html;
+  const id=fid(f.k), wide=f.wide?' wide':'';
+  const req=f.req?' <span class="req" title="Dato recomendado">●</span>':'';
+  const help=f.help?'<p class="help" id="'+id+'-h">'+f.help+'</p>':'';
+  const aria=f.help?' aria-describedby="'+id+'-h"':'';
+  const ph=f.ph?' placeholder="'+esc(f.ph)+'"':'';
+  if(f.type==='check') return '<div class="field'+wide+'"'+(f.id?' id="'+f.id+'"':'')+'><label class="check" for="'+id+'"><input type="checkbox" id="'+id+'" data-k="'+f.k+'"'+aria+'> <span>'+f.label+'</span></label>'+help+'</div>';
+  let ctrl='';
+  if(f.type==='text') ctrl='<input type="text" id="'+id+'" data-k="'+f.k+'"'+ph+aria+'>';
+  else if(f.type==='date') ctrl='<input type="date" id="'+id+'" data-k="'+f.k+'"'+aria+'>';
+  else if(f.type==='number') ctrl='<input type="number" step="any" min="0" id="'+id+'" data-k="'+f.k+'"'+ph+aria+'>';
+  else if(f.type==='textarea') ctrl='<textarea id="'+id+'" rows="'+(f.rows||3)+'" data-k="'+f.k+'"'+ph+aria+'></textarea>';
+  else if(f.type==='select') ctrl='<select id="'+id+'" data-k="'+f.k+'"'+aria+'>'+f.options.map(o=>'<option value="'+esc(o.v)+'">'+esc(o.l)+'</option>').join('')+'</select>';
+  return '<div class="field'+wide+'"><label for="'+id+'">'+f.label+req+'</label>'+ctrl+help+'</div>';
+}
+function checksHTML(c){
+  const legend = c.label ? '<legend class="legend">'+c.label+'</legend>' : '';
+  return '<fieldset style="margin-top:12px">'+legend+'<div class="checks">'+c.options.map((o,i)=>{
+    const id='c-'+c.k.replace(/\./g,'-')+'-'+i;
+    return '<label class="check" for="'+id+'"><input type="checkbox" id="'+id+'" data-arr="'+c.k+'" value="'+esc(o.v)+'"> <span>'+esc(o.l)+'</span></label>';
+  }).join('')+'</div></fieldset>';
+}
+function customHTML(name){
+  switch(name){
+    case 'formato': return formatoHTML();
+    case 'objetivos': return '<p class="legend" style="margin:16px 0 0">Objetivos secundarios</p><div class="rows" id="list-objetivos"></div><button class="btn btn-sm add" type="button" data-action="add-obj">Añadir objetivo secundario</button>';
+    case 'dims': return '<div class="dims">'+Object.keys(DIMS).map(k=>'<div class="dim-card" style="--dimc:'+DIMVAR[k]+'"><label for="'+fid('sector.prioridad.'+k)+'">'+DIMS[k]+'</label><select id="'+fid('sector.prioridad.'+k)+'" data-k="sector.prioridad.'+k+'"><option value="alta">Prioridad alta</option><option value="media">Prioridad media</option><option value="baja">Prioridad baja</option></select></div>').join('')+'</div>';
+    case 'ods': return '<fieldset><legend class="sr">ODS prioritarios</legend><div class="ods">'+ODS.map(([n,l])=>'<label for="ods-'+n+'"><input type="checkbox" id="ods-'+n+'" data-arr="sector.ods" value="'+n+'"><b>'+n+'</b><span>'+l+'</span></label>').join('')+'</div></fieldset>';
+    case 'indicadores': return '<div class="tablewrap"><table class="edit"><thead><tr><th style="width:30%">Indicador</th><th style="width:13%">Valor</th><th style="width:13%">Unidad</th><th style="width:9%">Año</th><th>Fuente del dato</th><th style="width:44px"><span class="sr">Eliminar</span></th></tr></thead><tbody id="list-indicadores"></tbody></table></div><button class="btn btn-sm add" type="button" data-action="add-ind">Añadir indicador</button>';
+    case 'medidas': return '<div id="list-medidas"></div><button class="btn btn-sm add" type="button" data-action="add-med">Añadir objetivo de mejora</button>';
+    case 'totales': return '<div class="tablewrap"><table class="sum" id="totales"></table></div>';
+    case 'anexos': return '<div class="tablewrap"><table class="edit"><thead><tr><th style="width:64px">Anexo</th><th style="width:36%">Título</th><th>Descripción</th><th style="width:96px">Se adjunta</th><th style="width:44px"><span class="sr">Eliminar</span></th></tr></thead><tbody id="list-anexos"></tbody></table></div><button class="btn btn-sm add" type="button" data-action="add-anx">Añadir anexo</button>';
+  }
+  return '';
+}
+function formatoHTML(){
+  const F = [
+    {k:'formato.fTitulo', label:'Fuente de título y apartados', type:'text'},
+    {k:'formato.fTexto', label:'Fuente del texto general y los datos', type:'text'},
+    {k:'formato.tTexto', label:'Tamaño del texto (pt)', type:'number'},
+    {k:'formato.interlineado', label:'Interlineado del texto', type:'select', options:[{v:'1,5',l:'1,5'},{v:'1,15',l:'1,15'},{v:'2',l:'2'}]},
+    {k:'formato.tPortada', label:'Título de portada (pt)', type:'number'},
+    {k:'formato.tH1', label:'Títulos de nivel 1 (pt)', type:'number'},
+    {k:'formato.tH2', label:'Títulos de nivel 2 (pt)', type:'number'},
+    {k:'formato.tH3', label:'Títulos de nivel 3 (pt)', type:'number'},
+    {k:'formato.tTabla', label:'Texto de tablas (pt)', type:'number'},
+    {k:'formato.margen', label:'Márgenes A4 (cm)', type:'text'},
+    {k:'formato.numeracion', label:'Número de la primera página numerada', type:'select', options:[{v:'fisica',l:'La pág. 3 muestra «3» (cuenta portada y pág. 2)'},{v:'reinicio',l:'La pág. 3 muestra «1»'}]},
+    {k:'formato.indice', label:'Incluir índice automático en la pág. 3', type:'check'}
+  ];
+  return '<div class="grid grid-4">'+F.map(fieldHTML).join('')+'</div>'+
+    '<div class="callout"><strong>Fijo en todos los casos:</strong> texto justificado · páginas 1 y 2 sin número · número de página en el pie, centrado · página 2 en blanco · cada apartado principal empieza en la siguiente página impar.</div>'+
+    '<p class="legend" style="margin:16px 0 0">Cómo quedará la secuencia de páginas</p><div class="pages" id="pages" aria-describedby="pages-note"></div>'+
+    '<p class="note" id="pages-note">Ejemplo con un apartado de tres páginas: cuando un apartado termina en página impar, se intercala una página en blanco para que el siguiente empiece en impar.</p>'+
+    '<div style="margin-top:12px"><button class="btn btn-sm" type="button" data-action="reset-format">Restablecer normas por defecto</button></div>';
+}
+function groupHTML(g){
+  let h='<section class="group"><h3>'+g.title+'</h3>'+(g.desc?'<p class="gdesc">'+g.desc+'</p>':'');
+  if(g.custom && g.custom!=='objetivos') h+=customHTML(g.custom);
+  if(g.fields) h+='<div class="grid">'+g.fields.map(fieldHTML).join('')+'</div>';
+  if(g.custom==='objetivos') h+=customHTML('objetivos');
+  if(g.checks) h+=checksHTML(g.checks);
+  return h+'</section>';
+}
+function promptStepHTML(){
+  return '<div class="prompt-layout">'+
+   '<div class="prompt-box"><div class="prompt-top"><h3>Prompt generado</h3><span class="stats" id="prompt-stats"></span></div>'+
+   '<textarea id="prompt-out" readonly spellcheck="false" aria-label="Prompt generado"></textarea></div>'+
+   '<aside class="side">'+
+    '<div class="card"><h3>Acciones</h3><div class="actions">'+
+      '<button class="btn btn-primary" type="button" data-action="copy-prompt">Copiar prompt</button>'+
+      '<div class="row2"><a class="btn" href="https://claude.ai/new" target="_blank" rel="noopener">Abrir Claude</a><a class="btn" href="https://gemini.google.com/app" target="_blank" rel="noopener">Abrir Gemini</a></div>'+
+      '<button class="btn dl" type="button" data-action="dl-md">Descargar prompt (.md)</button>'+
+      '<button class="btn dl" type="button" data-action="dl-docx" id="btn-docx">Descargar plantilla .docx</button>'+
+      '<p class="small" id="dl-note"></p>'+
+    '</div></div>'+
+    '<div class="card"><h3>Revisión de los datos</h3><ul class="checklist" id="checks"></ul></div>'+
+    '<div class="card"><h3>Cómo usarlo</h3><ol id="howto"></ol></div>'+
+    '<div class="card" id="gdocs-card"><h3>Aplicar el formato en Google Docs</h3><ol id="gdocs-guide"></ol><p class="small" style="margin-top:8px">Los nombres de los menús pueden variar ligeramente según la versión de Google Docs.</p></div>'+
+    '<div class="card"><h3>Límites a tener en cuenta</h3><ul>'+
+      '<li>Google Docs solo tiene saltos de sección «página siguiente» y «continuo»; no tiene «página impar». Word, LibreOffice y ONLYOFFICE sí lo tienen.</li>'+
+      '<li>Fraunces y Plus Jakarta Sans son gratuitas en Google Fonts. Para verlas en Word hay que instalarlas en el ordenador; en Google Docs se añaden desde «Más fuentes» si no aparecen en la lista.</li>'+
+      '<li>La IA puede equivocarse: revisa cifras, costes, cálculos y referencias antes de entregar el plan.</li>'+
+    '</ul></div>'+
+   '</aside></div>';
+}
+function renderShell(){
+  $('#steps').innerHTML = '<p class="steps-title">Estructura del plan</p>'+STEPS.map(s=>'<a class="step-link" href="#'+s.id+'" data-step="'+s.id+'"><span class="step-mark">'+s.mark+'</span><span class="step-name">'+s.name+'</span><span class="pill" id="pill-'+s.id+'"></span></a>').join('')+'<p class="steps-note">Los números coinciden con los apartados del plan. Los datos se guardan en este navegador.</p>';
+  $('#main').innerHTML = STEPS.map((s,i)=>{
+    const body = s.custom==='prompt' ? promptStepHTML() : s.groups.map(groupHTML).join('');
+    const prev = i>0 ? '<a class="btn" href="#'+STEPS[i-1].id+'">← '+STEPS[i-1].name+'</a>' : '<span></span>';
+    const next = i<STEPS.length-1 ? '<a class="btn btn-primary" href="#'+STEPS[i+1].id+'">'+STEPS[i+1].name+' →</a>' : '<span></span>';
+    return '<section class="step" id="step-'+s.id+'" aria-labelledby="h-'+s.id+'"><header class="step-head"><p class="eyebrow">'+s.eyebrow+'</p><h2 id="h-'+s.id+'">'+s.title+'</h2><p class="lead">'+s.lead+'</p></header>'+body+'<nav class="nav-bottom" aria-label="Paso anterior y siguiente">'+prev+next+'</nav></section>';
+  }).join('');
+}
+
+/* ---- listas dinámicas ---- */
+function renderObjetivos(){
+  const L=state.intro.objetivosSec; const el=$('#list-objetivos'); if(!el) return;
+  el.innerHTML = L.map((v,i)=>'<div class="row"><span class="n">'+(i+1)+'.</span><input type="text" id="obj-'+i+'" aria-label="Objetivo secundario '+(i+1)+'" data-l="intro.objetivosSec" data-i="'+i+'" value="'+esc(v)+'"><button class="btn btn-sm btn-ghost" type="button" data-action="del-obj" data-i="'+i+'" aria-label="Eliminar objetivo '+(i+1)+'">Quitar</button></div>').join('') || '<p class="small">Sin objetivos secundarios.</p>';
+}
+function renderIndicadores(){
+  const el=$('#list-indicadores'); if(!el) return;
+  el.innerHTML = state.org.indicadores.map((r,i)=>{
+    const c=(f,lab)=>'<td><input type="text" id="ind-'+i+'-'+f+'" aria-label="'+lab+' '+(i+1)+'" data-l="org.indicadores" data-i="'+i+'" data-f="'+f+'" value="'+esc(r[f])+'"></td>';
+    return '<tr>'+c('ind','Indicador')+c('valor','Valor')+c('unidad','Unidad')+c('anio','Año')+c('fuente','Fuente')+'<td><button class="btn btn-sm btn-ghost" type="button" data-action="del-ind" data-i="'+i+'" aria-label="Eliminar indicador '+(i+1)+'">✕</button></td></tr>';
+  }).join('');
+}
+function renderAnexos(){
+  const el=$('#list-anexos'); if(!el) return;
+  const L=state.refs.anexos;
+  el.innerHTML = L.length ? L.map((r,i)=>'<tr><td><strong>'+roman(i+1)+'</strong></td><td><input type="text" id="anx-'+i+'-t" aria-label="Título del anexo '+roman(i+1)+'" data-l="refs.anexos" data-i="'+i+'" data-f="titulo" value="'+esc(r.titulo)+'"></td><td><input type="text" id="anx-'+i+'-d" aria-label="Descripción del anexo '+roman(i+1)+'" data-l="refs.anexos" data-i="'+i+'" data-f="desc" value="'+esc(r.desc)+'"></td><td><label class="check" for="anx-'+i+'-a"><input type="checkbox" id="anx-'+i+'-a" data-l="refs.anexos" data-i="'+i+'" data-f="adjunto"'+(r.adjunto?' checked':'')+'> <span>Sí</span></label></td><td><button class="btn btn-sm btn-ghost" type="button" data-action="del-anx" data-i="'+i+'" aria-label="Eliminar anexo '+roman(i+1)+'">✕</button></td></tr>').join('') : '<tr><td colspan="5" class="small" style="padding:10px">Sin anexos. Añade los documentos que acompañarán al plan.</td></tr>';
+}
+function medField(i, f, label, type, extra){
+  const m=state.medidas.lista[i]; const id='m-'+i+'-'+f; extra=extra||{};
+  const ph=extra.ph?' placeholder="'+esc(extra.ph)+'"':'';
+  const attrs=' id="'+id+'" data-l="medidas.lista" data-i="'+i+'" data-f="'+f+'"';
+  let ctrl;
+  if(type==='textarea') ctrl='<textarea rows="'+(extra.rows||2)+'"'+attrs+ph+'>'+esc(m[f])+'</textarea>';
+  else if(type==='number') ctrl='<input type="number" step="any" min="0" inputmode="decimal"'+attrs+ph+' value="'+esc(m[f])+'">';
+  else if(type==='select') ctrl='<select'+attrs+'>'+extra.options.map(o=>'<option value="'+o.v+'"'+(m[f]===o.v?' selected':'')+'>'+o.l+'</option>').join('')+'</select>';
+  else ctrl='<input type="text"'+attrs+ph+' value="'+esc(m[f])+'">';
+  return '<div class="field'+(extra.wide?' wide':'')+'"><label for="'+id+'">'+label+'</label>'+ctrl+'</div>';
+}
+function renderMedidas(){
+  const el=$('#list-medidas'); if(!el) return;
+  const L=state.medidas.lista;
+  if(!L.length){ el.innerHTML='<p class="small">No hay objetivos de mejora. Añade al menos uno o permite que la IA los proponga.</p>'; return; }
+  el.innerHTML = L.map((m,i)=>{
+    const dimOpts = Object.keys(DIMS).map(k=>'<option value="'+k+'"'+(m.dim===k?' selected':'')+'>'+DIMS[k]+'</option>').join('');
+    return '<article class="measure" id="med-'+i+'" style="--dimc:'+DIMVAR[m.dim]+'">'+
+      '<div class="mhead"><span class="mnum">4.2.'+(i+1)+'</span>'+
+        '<select id="m-'+i+'-dim" aria-label="Dimensión de la medida '+(i+1)+'" data-l="medidas.lista" data-i="'+i+'" data-f="dim">'+dimOpts+'</select>'+
+        '<input type="text" class="mtitle" id="m-'+i+'-titulo" aria-label="Título de la medida '+(i+1)+'" placeholder="Título de la medida" data-l="medidas.lista" data-i="'+i+'" data-f="titulo" value="'+esc(m.titulo)+'">'+
+        '<button class="btn btn-sm btn-ghost btn-danger" type="button" data-action="del-med" data-i="'+i+'">Eliminar</button></div>'+
+      '<div class="grid">'+
+        medField(i,'objetivo','Objetivo de mejora','textarea',{wide:true, ph:'Específico, medible y con plazo'})+
+        '</div><div class="grid grid-4">'+
+        medField(i,'indicador','Indicador','text')+medField(i,'inicial','Valor inicial','text')+medField(i,'meta','Meta','text')+medField(i,'plazo','Plazo','text')+
+      '</div>'+
+      '<h4>a) Solución técnica <span>en blanco = la propone la IA</span></h4><div class="grid">'+
+        medField(i,'solucion','Descripción de la solución','textarea',{wide:true, rows:3})+
+        medField(i,'responsable','Responsable','text')+medField(i,'financiacion','Financiación o ayudas previstas','text')+
+      '</div>'+
+      '<h4>b) Coste económico de la solución propuesta</h4><div class="grid grid-4">'+
+        medField(i,'inversion','Inversión inicial (€)','number')+medField(i,'mantenimiento','Mantenimiento anual (€)','number')+medField(i,'ahorro','Ahorro o ingreso anual (€)','number')+
+        medField(i,'iva','IVA','select',{options:[{v:'sin',l:'Importes sin IVA'},{v:'con',l:'Importes con IVA'}]})+
+      '</div>'+
+      '<div class="field" style="margin-top:12px"><label class="check" for="m-'+i+'-estimarIA"><input type="checkbox" id="m-'+i+'-estimarIA" data-l="medidas.lista" data-i="'+i+'" data-f="estimarIA"'+(m.estimarIA?' checked':'')+'> <span>Que la IA estime o complete los costes (se rotularán como estimación orientativa)</span></label></div>'+
+      '<p class="calc" id="calc-'+i+'"></p>'+
+    '</article>';
+  }).join('');
+  L.forEach((_,i)=>updateCalc(i));
+}
+function medCalc(m){
+  const inv=num(m.inversion), man=num(m.mantenimiento), aho=num(m.ahorro);
+  const has = isFinite(inv)||isFinite(man)||isFinite(aho);
+  const I=isFinite(inv)?inv:0, M=isFinite(man)?man:0, A=isFinite(aho)?aho:0;
+  const neto=A-M;
+  let pay=null, payTxt;
+  if(!has) payTxt='Sin costes';
+  else if(I>0 && neto>0){ pay=I/neto; payTxt=fmtNum(pay,1)+' años'; }
+  else if(I===0 && neto>=0) payTxt='Sin inversión inicial';
+  else payTxt='No se recupera con ahorros';
+  return {has, I, M, A, neto, pay, payTxt};
+}
+function updateCalc(i){
+  const el=$('#calc-'+i); if(!el) return;
+  const c=medCalc(state.medidas.lista[i]);
+  if(!c.has){ el.innerHTML='<span class="tag neutral">Sin costes introducidos</span>'+(state.medidas.lista[i].estimarIA?'<span class="small">La IA los estimará.</span>':'<span class="small">Añádelos o marca la estimación por la IA.</span>'); return; }
+  el.innerHTML='<span class="small">Balance anual (ahorro − mantenimiento):</span><span class="tag'+(c.neto<0?' neutral':'')+'">'+eur(c.neto)+'</span><span class="small">Retorno simple:</span><span class="tag'+(c.pay===null?' neutral':'')+'">'+c.payTxt+'</span>';
+}
+function totals(){
+  const L=state.medidas.lista.filter(m=>tr(m.titulo)||tr(m.objetivo));
+  let I=0,M=0,A=0; const rows=L.map((m)=>{ const c=medCalc(m); I+=c.I; M+=c.M; A+=c.A; return {m,c}; });
+  const neto=A-M; const pay = (I>0 && neto>0) ? fmtNum(I/neto,1)+' años' : '—';
+  return {rows, I, M, A, neto, pay};
+}
+function renderTotales(){
+  const el=$('#totales'); if(!el) return;
+  const T=totals();
+  if(!T.rows.length){ el.innerHTML='<tbody><tr><td class="small">Aún no hay medidas con título.</td></tr></tbody>'; return; }
+  el.innerHTML='<thead><tr><th>Medida</th><th class="num">Inversión</th><th class="num">Mant. anual</th><th class="num">Ahorro anual</th><th class="num">Retorno simple</th></tr></thead><tbody>'+
+    T.rows.map(({m,c},i)=>'<tr><td><span class="dot" style="--dimc:'+DIMVAR[m.dim]+'"></span>4.2.'+(state.medidas.lista.indexOf(m)+1)+' '+esc(m.titulo||'(sin título)')+'</td><td class="num">'+(c.has?eur(c.I):'—')+'</td><td class="num">'+(c.has?eur(c.M):'—')+'</td><td class="num">'+(c.has?eur(c.A):'—')+'</td><td class="num">'+(c.has?c.payTxt:'—')+'</td></tr>').join('')+
+    '<tr class="total"><td>Total del plan</td><td class="num">'+eur(T.I)+'</td><td class="num">'+eur(T.M)+'</td><td class="num">'+eur(T.A)+'</td><td class="num">'+T.pay+'</td></tr></tbody>';
+}
+function renderPages(){
+  const el=$('#pages'); if(!el) return;
+  const f=state.formato; const off = f.numeracion==='reinicio' ? 2 : 0;
+  const P=[{l:'Portada'},{l:'En blanco', blank:true}];
+  if(f.indice!==false){ P.push({l:'Índice', sec:true}); P.push({l:'Relleno', blank:true}); P.push({l:'1. Introducción', sec:true}); P.push({l:'(cont.)'}); P.push({l:'(cont.)'}); P.push({l:'Relleno', blank:true}); P.push({l:'2. Conceptos y sector', sec:true}); }
+  else { P.push({l:'1. Introducción', sec:true}); P.push({l:'(cont.)'}); P.push({l:'(cont.)'}); P.push({l:'Relleno', blank:true}); P.push({l:'2. Conceptos y sector', sec:true}); }
+  el.innerHTML = P.map((p,i)=>{ const n=i+1; const shown = n<=2 ? '' : String(n-off);
+    return '<div class="pg"><div class="sheet'+(p.blank?' blank':'')+(p.sec?' sec':'')+'">'+esc(p.l)+(shown?'<span class="fn">'+shown+'</span>':'')+'</div><small>pág. '+n+(n<=2?' · sin nº':'')+'</small></div>';
+  }).join('');
+}
+
+/* ---- rellenar valores ---- */
+function fillAll(){
+  $$('[data-k]').forEach(el=>{ const v=getPath(state, el.dataset.k); if(el.type==='checkbox') el.checked=!!v; else el.value = v==null ? '' : v; });
+  $$('[data-arr]').forEach(el=>{ const a=getPath(state, el.dataset.arr)||[]; el.checked = a.map(String).includes(String(el.value)); });
+  renderObjetivos(); renderIndicadores(); renderMedidas(); renderAnexos(); renderTotales(); renderPages();
+  updateConditional(); updateProgress(); updateBanner();
+}
+function updateBanner(){ $('#banner').hidden = !state.__ejemplo; }
+function updateConditional(){
+  const m=state.meta;
+  const notes = {
+    'claude|docx':'Claude genera el .docx mediante código y puede aplicar todas las normas, incluido el salto de sección a página impar.',
+    'claude|gdocs':'Claude genera un .docx preparado para abrirse en Google Docs. Como Google Docs no tiene salto «página impar», las páginas en blanco se insertan de forma explícita y conviene revisarlas después de importar.',
+    'gemini|gdocs':'Gemini redacta el documento en Canvas y lo exportas a Documentos de Google. Las fuentes, la numeración y el inicio en página impar se terminan a mano con la guía del último paso.',
+    'gemini|docx':'Gemini redacta en Canvas; lo exportas a Documentos de Google y lo descargas como Word (Archivo → Descargar → Microsoft Word). El formato de páginas se termina a mano con la guía del último paso.',
+    'otra|docx':'El prompt pide un .docx generado con código si la IA puede crear archivos; si no, un texto con marcas de salto para aplicar el formato a mano.',
+    'otra|gdocs':'El prompt pide un .docx preparado para Google Docs si la IA puede crear archivos; si no, un texto con marcas de salto para aplicar el formato a mano.'
+  };
+  const n=$('#compat-note'); if(n) n.textContent = notes[m.ia+'|'+m.entrega] || '';
+  const pf=$('#plantilla-field'); if(pf) pf.hidden = (m.ia==='gemini');
+  const gc=$('#gdocs-card'); if(gc) gc.hidden = !(m.ia==='gemini' || m.entrega==='gdocs' || m.ia==='otra');
+}
+
+/* ---- progreso por paso ---- */
+const filled = v => Array.isArray(v) ? v.some(x=>tr(x)) : !!tr(v);
+function progress(id){
+  const s=state;
+  const checks = {
+    proyecto:[s.meta.titulo, s.meta.autoria, s.meta.fecha],
+    introduccion:[s.intro.contexto, s.intro.objetivoPrincipal, s.intro.objetivosSec, s.intro.horizonte],
+    sector:[s.sector.subsector, s.sector.competencia, s.sector.perfilDemanda, s.sector.ods],
+    organizacion:[s.org.nombre, s.org.actividad, s.org.municipio, s.org.empleados, s.org.usuarios, s.org.instalaciones, s.org.servicios, s.org.indicadores.filter(r=>tr(r.valor)).length>=3?'x':''],
+    medidas:[s.medidas.lista.some(m=>tr(m.titulo)) || s.medidas.iaPropone ? 'x':'', s.medidas.lista.every(m=>!tr(m.titulo) || tr(m.objetivo)) && s.medidas.lista.some(m=>tr(m.titulo)) ? 'x':'', s.medidas.lista.every(m=>!tr(m.titulo) || medCalc(m).has || m.estimarIA) && s.medidas.lista.some(m=>tr(m.titulo)) ? 'x':''],
+    conclusiones:[s.concl.ideas || (s.concl.porDimension||s.concl.ods||s.concl.limitaciones||s.concl.seguimiento ? 'x':'')],
+    referencias:[s.refs.lista || (s.refs.iaAnade?'x':''), s.refs.anexos.length ? (s.refs.anexos.every(a=>tr(a.titulo))?'x':'') : 'x']
+  }[id];
+  if(!checks) return null;
+  return [checks.filter(filled).length, checks.length];
+}
+function updateProgress(){
+  STEPS.forEach(s=>{ const p=progress(s.id); const el=$('#pill-'+s.id); if(!el) return; if(!p){ el.textContent=''; el.className='pill'; el.style.display='none'; return; } el.style.display=''; el.textContent=p[0]+'/'+p[1]; el.className='pill'+(p[0]===p[1]?' done':''); el.title=p[0]+' de '+p[1]+' datos clave'; });
+}
+
+/* ================= generación del prompt ================= */
+function buildPrompt(s){
+  const L=[]; const P=(x)=>L.push(x===undefined?'':x);
+  const m=s.meta, f=s.formato, o=s.org, se=s.sector, it=s.intro, md=s.medidas, c=s.concl, r=s.refs;
+  const nombre = tr(o.nombre) || '[NOMBRE DE LA ORGANIZACIÓN]';
+  const PEND = 'no aportado (si es imprescindible, márcalo como [DATO PENDIENTE])';
+  const ml = x => tr(x).replace(/\r/g,'').replace(/\n+/g,'\n  ');
+  const item = (lab, v, oblig) => { if(tr(v)) P('- **'+lab+':** '+ml(v)); else if(oblig) P('- **'+lab+':** '+PEND+'.'); };
+  const fT = tr(f.fTitulo)||'Fraunces', fB = tr(f.fTexto)||'Plus Jakarta Sans';
+  const tT = tr(f.tTexto)||'12';
+  const il = f.interlineado||'1,5';
+  const lineTw = {'1,5':360,'1,15':276,'2':480}[il]||360;
+  const mgCm = tr(f.margen)||'2,5'; const mgTw = Math.round((num(mgCm)||2.5)*566.929);
+  const ia = m.ia, gd = m.entrega==='gdocs';
+  const conIndice = f.indice!==false;
+  const medidasOK = md.lista.filter(x=>tr(x.titulo)||tr(x.objetivo));
+  const anexos = r.anexos.filter(a=>tr(a.titulo));
+  const dafoOK = ['f','d','o','a'].some(k=>tr(o.dafo[k]));
+  const plantilla = m.plantilla && ia!=='gemini';
+  const fnPlantilla = 'plantilla-plan-sostenibilidad-'+slug(o.nombre)+'.docx';
+  const numTxt = f.numeracion==='reinicio' ? 'la numeración visible empieza en «1» en la pág. 3' : 'la numeración cuenta todas las páginas desde la portada, de modo que la primera página numerada (pág. 3) muestra «3»';
+  const ext = m.extension||'25-35';
+
+  P('# Encargo: plan de sostenibilidad de '+nombre);
+  P();
+  P('## A. Papel y tarea');
+  P('Actúa como consultor/a sénior en sostenibilidad y gestión de organizaciones que prestan servicios en el sector de la actividad física y el deporte. Redacta un **plan de sostenibilidad completo, riguroso y aplicable** para la organización descrita en este encargo. Sigue exactamente la estructura (bloque D), las normas de estilo y maquetación (bloque E) y las instrucciones técnicas (bloque F). Toda la información aportada está en el bloque C. En este encargo, «bloque» se refiere a las partes de estas instrucciones y «apartado» a las partes del plan.');
+  P();
+  P('- **Idioma del documento:** '+(IDIOMAS[m.idioma]||'castellano')+'.'+(m.idioma!=='es'?' Traduce los títulos de los apartados a ese idioma, conservando su numeración y su orden.':''));
+  P('- **Registro:** '+(m.registro==='profesional'?'profesional y divulgativo, claro para la dirección y el personal de la organización':'técnico-académico, con terminología precisa y citas a las fuentes')+'.');
+  P('- **Uso del documento:** '+({academico:'trabajo académico (formación profesional o universidad)', consultoria:'informe de consultoría para la organización cliente', interno:'documento interno de la propia organización'}[m.contextoUso]||'')+'.');
+  P('- **Extensión orientativa:** '+ext+' páginas, sin contar portada, índice ni anexos. Dedica la mayor parte a los apartados 3 y 4, que son los específicos de la organización.');
+  if(m.inclusivo) P('- Usa lenguaje inclusivo y no sexista, sin desdoblamientos que dificulten la lectura.');
+  P(m.preguntas ? '- Antes de redactar, puedes hacerme como máximo 5 preguntas si falta información imprescindible. Después, redacta el documento completo.' : '- No me hagas preguntas previas: redacta el documento completo con la información disponible y marca lo que falte como se indica en el bloque G.');
+  P();
+  P('## B. Datos de la portada (página 1)');
+  item('Título', m.titulo, true);
+  item('Subtítulo', m.subtitulo);
+  P('- **Organización:** '+nombre);
+  item('Autoría', m.autoria, true);
+  item('Centro, estudios o módulo', m.centro);
+  item('Tutor/a o destinatario', m.tutor);
+  item('Fecha', fechaLarga(m.fecha), true);
+  P();
+  P('## C. Información aportada');
+  P('### C.1. Para el apartado 1 (Introducción)');
+  item('Contexto del proyecto', it.contexto, true);
+  item('Horizonte temporal', it.horizonte);
+  item('Alcance', it.alcance);
+  item('Objetivo principal', it.objetivoPrincipal, true);
+  const sec = it.objetivosSec.filter(x=>tr(x));
+  if(sec.length){ P('- **Objetivos secundarios:**'); sec.forEach((x,i)=>P('  '+(i+1)+'. '+tr(x))); }
+  else P('- **Objetivos secundarios:** no aportados; formula entre 3 y 5 coherentes con el objetivo principal.');
+  const marcos = MARCOS.filter(([k])=>it.marcos.includes(k)).map(x=>x[1]);
+  if(marcos.length) P('- **Marcos de referencia que deben orientar el plan:** '+marcos.join('; ')+'.');
+  P();
+  P('### C.2. Para el apartado 2 (Revisión de conceptos clave y análisis del sector)');
+  P('- **Prioridad de las dimensiones:** '+Object.keys(DIMS).map(k=>DIMS[k]+' ('+se.prioridad[k]+')').join('; ')+'. Desarrolla las cuatro y profundiza más en las de prioridad alta.');
+  item('Conceptos adicionales que deben tratarse', se.conceptosExtra);
+  const ods = ODS.filter(([n])=>se.ods.map(String).includes(String(n))).map(([n,l])=>'ODS '+n+' ('+l+')');
+  P('- **ODS prioritarios:** '+(ods.length?ods.join('; ')+'.':'no indicados; selecciona los más pertinentes para la organización y justifícalo.'));
+  const sub = (SUBSECTORES.find(x=>x[0]===se.subsector)||['',''])[1];
+  if(se.subsector) P('- **Subsector:** '+sub+'.');
+  const amb = AMBITOS.filter(([k])=>se.ambito.includes(k)).map(x=>x[1].toLowerCase());
+  if(amb.length) P('- **Ámbito geográfico del análisis:** '+amb.join(', ')+'.');
+  item('Oferta: competidores y alternativas en el entorno', se.competencia, true);
+  item('Oferta: datos aportados', se.ofertaDatos);
+  item('Demanda: perfil de las personas usuarias', se.perfilDemanda, true);
+  item('Demanda: datos aportados', se.demandaDatos);
+  item('Tendencias detectadas', se.tendencias);
+  const fu = FUENTES.filter(([k])=>se.fuentes.includes(k)).map(x=>x[1]);
+  if(fu.length) P('- **Fuentes recomendadas para el análisis sectorial:** '+fu.join('; ')+'.');
+  P(se.buscarWeb ? '- Si tienes acceso a búsqueda web, consulta la última edición disponible de esas fuentes y cita su año y su edición. Si no tienes acceso, usa los datos que conozcas indicando su año y avisa de que deben actualizarse.' : '- No uses búsqueda web: trabaja con los datos aportados y con datos que conozcas, indicando siempre su año y que deben actualizarse.');
+  P();
+  P('### C.3. Para el apartado 3 (Descripción de la organización)');
+  P('- **Nombre:** '+nombre);
+  item('Forma jurídica', o.forma);
+  item('Actividad principal', o.actividad, true);
+  const loc=[tr(o.municipio), tr(o.provincia)].filter(Boolean).join(' ('); if(loc) P('- **Localización:** '+loc+(tr(o.provincia)&&tr(o.municipio)?')':'')); else item('Localización','',true);
+  item('Año de inicio de la actividad', o.fundacion);
+  item('Plantilla', o.empleados, true);
+  item('Personas usuarias, socias o clientes', o.usuarios, true);
+  item('Facturación o presupuesto anual', o.facturacion);
+  item('Instalaciones y equipamiento', o.instalaciones, true);
+  item('Servicios', o.servicios, true);
+  item('Misión, visión y valores', o.mision);
+  item('Organización interna y toma de decisiones', o.gobernanza);
+  item('Prácticas y certificaciones de sostenibilidad actuales', o.practicas);
+  const inds = o.indicadores.filter(x=>tr(x.ind)&&tr(x.valor));
+  if(inds.length){
+    P(); P('**Indicadores de partida** (datos medidos; preséntalos en una tabla en el apartado 3.4):'); P();
+    P('| Indicador | Valor | Unidad | Año | Fuente |'); P('|---|---|---|---|---|');
+    inds.forEach(x=>{ const v = tr(x.valor); P('| '+[tr(x.ind), v, tr(x.unidad), tr(x.anio)||'—', tr(x.fuente)||'—'].map(z=>z.replace(/\|/g,'/')).join(' | ')+' |'); });
+  } else P('- **Indicadores de partida:** no aportados. Indica qué indicadores debería medir la organización y márcalos como [DATO PENDIENTE].');
+  if(dafoOK){ P(); P('**DAFO de sostenibilidad aportado:**'); item('Fortalezas', o.dafo.f); item('Debilidades', o.dafo.d); item('Oportunidades', o.dafo.o); item('Amenazas', o.dafo.a); }
+  P();
+  P('### C.4. Para el apartado 4 (Procedimientos para alcanzar los objetivos de mejora)');
+  if(medidasOK.length){
+    medidasOK.forEach((x)=>{
+      const i = md.lista.indexOf(x)+1; const cc = medCalc(x);
+      P(); P('**Medida 4.2.'+i+'. '+(tr(x.titulo)||'[título por definir]')+'** · Dimensión: '+DIMS[x.dim]);
+      item('Objetivo de mejora', x.objetivo, true);
+      const kpi=[tr(x.indicador)&&('indicador: '+tr(x.indicador)), tr(x.inicial)&&('valor inicial: '+tr(x.inicial)), tr(x.meta)&&('meta: '+tr(x.meta)), tr(x.plazo)&&('plazo: '+tr(x.plazo))].filter(Boolean);
+      P('- **Indicador y meta:** '+(kpi.length?kpi.join('; ')+'.':'no aportados; define un indicador medible, su valor inicial, la meta y el plazo.'));
+      P('- **a) Solución técnica:** '+(tr(x.solucion)?ml(x.solucion)+' Desarróllala: especificaciones, fases de implantación, responsable, plazo y riesgos.':'no aportada; propón una solución técnica concreta, realista y adecuada al tamaño de la organización, con especificaciones, fases de implantación y riesgos.'));
+      if(cc.has){
+        P('- **b) Coste económico aportado'+(x.iva==='con'?' (IVA incluido)':' (sin IVA)')+':** inversión inicial '+eur(cc.I)+'; mantenimiento anual '+eur(cc.M)+'; ahorro o ingreso anual '+eur(cc.A)+'; retorno simple: '+cc.payTxt.charAt(0).toLowerCase()+cc.payTxt.slice(1)+'.'+(x.estimarIA?' Desglosa y completa estos costes con estimaciones orientativas justificadas.':' Respeta estos importes y desglósalos de forma coherente (concepto, cantidad, precio unitario, importe).'));
+      } else {
+        P('- **b) Coste económico:** '+(x.estimarIA?'no aportado; estímalo con un desglose (concepto, cantidad, precio unitario, importe), rotulado como estimación orientativa, con el año de referencia y el tratamiento del IVA.':PEND+'.'));
+      }
+      item('Financiación o ayudas previstas', x.financiacion);
+      item('Responsable', x.responsable);
+    });
+    const T=totals();
+    if(T.rows.some(z=>z.c.has)){
+      P(); P('**Resumen económico calculado por la aplicación** (úsalo en el apartado 4.3 y comprueba que coincide con el desglose):'); P();
+      P('| Medida | Inversión | Mantenimiento anual | Ahorro anual | Retorno simple |'); P('|---|---:|---:|---:|---:|');
+      T.rows.forEach(({m:x,c:cc})=>P('| 4.2.'+(md.lista.indexOf(x)+1)+'. '+(tr(x.titulo)||'—').replace(/\|/g,'/')+' | '+(cc.has?eur(cc.I):'por estimar')+' | '+(cc.has?eur(cc.M):'por estimar')+' | '+(cc.has?eur(cc.A):'por estimar')+' | '+(cc.has?cc.payTxt:'—')+' |'));
+      P('| **Total** | **'+eur(T.I)+'** | **'+eur(T.M)+'** | **'+eur(T.A)+'** | **'+T.pay+'** |');
+      P(); P('Retorno simple = inversión ÷ (ahorro anual − mantenimiento anual). Las medidas sociales o de gestión sin ahorro económico se justifican por su impacto, no por su retorno.');
+    }
+  } else {
+    P('- No se aportan medidas concretas: propón entre 4 y 6 objetivos de mejora que cubran las cuatro dimensiones, cada uno con su procedimiento (solución técnica y coste económico estimado).');
+  }
+  item('Presupuesto máximo disponible', md.presupuestoMax);
+  item('Cronograma previsto', md.cronograma);
+  if(medidasOK.length) P(md.iaPropone ? '- Además, propón '+(md.nExtra||'2')+' medida'+(md.nExtra==='1'?'':'s')+' adicional'+(md.nExtra==='1'?'':'es')+' que refuerce'+(md.nExtra==='1'?'':'n')+' las dimensiones con menos medidas, con la misma estructura e identificada'+(md.nExtra==='1'?'':'s')+' como «propuesta adicional».' : '- No añadas medidas distintas de las aportadas.');
+  P();
+  P('### C.5. Para el apartado 5 (Conclusiones)');
+  item('Ideas que deben aparecer', c.ideas);
+  const cl=[]; if(c.porDimension) cl.push('valora el impacto esperado del plan en cada una de las cuatro dimensiones'); if(c.ods) cl.push('relaciona los resultados esperados con los ODS prioritarios'); if(c.limitaciones) cl.push('señala las limitaciones y los riesgos del plan'); if(c.seguimiento) cl.push('propone el seguimiento y la evaluación (indicadores, periodicidad y responsables)');
+  P('- Las conclusiones deben estar relacionadas con la sostenibilidad'+(cl.length?'; además, '+cl.join('; '):'')+'. No introduzcas datos nuevos.');
+  P();
+  P('### C.6. Para los apartados 6 (Referencias) y 7 (Anexos)');
+  P('- **Estilo de citas y referencias:** '+(r.estilo||'APA 7.ª edición')+'. Toda cita del texto figura en Referencias y toda referencia está citada en el texto.');
+  const refs = tr(r.lista).split(/\n+/).map(tr).filter(Boolean);
+  if(refs.length){ P('- **Referencias aportadas** (inclúyelas todas, normalizadas al estilo indicado):'); refs.forEach(x=>P('  - '+x)); }
+  P(r.iaAnade ? '- Puedes añadir referencias adicionales solo si son reales y las puedes verificar (DOI o URL oficial). No incluyas ninguna que no puedas verificar.' : '- Usa únicamente las referencias aportadas.');
+  if(anexos.length){
+    P('- **Anexos aportados:**');
+    anexos.forEach((a,i)=>P('  - Anexo '+roman(i+1)+'. '+tr(a.titulo)+(tr(a.desc)?' — '+tr(a.desc):'')+(a.adjunto?' (archivo adjunto en este chat)':' (no adjunto: deja una página con su título y la marca [INSERTAR ANEXO])')));
+    P('- Cada anexo empieza en página nueva con su título; remite a ellos desde el texto (p. ej., «véase el Anexo II»). Si el archivo está adjunto, integra su contenido (tablas o imágenes) o resúmelo si es muy extenso.');
+  } else P('- **Anexos:** no se aportan. Mantén el apartado 7 con una breve nota de que no hay anexos, o incluye solo los que sean imprescindibles y créalos tú a partir de los datos (p. ej., cálculos de costes).');
+  P();
+
+  /* 4. Estructura */
+  P('## D. Estructura obligatoria del documento');
+  P(BT3);
+  P('Página 1 · Portada (sin número)');
+  P('Página 2 · En blanco (sin número)');
+  if(conIndice) P('Índice (empieza en la pág. 3)');
+  P('1. Introducción');
+  P('   1.1. Contexto del proyecto');
+  P('   1.2. Objetivos (principal y secundarios)');
+  P('2. Revisión de conceptos clave y análisis del sector');
+  P('   2.1. Sostenibilidad');
+  P('   2.2. Dimensiones de la sostenibilidad');
+  P('        2.2.1. Dimensión medioambiental');
+  P('        2.2.2. Dimensión económica');
+  P('        2.2.3. Dimensión social');
+  P('        2.2.4. Dimensión de gestión (gobernanza)');
+  P('   2.3. Análisis del sector de la actividad física y el deporte');
+  P('        2.3.1. Oferta');
+  P('        2.3.2. Demanda');
+  P('3. Descripción de la empresa u organización objeto de estudio');
+  P('   3.1. Identificación y actividad');
+  P('   3.2. Instalaciones y servicios');
+  P('   3.3. Misión, valores y modelo de gestión');
+  P('   3.4. Situación de partida en sostenibilidad');
+  if(dafoOK) P('   3.5. Análisis DAFO de sostenibilidad');
+  P('4. Procedimientos para alcanzar los objetivos de mejora');
+  P('   4.1. Objetivos de mejora');
+  P('   4.2. Procedimientos');
+  if(medidasOK.length){ medidasOK.forEach(x=>{ P('        4.2.'+(md.lista.indexOf(x)+1)+'. '+(tr(x.titulo)||'[Medida]')); P('               a) Solución técnica'); P('               b) Coste económico de la solución propuesta'); }); if(md.iaPropone) P('        4.2.'+(md.lista.length+1)+'. y siguientes: propuestas adicionales (misma estructura)'); }
+  else { P('        4.2.n. [Una por medida]'); P('               a) Solución técnica'); P('               b) Coste económico de la solución propuesta'); }
+  P('   4.3. Resumen económico y cronograma');
+  P('5. Conclusiones');
+  P('6. Referencias');
+  P('7. Anexos');
+  anexos.forEach((a,i)=>P('   Anexo '+roman(i+1)+'. '+tr(a.titulo)));
+  P(BT3);
+  P();
+  P('Contenido mínimo de cada parte:');
+  P('- **Portada:** título, subtítulo, organización, autoría'+(tr(m.centro)?', centro o estudios':'')+(tr(m.tutor)?', tutor/a o destinatario':'')+' y fecha.');
+  P('- **2.1 y 2.2:** definición de sostenibilidad y su evolución (desde el Informe Brundtland), y cada dimensión explicada con su aplicación concreta al sector de la actividad física y el deporte y ejemplos de indicadores.');
+  P('- **2.3:** oferta y demanda con datos cuantitativos de fuentes citadas (con año), en el ámbito geográfico indicado, y su relación con la organización.');
+  P('- **3.4:** tabla de indicadores de partida y diagnóstico por dimensión.');
+  P('- **4.1:** tabla de objetivos de mejora: objetivo, dimensión, indicador, valor inicial, meta, plazo y ODS.');
+  P('- **4.2:** para cada medida, a) solución técnica (descripción, especificaciones, fases, responsable, plazo y riesgos) y b) coste económico (tabla con concepto, cantidad, precio unitario e importe; IVA; mantenimiento; ahorro; retorno simple; financiación posible).');
+  P('- **4.3:** tabla resumen económico y cronograma (tabla por trimestres o por años).');
+  P();
+
+  /* 5. Normas */
+  P('## E. Normas de estilo y maquetación (obligatorias)');
+  P('| Elemento | Norma |'); P('|---|---|');
+  P('| Título del documento y títulos de los apartados | **'+fT+'** |');
+  P('| Texto general, tablas y datos | **'+fB+'** |');
+  P('| Tamaño del texto general | **'+tT+' pt** |');
+  P('| Tamaños de los títulos | Título de portada '+(tr(f.tPortada)||'30')+' pt; nivel 1, '+(tr(f.tH1)||'22')+' pt; nivel 2, '+(tr(f.tH2)||'16')+' pt; nivel 3, '+(tr(f.tH3)||'13')+' pt; los subapartados a) y b), '+tT+' pt en negrita |');
+  P('| Tablas | '+fB+' '+(tr(f.tTabla)||'10')+' pt, interlineado sencillo; título numerado encima («Tabla 1. …») y fuente debajo («Fuente: …») |');
+  P('| Alineación | Texto **justificado**; títulos alineados a la izquierda |');
+  P('| Interlineado | **'+il+'** en el texto general |');
+  P('| Papel y márgenes | A4; márgenes de '+mgCm+' cm |');
+  P('| Numeración de páginas | En el **pie de página, centrada**. **Sin número en las páginas 1 y 2**; '+numTxt+' |');
+  P('| Página 2 | **En blanco** (reverso de la portada) |');
+  P('| Inicio de los apartados | '+(conIndice?'El índice y cada':'Cada')+' apartado principal (1 a 7) **empieza en la siguiente página impar**; si el anterior termina en página impar, se deja una página en blanco intermedia |');
+  P('| Numeración de títulos | Decimal (1., 1.1., 1.1.1.), con estilos de título reales para que el índice sea automático |');
+  P('| Cifras | Formato español: 1.234,56 €; 25 %; unidades del SI |');
+  P();
+
+  /* 6. Técnicas */
+  P('## F. Instrucciones técnicas de generación');
+  const docxSpec = (googleMode) => {
+    const A=[];
+    A.push('- Genera el plan como **archivo Word (.docx)** mediante código, con tu herramienta de creación de archivos (por ejemplo, la librería «docx» de Node.js, o python-docx editando el XML cuando la librería no permita algo). No lo entregues solo como texto en el chat.');
+    A.push('- Redacta y construye el documento apartado a apartado para no truncar el contenido; después, ensámblalo en un único .docx.');
+    A.push('- Página A4 (11.906 × 16.838 twips) con márgenes de '+mgCm+' cm ('+fmtNum(mgTw)+' twips) en los cuatro lados.');
+    A.push('- Estilos: usa los estilos integrados Title, Heading 1, Heading 2, Heading 3 y Heading 4 con «'+fT+'», y el estilo Normal con «'+fB+'» a '+tT+' pt, justificado e interlineado '+il+' (w:spacing w:line="'+lineTw+'" w:lineRule="auto"). Declara cada fuente en w:rFonts (ascii, hAnsi, eastAsia y cs).');
+    A.push('- Sección 1: portada (pág. 1), salto de página y página 2 vacía. Pie de página vacío.');
+    A.push('- '+(conIndice?'El índice y cada':'Cada')+' apartado principal (1 a 7) forman una sección propia.');
+    if(!googleMode) A.push('- El salto de cada una de esas secciones es de tipo **página impar**: <w:type w:val="oddPage"/> dentro de su w:sectPr. Word y LibreOffice insertan automáticamente la página en blanco cuando el apartado anterior termina en página impar.');
+    else A.push('- Documentos de Google solo admite saltos de sección «página siguiente» y «continuo», no «página impar». Usa saltos de sección de tipo página siguiente (nextPage) y, cuando el apartado anterior termine en página impar, inserta una página en blanco explícita (un párrafo vacío seguido de salto de página) para que el apartado siguiente empiece en página impar.');
+    A.push('- Pie de página desde la sección 2: campo PAGE centrado, «'+fB+'» 10 pt; '+numTxt+(f.numeracion==='reinicio'?' (<w:pgNumType w:start="1"/> en la sección 2).':' (sin reinicio de numeración).'));
+    if(conIndice) A.push('- Índice: campo TOC (\\o "1-3" \\h \\z \\u) y <w:updateFields w:val="true"/> en settings.xml para que Word lo actualice al abrir.');
+    A.push('- Las marcas [DATO PENDIENTE] van con resaltado amarillo (w:highlight w:val="yellow").');
+    A.push('- **Comprobación obligatoria antes de entregar:** convierte el .docx a PDF con LibreOffice conservando las páginas en blanco insertadas automáticamente, que por defecto se omiten en el PDF: soffice --headless --convert-to \'pdf:writer_pdf_Export:{"IsSkipEmptyPages":{"type":"boolean","value":"false"}}\' plan.docx. Verifica en el PDF que la página 2 está en blanco, que '+(conIndice?'el índice y ':'')+'cada apartado principal empiezan en página impar (también lo confirma el número impreso en su primera página, que debe ser impar) y que las páginas 1 y 2 no llevan número.'+(googleMode?' Si algún apartado empieza en página par, añade o quita la página en blanco explícita y repite la conversión hasta que todos cumplan.':'')+' Si «'+fT+'» o «'+fB+'» no están instaladas en tu entorno, el PDF las sustituirá: es esperable y no es un error; el .docx debe declararlas igualmente.');
+    if(googleMode) A.push('- Al entregar, indica que hay que subir el .docx a Google Drive y abrirlo con Documentos de Google, y revisar el inicio de cada apartado, porque la paginación de Google Docs puede diferir ligeramente de la de LibreOffice.');
+    if(plantilla) A.push('- **Plantilla adjunta («'+fnPlantilla+'»):** la ha generado la aplicación con los estilos, las secciones con salto a página impar, los pies de página y la numeración ya configurados, y con parte de los datos colocados. Úsala como base: conserva estilos, secciones y pies, y sustituye los textos de indicación (en cursiva gris y entre corchetes) por el contenido definitivo.'+(googleMode?' Cambia sus saltos «página impar» por «página siguiente» con páginas en blanco explícitas, como se indica arriba.':''));
+    return A;
+  };
+  if(ia==='claude'){ docxSpec(gd).forEach(P); }
+  else if(ia==='gemini'){
+    P('- Redacta el documento completo en **Canvas**. Usa estilos de título reales (Título; Encabezado 1, 2, 3 y 4), tablas reales y listas, para que se conserven al exportarlo con «Compartir y exportar → Exportar a Documentos».');
+    P('- Redacta todo el contenido, sin dejar apartados como esquema. Si llegas al límite de extensión de una respuesta, detente al final de un apartado y continúa cuando te escriba «continúa».');
+    P('- Tras la portada, escribe en una línea propia la marca [SALTO DE PÁGINA · PÁGINA 2 EN BLANCO]. Antes '+(conIndice?'del índice y ':'')+'de cada apartado principal, escribe en una línea propia la marca [SALTO DE SECCIÓN · PÁGINA IMPAR]. Las sustituiré por saltos reales en Google Docs.');
+    P('- Aplica en Canvas, en la medida en que lo permita, las fuentes y tamaños de las normas de estilo; el formato restante (fuentes, interlineado, numeración y páginas impares) lo completaré en Google Docs.');
+    P('- No escribas dentro del documento instrucciones dirigidas a mí; si hacen falta, escríbelas en el chat.');
+  } else {
+    P('- **Si puedes crear archivos mediante código**, genera un .docx con estas especificaciones:');
+    docxSpec(gd).forEach(x=>P('  '+x));
+    P('- **Si no puedes crear archivos**, entrega el documento completo en Markdown (#, ## y ### para los títulos; tablas en Markdown) con las marcas [SALTO DE PÁGINA · PÁGINA 2 EN BLANCO] y [SALTO DE SECCIÓN · PÁGINA IMPAR] en líneas propias, para aplicar el formato después en el procesador de textos.');
+  }
+  P();
+
+  /* 7. Rigor */
+  P('## G. Rigor y verificación');
+  P('1. **No inventes datos de la organización.** Usa solo los aportados. Si falta uno necesario, escribe [DATO PENDIENTE: qué falta] resaltado en amarillo.');
+  P('2. **Datos del sector:** cada cifra lleva su fuente y su año, en el texto y en Referencias. Si no puedes verificar una cifra, no la presentes como dato: indícalo.');
+  P('3. **Referencias:** no inventes autores, títulos, años, DOI ni URL.');
+  P('4. **Costes:** respeta los aportados. Cuando estimes un coste, rotúlalo como «estimación orientativa» e indica la base del cálculo (cantidad × precio unitario), el año de referencia y si incluye IVA.');
+  P('5. **Cálculos:** comprueba sumas, porcentajes y periodos de retorno. Los importes del documento deben coincidir con el resumen económico del bloque C.4, salvo en las partidas que te pido estimar.');
+  P('6. **Coherencia:** cada objetivo de mejora tiene indicador, valor inicial, meta, plazo, solución técnica, coste y responsable, y se vincula a una dimensión y al menos a un ODS.');
+  P('7. **Ayudas y subvenciones:** cítalas de forma genérica o, si las verificas, con su nombre oficial y la advertencia de que hay que confirmar la convocatoria vigente.');
+  P();
+
+  /* 8. Entrega */
+  P('## H. Entrega y comprobación final');
+  const archivo = ia==='gemini' ? 'el documento en Canvas' : (ia==='claude' ? 'el archivo .docx' : 'el archivo .docx (o el documento en Markdown si no puedes crear archivos)');
+  P('Entrega '+archivo+' y, en el chat, un resumen breve con: (a) los datos pendientes; (b) los supuestos y estimaciones que has hecho; (c) el resultado de esta lista de comprobación:');
+  if(ia==='gemini'){
+    P('- [ ] Marcas de salto colocadas tras la portada'+(conIndice?', antes del índice':'')+' y antes de cada apartado principal.');
+  } else {
+    P('- [ ] Portada en la pág. 1 y pág. 2 en blanco, ambas sin número.');
+    P('- [ ] '+(conIndice?'El índice y los':'Los')+' apartados 1 a 7 empiezan en página impar.');
+    P('- [ ] Número de página centrado en el pie desde la pág. 3.');
+  }
+  P('- [ ] Títulos en '+fT+'; texto, tablas y datos en '+fB+'.');
+  P('- [ ] Texto a '+tT+' pt, justificado, con interlineado '+il+'.');
+  P('- [ ] Estructura completa, con los apartados en el orden indicado.');
+  P('- [ ] Todas las citas están en Referencias y viceversa.');
+  P('- [ ] Anexos numerados y citados en el texto.');
+  P('- [ ] Ningún dato inventado: los que faltan están marcados como pendientes.');
+  return L.join('\n');
+}
+
+/* ================= revisión, guía y ayuda ================= */
+function reviewItems(){
+  const s=state, W=[], OK=[];
+  if(!tr(s.org.nombre)) W.push('Falta el nombre de la organización (paso 3).');
+  if(!tr(s.intro.contexto)) W.push('Falta el contexto del proyecto (paso 1).');
+  if(!tr(s.intro.objetivoPrincipal)) W.push('Falta el objetivo principal (paso 1).');
+  const meds=s.medidas.lista.filter(m=>tr(m.titulo)||tr(m.objetivo));
+  if(!meds.length && !s.medidas.iaPropone) W.push('No hay medidas y no has permitido que la IA las proponga (paso 4).');
+  meds.forEach(m=>{ const i=s.medidas.lista.indexOf(m)+1; if(!medCalc(m).has && !m.estimarIA) W.push('La medida 4.2.'+i+' no tiene costes: añádelos o marca que la IA los estime (paso 4).'); if(!tr(m.objetivo)) W.push('La medida 4.2.'+i+' no tiene objetivo de mejora (paso 4).'); });
+  if(s.org.indicadores.filter(r=>tr(r.valor)).length<3) W.push('Hay menos de tres indicadores de partida con valor (paso 3).');
+  if(!tr(s.refs.lista) && !s.refs.iaAnade) W.push('No hay referencias y no has permitido que la IA las añada (paso 6·7).');
+  const adj=s.refs.anexos.filter(a=>tr(a.titulo)&&a.adjunto);
+  if(adj.length) W.push('Adjunta en el chat los archivos de: '+adj.map(a=>'Anexo '+roman(s.refs.anexos.indexOf(a)+1)).join(', ')+'.');
+  if(s.meta.plantilla && s.meta.ia!=='gemini') W.push('Descarga la plantilla .docx y adjúntala junto al prompt.');
+  if(s.__ejemplo) W.push('Estás usando los datos de ejemplo (organización ficticia).');
+  if(!W.filter(w=>!w.startsWith('Adjunta')&&!w.startsWith('Descarga')).length) OK.push('Los datos esenciales están completos.');
+  return {W, OK};
+}
+function renderPromptStep(){
+  const txt=buildPrompt(state);
+  const out=$('#prompt-out'); if(out) out.value=txt;
+  const words = txt.split(/\s+/).filter(Boolean).length;
+  const st=$('#prompt-stats'); if(st) st.textContent = fmtNum(txt.length)+' caracteres · '+fmtNum(words)+' palabras · ≈ '+fmtNum(Math.round(txt.length/4))+' tokens';
+  const {W,OK}=reviewItems();
+  $('#checks').innerHTML = W.map(w=>'<li class="w">'+esc(w)+'</li>').join('') + OK.map(w=>'<li>'+esc(w)+'</li>').join('');
+  const ia=state.meta.ia, gd=state.meta.entrega==='gdocs';
+  let how;
+  if(ia==='claude') how=['Pulsa «Copiar prompt» y abre Claude en una conversación nueva con la creación de archivos disponible.','Pega el prompt y adjunta los archivos de los anexos'+(state.meta.plantilla?' y la plantilla .docx':'')+'.','Descarga el .docx que genere Claude. '+(gd?'Súbelo a Google Drive, ábrelo con Documentos de Google y revisa el inicio de cada apartado.':'Ábrelo en Word o LibreOffice y actualiza el índice.'),'Instala Fraunces y Plus Jakarta Sans (Google Fonts) para ver el documento con sus fuentes.','Busca las marcas [DATO PENDIENTE] y revisa cifras, costes y referencias.'];
+  else if(ia==='gemini') how=['Pulsa «Copiar prompt» y abre Gemini.','Activa Canvas, pega el prompt y adjunta los archivos de los anexos.','Cuando termine, usa «Compartir y exportar → Exportar a Documentos».','Aplica el formato en Google Docs con la guía de abajo'+(state.meta.entrega==='docx'?' y descárgalo como Word (Archivo → Descargar → Microsoft Word)':'')+'.','Busca las marcas [DATO PENDIENTE] y revisa cifras, costes y referencias.'];
+  else how=['Pulsa «Copiar prompt» y pégalo en tu IA junto con los archivos de los anexos'+(state.meta.plantilla?' y la plantilla .docx':'')+'.','Si la IA entrega un .docx, ábrelo y actualiza el índice; si entrega texto con marcas, aplica el formato con la guía de abajo.','Busca las marcas [DATO PENDIENTE] y revisa cifras, costes y referencias.'];
+  $('#howto').innerHTML = how.map(h=>'<li>'+esc(h)+'</li>').join('');
+  const f=state.formato;
+  const g=[
+    'Fuentes y texto: selecciona un párrafo de texto normal y aplica '+(tr(f.fTexto)||'Plus Jakarta Sans')+' '+(tr(f.tTexto)||'12')+' pt, justificado (Ctrl+Mayús+J) e interlineado '+(f.interlineado||'1,5')+' (Formato → Interlineado y espaciado de párrafo). Después, Formato → Estilos de párrafo → Texto normal → «Actualizar "Texto normal" para que coincida».',
+    'Repite con Título y con Encabezado 1, 2 y 3 usando '+(tr(f.fTitulo)||'Fraunces')+'. Si una fuente no aparece en la lista, búscala en Fuente → Más fuentes.',
+    'Página 2 en blanco: al final de la portada, Insertar → Salto → Salto de página; en la página 2, Insertar → Salto → Salto de sección (página siguiente).',
+    'Apartados en página impar: sustituye cada marca [SALTO DE SECCIÓN · PÁGINA IMPAR] por Insertar → Salto → Salto de sección (página siguiente). Si un apartado queda en página par, añade antes un salto de página para intercalar una página en blanco.',
+    'Numeración: haz doble clic en el pie de la pág. 3, desmarca «Vincular con el anterior» y en Opciones → Números de página elige pie de página y '+(f.numeracion==='reinicio'?'«Empezar en 1»':'«Continuar desde la sección anterior»')+'. Centra el número y comprueba que los pies de las págs. 1 y 2 están vacíos.',
+    f.indice!==false ? 'Índice: en la pág. 3, Insertar → Índice.' : null,
+    'Revisa al final el inicio de cada apartado: cualquier cambio de texto puede desplazar las páginas.'
+  ].filter(Boolean);
+  $('#gdocs-guide').innerHTML = g.map(x=>'<li>'+esc(x)+'</li>').join('');
+  updateDlUI();
+}
+
+/* ================= plantilla .docx ================= */
+function buildDocxZip(s){
+  if(!window.JSZip) throw new Error('JSZip no disponible');
+  const f=s.formato, m=s.meta, o=s.org, it=s.intro, md=s.medidas, r=s.refs;
+  const X = v => esc(v);
+  const hp = (pt, d) => { const n=num(pt); return Math.round((isFinite(n)&&n>0?n:d)*2); };
+  const fT=X(tr(f.fTitulo)||'Fraunces'), fB=X(tr(f.fTexto)||'Plus Jakarta Sans');
+  const line={'1,5':360,'1,15':276,'2':480}[f.interlineado]||360;
+  const mg=Math.round((num(f.margen)||2.5)*566.929);
+  const TW=11906-2*mg;
+  const rf = n => '<w:rFonts w:ascii="'+n+'" w:hAnsi="'+n+'" w:eastAsia="'+n+'" w:cs="'+n+'"/>';
+  const W='xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"';
+  const R='xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"';
+  const HEAD='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n';
+  const T = t => '<w:t xml:space="preserve">'+X(t)+'</w:t>';
+  const run = (t, rpr) => '<w:r>'+(rpr?'<w:rPr>'+rpr+'</w:rPr>':'')+T(t)+'</w:r>';
+  const p = (style, content, ppr) => '<w:p><w:pPr>'+(style?'<w:pStyle w:val="'+style+'"/>':'')+(ppr||'')+'</w:pPr>'+(content||'')+'</w:p>';
+  const H = (lvl, t, ppr) => p('Heading'+lvl, run(t), ppr);
+  const N = t => p(null, run(t));
+  const I = t => p('Indicacion', run('['+t+']'));
+  const cap = t => p('Caption', run(t));
+  const src = t => p('FuenteTabla', run(t));
+  const cell = (t, w, o2) => { o2=o2||{}; return '<w:tc><w:tcPr><w:tcW w:w="'+w+'" w:type="dxa"/>'+(o2.head?'<w:shd w:val="clear" w:color="auto" w:fill="E2ECE7"/>':'')+'</w:tcPr>'+p('TablaTexto', run(t, (o2.head||o2.bold)?'<w:b/>':''), o2.right?'<w:jc w:val="right"/>':'')+'</w:tc>'; };
+  const table = (heads, rows, fr, rightCols) => {
+    rightCols=rightCols||[];
+    const ws=fr.map(x=>Math.floor(x*TW)); const bd='w:val="single" w:sz="4" w:space="0" w:color="9AA8A2"';
+    let x='<w:tbl><w:tblPr><w:tblW w:w="'+TW+'" w:type="dxa"/><w:tblBorders><w:top '+bd+'/><w:left '+bd+'/><w:bottom '+bd+'/><w:right '+bd+'/><w:insideH '+bd+'/><w:insideV '+bd+'/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="90" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="90" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>'+ws.map(w=>'<w:gridCol w:w="'+w+'"/>').join('')+'</w:tblGrid>';
+    x+='<w:tr><w:trPr><w:tblHeader/></w:trPr>'+heads.map((h,i)=>cell(h,ws[i],{head:true,right:rightCols.includes(i)})).join('')+'</w:tr>';
+    rows.forEach(rw=>{ x+='<w:tr><w:trPr><w:cantSplit/></w:trPr>'+rw.cells.map((c2,i)=>cell(c2,ws[i],{bold:rw.bold,right:rightCols.includes(i)})).join('')+'</w:tr>'; });
+    return x+'</w:tbl>';
+  };
+  const sect = (o3) => '<w:sectPr><w:footerReference w:type="default" r:id="'+o3.footer+'"/>'+(o3.type?'<w:type w:val="'+o3.type+'"/>':'')+'<w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="'+mg+'" w:right="'+mg+'" w:bottom="'+mg+'" w:left="'+mg+'" w:header="709" w:footer="709" w:gutter="0"/>'+(o3.restart?'<w:pgNumType w:start="1"/>':'')+'<w:cols w:space="708"/><w:docGrid w:linePitch="360"/></w:sectPr>';
+
+  const nombre = tr(o.nombre)||'[Nombre de la organización]';
+  let tn=0; const tabla = t => { tn++; return cap('Tabla '+tn+'. '+t); };
+
+  /* Sección 1: portada + pág. 2 en blanco */
+  let s1 = p('PortadaOrg', run(nombre), '<w:spacing w:before="2400"/>') +
+           p('Title', run(tr(m.titulo)||'Plan de sostenibilidad')) +
+           (tr(m.subtitulo)?p('Subtitle', run(tr(m.subtitulo))):'');
+  const metaLines=[tr(m.autoria), tr(m.centro), tr(m.tutor), fechaLarga(m.fecha, {es:'es-ES',gl:'gl-ES',en:'en-GB'}[m.idioma])].filter(Boolean);
+  metaLines.forEach((l,i)=>{ s1 += p('PortadaMeta', run(l), i===0?'<w:spacing w:before="3600"/>':''); });
+  s1 += '<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+
+  const sections=[{x:s1, footer:'rId4'}];
+  if(f.indice!==false){
+    const toc = p('TOCHeading', run('Índice')) +
+      '<w:p><w:r><w:fldChar w:fldCharType="begin" w:dirty="true"/></w:r><w:r><w:instrText xml:space="preserve"> TOC \\o "1-3" \\h \\z \\u </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r>'+run('[Índice automático: actualízalo al abrir el documento. En Word, clic derecho → Actualizar campo.]','<w:i/><w:color w:val="6B7B74"/>')+'<w:r><w:fldChar w:fldCharType="end"/></w:r></w:p>';
+    sections.push({x:toc, footer:'rId3', type:'oddPage', restart:f.numeracion==='reinicio'});
+  }
+  /* 1 */
+  const sec = it.objetivosSec.filter(x=>tr(x));
+  let a1 = H(1,'1. Introducción') + H(2,'1.1. Contexto del proyecto') + (tr(it.contexto)?I('Contexto aportado: '+tr(it.contexto)):I('Redacta aquí el contexto del proyecto')) +
+    H(2,'1.2. Objetivos') + p(null, run('Objetivo principal. ','<w:b/>')+run(tr(it.objetivoPrincipal)||'[Objetivo principal]')) +
+    p(null, run('Objetivos secundarios:','<w:b/>')) + (sec.length?sec.map((x,i)=>N(String.fromCharCode(97+i)+') '+x)).join(''):I('Objetivos secundarios'));
+  /* 2 */
+  let a2 = H(1,'2. Revisión de conceptos clave y análisis del sector') + H(2,'2.1. Sostenibilidad') + I('Definición de sostenibilidad y su evolución') +
+    H(2,'2.2. Dimensiones de la sostenibilidad') + H(3,'2.2.1. Dimensión medioambiental') + I('Concepto, aplicación al sector e indicadores') + H(3,'2.2.2. Dimensión económica') + I('Concepto, aplicación al sector e indicadores') + H(3,'2.2.3. Dimensión social') + I('Concepto, aplicación al sector e indicadores') + H(3,'2.2.4. Dimensión de gestión (gobernanza)') + I('Concepto, aplicación al sector e indicadores') +
+    H(2,'2.3. Análisis del sector de la actividad física y el deporte') + H(3,'2.3.1. Oferta') + I(tr(s.sector.competencia)?'Competencia aportada: '+tr(s.sector.competencia):'Análisis de la oferta con datos y fuentes') + H(3,'2.3.2. Demanda') + I(tr(s.sector.perfilDemanda)?'Perfil aportado: '+tr(s.sector.perfilDemanda):'Análisis de la demanda con datos y fuentes');
+  /* 3 */
+  const ident=[['Forma jurídica',o.forma],['Actividad principal',o.actividad],['Localización',[tr(o.municipio),tr(o.provincia)].filter(Boolean).join(', ')],['Inicio de la actividad',o.fundacion],['Plantilla',o.empleados],['Personas usuarias',o.usuarios],['Facturación o presupuesto',o.facturacion]].filter(z=>tr(z[1]));
+  let a3 = H(1,'3. Descripción de la empresa u organización objeto de estudio') + H(2,'3.1. Identificación y actividad') + N(nombre+'.') + (ident.length? tabla('Datos de identificación')+table(['Dato','Valor'], ident.map(z=>({cells:[z[0],tr(z[1])]})), [0.35,0.65])+src('Fuente: elaboración propia a partir de datos de la organización.') : I('Datos de identificación')) +
+    H(2,'3.2. Instalaciones y servicios') + I(tr(o.instalaciones)?'Instalaciones: '+tr(o.instalaciones):'Instalaciones y equipamiento') + I(tr(o.servicios)?'Servicios: '+tr(o.servicios):'Servicios') +
+    H(2,'3.3. Misión, valores y modelo de gestión') + I(tr(o.mision)||'Misión, visión y valores') + (tr(o.gobernanza)?I('Gestión: '+tr(o.gobernanza)):'') +
+    H(2,'3.4. Situación de partida en sostenibilidad');
+  const inds=o.indicadores.filter(x=>tr(x.ind)&&tr(x.valor));
+  if(inds.length){ a3 += tabla('Indicadores de partida') + table(['Indicador','Valor','Unidad','Año','Fuente'], inds.map(x=>{ const v=tr(x.valor); return {cells:[tr(x.ind),v,tr(x.unidad),tr(x.anio)||'—',tr(x.fuente)||'—']}; }), [0.32,0.13,0.13,0.09,0.33], [1]) + src('Fuente: elaboración propia a partir de datos de la organización.'); }
+  a3 += I('Diagnóstico por dimensión');
+  if(['f','d','o','a'].some(k=>tr(o.dafo[k]))){
+    const TW2=Math.floor(TW/2);
+    a3 += H(2,'3.5. Análisis DAFO de sostenibilidad') + tabla('Análisis DAFO') + table(['Fortalezas','Debilidades'], [{cells:[tr(o.dafo.f)||'—', tr(o.dafo.d)||'—']}], [0.5,0.5]) + table(['Oportunidades','Amenazas'], [{cells:[tr(o.dafo.o)||'—', tr(o.dafo.a)||'—']}], [0.5,0.5]) + src('Fuente: elaboración propia.');
+  }
+  /* 4 */
+  const meds = md.lista.filter(x=>tr(x.titulo)||tr(x.objetivo));
+  let a4 = H(1,'4. Procedimientos para alcanzar los objetivos de mejora') + H(2,'4.1. Objetivos de mejora');
+  if(meds.length) a4 += tabla('Objetivos de mejora') + table(['Nº','Objetivo','Dimensión','Indicador','Inicial','Meta','Plazo'], meds.map(x=>({cells:['4.2.'+(md.lista.indexOf(x)+1), tr(x.objetivo)||'—', DIMS[x.dim], tr(x.indicador)||'—', tr(x.inicial)||'—', tr(x.meta)||'—', tr(x.plazo)||'—']})), [0.08,0.27,0.13,0.16,0.11,0.12,0.13]) + src('Fuente: elaboración propia.');
+  else a4 += I('Tabla de objetivos de mejora');
+  a4 += H(2,'4.2. Procedimientos');
+  meds.forEach(x=>{
+    const i=md.lista.indexOf(x)+1; const cc=medCalc(x);
+    a4 += H(3,'4.2.'+i+'. '+(tr(x.titulo)||'[Medida]')) + H(4,'a) Solución técnica') + I(tr(x.solucion)?'Solución aportada: '+tr(x.solucion):'Describe la solución técnica: especificaciones, fases, responsable, plazo y riesgos') +
+      H(4,'b) Coste económico de la solución propuesta');
+    if(cc.has) a4 += tabla('Coste económico de la medida 4.2.'+i) + table(['Concepto','Importe'], [{cells:['Inversión inicial',eur(cc.I)]},{cells:['Mantenimiento anual',eur(cc.M)]},{cells:['Ahorro o ingreso anual',eur(cc.A)]},{cells:['Retorno simple',cc.payTxt],bold:true}], [0.65,0.35], [1]) + src('Fuente: elaboración propia. Importes '+(x.iva==='con'?'con':'sin')+' IVA.');
+    a4 += I('Desglose del coste: concepto, cantidad, precio unitario e importe; IVA y posibles ayudas');
+  });
+  if(!meds.length) a4 += H(3,'4.2.1. [Medida]') + H(4,'a) Solución técnica') + I('Solución técnica') + H(4,'b) Coste económico de la solución propuesta') + I('Coste económico');
+  a4 += H(2,'4.3. Resumen económico y cronograma');
+  const Tt=totals();
+  if(Tt.rows.some(z=>z.c.has)) a4 += tabla('Resumen económico del plan') + table(['Medida','Inversión','Mant. anual','Ahorro anual','Retorno'], Tt.rows.map(({m:x,c:cc})=>({cells:['4.2.'+(md.lista.indexOf(x)+1)+'. '+(tr(x.titulo)||'—'), cc.has?eur(cc.I):'—', cc.has?eur(cc.M):'—', cc.has?eur(cc.A):'—', cc.has?cc.payTxt:'—']})).concat([{cells:['Total',eur(Tt.I),eur(Tt.M),eur(Tt.A),Tt.pay],bold:true}]), [0.40,0.15,0.15,0.15,0.15], [1,2,3,4]) + src('Fuente: elaboración propia.');
+  a4 += I(tr(md.cronograma)?'Cronograma aportado: '+tr(md.cronograma):'Cronograma de implantación');
+  /* 5, 6, 7 */
+  const a5 = H(1,'5. Conclusiones') + I('Conclusiones relacionadas con la sostenibilidad');
+  const refs=tr(r.lista).split(/\n+/).map(tr).filter(Boolean);
+  const a6 = H(1,'6. Referencias') + (refs.length ? refs.map(x=>p('Referencia', run(x))).join('') : I('Referencias en '+(r.estilo||'APA 7.ª edición')));
+  const anx=r.anexos.filter(a=>tr(a.titulo));
+  const a7 = H(1,'7. Anexos') + (anx.length ? anx.map((a,i)=>H(2,'Anexo '+roman(i+1)+'. '+tr(a.titulo), i>0?'<w:pageBreakBefore/>':'')+I((tr(a.desc)?tr(a.desc)+' ':'')+'Inserta aquí el anexo')).join('') : I('Sin anexos'));
+  [a1,a2,a3,a4,a5,a6,a7].forEach((x,i)=>sections.push({x, footer:'rId3', type:'oddPage', restart: f.indice===false && i===0 && f.numeracion==='reinicio'}));
+
+  const body = sections.map((sc,i)=> i<sections.length-1 ? sc.x+'<w:p><w:pPr>'+sect(sc)+'</w:pPr></w:p>' : sc.x+sect(sc)).join('');
+  const documentXml = HEAD+'<w:document '+W+' '+R+'><w:body>'+body+'</w:body></w:document>';
+
+  const sz=(pt,d)=>'<w:sz w:val="'+hp(pt,d)+'"/><w:szCs w:val="'+hp(pt,d)+'"/>';
+  const lang='<w:lang w:val="'+({es:'es-ES',gl:'gl-ES',en:'en-GB'}[m.idioma]||'es-ES')+'"/>';
+  const st = (id, name, ppr, rpr, extra) => '<w:style w:type="paragraph"'+(id==='Normal'?' w:default="1"':'')+' w:styleId="'+id+'"><w:name w:val="'+name+'"/>'+(extra||'')+'<w:pPr>'+ppr+'</w:pPr><w:rPr>'+rpr+'</w:rPr></w:style>';
+  const based = (next, ui) => '<w:basedOn w:val="Normal"/><w:next w:val="'+(next||'Normal')+'"/>'+(ui?'<w:uiPriority w:val="'+ui+'"/>':'')+'<w:qFormat/>';
+  const stylesXml = HEAD+'<w:styles '+W+'>'+
+    '<w:docDefaults><w:rPrDefault><w:rPr>'+rf(fB)+sz(f.tTexto,12)+lang+'</w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="'+line+'" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults>'+
+    st('Normal','Normal','<w:spacing w:after="120" w:line="'+line+'" w:lineRule="auto"/><w:jc w:val="both"/>', rf(fB)+sz(f.tTexto,12), '<w:qFormat/>')+
+    st('Title','Title','<w:spacing w:before="0" w:after="240" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tPortada,30), based())+
+    st('Subtitle','Subtitle','<w:spacing w:after="240" w:line="276" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fT)+'<w:i/>'+sz(16,16), based())+
+    st('Heading1','heading 1','<w:keepNext/><w:keepLines/><w:spacing w:before="0" w:after="360" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/><w:outlineLvl w:val="0"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tH1,22), based(null,9))+
+    st('Heading2','heading 2','<w:keepNext/><w:keepLines/><w:spacing w:before="360" w:after="160" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/><w:outlineLvl w:val="1"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tH2,16), based(null,9))+
+    st('Heading3','heading 3','<w:keepNext/><w:keepLines/><w:spacing w:before="240" w:after="120" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/><w:outlineLvl w:val="2"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tH3,13), based(null,9))+
+    st('Heading4','heading 4','<w:keepNext/><w:keepLines/><w:spacing w:before="200" w:after="80" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/><w:outlineLvl w:val="3"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tTexto,12), based(null,9))+
+    st('TOCHeading','TOC Heading','<w:keepNext/><w:spacing w:before="0" w:after="360" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fT)+'<w:b/><w:bCs/>'+sz(f.tH1,22), based())+
+    st('PortadaOrg','Portada · organización','<w:spacing w:after="240" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fB)+'<w:caps/>'+sz(12,12), based())+
+    st('PortadaMeta','Portada · datos','<w:spacing w:after="60" w:line="276" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fB)+sz(f.tTexto,12), based())+
+    st('Indicacion','Indicación de plantilla','<w:spacing w:after="120" w:line="'+line+'" w:lineRule="auto"/><w:jc w:val="both"/>', rf(fB)+'<w:i/><w:color w:val="6B7B74"/>'+sz(f.tTexto,12), based('Indicacion'))+
+    st('Caption','caption','<w:keepNext/><w:spacing w:before="200" w:after="80" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fB)+'<w:b/>'+sz(f.tTabla,10), based())+
+    st('FuenteTabla','Fuente de tabla','<w:spacing w:before="60" w:after="200" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fB)+sz(Math.max(8,(num(f.tTabla)||10)-1),9), based())+
+    st('TablaTexto','Texto de tabla','<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="left"/>', rf(fB)+sz(f.tTabla,10), based('TablaTexto'))+
+    st('Referencia','Referencia bibliográfica','<w:spacing w:after="120" w:line="'+line+'" w:lineRule="auto"/><w:ind w:left="709" w:hanging="709"/><w:jc w:val="left"/>', rf(fB)+sz(f.tTexto,12), based('Referencia'))+
+    st('Footer','footer','<w:spacing w:after="0" w:line="240" w:lineRule="auto"/><w:jc w:val="center"/>', rf(fB)+sz(10,10), '<w:basedOn w:val="Normal"/><w:uiPriority w:val="99"/>')+
+    '</w:styles>';
+  const fld='<w:r><w:fldChar w:fldCharType="begin"/></w:r><w:r><w:instrText xml:space="preserve"> PAGE </w:instrText></w:r><w:r><w:fldChar w:fldCharType="separate"/></w:r><w:r><w:t>3</w:t></w:r><w:r><w:fldChar w:fldCharType="end"/></w:r>';
+  const footer1 = HEAD+'<w:ftr '+W+' '+R+'><w:p><w:pPr><w:pStyle w:val="Footer"/><w:jc w:val="center"/></w:pPr>'+fld+'</w:p></w:ftr>';
+  const footer2 = HEAD+'<w:ftr '+W+' '+R+'><w:p><w:pPr><w:pStyle w:val="Footer"/></w:pPr></w:p></w:ftr>';
+  const settings = HEAD+'<w:settings '+W+'><w:defaultTabStop w:val="708"/><w:characterSpacingControl w:val="doNotCompress"/><w:updateFields w:val="true"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat><w:decimalSymbol w:val=","/><w:listSeparator w:val=";"/></w:settings>';
+  const ct = HEAD+'<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/><Override PartName="/word/settings.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"/><Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/word/footer2.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/><Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>';
+  const rels = HEAD+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>';
+  const docRels = HEAD+'<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer1.xml"/><Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footer" Target="footer2.xml"/></Relationships>';
+  const core = HEAD+'<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>'+X(tr(m.titulo)||'Plan de sostenibilidad')+'</dc:title><dc:creator>'+X(tr(m.autoria))+'</dc:creator><dc:language>'+({es:'es-ES',gl:'gl-ES',en:'en-GB'}[m.idioma]||'es-ES')+'</dc:language></cp:coreProperties>';
+  const app = HEAD+'<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>Generador de planes de sostenibilidad</Application></Properties>';
+  const zip=new JSZip();
+  zip.file('[Content_Types].xml', ct); zip.file('_rels/.rels', rels);
+  zip.file('word/document.xml', documentXml); zip.file('word/styles.xml', stylesXml); zip.file('word/settings.xml', settings);
+  zip.file('word/footer1.xml', footer1); zip.file('word/footer2.xml', footer2); zip.file('word/_rels/document.xml.rels', docRels);
+  zip.file('docProps/core.xml', core); zip.file('docProps/app.xml', app);
+  return zip;
+}
+
+/* ================= descargas, copia, modal ================= */
+let DL=null, capsChecked=false;
+async function initCaps(){
+  for(let i=0;i<24;i++){ if(window.claude && typeof window.claude.use==='function') break; await new Promise(res=>setTimeout(res,250)); }
+  if(window.claude && typeof window.claude.use==='function'){ try{ DL = await window.claude.use('downloads'); }catch(e){ DL=null; } }
+  capsChecked=true; updateDlUI();
+}
+function updateDlUI(){
+  const note=$('#dl-note');
+  $$('.dl').forEach(b=>{ b.disabled = !DL; });
+  const bd=$('#btn-docx'); if(bd && !window.JSZip) bd.disabled=true;
+  if(!note) return;
+  if(!capsChecked) note.textContent='Comprobando si esta vista permite descargas…';
+  else if(!DL) note.textContent='Las descargas no están disponibles en esta vista: usa «Copiar prompt».';
+  else if(!window.JSZip) note.textContent='No se pudo cargar el generador de .docx; el prompt funciona igualmente.';
+  else note.textContent='La plantilla .docx trae estilos, secciones con salto a página impar, pies de página y numeración, con tus datos ya colocados.';
+}
+async function saveFile(name, data){
+  if(!DL){ toast('Las descargas no están disponibles en esta vista.'); return false; }
+  try{ const res=await DL.save({filename:name, data}); if(res && res.status==='saved') toast('Descargado: '+name); return true; }
+  catch(e){ const code=e&&e.code; toast(code==='declined'?'Descarga cancelada.':code==='rate_limited'?'Hay otra descarga pendiente; inténtalo en unos segundos.':'No se pudo descargar el archivo.'); return false; }
+}
+let toastTimer=null;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ t.hidden=true; }, 3800); }
+function modal(title, bodyHTML, actions){
+  $('#modal-title').textContent=title; $('#modal-body').innerHTML=bodyHTML;
+  const act=$('#modal-actions'); act.innerHTML='';
+  actions.forEach(a=>{ const b=document.createElement('button'); b.type='button'; b.className='btn'+(a.primary?' btn-primary':'')+(a.danger?' btn-danger':''); b.textContent=a.label; b.addEventListener('click',()=>{ closeModal(); if(a.onClick) a.onClick(); }); act.appendChild(b); });
+  $('#overlay').hidden=false; const first=act.querySelector('.btn-primary')||act.querySelector('button'); if(first) first.focus();
+}
+function closeModal(){ $('#overlay').hidden=true; }
+async function copyText(txt, okMsg, selectEl){
+  try{ await navigator.clipboard.writeText(txt); toast(okMsg); }
+  catch(e){ if(selectEl){ selectEl.focus(); selectEl.select(); } toast('No se pudo copiar automáticamente: el texto está seleccionado, pulsa Ctrl+C (⌘+C en Mac).'); }
+}
+
+/* ================= eventos ================= */
+function afterChange(t){
+  save();
+  const k=t.dataset.k||'', l=t.dataset.l||'';
+  if(l==='medidas.lista'){ const i=+t.dataset.i; if(t.dataset.f==='dim'){ const card=$('#med-'+i); if(card) card.style.setProperty('--dimc', DIMVAR[t.value]); } updateCalc(i); renderTotales(); }
+  if(k.startsWith('formato.')) renderPages();
+  if(k==='meta.ia'||k==='meta.entrega') updateConditional();
+  updateProgress();
+}
+function onEdit(e){
+  const t=e.target; if(!t || !t.dataset) return;
+  if(t.dataset.k){ setPath(state, t.dataset.k, t.type==='checkbox'?t.checked:t.value); }
+  else if(t.dataset.arr){ const arr=getPath(state,t.dataset.arr)||[]; const v=String(t.value); const i=arr.map(String).indexOf(v); if(t.checked && i<0) arr.push(v); if(!t.checked && i>=0) arr.splice(i,1); setPath(state,t.dataset.arr,arr); }
+  else if(t.dataset.l){ const list=getPath(state,t.dataset.l); const i=+t.dataset.i; if(!list || list[i]===undefined) return; if(t.dataset.f) list[i][t.dataset.f] = t.type==='checkbox'?t.checked:t.value; else list[i]=t.value; }
+  else return;
+  afterChange(t);
+}
+document.addEventListener('input', onEdit);
+document.addEventListener('change', onEdit);
+document.addEventListener('click', async (e)=>{
+  const b=e.target.closest('[data-action]'); if(!b) return;
+  const a=b.dataset.action, i=+b.dataset.i;
+  const S=state;
+  switch(a){
+    case 'add-obj': S.intro.objetivosSec.push(''); renderObjetivos(); { const el=$('#obj-'+(S.intro.objetivosSec.length-1)); if(el) el.focus(); } break;
+    case 'del-obj': S.intro.objetivosSec.splice(i,1); renderObjetivos(); break;
+    case 'add-ind': S.org.indicadores.push(NEW_IND()); renderIndicadores(); { const el=$('#ind-'+(S.org.indicadores.length-1)+'-ind'); if(el) el.focus(); } break;
+    case 'del-ind': S.org.indicadores.splice(i,1); renderIndicadores(); break;
+    case 'add-med': S.medidas.lista.push(NEW_MED()); renderMedidas(); renderTotales(); { const el=$('#m-'+(S.medidas.lista.length-1)+'-titulo'); if(el) el.focus(); } break;
+    case 'del-med': modal('Eliminar la medida 4.2.'+(i+1), '<p>Se eliminará «'+esc(S.medidas.lista[i].titulo||'sin título')+'» con su solución técnica y sus costes.</p>', [{label:'Cancelar'},{label:'Eliminar', primary:true, onClick:()=>{ S.medidas.lista.splice(i,1); renderMedidas(); renderTotales(); save(); updateProgress(); }}]); return;
+    case 'add-anx': S.refs.anexos.push(NEW_ANX()); renderAnexos(); { const el=$('#anx-'+(S.refs.anexos.length-1)+'-t'); if(el) el.focus(); } break;
+    case 'del-anx': S.refs.anexos.splice(i,1); renderAnexos(); break;
+    case 'reset-format': S.formato=clone(FORMATO_DEF); fillAll(); toast('Normas de estilo restablecidas.'); break;
+    case 'keep-example': S.__ejemplo=false; updateBanner(); break;
+    case 'load-example': modal('Cargar el ejemplo', '<p>Se sustituirán los datos actuales por los de una organización ficticia. Si quieres conservar los tuyos, guarda antes el proyecto.</p>', [{label:'Cancelar'},{label:'Cargar ejemplo', primary:true, onClick:()=>{ state=exampleState(); fillAll(); save(); refreshPromptIfVisible(); toast('Ejemplo cargado.'); }}]); return;
+    case 'clear': modal('Vaciar el formulario', '<p>Se borrarán todos los datos introducidos en este navegador. Las normas de estilo vuelven a sus valores por defecto.</p>', [{label:'Cancelar'},{label:'Vaciar', primary:true, onClick:()=>{ state=clone(DEFAULTS); state.meta.fecha=hoyISO(); fillAll(); save(); refreshPromptIfVisible(); location.hash='#proyecto'; toast('Formulario vacío.'); }}]); return;
+    case 'open-json': $('#file-json').click(); return;
+    case 'save-json': {
+      const data=JSON.stringify(state,null,2); const name='proyecto-plan-sostenibilidad-'+slug(state.org.nombre)+'.json';
+      if(DL){ await saveFile(name, data); }
+      else modal('Guardar proyecto', '<p>Esta vista no permite descargas. Copia este texto y guárdalo en un archivo .json; podrás abrirlo después con «Abrir proyecto».</p><textarea id="json-out" readonly aria-label="Proyecto en formato JSON">'+esc(data)+'</textarea>', [{label:'Cerrar'},{label:'Copiar', primary:true, onClick:()=>copyText(data,'Proyecto copiado al portapapeles.')}]);
+      return;
+    }
+    case 'copy-prompt': await copyText($('#prompt-out').value, 'Prompt copiado. Pégalo en Claude o Gemini.', $('#prompt-out')); return;
+    case 'dl-md': await saveFile('prompt-plan-sostenibilidad-'+slug(state.org.nombre)+'.md', buildPrompt(state)); return;
+    case 'dl-docx': {
+      try{ const zip=buildDocxZip(state); const blob=await zip.generateAsync({type:'blob', compression:'DEFLATE'}); await saveFile('plantilla-plan-sostenibilidad-'+slug(state.org.nombre)+'.docx', blob); }
+      catch(err){ toast('No se pudo generar la plantilla .docx.'); }
+      return;
+    }
+    default: return;
+  }
+  save(); updateProgress(); renderTotales();
+});
+$('#file-json').addEventListener('change', (e)=>{
+  const file=e.target.files && e.target.files[0]; if(!file) return;
+  const rd=new FileReader();
+  rd.onload=()=>{ try{ const obj=JSON.parse(rd.result); if(!obj || typeof obj!=='object' || !obj.meta || !obj.org) throw new Error('formato'); state=deepMerge(clone(DEFAULTS), obj); state.__ejemplo=false; fillAll(); save(); refreshPromptIfVisible(); toast('Proyecto abierto: '+file.name); } catch(err){ toast('El archivo no es un proyecto válido de esta aplicación.'); } e.target.value=''; };
+  rd.onerror=()=>toast('No se pudo leer el archivo.');
+  rd.readAsText(file);
+});
+$('#overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') closeModal(); });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#overlay').hidden) closeModal(); });
+
+/* ================= navegación ================= */
+function currentStep(){ const h=(location.hash||'').replace('#',''); return STEPS.some(s=>s.id===h) ? h : 'proyecto'; }
+function refreshPromptIfVisible(){ if(currentStep()==='prompt') renderPromptStep(); }
+function showStep(){
+  const id=currentStep();
+  $$('.step').forEach(s=>s.classList.toggle('active', s.id==='step-'+id));
+  $$('.step-link').forEach(a=>{ if(a.dataset.step===id) a.setAttribute('aria-current','step'); else a.removeAttribute('aria-current'); });
+  if(id==='prompt') renderPromptStep();
+  window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', showStep);
+
+/* ================= arranque ================= */
+if(!state.meta.fecha) state.meta.fecha=hoyISO();
+renderShell(); fillAll(); showStep(); initCaps();
+window.__app = { buildPrompt: ()=>buildPrompt(state), docxBase64: async()=>buildDocxZip(state).generateAsync({type:'base64'}), getState: ()=>state, setState: (s)=>{ state=deepMerge(clone(DEFAULTS), s); fillAll(); } };
+</script>
+</body>
+</html>
