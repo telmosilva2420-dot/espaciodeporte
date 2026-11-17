@@ -196,10 +196,70 @@ table.sum tr.total td{font-weight:700;border-bottom:0;background:var(--surface-2
 .modal h3{font-size:19px;margin-bottom:8px}
 .modal .mbody{font-size:14px}
 .modal textarea{height:220px;font-family:var(--mono);font-size:12px;margin-top:8px}
+.modal .mlist{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
 .modal .mact{display:flex;justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap}
 .toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:9px;font-size:14px;max-width:min(560px,92vw);z-index:60;box-shadow:0 8px 24px rgba(0,0,0,.2)}
 .toast[hidden]{display:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* Copia de seguridad */
+#btn-backup{position:relative}
+.bk-dot{width:8px;height:8px;border-radius:50%;background:var(--warn);display:inline-block}
+.bk-overlay{position:fixed;inset:0;background:rgba(10,20,16,.45);display:flex;justify-content:flex-end;z-index:45}
+.bk-panel{background:var(--bg);width:min(560px,100%);height:100%;overflow-y:auto;border-left:1px solid var(--line);box-shadow:-20px 0 50px rgba(0,0,0,.18);display:flex;flex-direction:column}
+.bk-head{position:sticky;top:0;background:var(--surface);border-bottom:1px solid var(--line);padding:14px 18px;display:flex;align-items:center;gap:12px;z-index:1}
+.bk-head h2{font-size:21px;margin-right:auto}
+.bk-body{padding:16px 18px 28px;display:flex;flex-direction:column;gap:14px}
+.bk-status{display:grid;grid-template-columns:12px 1fr;gap:10px;align-items:start;border-radius:var(--radius);padding:12px 14px;font-size:14px;background:var(--ok-soft)}
+.bk-status::before{content:"";width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--ok)}
+.bk-status.warn{background:var(--warn-soft)}
+.bk-status.warn::before{background:var(--warn)}
+.bk-status p{margin:0}
+.bk-sec{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.bk-sec h3{font-size:17px;margin-bottom:4px}
+.bk-sec > p{margin:0 0 10px;font-size:13.5px;color:var(--muted)}
+.bk-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.drop{border:2px dashed var(--line);border-radius:var(--radius);padding:18px;text-align:center;font-size:14px;background:var(--surface-2);display:flex;flex-direction:column;gap:8px;align-items:center}
+.drop.over{border-color:var(--accent);background:var(--accent-soft)}
+.bk-sec details{margin-top:10px;font-size:14px}
+.bk-sec summary{cursor:pointer;font-weight:600;color:var(--accent)}
+.bk-sec textarea{margin-top:8px;height:120px;font-family:var(--mono);font-size:12px}
+.pts{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.pts li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface-2)}
+.pts .pt-main{display:flex;flex-direction:column;gap:1px;min-width:0}
+.pts .pt-date{font-weight:700;font-size:13.5px;font-variant-numeric:tabular-nums}
+.pts .pt-info{font-size:12.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pts .pt-act{display:flex;gap:6px}
+.preview dl{display:grid;grid-template-columns:max-content 1fr;gap:4px 12px;margin:10px 0 0;font-size:13.5px}
+.preview dt{color:var(--muted)}
+.preview dd{margin:0;font-weight:600;min-width:0;overflow-wrap:anywhere}
+.integ{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.integ.ok{background:var(--ok-soft);color:var(--ok)}
+.integ.warn{background:var(--warn-soft);color:var(--warn)}
+.plan-line{margin:0;font-size:13px;color:var(--muted);display:flex;gap:6px;align-items:center;flex-wrap:wrap;min-width:0}
+.plan-line strong{color:var(--ink);max-width:min(380px,60vw);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.state{display:inline-block;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.state.ok{background:var(--ok-soft);color:var(--ok);border-color:transparent}
+.state.warn{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.cur{display:flex;flex-direction:column;gap:4px}
+.plans{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+.plans li{border:1px solid var(--line);border-radius:8px;padding:10px 12px;background:var(--surface-2);display:flex;flex-direction:column;gap:8px}
+.plans li.active{border-color:var(--accent);background:var(--accent-soft)}
+.plans li.empty{font-size:13.5px;color:var(--muted);background:transparent;border-style:dashed}
+.pl-top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.pl-name{font-weight:700;font-size:14.5px;overflow-wrap:anywhere}
+.pl-info{font-size:12.5px;color:var(--muted);display:block;margin-top:2px}
+.pl-act{display:flex;gap:6px;flex-wrap:wrap}
+.bk-sec h3 .pill{margin-left:6px;vertical-align:middle}
+details.bk-sec > summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+details.bk-sec > summary::-webkit-details-marker{display:none}
+details.bk-sec > summary::before{content:"▸";color:var(--accent);font-size:13px}
+details.bk-sec[open] > summary::before{content:"▾"}
+details.bk-sec > summary h3{margin:0}
+details.bk-sec > p{margin:10px 0 6px;font-size:13.5px;color:var(--muted)}
+.drop{margin-top:12px}
+.modal .legend{display:block;margin:4px 0 6px}
+.imp-list{margin:6px 0 0;padding-left:20px;font-size:13.5px;max-height:180px;overflow:auto;display:flex;flex-direction:column;gap:3px}
 
 @media (max-width:1080px){
   .prompt-layout{grid-template-columns:1fr}
@@ -229,13 +289,15 @@ table.sum tr.total td{font-weight:700;border-bottom:0;background:var(--surface-2
   <div class="topbar-in">
     <div class="brand">
       <h1>Generador de planes de sostenibilidad</h1>
-      <p>Organizaciones de servicios de actividad física y deporte · prompt para Claude o Gemini</p>
+      <p class="plan-line"><span>Plan abierto:</span> <strong id="cur-name">—</strong> <span class="state" id="cur-state"></span></p>
     </div>
     <div class="tools">
-      <button class="btn btn-sm" data-action="load-example" type="button">Cargar ejemplo</button>
-      <button class="btn btn-sm" data-action="open-json" type="button">Abrir proyecto</button>
-      <button class="btn btn-sm" data-action="save-json" type="button">Guardar proyecto</button>
-      <button class="btn btn-sm btn-ghost btn-danger" data-action="clear" type="button">Vaciar</button>
+      <button class="btn btn-sm" data-action="open-plans" type="button" id="btn-plans" aria-haspopup="dialog">Mis planes</button>
+      <button class="btn btn-sm" data-action="plan-save" type="button" id="btn-save" title="Guardar el plan abierto (Ctrl+S)">Guardar</button>
+      <button class="btn btn-sm" data-action="bk-export" type="button" id="btn-backup">Copia de seguridad <span class="bk-dot" id="bk-dot" hidden></span></button>
+      <button class="btn btn-sm" data-action="bk-pick" type="button">Cargar copia de seguridad</button>
+      <button class="btn btn-sm btn-ghost" data-action="new-plan" type="button">Nuevo plan</button>
+      <button class="btn btn-sm btn-ghost" data-action="load-example" type="button">Ejemplo</button>
       <input type="file" id="file-json" accept=".json,application/json" class="sr" tabindex="-1" aria-hidden="true">
     </div>
   </div>
@@ -244,11 +306,62 @@ table.sum tr.total td{font-weight:700;border-bottom:0;background:var(--surface-2
 <div class="layout">
   <div class="banner" id="banner" hidden>
     <p><strong>Datos de ejemplo.</strong> El formulario está relleno con una organización ficticia para que veas cómo queda el prompt. Sustitúyelos por los tuyos o empieza de cero.</p>
-    <button class="btn btn-sm" data-action="clear" type="button">Empezar con el formulario vacío</button>
+    <button class="btn btn-sm" data-action="new-plan" type="button">Empezar un plan nuevo</button>
     <button class="btn btn-sm btn-ghost" data-action="keep-example" type="button">Trabajar sobre el ejemplo</button>
   </div>
   <nav class="steps" id="steps" aria-label="Pasos"></nav>
   <main id="main"></main>
+</div>
+
+<div class="bk-overlay" id="bk-overlay" hidden>
+  <section class="bk-panel" role="dialog" aria-modal="true" aria-labelledby="bk-title">
+    <header class="bk-head">
+      <h2 id="bk-title">Mis planes</h2>
+      <button class="btn btn-sm" type="button" data-action="bk-close">Cerrar</button>
+    </header>
+    <div class="bk-body">
+      <section class="bk-sec" aria-labelledby="pl-cur-h">
+        <h3 id="pl-cur-h">Plan abierto</h3>
+        <div class="cur" id="pl-current"></div>
+        <div class="bk-row">
+          <button class="btn btn-primary" type="button" data-action="plan-save">Guardar</button>
+          <button class="btn" type="button" data-action="plan-save-as">Guardar como…</button>
+          <button class="btn" type="button" data-action="new-plan">Nuevo plan</button>
+        </div>
+      </section>
+
+      <section class="bk-sec" aria-labelledby="pl-list-h">
+        <h3 id="pl-list-h">Planes guardados <span class="pill" id="pl-count">0</span></h3>
+        <p>Cada plan guarda todos los datos del formulario con un nombre. Se guardan en este navegador; para llevarlos a otro ordenador o no perderlos, descarga una copia de seguridad.</p>
+        <ul class="plans" id="pl-list"></ul>
+      </section>
+
+      <section class="bk-sec" aria-labelledby="bk-exp-h">
+        <h3 id="bk-exp-h">Copia de seguridad</h3>
+        <p>Un archivo .json con todos los planes guardados y el plan abierto, incluidos sus cambios sin guardar. Al cargarlo, sus planes se añaden a «Mis planes» sin borrar los tuyos.</p>
+        <div class="bk-status" id="bk-status"></div>
+        <p class="callout warn" id="bk-dl-note" hidden>Esta vista no permite descargar archivos. <a href="https://claude.ai/artifact/2bfj5SsSaWKaRro3y7XG6m" target="_blank" rel="noopener">Abre la aplicación en su propia página</a> para descargar la copia, o usa «Otras opciones».</p>
+        <div class="bk-row">
+          <button class="btn btn-primary" type="button" data-action="bk-export">Descargar copia de seguridad (.json)</button>
+          <button class="btn" type="button" data-action="bk-pick">Cargar copia de seguridad</button>
+        </div>
+        <div class="drop" id="bk-drop"><span>También puedes arrastrar aquí el archivo .json de una copia.</span></div>
+        <details>
+          <summary>Otras opciones, sin descargar archivos</summary>
+          <div class="bk-row"><button class="btn btn-sm" type="button" data-action="bk-copy">Copiar la copia de seguridad como texto</button></div>
+          <textarea id="bk-paste" spellcheck="false" aria-label="Texto de una copia de seguridad" placeholder="Pega aquí el texto de una copia (empieza por «{»)"></textarea>
+          <div class="bk-row"><button class="btn btn-sm" type="button" data-action="bk-import-text">Cargar el texto pegado</button></div>
+        </details>
+      </section>
+
+      <details class="bk-sec" id="pts-sec">
+        <summary><h3 id="bk-pts-h">Recuperación automática <span class="pill" id="pts-count">0</span></h3></summary>
+        <p>Datos que la aplicación guarda sola antes de descartar cambios, abrir otro plan, eliminar un plan o cargar una copia, y al abrir la aplicación con cambios sin guardar. Se conservan los 10 más recientes.</p>
+        <ul class="pts" id="bk-pts"></ul>
+        <div class="bk-row"><button class="btn btn-sm" type="button" data-action="bk-point-now">Guardar el formulario aquí ahora</button></div>
+      </details>
+    </div>
+  </section>
 </div>
 
 <div class="overlay" id="overlay" hidden>
@@ -271,17 +384,6 @@ const tr = s => String(s == null ? '' : s).trim();
 const BT3 = String.fromCharCode(96).repeat(3);
 function getPath(o,p){ return p.split('.').reduce((a,k)=> a==null ? undefined : a[k], o); }
 function setPath(o,p,v){ const ks=p.split('.'); let a=o; for(let i=0;i<ks.length-1;i++){ if(a[ks[i]]==null || typeof a[ks[i]]!=='object') a[ks[i]]={}; a=a[ks[i]]; } a[ks[ks.length-1]]=v; }
-const BAD_KEYS = new Set(['__proto__','constructor','prototype']);
-function deepMerge(base, src){
-  if(!src || typeof src!=='object') return base;
-  for(const k of Object.keys(src)){
-    if(BAD_KEYS.has(k)) continue;
-    const sv=src[k], bv=base[k];
-    if(bv && typeof bv==='object' && !Array.isArray(bv) && sv && typeof sv==='object' && !Array.isArray(sv)) deepMerge(bv, sv);
-    else base[k]=sv;
-  }
-  return base;
-}
 function num(v){ if(v===null||v===undefined) return NaN; const s=String(v).trim(); if(!s) return NaN; return parseFloat(s.replace(/\s/g,'').replace(',', '.')); }
 function fmtNum(n, dec=0){
   if(!isFinite(n)) return '—';
@@ -419,10 +521,93 @@ function exampleState(){
   return s;
 }
 
+/* ---- normalización: cualquier dato cargado o importado se ajusta a la forma esperada ---- */
+function shape(t, v){
+  if(Array.isArray(t)) return Array.isArray(v) ? v : clone(t);
+  if(t && typeof t==='object'){ const o={}; const src=(v && typeof v==='object' && !Array.isArray(v)) ? v : {}; for(const k of Object.keys(t)) o[k]=shape(t[k], src[k]); return o; }
+  if(typeof t==='boolean') return v===undefined ? t : !!v;
+  if(typeof t==='string') return (v===undefined || v===null || typeof v==='object') ? t : String(v);
+  return v===undefined ? t : v;
+}
+const ENUMS = {
+  'meta.ia':['claude','gemini','otra'], 'meta.entrega':['docx','gdocs'], 'meta.idioma':['es','gl','en'],
+  'meta.contextoUso':['academico','consultoria','interno'], 'meta.registro':['tecnico','profesional'], 'meta.extension':['15-20','25-35','40-50'],
+  'formato.numeracion':['fisica','reinicio'], 'formato.interlineado':['1,5','1,15','2'], 'medidas.nExtra':['1','2','3'],
+  'refs.estilo':['APA 7.ª edición','ISO 690','Vancouver','Chicago (autor-fecha)'],
+  'sector.prioridad.amb':['alta','media','baja'], 'sector.prioridad.eco':['alta','media','baja'], 'sector.prioridad.soc':['alta','media','baja'], 'sector.prioridad.ges':['alta','media','baja']
+};
+function normalize(raw){
+  const s = shape(DEFAULTS, raw);
+  for(const p of Object.keys(ENUMS)){ if(!ENUMS[p].includes(getPath(s,p))) setPath(s, p, getPath(DEFAULTS,p)); }
+  const strs = a => a.filter(x=>x===null || typeof x!=='object').map(x=>x==null?'':String(x));
+  s.intro.objetivosSec = strs(s.intro.objetivosSec); if(!s.intro.objetivosSec.length) s.intro.objetivosSec=[''];
+  const known = (a, list) => strs(a).filter((x,i,arr)=>list.includes(x) && arr.indexOf(x)===i);
+  s.intro.marcos = known(s.intro.marcos, MARCOS.map(x=>x[0]));
+  s.sector.ods = known(s.sector.ods, ODS.map(x=>String(x[0])));
+  s.sector.ambito = known(s.sector.ambito, AMBITOS.map(x=>x[0]));
+  s.sector.fuentes = known(s.sector.fuentes, FUENTES.map(x=>x[0]));
+  if(!SUBSECTORES.some(x=>x[0]===s.sector.subsector)) s.sector.subsector='';
+  if(!FORMAS.some(x=>x[0]===s.org.forma)) s.org.forma='';
+  const items = (a, mk) => a.filter(x=>x && typeof x==='object' && !Array.isArray(x)).map(x=>shape(mk(), x));
+  s.medidas.lista = items(s.medidas.lista, NEW_MED).map(m=>{ if(!DIMS[m.dim]) m.dim='amb'; if(m.iva!=='con') m.iva='sin'; return m; });
+  s.org.indicadores = items(s.org.indicadores, NEW_IND);
+  s.refs.anexos = items(s.refs.anexos, NEW_ANX);
+  return s;
+}
+
+/* ---- almacenamiento local, huella, planes guardados y recuperación ---- */
 const LS_KEY = 'plan-sostenibilidad-afd-v1';
+const LS_PTS = LS_KEY+'-puntos', LS_BK = LS_KEY+'-copia', LS_LIB = LS_KEY+'-planes';
+const BK_FORMAT = 'copia-seguridad-plan-sostenibilidad', APP_VERSION = '1.2', MAX_PTS = 10, MAX_BYTES = 8*1024*1024;
 function save(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(state)); }catch(e){} }
-function loadSaved(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw){ return deepMerge(clone(DEFAULTS), JSON.parse(raw)); } }catch(e){} return null; }
-let state = loadSaved() || exampleState();
+function loadSaved(){ try{ const raw=localStorage.getItem(LS_KEY); if(raw){ return normalize(JSON.parse(raw)); } }catch(e){} return null; }
+function fnv(str){ let h=0x811c9dc5; for(let i=0;i<str.length;i++){ h^=str.charCodeAt(i); h=Math.imul(h,0x01000193)>>>0; } return ('0000000'+h.toString(16)).slice(-8); }
+const huella = d => fnv(JSON.stringify(d));
+const hasContent = d => !!(d && (tr(d.org && d.org.nombre) || tr(d.intro && d.intro.contexto) || tr(d.intro && d.intro.objetivoPrincipal) || (d.medidas && d.medidas.lista || []).some(m=>tr(m.titulo))));
+const nowIso = () => new Date().toISOString();
+const validIso = v => (typeof v==='string' && !isNaN(Date.parse(v))) ? v : nowIso();
+function newId(){ return 'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,8); }
+function defaultPlanName(d){ return tr(d && d.org && d.org.nombre) || tr(d && d.meta && d.meta.titulo) || 'Plan sin nombre'; }
+
+/* planes guardados */
+function loadLib(){
+  try{
+    const o=JSON.parse(localStorage.getItem(LS_LIB)||'null');
+    if(o && typeof o==='object' && Array.isArray(o.planes)){
+      const planes=o.planes.filter(p=>p && typeof p==='object' && typeof p.id==='string' && p.datos && typeof p.datos==='object' && !Array.isArray(p.datos))
+        .map(p=>({id:p.id, nombre:String(p.nombre||'Plan sin nombre'), creado:validIso(p.creado), actualizado:validIso(p.actualizado), huella:String(p.huella||''), datos:p.datos}));
+      return {activo: planes.some(p=>p.id===o.activo) ? o.activo : null, planes};
+    }
+  }catch(e){}
+  return {activo:null, planes:[]};
+}
+function saveLib(){ try{ localStorage.setItem(LS_LIB, JSON.stringify(lib)); return true; }catch(e){ toast('No queda espacio en este navegador. Descarga una copia de seguridad y elimina planes que no uses.'); return false; } }
+function planById(id){ return lib.planes.find(p=>p.id===id) || null; }
+function activePlan(){ return lib.activo ? planById(lib.activo) : null; }
+
+/* recuperación automática */
+function loadPoints(){ try{ const a=JSON.parse(localStorage.getItem(LS_PTS)||'[]'); return Array.isArray(a) ? a.filter(p=>p && p.datos && typeof p.datos==='object' && p.fecha) : []; }catch(e){ return []; } }
+function savePoints(a){
+  let list=a.slice(0,MAX_PTS);
+  while(list.length){ try{ localStorage.setItem(LS_PTS, JSON.stringify(list)); return true; }catch(e){ list=list.slice(0,list.length-1); } }
+  try{ localStorage.removeItem(LS_PTS); }catch(e){}
+  return false;
+}
+function addPoint(motivo, datos, planId){
+  const d = datos || state;
+  if(!hasContent(d) || d.__ejemplo) return false;
+  const h = huella(d); const pts = loadPoints();
+  if(pts.some(p=>p.huella===h)) return false;
+  pts.unshift({fecha:nowIso(), motivo, nombre:defaultPlanName(d), planId: planId===undefined ? lib.activo : planId, huella:h, datos:clone(d)});
+  return savePoints(pts);
+}
+function loadBk(){ try{ const o=JSON.parse(localStorage.getItem(LS_BK)||'null'); return (o && typeof o==='object') ? o : null; }catch(e){ return null; } }
+function saveBk(o){ try{ localStorage.setItem(LS_BK, JSON.stringify(o)); }catch(e){} }
+
+let lib = loadLib();
+const savedAtStart = loadSaved();
+let state = savedAtStart || (activePlan() ? normalize(clone(activePlan().datos)) : exampleState());
+if(savedAtStart && hasContent(savedAtStart) && !savedAtStart.__ejemplo){ const ap=activePlan(); if(!ap || ap.huella!==huella(savedAtStart)) addPoint('Al abrir la aplicación', savedAtStart); }
 
 /* ================= definición de pasos ================= */
 const opts = arr => arr.map(([v,l]) => ({v,l}));
@@ -645,7 +830,7 @@ function promptStepHTML(){
    '</aside></div>';
 }
 function renderShell(){
-  $('#steps').innerHTML = '<p class="steps-title">Estructura del plan</p>'+STEPS.map(s=>'<a class="step-link" href="#'+s.id+'" data-step="'+s.id+'"><span class="step-mark">'+s.mark+'</span><span class="step-name">'+s.name+'</span><span class="pill" id="pill-'+s.id+'"></span></a>').join('')+'<p class="steps-note">Los números coinciden con los apartados del plan. Los datos se guardan en este navegador.</p>';
+  $('#steps').innerHTML = '<p class="steps-title">Estructura del plan</p>'+STEPS.map(s=>'<a class="step-link" href="#'+s.id+'" data-step="'+s.id+'"><span class="step-mark">'+s.mark+'</span><span class="step-name">'+s.name+'</span><span class="pill" id="pill-'+s.id+'"></span></a>').join('')+'<p class="steps-note">Los números coinciden con los apartados del plan. Pulsa «Guardar» para guardar el plan y descarga una copia de seguridad para no perder tus planes.</p>';
   $('#main').innerHTML = STEPS.map((s,i)=>{
     const body = s.custom==='prompt' ? promptStepHTML() : s.groups.map(groupHTML).join('');
     const prev = i>0 ? '<a class="btn" href="#'+STEPS[i-1].id+'">← '+STEPS[i-1].name+'</a>' : '<span></span>';
@@ -760,7 +945,7 @@ function fillAll(){
   $$('[data-k]').forEach(el=>{ const v=getPath(state, el.dataset.k); if(el.type==='checkbox') el.checked=!!v; else el.value = v==null ? '' : v; });
   $$('[data-arr]').forEach(el=>{ const a=getPath(state, el.dataset.arr)||[]; el.checked = a.map(String).includes(String(el.value)); });
   renderObjetivos(); renderIndicadores(); renderMedidas(); renderAnexos(); renderTotales(); renderPages();
-  updateConditional(); updateProgress(); updateBanner();
+  updateConditional(); updateProgress(); updateBanner(); updateBackupIndicator();
 }
 function updateBanner(){ $('#banner').hidden = !state.__ejemplo; }
 function updateConditional(){
@@ -1261,25 +1446,64 @@ function buildDocxZip(s){
 
 /* ================= descargas, copia, modal ================= */
 let DL=null, capsChecked=false;
-async function initCaps(){
-  for(let i=0;i<24;i++){ if(window.claude && typeof window.claude.use==='function') break; await new Promise(res=>setTimeout(res,250)); }
-  if(window.claude && typeof window.claude.use==='function'){ try{ DL = await window.claude.use('downloads'); }catch(e){ DL=null; } }
+const APP_URL='https://claude.ai/artifact/2bfj5SsSaWKaRro3y7XG6m';
+const sleep = ms => new Promise(res=>setTimeout(res,ms));
+const hasRuntime = () => !!(window.claude && typeof window.claude.use==='function');
+/* Abierta como archivo propio (descargada) o en una pestaña normal: no está dentro de Claude */
+const STANDALONE = (()=>{ try{ return window.self===window.top; }catch(e){ return false; } })();
+const nativeMode = () => STANDALONE && !hasRuntime();
+async function ensureDL(waitRuntimeMs){
+  if(DL) return DL;
+  const t0=Date.now();
+  while(!hasRuntime() && Date.now()-t0 < (waitRuntimeMs||3000)) await sleep(200);
+  if(hasRuntime()){ try{ DL = await Promise.race([window.claude.use('downloads'), sleep(10000).then(()=>null)]); }catch(e){ DL=null; } }
   capsChecked=true; updateDlUI();
+  return DL;
 }
+function initCaps(){ if(STANDALONE){ capsChecked=true; updateDlUI(); } ensureDL(15000); }
 function updateDlUI(){
-  const note=$('#dl-note');
-  $$('.dl').forEach(b=>{ b.disabled = !DL; });
+  $$('.dl').forEach(b=>{ b.disabled = false; });
   const bd=$('#btn-docx'); if(bd && !window.JSZip) bd.disabled=true;
-  if(!note) return;
+  const blocked = capsChecked && !DL && !nativeMode();
+  const bkn=$('#bk-dl-note'); if(bkn) bkn.hidden = !blocked;
+  const note=$('#dl-note'); if(!note) return;
   if(!capsChecked) note.textContent='Comprobando si esta vista permite descargas…';
-  else if(!DL) note.textContent='Las descargas no están disponibles en esta vista: usa «Copiar prompt».';
-  else if(!window.JSZip) note.textContent='No se pudo cargar el generador de .docx; el prompt funciona igualmente.';
+  else if(blocked) note.innerHTML='Esta vista no permite descargar archivos. <a href="'+APP_URL+'" target="_blank" rel="noopener">Abre la aplicación en su propia página</a> para descargarlos, o usa «Copiar prompt».';
+  else if(!window.JSZip) note.textContent='No se pudo cargar el generador de .docx (necesita conexión a internet); el prompt funciona igualmente.';
   else note.textContent='La plantilla .docx trae estilos, secciones con salto a página impar, pies de página y numeración, con tus datos ya colocados.';
 }
+function noDownloadModal(what){
+  modal('Esta vista no permite descargar archivos', '<p>Para descargar '+what+', <a href="'+APP_URL+'" target="_blank" rel="noopener">abre la aplicación en su propia página</a> y repite allí la descarga. Si allí no aparecen tus datos, haz antes una copia de seguridad en texto (Mis planes → Otras opciones) y cárgala en esa página.</p>', [{label:'Entendido', primary:true}]);
+}
+const MIME = {json:'application/json', md:'text/markdown;charset=utf-8', docx:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'};
+function nativeDownload(name, data){
+  try{
+    const ext=(name.split('.').pop()||'').toLowerCase();
+    const blob = (data instanceof Blob) ? data : new Blob([data], {type:MIME[ext]||'application/octet-stream'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download=name; a.rel='noopener'; a.style.display='none';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 10000);
+    return true;
+  }catch(e){ return false; }
+}
 async function saveFile(name, data){
-  if(!DL){ toast('Las descargas no están disponibles en esta vista.'); return false; }
-  try{ const res=await DL.save({filename:name, data}); if(res && res.status==='saved') toast('Descargado: '+name); return true; }
-  catch(e){ const code=e&&e.code; toast(code==='declined'?'Descarga cancelada.':code==='rate_limited'?'Hay otra descarga pendiente; inténtalo en unos segundos.':'No se pudo descargar el archivo.'); return false; }
+  /* Fuera de Claude (aplicación descargada): descarga normal del navegador */
+  if(!DL && nativeMode()){
+    if(nativeDownload(name, data)){ toast('Descargado en la carpeta de descargas: '+name); return 'saved'; }
+    toast('No se pudo descargar el archivo.'); return 'error';
+  }
+  /* Dentro de Claude: descarga a través del permiso de la página */
+  if(!DL) toast('Preparando la descarga…');
+  const dl = DL || await ensureDL(3000);
+  if(!dl) return 'unavailable';
+  try{ const res=await dl.save({filename:name, data}); if(res && res.status==='saved') toast('Descargado: '+name); return 'saved'; }
+  catch(e){
+    const code=e&&e.code;
+    if(['unavailable','not_granted','capability_disabled','capability_removed'].includes(code)) return 'unavailable';
+    toast(code==='declined'?'Descarga cancelada.':code==='rate_limited'?'Hay otra descarga pendiente; inténtalo en unos segundos.':'No se pudo descargar el archivo.');
+    return 'error';
+  }
 }
 let toastTimer=null;
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastTimer); toastTimer=setTimeout(()=>{ t.hidden=true; }, 3800); }
@@ -1295,14 +1519,268 @@ async function copyText(txt, okMsg, selectEl){
   catch(e){ if(selectEl){ selectEl.focus(); selectEl.select(); } toast('No se pudo copiar automáticamente: el texto está seleccionado, pulsa Ctrl+C (⌘+C en Mac).'); }
 }
 
+/* ================= mis planes y copia de seguridad ================= */
+function fmtFecha(iso){ const d=new Date(iso); if(isNaN(d)) return String(iso||'—'); try{ return new Intl.DateTimeFormat('es-ES',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}).format(d); }catch(e){ return d.toISOString(); } }
+function uniqueName(n, exceptId){
+  const base=(tr(n)||'Plan sin nombre').slice(0,120); let name=base, k=2;
+  const taken=x=>lib.planes.some(p=>p.id!==exceptId && p.nombre.toLowerCase()===x.toLowerCase());
+  while(taken(name)) name=base+' ('+(k++)+')';
+  return name;
+}
+function planStatus(){
+  const p=activePlan(); const h=huella(state);
+  if(p) return p.huella===h ? {name:p.nombre, txt:'Guardado', cls:'ok', dirty:false} : {name:p.nombre, txt:'Cambios sin guardar', cls:'warn', dirty:true};
+  if(!hasContent(state)) return {name:'Plan nuevo', txt:'Vacío', cls:'', dirty:false};
+  if(state.__ejemplo) return {name:defaultPlanName(state), txt:'Ejemplo', cls:'', dirty:false};
+  return {name:defaultPlanName(state), txt:'Sin guardar', cls:'warn', dirty:true};
+}
+function bkHash(){ return fnv(JSON.stringify({b:(hasContent(state)&&!state.__ejemplo)?state:null, p:lib.planes.map(p=>[p.id,p.nombre,p.huella])})); }
+function backupStatus(){
+  const bk=loadBk(); const propios = lib.planes.length>0 || (hasContent(state) && !state.__ejemplo);
+  if(!propios) return {cls:'', dirty:false, html:'<p>Todavía no hay planes propios que copiar.</p>'};
+  if(!bk) return {cls:'warn', dirty:true, html:'<p><strong>Aún no has descargado ninguna copia de seguridad.</strong> Tus planes solo están guardados en este navegador.</p>'};
+  const origen = bk.origen==='copiada' ? 'Última copia (copiada como texto)' : 'Última copia de seguridad';
+  if(bk.huella===bkHash()) return {cls:'', dirty:false, html:'<p><strong>'+origen+':</strong> '+esc(fmtFecha(bk.fecha))+'. No hay cambios posteriores.</p>'};
+  return {cls:'warn', dirty:true, html:'<p><strong>'+origen+':</strong> '+esc(fmtFecha(bk.fecha))+'. Hay cambios posteriores: descarga una copia nueva.</p>'};
+}
+function updateBackupIndicator(){
+  const st=planStatus();
+  const n=$('#cur-name'); if(n){ n.textContent=st.name; n.title=st.name; }
+  const cs=$('#cur-state'); if(cs){ cs.textContent=st.txt; cs.className='state'+(st.cls?' '+st.cls:''); }
+  const sv=$('#btn-save'); if(sv) sv.classList.toggle('btn-primary', st.dirty);
+  const bs=backupStatus(); const dot=$('#bk-dot'); if(dot) dot.hidden=!bs.dirty;
+  const b=$('#btn-backup'); if(b) b.title = bs.dirty ? 'Hay datos sin copia de seguridad: descárgala' : 'Descargar una copia de seguridad (.json) con todos los planes';
+  if(!$('#bk-overlay').hidden) renderBackupPanel();
+}
+let bkTimer=null;
+function scheduleBackupIndicator(){ clearTimeout(bkTimer); bkTimer=setTimeout(updateBackupIndicator, 400); }
+function renderBackupPanel(){
+  const st=planStatus(), ap=activePlan();
+  $('#pl-current').innerHTML='<div class="pl-top"><span class="pl-name">'+esc(st.name)+'</span><span class="state'+(st.cls?' '+st.cls:'')+'">'+esc(st.txt)+'</span></div><span class="pl-info">'+(ap ? 'Guardado por última vez el '+esc(fmtFecha(ap.actualizado))+'.' : (st.txt==='Vacío' ? 'Formulario vacío.' : 'Este plan todavía no está entre tus planes guardados.'))+'</span>';
+  const planes=lib.planes.slice().sort((a,b)=>String(b.actualizado).localeCompare(String(a.actualizado)));
+  $('#pl-count').textContent=planes.length;
+  $('#pl-list').innerHTML = planes.length ? planes.map(p=>{
+    const d=p.datos||{}; const meds=((d.medidas&&d.medidas.lista)||[]).filter(m=>m && (tr(m.titulo)||tr(m.objetivo))).length;
+    const act=p.id===lib.activo; const id=esc(p.id);
+    let btns='';
+    if(!act) btns+='<button class="btn btn-sm btn-primary" type="button" data-action="plan-open" data-id="'+id+'">Abrir</button>';
+    else if(st.dirty) btns+='<button class="btn btn-sm" type="button" data-action="plan-open" data-id="'+id+'">Volver a la versión guardada</button>';
+    btns+='<button class="btn btn-sm" type="button" data-action="plan-rename" data-id="'+id+'">Renombrar</button><button class="btn btn-sm" type="button" data-action="plan-dup" data-id="'+id+'">Duplicar</button><button class="btn btn-sm btn-ghost btn-danger" type="button" data-action="plan-del" data-id="'+id+'">Eliminar</button>';
+    return '<li class="'+(act?'active':'')+'"><div><div class="pl-top"><span class="pl-name">'+esc(p.nombre)+'</span>'+(act?'<span class="state ok">Abierto</span>':'')+'</div><span class="pl-info">'+esc(tr(d.org&&d.org.nombre)||'Sin organización')+' · '+meds+' medida'+(meds===1?'':'s')+' · guardado el '+esc(fmtFecha(p.actualizado))+'</span></div><div class="pl-act">'+btns+'</div></li>';
+  }).join('') : '<li class="empty">Todavía no hay planes guardados. Rellena el formulario y pulsa «Guardar».</li>';
+  const bs=backupStatus(); const el=$('#bk-status'); el.className='bk-status'+(bs.cls?' '+bs.cls:''); el.innerHTML=bs.html;
+  const pts=loadPoints(); $('#pts-count').textContent=pts.length;
+  $('#bk-pts').innerHTML = pts.length ? pts.map((p,i)=>'<li><div class="pt-main"><span class="pt-date">'+esc(fmtFecha(p.fecha))+'</span><span class="pt-info" title="'+esc(p.motivo+' · '+p.nombre)+'">'+esc(p.motivo)+' · '+esc(p.nombre)+'</span></div><div class="pt-act"><button class="btn btn-sm" type="button" data-action="bk-restore" data-i="'+i+'">Recuperar</button><button class="btn btn-sm btn-ghost" type="button" data-action="bk-del-point" data-i="'+i+'" aria-label="Eliminar el punto del '+esc(fmtFecha(p.fecha))+'">✕</button></div></li>').join('') : '<li class="small" style="display:block">Todavía no hay datos en la recuperación automática.</li>';
+}
+function openBackup(){ renderBackupPanel(); $('#bk-overlay').hidden=false; const c=$('#bk-overlay [data-action="bk-close"]'); if(c) c.focus(); }
+function closeBackup(){ if($('#bk-overlay').hidden) return; $('#bk-overlay').hidden=true; const b=$('#btn-plans'); if(b) b.focus(); }
+
+/* ---- guardar, abrir, renombrar, duplicar, eliminar ---- */
+function afterLibChange(){ updateBackupIndicator(); }
+function writePlan(p, datos){ p.datos=clone(datos); p.huella=huella(datos); p.actualizado=nowIso(); }
+function adoptExample(){ if(state.__ejemplo){ state.__ejemplo=false; save(); updateBanner(); } }
+function askName(title, def, okLabel, onOk){
+  modal(title, '<label for="name-in" class="legend">Nombre del plan</label><input type="text" id="name-in" maxlength="120" value="'+esc(def)+'">', [{label:'Cancelar'},{label:okLabel, primary:true, onClick:()=>{ const inp=$('#name-in'); onOk(tr(inp && inp.value)||def); }}]);
+  const inp=$('#name-in'); if(inp){ inp.focus(); inp.select(); }
+}
+function createPlan(nombre){
+  adoptExample();
+  const now=nowIso(); const p={id:newId(), nombre:uniqueName(nombre), creado:now, actualizado:now, huella:'', datos:null};
+  writePlan(p, state);
+  const prev=lib.activo; lib.planes.unshift(p); lib.activo=p.id;
+  if(!saveLib()){ lib.planes.shift(); lib.activo=prev; return null; }
+  afterLibChange(); return p;
+}
+function savePlan(cb){
+  const p=activePlan();
+  if(p){
+    if(!planStatus().dirty){ toast('«'+p.nombre+'» ya está guardado.'); if(cb) cb(); return; }
+    adoptExample();
+    const prev=clone(p); writePlan(p, state);
+    if(!saveLib()){ Object.assign(p, prev); return; }
+    afterLibChange(); toast('Plan guardado: «'+p.nombre+'».'); if(cb) cb(); return;
+  }
+  if(!hasContent(state)){ toast('El formulario está vacío: rellena algún dato antes de guardar.'); return; }
+  askName('Guardar plan', uniqueName(defaultPlanName(state)), 'Guardar', nombre=>{ const np=createPlan(nombre); if(np){ toast('Plan guardado: «'+np.nombre+'».'); if(cb) cb(); } });
+}
+function saveAs(){
+  if(!hasContent(state)){ toast('El formulario está vacío: rellena algún dato antes de guardar.'); return; }
+  askName('Guardar como plan nuevo', uniqueName(activePlan() ? activePlan().nombre+' (copia)' : defaultPlanName(state)), 'Guardar', nombre=>{ const np=createPlan(nombre); if(np) toast('Guardado como «'+np.nombre+'».'); });
+}
+function guardSwitch(motivo, proceed){
+  const st=planStatus();
+  if(!st.dirty){ proceed(); return; }
+  const p=activePlan();
+  modal('Cambios sin guardar', '<p>«'+esc(st.name)+'» tiene cambios sin guardar. Si los descartas, quedarán en la recuperación automática de «Mis planes» (se guardan los 10 últimos).</p>', [
+    {label:'Cancelar'},
+    {label:'Descartar cambios', onClick:()=>{ addPoint(motivo); proceed(); }},
+    {label:p?'Guardar y continuar':'Guardar el plan y continuar', primary:true, onClick:()=>savePlan(proceed)}
+  ]);
+}
+function loadIntoForm(datos, activo){ state=normalize(clone(datos)); lib.activo=activo; saveLib(); save(); fillAll(); refreshPromptIfVisible(); }
+function openPlan(id){
+  const p=planById(id); if(!p) return;
+  guardSwitch('Antes de abrir otro plan', ()=>{
+    loadIntoForm(p.datos, p.id);
+    const h=huella(state); if(h!==p.huella){ p.datos=clone(state); p.huella=h; saveLib(); updateBackupIndicator(); }
+    closeBackup(); toast('Plan abierto: «'+p.nombre+'».');
+  });
+}
+function newPlan(){
+  guardSwitch('Antes de crear un plan nuevo', ()=>{
+    const d=clone(DEFAULTS); d.meta.fecha=hoyISO(); loadIntoForm(d, null);
+    closeBackup(); location.hash='#proyecto'; toast('Plan nuevo: rellena el formulario y pulsa «Guardar».');
+  });
+}
+function loadExample(){
+  guardSwitch('Antes de cargar el ejemplo', ()=>{ loadIntoForm(exampleState(), null); closeBackup(); toast('Ejemplo cargado. Tus planes guardados siguen en «Mis planes».'); });
+}
+function renamePlan(id){
+  const p=planById(id); if(!p) return;
+  askName('Renombrar plan', p.nombre, 'Renombrar', v=>{ const prev=p.nombre; p.nombre=uniqueName(v, p.id); if(!saveLib()){ p.nombre=prev; return; } afterLibChange(); toast('Plan renombrado: «'+p.nombre+'».'); });
+}
+function dupPlan(id){
+  const p=planById(id); if(!p) return;
+  const now=nowIso(); const c={id:newId(), nombre:uniqueName(p.nombre+' (copia)'), creado:now, actualizado:now, huella:p.huella, datos:clone(p.datos)};
+  lib.planes.push(c); if(!saveLib()){ lib.planes.pop(); return; }
+  afterLibChange(); toast('Duplicado como «'+c.nombre+'».');
+}
+function delPlan(id){
+  const p=planById(id); if(!p) return;
+  modal('Eliminar plan', '<p>Se eliminará «<strong>'+esc(p.nombre)+'</strong>» de este navegador. Sus datos quedarán en la recuperación automática (se guardan los 10 últimos) y en las copias de seguridad que ya hayas descargado.'+(p.id===lib.activo?' El formulario conservará los datos, pero dejarán de estar guardados.':'')+'</p>', [{label:'Cancelar'},{label:'Eliminar', primary:true, onClick:()=>{
+    addPoint('Plan eliminado: '+p.nombre, normalize(clone(p.datos)), null);
+    const idx=lib.planes.indexOf(p); lib.planes.splice(idx,1); const prev=lib.activo; if(lib.activo===p.id) lib.activo=null;
+    if(!saveLib()){ lib.planes.splice(idx,0,p); lib.activo=prev; return; }
+    afterLibChange(); toast('Plan eliminado.');
+  }}]);
+}
+
+/* ---- copia de seguridad: descargar ---- */
+function backupName(){ const d=new Date(); const p=n=>String(n).padStart(2,'0'); return 'copia-seguridad-planes-sostenibilidad-'+d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+'-'+p(d.getHours())+p(d.getMinutes())+'.json'; }
+function buildBackup(){
+  const borrador=clone(state);
+  const planes=lib.planes.map(p=>({id:p.id, nombre:p.nombre, creado:p.creado, actualizado:p.actualizado, datos:clone(p.datos)}));
+  const ap=activePlan();
+  return {formato:BK_FORMAT, app:'Generador de planes de sostenibilidad', version:APP_VERSION, creado:nowIso(),
+    resumen:{planes:planes.length, nombres:planes.map(p=>p.nombre), abierto:ap?ap.nombre:defaultPlanName(borrador)},
+    activo:lib.activo, huella:fnv(JSON.stringify({borrador, planes})), borrador, planes};
+}
+function markBackup(obj, origen){ saveBk({fecha:obj.creado, huella:bkHash(), origen}); updateBackupIndicator(); }
+async function exportBackup(){
+  const obj=buildBackup(); const data=JSON.stringify(obj,null,2);
+  const r=await saveFile(backupName(), data);
+  if(r==='saved') markBackup(obj,'exportada');
+  else if(r==='unavailable') showBackupText(data, obj);
+}
+function showBackupText(data, obj){
+  modal('Esta vista no permite descargar archivos', '<p>Puedes conseguir el archivo .json de dos formas:</p><ol class="mlist"><li><strong>Desde la página propia de la aplicación:</strong> <a href="'+APP_URL+'" target="_blank" rel="noopener">ábrela aquí</a> y pulsa allí «Copia de seguridad». Si allí no aparecen tus planes, copia antes este texto y pégalo allí en Mis planes → Otras opciones → Cargar el texto pegado.</li><li><strong>A mano:</strong> copia el texto, pégalo en un archivo nuevo del Bloc de notas (o TextEdit en texto sin formato) y guárdalo con la extensión .json.</li></ol><textarea id="json-out" readonly aria-label="Copia de seguridad en formato JSON">'+esc(data)+'</textarea>', [{label:'Cerrar'},{label:'Copiar texto', primary:true, onClick:()=>copyBackup(data,obj)}]);
+}
+async function copyBackup(data, obj){
+  try{ await navigator.clipboard.writeText(data); markBackup(obj,'copiada'); toast('Copia en el portapapeles: pégala en un archivo .json y guárdalo.'); }
+  catch(e){ showBackupText(data,obj); const ta=$('#json-out'); if(ta){ ta.focus(); ta.select(); } toast('No se pudo copiar automáticamente: el texto está seleccionado, pulsa Ctrl+C (⌘+C en Mac).'); }
+}
+
+/* ---- copia de seguridad: cargar ---- */
+function parseBackup(text){
+  if(typeof text!=='string' || !text.trim()) throw new Error('No hay contenido que cargar.');
+  if(text.length>MAX_BYTES) throw new Error('El archivo es demasiado grande para ser una copia de esta aplicación.');
+  let obj; try{ obj=JSON.parse(text.replace(/^﻿/,'')); }catch(e){ throw new Error('El contenido no es un JSON válido. Comprueba que el archivo está completo y no se ha modificado.'); }
+  if(!obj || typeof obj!=='object' || Array.isArray(obj)) throw new Error('El archivo no tiene el formato de una copia de esta aplicación.');
+  const isObj = v => v && typeof v==='object' && !Array.isArray(v);
+  const puntos = Array.isArray(obj.puntos) ? obj.puntos.filter(p=>p && isObj(p.datos) && p.fecha) : [];
+  if(obj.formato===BK_FORMAT){
+    const creado=String(obj.creado||''), version=String(obj.version||'');
+    if(Array.isArray(obj.planes) || isObj(obj.borrador)){
+      const integ = obj.huella ? (fnv(JSON.stringify({borrador:obj.borrador, planes:obj.planes}))===obj.huella ? 'ok' : 'modificada') : 'sin-huella';
+      const planes=(Array.isArray(obj.planes)?obj.planes:[]).filter(p=>p && isObj(p.datos)).map(p=>{ const datos=normalize(p.datos); return {id:(typeof p.id==='string' && /^[A-Za-z0-9_-]{1,40}$/.test(p.id)) ? p.id : newId(), nombre:(typeof p.nombre==='string' && tr(p.nombre)) ? tr(p.nombre).slice(0,120) : defaultPlanName(datos), creado:validIso(p.creado), actualizado:validIso(p.actualizado), datos, huella:huella(datos)}; });
+      const borrador = isObj(obj.borrador) ? normalize(obj.borrador) : null;
+      if(!planes.length && !(borrador && hasContent(borrador))) throw new Error('La copia no contiene ningún plan.');
+      return {tipo:'copia', creado, version, integ, planes, borrador, activo:typeof obj.activo==='string'?obj.activo:null, puntos};
+    }
+    if(isObj(obj.proyecto)){
+      const integ = obj.huella ? (huella(obj.proyecto)===obj.huella ? 'ok' : 'modificada') : 'sin-huella';
+      return {tipo:'copia-1plan', creado, version, integ, planes:[], borrador:normalize(obj.proyecto), activo:null, puntos};
+    }
+    throw new Error('La copia no contiene ningún plan.');
+  }
+  if(obj.meta && obj.org) return {tipo:'proyecto', creado:'', version:'1.0', integ:'sin-huella', planes:[], borrador:normalize(obj), activo:null, puntos:[]};
+  throw new Error('El archivo no es una copia de seguridad ni un proyecto de esta aplicación.');
+}
+function importDraft(res){ const b=res.borrador; return (b && hasContent(b) && !b.__ejemplo) ? b : null; }
+function draftPlanName(res){
+  const b=importDraft(res); if(!b) return '';
+  if(!res.planes.length) return defaultPlanName(b);
+  const ap=res.planes.find(p=>p.id===res.activo);
+  return (ap ? ap.nombre : defaultPlanName(b))+' (cambios sin guardar de la copia)';
+}
+function previewImport(res, nombreArchivo){
+  const integ = res.integ==='ok' ? '<span class="integ ok">Verificada</span>' : res.integ==='modificada' ? '<span class="integ warn">Modificada fuera de la aplicación</span>' : '<span class="integ warn">Sin comprobación (formato anterior)</span>';
+  const tipo = res.tipo==='copia' ? 'Copia de seguridad (versión '+esc(res.version||'—')+')' : res.tipo==='copia-1plan' ? 'Copia de un solo plan (versión anterior)' : 'Proyecto de la versión anterior';
+  const items=res.planes.map(p=>'<li>'+esc(p.nombre)+(lib.planes.some(x=>x.huella===p.huella)?' <span class="small">· ya está en Mis planes</span>':'')+'</li>');
+  const b=importDraft(res);
+  if(b && !res.planes.some(p=>p.huella===huella(b))) items.push('<li>'+esc(draftPlanName(res))+(lib.planes.some(x=>x.huella===huella(b))?' <span class="small">· ya está en Mis planes</span>':'')+'</li>');
+  const canOpen = !!(b || res.planes.length);
+  const rows=[['Origen', esc(nombreArchivo||'Texto pegado')],['Tipo', tipo],['Fecha de la copia', res.creado?esc(fmtFecha(res.creado)):'—'],['Integridad', integ]];
+  const aviso = res.integ==='modificada' ? '<p class="small" style="margin-top:10px">El contenido no coincide con la huella guardada al crear la copia: puede haberse editado a mano o estar dañado. Revisa los datos después de cargarla.</p>' : '';
+  const body='<div class="preview"><p>Los planes de la copia se añadirán a «Mis planes». No se borra ni se sustituye ninguno de los tuyos, y los que ya tengas idénticos no se duplican.</p><dl>'+rows.map(([k,v])=>'<dt>'+k+'</dt><dd>'+v+'</dd>').join('')+'</dl>'+
+    '<p class="legend" style="margin:12px 0 0">Planes en la copia ('+items.length+')</p><ul class="imp-list">'+items.join('')+'</ul>'+
+    (canOpen?'<label class="check" for="imp-open" style="margin-top:10px"><input type="checkbox" id="imp-open" checked> <span>Abrir después '+(res.tipo!=='copia'?'este plan':(b?'el plan que estaba abierto en la copia':'el primer plan de la copia'))+'</span></label>':'')+
+    (canOpen && planStatus().dirty?'<p class="small" style="margin-top:6px">Los cambios sin guardar del plan actual se conservarán en la recuperación automática.</p>':'')+aviso+'</div>';
+  modal('Cargar copia de seguridad', body, [{label:'Cancelar'},{label:'Añadir a Mis planes', primary:true, onClick:()=>{ const ab=$('#imp-open'); applyImport(res, !!(ab && ab.checked)); }}]);
+}
+function applyImport(res, abrir){
+  const snapshot=JSON.stringify(lib); const idMap={}; let added=0, ya=0;
+  res.planes.forEach(fp=>{
+    const dupe=lib.planes.find(p=>p.huella===fp.huella);
+    if(dupe){ idMap[fp.id]=dupe.id; ya++; return; }
+    const id = planById(fp.id) ? newId() : fp.id;
+    lib.planes.push({id, nombre:uniqueName(fp.nombre), creado:fp.creado, actualizado:fp.actualizado, huella:fp.huella, datos:fp.datos});
+    idMap[fp.id]=id; added++;
+  });
+  let target=null; const b=importDraft(res);
+  if(b){
+    const hb=huella(b); let p=lib.planes.find(x=>x.huella===hb);
+    if(!p){ const now=nowIso(); p={id:newId(), nombre:uniqueName(draftPlanName(res)), creado:now, actualizado:now, huella:hb, datos:b}; lib.planes.push(p); added++; }
+    else if(!res.planes.some(x=>x.huella===hb)) ya++;
+    target=p.id;
+  }
+  if(!target && res.activo && idMap[res.activo]) target=idMap[res.activo];
+  if(!target && res.planes.length) target=idMap[res.planes[0].id];
+  if(!saveLib()){ lib=JSON.parse(snapshot); return; }
+  if(res.puntos.length){
+    const pts=loadPoints(); const hs=new Set(pts.map(x=>x.huella));
+    res.puntos.forEach(x=>{ const d=normalize(x.datos); const h=huella(d); if(hs.has(h) || !hasContent(d)) return; hs.add(h); pts.push({fecha:String(x.fecha), motivo:String(x.motivo||'Importado'), nombre:defaultPlanName(d), planId:null, huella:h, datos:d}); });
+    pts.sort((a,c)=>String(c.fecha).localeCompare(String(a.fecha))); savePoints(pts);
+  }
+  let opened=null;
+  if(abrir && target){ const p=planById(target); if(p){ if(planStatus().dirty) addPoint('Antes de cargar una copia de seguridad'); loadIntoForm(p.datos, p.id); opened=p.nombre; } }
+  const bp=$('#bk-paste'); if(bp) bp.value='';
+  fillAll(); refreshPromptIfVisible(); openBackup();
+  toast((added ? added+' plan'+(added===1?' añadido':'es añadidos')+' a Mis planes' : 'No había planes nuevos')+(ya?' ('+ya+' ya estaba'+(ya===1?'':'n')+')':'')+(opened?'. Abierto: «'+opened+'».':'.'));
+}
+function importError(err){ modal('No se puede cargar la copia', '<p>'+esc(err && err.message || 'Error desconocido.')+'</p>', [{label:'Entendido', primary:true}]); }
+function readImportFile(file){
+  if(!file) return;
+  if(file.size>MAX_BYTES){ importError(new Error('El archivo es demasiado grande para ser una copia de esta aplicación.')); return; }
+  const rd=new FileReader();
+  rd.onload=()=>{ try{ previewImport(parseBackup(String(rd.result)), file.name); }catch(err){ importError(err); } };
+  rd.onerror=()=>importError(new Error('No se pudo leer el archivo.'));
+  rd.readAsText(file);
+}
+function restorePoint(i){
+  const p=loadPoints()[i]; if(!p) return;
+  modal('Recuperar estos datos', '<p>El formulario se sustituirá por los datos guardados el <strong>'+esc(fmtFecha(p.fecha))+'</strong> ('+esc(p.motivo)+' · '+esc(p.nombre)+').'+(planStatus().dirty?' Los cambios sin guardar del plan abierto quedarán también en la recuperación automática.':'')+' Después, pulsa «Guardar» si quieres conservarlos como plan.</p>', [{label:'Cancelar'},{label:'Recuperar', primary:true, onClick:()=>{ addPoint('Antes de recuperar otros datos'); loadIntoForm(p.datos, (p.planId && planById(p.planId)) ? p.planId : null); toast('Datos recuperados del '+fmtFecha(p.fecha)+'.'); }}]);
+}
+
 /* ================= eventos ================= */
 function afterChange(t){
+  if(state.__ejemplo){ state.__ejemplo=false; updateBanner(); }
   save();
   const k=t.dataset.k||'', l=t.dataset.l||'';
   if(l==='medidas.lista'){ const i=+t.dataset.i; if(t.dataset.f==='dim'){ const card=$('#med-'+i); if(card) card.style.setProperty('--dimc', DIMVAR[t.value]); } updateCalc(i); renderTotales(); }
   if(k.startsWith('formato.')) renderPages();
   if(k==='meta.ia'||k==='meta.entrega') updateConditional();
-  updateProgress();
+  updateProgress(); scheduleBackupIndicator();
 }
 function onEdit(e){
   const t=e.target; if(!t || !t.dataset) return;
@@ -1329,35 +1807,52 @@ document.addEventListener('click', async (e)=>{
     case 'del-anx': S.refs.anexos.splice(i,1); renderAnexos(); break;
     case 'reset-format': S.formato=clone(FORMATO_DEF); fillAll(); toast('Normas de estilo restablecidas.'); break;
     case 'keep-example': S.__ejemplo=false; updateBanner(); break;
-    case 'load-example': modal('Cargar el ejemplo', '<p>Se sustituirán los datos actuales por los de una organización ficticia. Si quieres conservar los tuyos, guarda antes el proyecto.</p>', [{label:'Cancelar'},{label:'Cargar ejemplo', primary:true, onClick:()=>{ state=exampleState(); fillAll(); save(); refreshPromptIfVisible(); toast('Ejemplo cargado.'); }}]); return;
-    case 'clear': modal('Vaciar el formulario', '<p>Se borrarán todos los datos introducidos en este navegador. Las normas de estilo vuelven a sus valores por defecto.</p>', [{label:'Cancelar'},{label:'Vaciar', primary:true, onClick:()=>{ state=clone(DEFAULTS); state.meta.fecha=hoyISO(); fillAll(); save(); refreshPromptIfVisible(); location.hash='#proyecto'; toast('Formulario vacío.'); }}]); return;
-    case 'open-json': $('#file-json').click(); return;
-    case 'save-json': {
-      const data=JSON.stringify(state,null,2); const name='proyecto-plan-sostenibilidad-'+slug(state.org.nombre)+'.json';
-      if(DL){ await saveFile(name, data); }
-      else modal('Guardar proyecto', '<p>Esta vista no permite descargas. Copia este texto y guárdalo en un archivo .json; podrás abrirlo después con «Abrir proyecto».</p><textarea id="json-out" readonly aria-label="Proyecto en formato JSON">'+esc(data)+'</textarea>', [{label:'Cerrar'},{label:'Copiar', primary:true, onClick:()=>copyText(data,'Proyecto copiado al portapapeles.')}]);
-      return;
-    }
+    case 'load-example': loadExample(); return;
+    case 'clear': case 'new-plan': newPlan(); return;
+    case 'open-plans': openBackup(); return;
+    case 'bk-close': closeBackup(); return;
+    case 'plan-save': savePlan(); return;
+    case 'plan-save-as': saveAs(); return;
+    case 'plan-open': openPlan(b.dataset.id); return;
+    case 'plan-rename': renamePlan(b.dataset.id); return;
+    case 'plan-dup': dupPlan(b.dataset.id); return;
+    case 'plan-del': delPlan(b.dataset.id); return;
+    case 'bk-export': await exportBackup(); return;
+    case 'bk-copy': { const obj=buildBackup(); await copyBackup(JSON.stringify(obj,null,2), obj); return; }
+    case 'bk-pick': $('#file-json').click(); return;
+    case 'bk-import-text': { try{ previewImport(parseBackup($('#bk-paste').value), ''); }catch(err){ importError(err); } return; }
+    case 'bk-point-now': { const ok=addPoint('Guardado a mano'); toast(ok ? 'Datos guardados en la recuperación automática.' : (hasContent(S) && !S.__ejemplo ? 'Ya están guardados estos mismos datos.' : 'No hay datos propios que guardar.')); renderBackupPanel(); return; }
+    case 'bk-restore': restorePoint(i); return;
+    case 'bk-del-point': { const pts=loadPoints(); if(pts[i]){ pts.splice(i,1); savePoints(pts); toast('Eliminado de la recuperación automática.'); } renderBackupPanel(); return; }
     case 'copy-prompt': await copyText($('#prompt-out').value, 'Prompt copiado. Pégalo en Claude o Gemini.', $('#prompt-out')); return;
-    case 'dl-md': await saveFile('prompt-plan-sostenibilidad-'+slug(state.org.nombre)+'.md', buildPrompt(state)); return;
+    case 'dl-md': { const r=await saveFile('prompt-plan-sostenibilidad-'+slug(state.org.nombre)+'.md', buildPrompt(state)); if(r==='unavailable') noDownloadModal('el prompt (.md)'); return; }
     case 'dl-docx': {
-      try{ const zip=buildDocxZip(state); const blob=await zip.generateAsync({type:'blob', compression:'DEFLATE'}); await saveFile('plantilla-plan-sostenibilidad-'+slug(state.org.nombre)+'.docx', blob); }
+      try{ const zip=buildDocxZip(state); const blob=await zip.generateAsync({type:'blob', compression:'DEFLATE', mimeType:MIME.docx}); const r=await saveFile('plantilla-plan-sostenibilidad-'+slug(state.org.nombre)+'.docx', blob); if(r==='unavailable') noDownloadModal('la plantilla .docx'); }
       catch(err){ toast('No se pudo generar la plantilla .docx.'); }
       return;
     }
     default: return;
   }
-  save(); updateProgress(); renderTotales();
+  save(); updateProgress(); renderTotales(); scheduleBackupIndicator();
 });
 $('#file-json').addEventListener('change', (e)=>{
-  const file=e.target.files && e.target.files[0]; if(!file) return;
-  const rd=new FileReader();
-  rd.onload=()=>{ try{ const obj=JSON.parse(rd.result); if(!obj || typeof obj!=='object' || !obj.meta || !obj.org) throw new Error('formato'); state=deepMerge(clone(DEFAULTS), obj); state.__ejemplo=false; fillAll(); save(); refreshPromptIfVisible(); toast('Proyecto abierto: '+file.name); } catch(err){ toast('El archivo no es un proyecto válido de esta aplicación.'); } e.target.value=''; };
-  rd.onerror=()=>toast('No se pudo leer el archivo.');
-  rd.readAsText(file);
+  const file=e.target.files && e.target.files[0]; e.target.value=''; readImportFile(file);
 });
+(function(){
+  const dz=$('#bk-drop');
+  ['dragenter','dragover'].forEach(ev=>dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.add('over'); }));
+  ['dragleave','dragend'].forEach(ev=>dz.addEventListener(ev, ()=>dz.classList.remove('over')));
+  dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('over'); const f=e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]; readImportFile(f); });
+})();
 $('#overlay').addEventListener('click', e=>{ if(e.target.id==='overlay') closeModal(); });
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && !$('#overlay').hidden) closeModal(); });
+$('#bk-overlay').addEventListener('click', e=>{ if(e.target.id==='bk-overlay') closeBackup(); });
+document.addEventListener('keydown', e=>{
+  if((e.ctrlKey||e.metaKey) && !e.altKey && (e.key==='s'||e.key==='S')){ e.preventDefault(); if($('#overlay').hidden) savePlan(); return; }
+  if(e.key==='Enter' && e.target && e.target.id==='name-in'){ e.preventDefault(); const pb=$('#modal-actions .btn-primary'); if(pb) pb.click(); return; }
+  if(e.key!=='Escape') return;
+  if(!$('#overlay').hidden) closeModal();
+  else if(!$('#bk-overlay').hidden) closeBackup();
+});
 
 /* ================= navegación ================= */
 function currentStep(){ const h=(location.hash||'').replace('#',''); return STEPS.some(s=>s.id===h) ? h : 'proyecto'; }
@@ -1374,7 +1869,7 @@ window.addEventListener('hashchange', showStep);
 /* ================= arranque ================= */
 if(!state.meta.fecha) state.meta.fecha=hoyISO();
 renderShell(); fillAll(); showStep(); initCaps();
-window.__app = { buildPrompt: ()=>buildPrompt(state), docxBase64: async()=>buildDocxZip(state).generateAsync({type:'base64'}), getState: ()=>state, setState: (s)=>{ state=deepMerge(clone(DEFAULTS), s); fillAll(); } };
+window.__app = { buildPrompt: ()=>buildPrompt(state), docxBase64: async()=>buildDocxZip(state).generateAsync({type:'base64'}), getState: ()=>state, setState: (s)=>{ state=normalize(s); fillAll(); }, buildBackup, parseBackup, loadPoints, getLib: ()=>lib };
 </script>
 </body>
 </html>
